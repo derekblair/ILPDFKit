@@ -17,9 +17,10 @@ A simple toolkit for filling out PDF forms in iOS.
 
   For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
   
-  * View PDF forms (Button, Text, and Choice)
+  * View and interact with PDF forms (Button, Text, and Choice)
   * Support for JavaScript PDF actions (A, E and K keys)
-  * Save form data to the original PDF file.
+  * Save form data to the original PDF file (Uncompressed PDF files only)
+  * Created XML respresentation of all forms and data for form submission.
   
 ## Future Features
   * Support for signature forms.

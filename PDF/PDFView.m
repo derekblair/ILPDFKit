@@ -161,34 +161,6 @@
 
 
 
-#pragma mark - Rotation
-
-
--(void)beginRotation
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        for(PDFUIAdditionElementView* element in pdfUIAdditionElementViews)
-        {
-            element.alpha = 0;
-        }
-    
-    }];
-}
--(void)endRotation
-{
-  
-    [UIView animateWithDuration:0.3 animations:^{
-       
-        for(PDFUIAdditionElementView* element in pdfUIAdditionElementViews)
-        {
-            element.alpha = 1;
-        }
-    
-    
-    }];
-}
-
 
 
 @end

@@ -2,6 +2,7 @@
 #import "PDFFormChoiceField.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PDFView.h"
+#import "PDF.h"
 @interface PDFFormChoiceFieldDropIndicator : UIView
 @end
 
@@ -12,7 +13,7 @@
 {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGFloat margin = rect.size.width/3;
-    CGContextSetFillColorWithColor(ctx, [UIColor colorWithRed:0.2 green:0.3 blue:0.8 alpha:1.0].CGColor);
+    CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
     CGContextMoveToPoint(ctx, margin, margin);
     CGContextAddLineToPoint(ctx, rect.size.width-margin, rect.size.height/2);
     CGContextAddLineToPoint(ctx, margin, rect.size.height-margin);
@@ -41,7 +42,7 @@
     if(self != nil)
     {
         self.opaque = NO;
-        self.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:1 alpha:1.0];
+        self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
         self.layer.cornerRadius = 4;
         options = [opt retain];
         tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*MIN(5,[options count])) style:UITableViewStylePlain];
@@ -164,6 +165,7 @@
     UIGraphicsPushContext(ctx);
         CGContextTranslateCTM(ctx, 0, (rect.size.height-16)/2);
         [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withFont:font lineBreakMode:NSLineBreakByWordWrapping  alignment:align];
+    
     UIGraphicsPopContext();
 }
 
@@ -226,8 +228,13 @@
     {
         ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = self;
         [tv reloadData];
-        [tv selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [tv scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+        
+        if(selectedIndex < [options count])
+        {
+            [tv selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [tv scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+        }
+        
         [UIView animateWithDuration:0.3 animations:^{
         self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*MIN(6,[options count]+1));
         tv.alpha = 1.0f;

@@ -3,6 +3,7 @@
 #import "PDFFormTextField.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PDFView.h"
+#import "PDF.h"
 
 @implementation PDFFormTextField
 
@@ -17,9 +18,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+       
         self.opaque = NO;
-        self.backgroundColor = ro?[UIColor clearColor]:[UIColor colorWithRed:0.7 green:0.7 blue:1.0 alpha:0.7];
+        self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
         self.layer.cornerRadius = 4;
         multi = multiline;
         
@@ -40,12 +41,14 @@
             ((UITextView*)textFieldOrTextView).textAlignment = alignment;
             ((UITextView*)textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             ((UITextView*)textFieldOrTextView).delegate = self;
+           
             ((UITextView*)textFieldOrTextView).scrollEnabled = NO;
         }
         else 
         {
             ((UITextField*)textFieldOrTextView).textAlignment = alignment;
             ((UITextField*)textFieldOrTextView).delegate = self;
+           
             ((UITextField*)textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             [[NSNotificationCenter defaultCenter] 
              addObserver:self 
@@ -53,7 +56,7 @@
              name:UITextFieldTextDidChangeNotification 
              object:textFieldOrTextView];
         }
-        
+       
         textFieldOrTextView.opaque = NO;
         textFieldOrTextView.backgroundColor = [UIColor clearColor];
         baseFontSize = MAX(MIN(14,frame.size.height*0.6),10);
@@ -79,12 +82,13 @@
    {
        UITextField* textField = (UITextField*)textFieldOrTextView;
        CGFloat factor = [value sizeWithFont:textField.font].width/(textField.bounds.size.width);
+     
        {
-           baseFontSize = MAX(MIN(baseFontSize/factor,14),10);
+            baseFontSize = MAX(MIN(baseFontSize/factor,14),10);
            
            
            fontSize = baseFontSize*zoomScale;
-           
+          
            textField.font = [UIFont systemFontOfSize:fontSize];
        }
    }
@@ -100,6 +104,7 @@
 -(void)updateWithZoom:(CGFloat)zoom
 {
     [super updateWithZoom:zoom];
+    
     [textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:fontSize=baseFontSize*zoom]];
     [textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];

@@ -48,9 +48,7 @@
 @synthesize actions;
 @synthesize modified;
 @synthesize exportValue;
-@synthesize imageSize;
-@synthesize imageLocation;
-@synthesize imageFilename;
+
 
 -(id)initWithFieldDictionary:(PDFDictionary*)leaf Page:(PDFPage*)pg Parent:(PDFFormContainer*)p
 {
@@ -168,6 +166,15 @@
 -(void)dealloc
 {
     
+    if(formUIElement)
+    {
+        
+        
+        //[self removeObserver:formUIElement forKeyPath:@"value"];
+        //[self removeObserver:formUIElement forKeyPath:@"options"];
+        [formUIElement release];
+    }
+    
     self.value = nil;
     self.options = nil;
     self.name = nil;
@@ -175,8 +182,7 @@
     self.exportValue = nil;
     self.defaultValue = nil;
     self.setAppearanceStream = nil;
-    self.imageLocation = nil;
-    self.imageFilename = nil;
+    
     self.flagsString = nil;
     [super dealloc];
 }
@@ -345,7 +351,18 @@
     }
     
     pageFrame = CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+margin, correctedFrame.size.width*factor, correctedFrame.size.height*factor);
-    PDFUIAdditionElementView* formUIElement = nil;
+    
+    if(formUIElement)
+    {
+        
+        //[self removeObserver:formUIElement forKeyPath:@"value"];
+        //[self removeObserver:formUIElement forKeyPath:@"options"];
+        [formUIElement release];
+        formUIElement = nil;
+    }
+    
+   
+    
      uiBaseFrame = CGRectMake(pageFrame.origin.x, pageFrame.origin.y+pageOffset, pageFrame.size.width, pageFrame.size.height);
     
     switch (formType)
@@ -391,10 +408,15 @@
             break;
     }
     
-    [formUIElement setValue:self.value];
-    formUIElement.delegate = self;
-    [self addObserver:formUIElement forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
-    [self addObserver:formUIElement forKeyPath:@"options" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    if(formUIElement)
+    {
+        [formUIElement retain];
+        [formUIElement setValue:self.value];
+        formUIElement.delegate = self;
+        [self addObserver:formUIElement forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
+        [self addObserver:formUIElement forKeyPath:@"options" options:NSKeyValueObservingOptionNew context:NULL];
+    }
     return formUIElement;
 }
 
@@ -433,8 +455,7 @@
         else
         {
             self.modified = NO;
-            // disable execution of pushbuttons
-            //[[actions objectForKey:@"A"] execute];
+            [[actions objectForKey:@"A"] execute];
             return;
         }
     }

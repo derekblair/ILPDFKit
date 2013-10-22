@@ -1,6 +1,7 @@
 
 
 #import "PDFFormButtonField.h"
+#import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -54,11 +55,9 @@
 {
     [button removeFromSuperview];
     CGRect frame = self.bounds;
-    
     CGFloat minDim = MIN(frame.size.width,frame.size.height)*0.85;
     CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
     button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, 2*minDim,2*minDim);
-    
     [self.superview insertSubview:button aboveSubview:self];
 }
 
@@ -69,6 +68,7 @@
     {
         [super drawRect:rect];
         return;
+        
     }
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
@@ -79,7 +79,7 @@
     
     
     CGContextSaveGState(ctx);
-    CGContextSetFillColorWithColor(ctx,[UIColor colorWithRed:0.7 green:0.7 blue:1.0 alpha:0.7].CGColor);
+    CGContextSetFillColorWithColor(ctx,PDFWidgetColor.CGColor);
     if(radio == NO)
     {
         CGContextRef context = ctx;
@@ -243,9 +243,8 @@
     
     if(pushButton)
     {
-      
+     
         self.backgroundColor = [UIColor whiteColor];
-        button.userInteractionEnabled  = NO;
     }
     
 }

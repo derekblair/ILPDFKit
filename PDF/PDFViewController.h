@@ -107,4 +107,18 @@
 -(void)setBackColor:(UIColor*)color;
 
 
+
+/**---------------------------------------------------------------------------------------
+ * @name Submitting Forms
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/** Sets the background color for the PDF view.
+ @return A string containing an xml representation of the forms of the document and their values. Used for submitting the form.
+ */
+-(NSString*)formXML;
+
+
+
 @end

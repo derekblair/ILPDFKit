@@ -89,33 +89,15 @@
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [pdfView beginRotation];
-    
-    
-    CGRect frm = [self currentFrame:toInterfaceOrientation];
-    
-  
-    [UIView animateWithDuration:duration animations:^{
-            self.view.frame = frm;
-            pdfView.frame = frm;
-        }
-     ];
+    pdfView.alpha = 0;
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 
-   CGRect frm = [self currentFrame:self.interfaceOrientation];
+    [pdfView removeFromSuperview];self.pdfView = nil;
+    [self loadPDFView];
     
-    self.view.frame = frm;
-    pdfView.frame = frm;
-    
-    NSArray* additionViews = [document.forms createUIAdditionViewsForSuperviewWithWidth:frm.size.width Margin:UIInterfaceOrientationIsPortrait(self.interfaceOrientation)?PDFViewMargin:PDFViewMargin*4.0/3.0];
-    [pdfView setUIAdditionViews:additionViews];
-    [additionViews release];
-    
-    
-    [pdfView endRotation];
 }
 
 
@@ -262,7 +244,10 @@
 {
 }
 
-
+-(NSString*)formXML
+{
+    return [self.document.forms formXML];
+}
 
 
 

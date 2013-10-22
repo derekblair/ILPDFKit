@@ -78,10 +78,6 @@
 -(void)setUIAdditionViews:(NSArray*)additionViews;
 
 
--(void)beginRotation;
--(void)endRotation;
-
-
 
 
 @end

@@ -219,6 +219,14 @@
             
             [self setHTML5StorageValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"value"]];
         }
+        
+        
+        if([form.options count])
+        {
+            NSString* set = [form.options componentsJoinedByString:[self delimeter]];
+            
+            [self setHTML5StorageValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
+        }
     }
     
     if([jsParser stringByEvaluatingJavaScriptFromString:js])
@@ -340,7 +348,7 @@
     NSMutableString* ret = [NSMutableString stringWithString:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r<fields>"];
     [ret appendString:[self formXMLForFormsWithRootNode:nameTree]];
     [ret appendString:@"\r</fields>"];
-    return [ret stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    return [[[ret stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"&amp;#60;" withString:@"&#60;"] stringByReplacingOccurrencesOfString:@"&amp;#62;" withString:@"&#62;"];
 }
 
 
@@ -353,7 +361,7 @@
         if([obj isKindOfClass:[NSMutableArray class]])
         {
             PDFForm* form = (PDFForm*)[obj lastObject];
-            if([form.value length])[ret appendFormat:@"\r<%@>%@</%@>",key,form.value,key];
+            if([form.value length])[ret appendFormat:@"\r<%@>%@</%@>",key,[PDFUtility urlEncodeStringXML: form.value],key];
         }
         else
         {

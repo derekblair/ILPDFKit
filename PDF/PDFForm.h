@@ -55,9 +55,9 @@ typedef enum PDFFormType
     NSMutableDictionary* actions;
     CGRect pageFrame;
     BOOL  modified;
-    CGSize imageSize;
-    NSString* imageLocation;
-    NSString* imageFilename;
+    
+    
+    PDFUIAdditionElementView* formUIElement;
 }
 
 
@@ -156,34 +156,20 @@ typedef enum PDFFormType
 
 /** This is used with button forms only. Gives the name of the choice represented by that button.
  @discussion If a button is part of a group of buttons where only one may be selected at once, then it's value is the exportValue of the selected button. All buttons in such a group have the same name and represent a single form conceptually. Thus all forms in a radio button or check box group represent the field and always have the same value. A button is selected if and only if its exportValue is the same as its value. If no buttons are selected, or an unselected button is single and not part of a group, then the value is nil.
- 
- 
  */
 @property(nonatomic,retain) NSString* exportValue;
-
-
 
 
 /** Indicates if the form has been modified by user input.
  */
 @property(nonatomic) BOOL modified;
 
-/** The image size for drawing form backgrounds
- */
-@property(nonatomic) CGSize imageSize;
 
 /** The appearance stream for the set state of button forms. Can be used to customize button appearance to better match the PDF.
  */
 @property(nonatomic,retain) NSString* setAppearanceStream;
 
-/** The location of the background image for drawing forms.
- pageNumber, origin X, origin Y, width
- */
-@property(nonatomic,retain) NSString* imageLocation;
 
-/** The filename for the background image for drawing forms.
- */
-@property(nonatomic,retain) NSString* imageFilename;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFForm
