@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
                    DESC
 
 s.homepage     = "http://iwelabs.co/ILPDFKit"
-s.screenshots  = "http://imgur.com/sv6Lpe2"
+s.screenshot  = "http://i.imgur.com/lwuG0aC.png"
 s.license      = "MIT"
 s.author       = { "Derek Blair" => "derekjblair@gmail.com" }
 s.platform     = :ios

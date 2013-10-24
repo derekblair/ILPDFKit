@@ -2,16 +2,30 @@
 
 A simple toolkit for filling out PDF forms in iOS.
 
+
+
+![screenshot](http://i.imgur.com/lwuG0aC.png "Screenshot")
+
 ## Installation
 
-    Add the source files located in the 'PDF' folder to your project.
+   Add the source files located in the 'ILPDFKit' folder to your project.
 
 ## Quick Start
 
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following:
 
     _pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
-
+    
+    
+    // Manually set a form value
+    
+    [_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"FullName"];
+    
+    // Save a form updated manually or via the user to disk
+    
+    [_pdfViewController.document saveFormsToDocumentData]
+    [_pdfViewController.document writeToFile:@"new-file-in-app-doc-dir.pdf"];
+    
 ## Features
 
 
