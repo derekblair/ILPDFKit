@@ -7,8 +7,8 @@
 /** The PDFDictionary class encapsulates a PDF dictionary object contained in a PDFDocument. 
  Essentially, is is a wrapper class for a CGPDFDictionaryRef.
  
-    CGPDFDictionaryRef pdfDRef = CGPDFDocumentGetCatalog(document);
-    PDFDictionary* pdfDictionary = [[PDFDictionary alloc] initWithDictionary:pdfDRef];
+        CGPDFDictionaryRef pdfDRef = CGPDFDocumentGetCatalog(document);
+        PDFDictionary* pdfDictionary = [[PDFDictionary alloc] initWithDictionary:pdfDRef];
  
  PDFDictionary provides a range of methods that mirror those of NSDictionary.
  */

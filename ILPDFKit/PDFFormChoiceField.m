@@ -43,7 +43,7 @@
     {
         self.opaque = NO;
         self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
-        self.layer.cornerRadius = 4;
+        self.layer.cornerRadius = self.frame.size.height/6;
         options = [opt retain];
         tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*MIN(5,[options count])) style:UITableViewStylePlain];
         tv.dataSource = self;
@@ -56,14 +56,14 @@
         tv.separatorStyle = UITableViewCellSeparatorStyleNone;
         tv.separatorColor = [UIColor clearColor];
         self.clipsToBounds = YES;
+        baseFontHeight = MAX(floorf(frame.size.height)-2,12);
         
         selection = [[UILabel alloc] initWithFrame:CGRectMake(1, 0, frame.size.width-frame.size.height, frame.size.height)];
         selection.opaque = NO;
         selection.adjustsFontSizeToFitWidth = YES;
-        selection.minimumFontSize = 10;
         [selection setBackgroundColor:[UIColor clearColor]];
         [selection setTextColor:[UIColor blackColor]];
-        [selection setFont:[UIFont systemFontOfSize:16]];
+        [selection setFont:[UIFont systemFontOfSize:baseFontHeight]];
         [self addSubview:selection];
         dropIndicator = [[PDFFormChoiceFieldDropIndicator alloc] initWithFrame:CGRectMake(frame.size.width-frame.size.height*1.5, -frame.size.height*0.25, frame.size.height*1.5, frame.size.height*1.5)];
         [dropIndicator setOpaque:NO];
@@ -149,7 +149,7 @@
     [super updateWithZoom:zoom];
     dropIndicator.frame = CGRectMake(self.frame.size.width-self.frame.size.height*1.5, -self.frame.size.height*0.25, self.frame.size.height*1.5, self.frame.size.height*1.5);
     selection.frame  = CGRectMake(1, 0, self.frame.size.width, self.frame.size.height);
-    [selection setFont:[UIFont systemFontOfSize:16*zoom]];
+    [selection setFont:[UIFont systemFontOfSize:baseFontHeight*zoom]];
     dropIndicator.transform = CGAffineTransformMakeRotation(0);
     [dropIndicator setNeedsDisplay];
     tv.alpha = 0;
@@ -160,11 +160,16 @@
 -(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect
 {
     NSString* text = [(id)selection text];
-    UIFont* font = [UIFont systemFontOfSize:16];
+    UIFont* font = [UIFont systemFontOfSize:baseFontHeight];
     NSTextAlignment align = (NSTextAlignment)[(id)selection textAlignment];
     UIGraphicsPushContext(ctx);
-        CGContextTranslateCTM(ctx, 0, (rect.size.height-16)/2);
-        [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withFont:font lineBreakMode:NSLineBreakByWordWrapping  alignment:align];
+        CGContextTranslateCTM(ctx, 0, (rect.size.height-baseFontHeight)/2);
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = align;
+    [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    [paragraphStyle release];
     
     UIGraphicsPopContext();
 }
@@ -181,8 +186,7 @@
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.opaque = NO;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    cell.textLabel.minimumFontSize = 10;
-    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX(0.5*tableView.bounds.size.height/5,12)]];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX(0.5*tableView.bounds.size.height/5,baseFontHeight/1.2f)]];
     cell.textLabel.text = [options objectAtIndex:indexPath.row];
     [cell.textLabel setTextColor:[UIColor blackColor]];
     return cell;

@@ -14,12 +14,12 @@ Stream becomes PDFStream
  
 And other types are represented as follows
  
-Name becomes PDFName
-String becomes NSString
-Real becomes NSNumber
-Integer becomes NSNumber
-Boolean becomes NSNumber
-Null becomes nil
+ - Name becomes PDFName
+ - String becomes NSString
+ - Real becomes NSNumber
+ - Integer becomes NSNumber
+ - Boolean becomes NSNumber
+ - Null becomes nil
  
 Note that Strings and Numbers may be presented as generic PDFObject instances in the case when they are indirect objects.
  */
@@ -78,7 +78,7 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 
 /**
  For objects with only reference numbers and no representation, looks up the representation in the cross reference table
- belonging to document and sets it as representation.
+ belonging to document and sets it as the representation.
  @param document The document cooresponding to the cross reference table in which to look up the reference
  */
 

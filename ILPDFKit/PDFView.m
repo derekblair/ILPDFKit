@@ -3,7 +3,7 @@
 #import "PDFView.h"
 #import "PDFUIAdditionElementView.h"
 #import "PDFFormButtonField.h"
-
+#import "PDF.h"
 
 
 
@@ -43,12 +43,23 @@
         pdfView.scalesPageToFit = YES;
         pdfView.scrollView.delegate = self;
         pdfView.scrollView.bouncesZoom = NO;
-        pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleRightMargin;
-        pdfView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, frame.size.height/2, 0);
+        pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+         self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+        
+        /*
+        if(iPhone5 == NO || self.frame.size.width > self.frame.size.height)
+        {
+            //pdfView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, frame.size.height/2, 0);
+        }*/
        
         [self addSubview:pdfView];
         [pdfView release];
         
+        
+        
+        [pdfView.scrollView setZoomScale:1];
+        [pdfView.scrollView setContentOffset:CGPointZero];
+        [pdfView.scrollView setContentInset:UIEdgeInsetsZero];
         
        
         
@@ -70,9 +81,7 @@
         {
             [pdfView loadData:dataOrPath MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:nil];
         }
-    
-      
-        
+
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
             [self addGestureRecognizer:tapGestureRecognizer];
         tapGestureRecognizer.delegate = self;
@@ -105,8 +114,6 @@
     {
         [element updateWithZoom:scale];
     }
-    
-   
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

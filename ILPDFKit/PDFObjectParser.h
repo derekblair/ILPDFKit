@@ -20,7 +20,7 @@ As an example:
      }
      // From here we can extract all keys and corresponding values using the NSArray
  
- 
+ PDFObjectParser is not meant to replace the Core Graphics PDF functions but rather provide of means of extracting more data related to the PDF file structure such as specific object and generation numbers.
  */
 
 @interface PDFObjectParser : NSObject<NSFastEnumeration>

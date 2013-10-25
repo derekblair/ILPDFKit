@@ -1,7 +1,6 @@
 #ILPDFKit
 
-A simple toolkit for filling out PDF forms in iOS.
-
+A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
 
 ![screenshot](http://i.imgur.com/lwuG0aC.png "Screenshot")
@@ -24,7 +23,7 @@ A simple toolkit for filling out PDF forms in iOS.
     // Save a form updated manually or via the user to disk
     
     [_pdfViewController.document saveFormsToDocumentData]
-    [_pdfViewController.document writeToFile:@"new-file-in-app-doc-dir.pdf"];
+    [_pdfViewController.document writeToFile:somePath];
     
 ## Features
 
@@ -32,14 +31,56 @@ A simple toolkit for filling out PDF forms in iOS.
   For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
   
   * View and interact with PDF forms (Button, Text, and Choice)
+  * Extract and modify AcroForm values.
   * Support for JavaScript PDF actions (A, E and K keys)
   * Save form data to the original PDF file (Uncompressed PDF files only)
   * Created XML respresentation of all forms and data for form submission.
+  * Print filled out forms to a printer or flat PDF.
+  * Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
+  * Rapidly, parse, extract and analyze PDF document structure, data and properties.
   
-## Future Features
-  * Support for signature forms.
-  * Support for SubmitForm, ResetForm and other PDF actions values. 
-  * Draw vector drawings on the PDF, optionally saving the changes.
+  
+## Usage
+
+
+### Filling out Forms
+
+	_pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
+	[self.window setRootViewController:_pdfViewController];
+	// Have fun filling out the form.
+
+
+### Getting/Setting Form Values Explicity
+
+	for(PDFForm* form in _pdfViewController.document.forms)
+	{
+		// Get
+		NSString* formValue = form.value;
+		NSString* formName = form.name;
+		
+		// Set
+		form.value = @"hahahaha";
+		// If the form is visible on screen it will updated automatically.
+	}
+
+
+### Saving Forms
+
+	[_pdfViewController.document saveFormsToDocumentData];
+	/* At this point, _pdfViewController.documentData represents the updated PDF.
+	   You can do as you wish with it. Upload, save to disk etc.
+	*/ 
+	
+### Sending Form XML Data 
+
+	NSString* documentFormsXML = [_pdfViewController.document formsXML];
+	// Push to webservice
+	
+
+
+## Documentation
+
+[CocoaDocs](http://cocoadocs.org/docsets/ILPDFKit)
 
 
 ## License

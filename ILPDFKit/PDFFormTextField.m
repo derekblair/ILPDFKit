@@ -21,7 +21,16 @@
        
         self.opaque = NO;
         self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
-        self.layer.cornerRadius = 4;
+        
+        
+        
+        //Configure these below
+        minFontSize = 10;
+        maxFontSize = 18;
+        fontScaleFactor = 0.75;
+        self.layer.cornerRadius = self.frame.size.height/6;
+        
+        
         multi = multiline;
         
         Class textCls = multiline?[UITextView class]:[UITextField class];
@@ -59,7 +68,10 @@
        
         textFieldOrTextView.opaque = NO;
         textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        baseFontSize = MAX(MIN(14,frame.size.height*0.6),10);
+        baseFontSize = MAX(MIN(maxFontSize,frame.size.height*fontScaleFactor),minFontSize);
+        
+        
+        
         fontSize = baseFontSize;
         [textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:baseFontSize]];
         [self addSubview:textFieldOrTextView];
@@ -81,10 +93,12 @@
    if(multi == NO)
    {
        UITextField* textField = (UITextField*)textFieldOrTextView;
-       CGFloat factor = [value sizeWithFont:textField.font].width/(textField.bounds.size.width);
+       CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
      
        {
-            baseFontSize = MAX(MIN(baseFontSize/factor,14),10);
+            baseFontSize = MAX(MIN(baseFontSize/factor,maxFontSize),minFontSize);
+           
+           if(baseFontSize > fontScaleFactor * self.bounds.size.height)baseFontSize = MAX(fontScaleFactor*self.bounds.size.height,minFontSize);
            
            
            fontSize = baseFontSize*zoomScale;
@@ -128,7 +142,11 @@
     NSTextAlignment align = (NSTextAlignment)[(id)textFieldOrTextView textAlignment];
     UIGraphicsPushContext(ctx);
         CGContextTranslateCTM(ctx, 0, (rect.size.height-baseFontSize)/2);
-        [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withFont:font lineBreakMode:NSLineBreakByWordWrapping  alignment:align];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.alignment = align;
+    [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    [paragraphStyle release];
     UIGraphicsPopContext();
 }
 
@@ -156,7 +174,21 @@
     float numLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
     NSString* newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
     if([newString length] <= [textView.text length])return YES;
-    float usedLines = ceilf([newString sizeWithFont:textView.font constrainedToSize:contentSize lineBreakMode:NSLineBreakByWordWrapping].height/textView.font.lineHeight);
+    
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+   
+    
+    CGRect textRect = [newString boundingRectWithSize:contentSize
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                        context:nil];
+    
+    [paragraphStyle release];
+    
+    
+    float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
     if(usedLines >= numLines && usedLines > 1)return NO;
     return YES;
 }
@@ -168,14 +200,14 @@
 {
     NSString* newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if([newString length] <= [textField.text length])return YES;
-    if([newString sizeWithFont:textField.font].width > (textField.bounds.size.width))
+    if([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width))
     {
-        if(baseFontSize > 10)
+        if(baseFontSize > minFontSize)
         {
-            baseFontSize = 10;
+            baseFontSize = minFontSize;
             fontSize = baseFontSize*zoomScale;
             textField.font = [UIFont systemFontOfSize:fontSize];
-            if([newString sizeWithFont:textField.font].width > (textField.bounds.size.width))return NO;
+            if([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width))return NO;
         }
         else return NO;
     }

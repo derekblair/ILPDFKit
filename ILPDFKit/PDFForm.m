@@ -12,7 +12,7 @@
 #import "PDFArray.h"
 #import "PDFStream.h"
 #import "PDFDocument.h"
-
+#import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -313,7 +313,7 @@
 }
 
 
--(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth Margin:(CGFloat)margin
+-(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth Margin:(CGFloat)margin HMargin:(CGFloat)hm
 {
     if([flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
     if([flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
@@ -327,7 +327,7 @@
         if([pg cropBox].size.width > maxWidth)maxWidth = [pg cropBox].size.width;
     }
     
-    CGFloat hmargin = ((maxWidth-width)/2)*((768.0f-2*margin)/maxWidth)+margin;
+    CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*margin)/maxWidth)+margin;
     
     CGFloat height = cropBox.size.height;
     CGRect correctedFrame = CGRectMake(frame.origin.x-cropBox.origin.x, height-frame.origin.y-frame.size.height-cropBox.origin.y, frame.size.width, frame.size.height);
@@ -341,16 +341,16 @@
         
         CGFloat iwidth = [pg cropBox].size.width;
         
-        CGFloat ihmargin = ((maxWidth-iwidth)/2)*((768.0f-2*margin)/maxWidth)+margin;
+        CGFloat ihmargin = ((maxWidth-iwidth)/2)*((vwidth-2*margin)/maxWidth)+margin;
         
         CGFloat iheight = [pg cropBox].size.height;
         CGFloat irealWidth = vwidth-2*ihmargin;
         CGFloat ifactor = irealWidth/iwidth;
         
-        pageOffset+= ((iheight*ifactor)+margin);
+        pageOffset+= ((iheight*ifactor)+hm);
     }
     
-    pageFrame = CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+margin, correctedFrame.size.width*factor, correctedFrame.size.height*factor);
+    pageFrame = CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+hm, correctedFrame.size.width*factor, correctedFrame.size.height*factor);
     
     if(formUIElement)
     {

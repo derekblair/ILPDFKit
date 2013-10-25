@@ -6,8 +6,8 @@
 /** The PDFArray class encapsulates a PDF array object contained in a PDFDocument.
  Essentially, is is a wrapper class for a CGPDFArrayRef.
  
- CGPDFArrayRef pdfARef = myCGPDFArrayRef;
- PDFArray* pdfArray = [[PDFArray alloc] initWithArray:pdfARef];
+     CGPDFArrayRef pdfARef = myCGPDFArrayRef;
+     PDFArray* pdfArray = [[PDFArray alloc] initWithArray:pdfARef];
  
  PDFArray provides a range of methods that mirror those of NSArray.
  */

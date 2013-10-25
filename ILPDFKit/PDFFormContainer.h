@@ -50,6 +50,17 @@
  
  @param name The name to filter by.
  @return An array of the filtered forms.
+ @discussion Generally this will return an array with a single
+ object. When multiple forms have the same name, their values are kept
+ the same because they are treated as logically the same entity with respect 
+ to a name-value pair. For example, a choice form called
+ 'City' may be set as 'Lusaka' by the user on page 1, and another choice form
+ also called 'City' on a summary page at the end will also be synced to have the
+ value of 'Lusaka'. This is in conformity with the PDF standard. Another common relevent scenario
+ involves mutually exclusive radio button/check box groups. Such groups are composed of multiple forms
+ with the same name. Their common value is the exportValue of the selected button. If the value is equal 
+ to the exportValue for such a form, it is checked. In this way, it is easy to see as well why such
+ groups are mutually exclusive. Buttons with distinct names are not mutually exclusive.
  */
 -(NSArray*)formsWithName:(NSString*)name;
 
@@ -95,10 +106,11 @@
 /** Returns an array of UIView based objects representing the forms.
  
  @param width The width of the superview to add the resulting views as subviews.
- @param margin The margin of the superview to add the resulting views as subviews.
+ @param margin The left and right margin of the superview with respect to the PDF canvas portion of the UIWebView.
+ @param hmargin The top margin of the superview with respect to the PDF canvas portion of the UIWebView.
  @return An NSArray containing the resulting views. You are responsible for releasing the array.
  */
--(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin;
+-(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin;
 
 
 

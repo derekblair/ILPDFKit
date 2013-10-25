@@ -62,46 +62,14 @@
 +(NSString*)pdfObjectRepresentationFrom:(id)obj Type:(CGPDFObjectType)type;
 
 /**
- @param c That ASCII 8-bit char (highest order bit is zero) to determine if white space.
- @return YES if whitespace. NO otherwise.
- */
-+(BOOL)isWhiteSpace:(char)c;
-
-
-/**
-
- @return The whitespace character set
+ @return The whitespace character set as defined by the PDF standard.
  */
 +(NSCharacterSet*)whiteSpaceCharacterSet;
-
-
-
-
-
-/**
- @param c That ASCII 8-bit char (highest order bit is zero) to determine if  closing delimeter.
- @return YES if closing delimeter. NO otherwise.
- */
-+(BOOL)isClosingDelimeter:(char)c;
-
-
-/**
- @param c That ASCII 8-bit char (highest order bit is zero) to determine if  opening delimeter.
- @return YES if opening delimeter. NO otherwise.
- */
-+(BOOL)isOpeningDelimeter:(char)c;
-
-/**
- @param c That ASCII 8-bit char (highest order bit is zero) to determine if delimeter.
- @return YES if delimeter. NO otherwise.
- */
-+(BOOL)isDelimeter:(char)c;
 
 
 /**
  @param str The string to convert.
  @return The string resulting from replacing all white space sequences (including comments) in str with single space (32) characters.
-
  */
 +(NSString*)stringReplacingWhiteSpaceWithSingleSpace:(NSString*)str;
 

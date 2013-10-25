@@ -142,13 +142,6 @@ static PDFUtility* _sharedPDFUtility = nil;
 
 }
 
-
-+(BOOL)isWhiteSpace:(char)c
-{
-    return c == 0 || c == 9 || c == 10 || c == 12 || c == 13 || c == 32;
-}
-
-
 +(NSCharacterSet*)whiteSpaceCharacterSet
 {
     NSMutableCharacterSet* ret = [NSMutableCharacterSet characterSetWithRange:NSMakeRange(0, 1)];
@@ -158,25 +151,6 @@ static PDFUtility* _sharedPDFUtility = nil;
     
     return ret;
 }
-
-
-+(BOOL)isOpeningDelimeter:(char)c
-{
-    return  c == '(' ||  c == '<' ||  c == '[';
-}
-
-+(BOOL)isClosingDelimeter:(char)c
-{
-    return  c == ')' ||  c == '>' ||  c == ']';
-}
-
-
-+(BOOL)isDelimeter:(char)c
-{
-    return c == '(' || c == ')' || c == '<' || c == '>' || c == '[' || c == ']' || c == '{' || c == '}' || c == '/' ||  c == '%';
-}
-
-
 
 
 +(NSString*)stringReplacingWhiteSpaceWithSingleSpace:(NSString*)str

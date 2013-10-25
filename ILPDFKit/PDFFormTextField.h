@@ -12,6 +12,10 @@
     CGFloat baseFontSize;
     CGFloat fontSize;
     BOOL multi;
+    
+    CGFloat minFontSize;
+    CGFloat maxFontSize;
+    CGFloat fontScaleFactor;
 }
 
 /**---------------------------------------------------------------------------------------

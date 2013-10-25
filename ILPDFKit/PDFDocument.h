@@ -113,7 +113,7 @@
  */
 
 
-/** Saves any changes in the PDF forms to it's data.
+/** Saves any changes in the PDF forms to its data. Must be an uncompressed PDF not counting images/fonts etc.
  Call writeToFile to subsequently save the updated PDF to disk.
  @return YES if successful, NO is failed.
  */
@@ -133,11 +133,18 @@
 -(void)writeToFile:(NSString*)name;
 
 
+/** Sets the background color for the PDF view.
+ @return A string containing an xml representation of the forms of the document and their values. Used for submitting the form.
+ */
+-(NSString*)formXML;
+
+
 /**
  Looks up an object in the cross-reference table
  @param objectNumber The object number of the object to find
  @param generationNumber The generation number of the object to find
  @return The file represention of the object including the the obj and endobj bounding lines.
+ @discussion Not currently implemented.
  */
 
 

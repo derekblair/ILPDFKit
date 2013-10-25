@@ -4,16 +4,15 @@
 #import <MessageUI/MessageUI.h>
 
 
-/** The PDFViewController class allows for convienient viewing  of a PDF document using a UIViewController subclass. It represents the controller that renders a PDF using its view PDFView with data from its model PDFDocument. Displaying a PDF file is very simple using PDFViewController.
+/**The PDFViewController class allows for convienient viewing  of a PDF document using a UIViewController subclass. It represents the controller that renders a PDF using its view PDFView with data from its model PDFDocument. Displaying a PDF file is very simple using PDFViewController.
  
-    PDFViewController* pdfViewController = [[PDFViewController alloc] initWithResource:@"myPDF.pdf"];
-    [self.navigationController pushDetailViewController:pdfViewController animated:YES];
-    [pdfViewController release];
+        PDFViewController* pdfViewController = [[PDFViewController alloc] initWithResource:@"myPDF.pdf"];
+        [self.navigationController pushDetailViewController:pdfViewController animated:YES];
+        [pdfViewController release];
  */
 
 
 
-#define PDFViewMargin  ((UI_USER_INTERFACE_IDIOM()  == UIUserInterfaceIdiomPad)?9.5:(9.5*(320.0/768.0)))
 
 @class PDFView;
 @class PDFDocument;
@@ -108,16 +107,7 @@
 
 
 
-/**---------------------------------------------------------------------------------------
- * @name Submitting Forms
- *  ---------------------------------------------------------------------------------------
- */
 
-
-/** Sets the background color for the PDF view.
- @return A string containing an xml representation of the forms of the document and their values. Used for submitting the form.
- */
--(NSString*)formXML;
 
 
 

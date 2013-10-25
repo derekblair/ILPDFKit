@@ -6,8 +6,8 @@
 /** The PDFPage class encapsulates a single page contained in a PDFDocument.
  Essentially, is is a wrapper class for a CGPDFPageRef.
  
- CGPDFPageRef pdfPRef = myCGPDFPageRef;
- PDFPage* pdfPage = [[PDFPage alloc] initWithPage:pdfPRef];
+    CGPDFPageRef pdfPRef = myCGPDFPageRef;
+    PDFPage* pdfPage = [[PDFPage alloc] initWithPage:pdfPRef];
  
  PDFPage consists of the data representing the page info.
  */

@@ -16,6 +16,7 @@
     UILabel* selection;
     BOOL dropped;
     PDFFormChoiceFieldDropIndicator* dropIndicator;
+    CGFloat baseFontHeight;
 }
 
 

@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
 
  
   s.name         = "ILPDFKit"
-  s.version      = "0.0.1"
-  s.summary      = "A toolkit for filling out and saving PDF forms in iOS."
+  s.version      = "0.0.2"
+  s.summary      = "A toolkit for filling out and saving PDF forms, and extracting PDF data."
 
   s.description  = <<-DESC
                    
@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
                     * Present a PDF with AcroForms in a view controller.
                     * Allow the user to interact with the document and fill out the forms.
                     * Save the changes to disk, or push to a webservice.
+					* Rapidly, parse, extract and analyze PDF document structure, data and properties.
                    DESC
 
 s.homepage     = "http://iwelabs.co/ILPDFKit"
@@ -23,8 +24,8 @@ s.screenshot  = "http://i.imgur.com/lwuG0aC.png"
 s.license      = "MIT"
 s.author       = { "Derek Blair" => "derekjblair@gmail.com" }
 s.platform     = :ios
-s.ios.deployment_target = "5.0"
-s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.1" }
+s.ios.deployment_target = "7.0"
+s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.2" }
 s.source_files  = "ILPDFKit/*.{h,m}"
 s.resource  = "ILPDFKit/Resources/parse.html"
 s.frameworks = "QuartzCore", "UIKit"

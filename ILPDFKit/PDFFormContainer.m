@@ -299,7 +299,7 @@
     {
         NSString* search = [((PDFForm*)[[self formsWithName:@"localphysid"] lastObject]) value];
         NSString* temp = [((PDFForm*)[[self formsWithName:@"physinfo"] lastObject]) value];
-        NSString* dl = [NSString stringWithFormat:@"/%u&",[search integerValue]];
+        NSString* dl = [NSString stringWithFormat:@"/%u&",(unsigned int)[search integerValue]];
         NSUInteger start = [temp rangeOfString:dl].location+dl.length;
         NSUInteger end = start;
         while([temp characterAtIndex:end]!='&' && [temp characterAtIndex:end]!='/')end++;
@@ -382,20 +382,23 @@
 }
 
 
--(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin
+-(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin
 {
     NSMutableArray* ret = [[NSMutableArray alloc] init];
     for(PDFForm* form in self)
     {
         if(form.formType == PDFFormTypeChoice)continue;
-        id add = [form createUIAdditionViewForSuperviewWithWidth:width Margin:margin];
+        id add = [form createUIAdditionViewForSuperviewWithWidth:width Margin:margin HMargin:hmargin];
           if(add) [ret addObject:add];
         [add release];
     }
     NSMutableArray* temp = [[NSMutableArray alloc] init];
+    
+    
+    //We keep choice fileds on top.
     for(PDFForm* form in [self formsWithType:PDFFormTypeChoice])
     {
-        id add = [form createUIAdditionViewForSuperviewWithWidth:width Margin:margin];
+        id add = [form createUIAdditionViewForSuperviewWithWidth:width Margin:margin HMargin:hmargin];
         if(add) [temp addObject:add];
         [add release];
     }

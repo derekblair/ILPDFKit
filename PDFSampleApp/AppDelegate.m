@@ -11,9 +11,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
 
     
+    // See if a set saved file already exists for demonstration purposes.
+    NSString *path = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0] stringByAppendingPathComponent:@"test-after-save.pdf"];
     
-    NSString *docsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0];
-    NSString *path = [docsDirectory stringByAppendingPathComponent:@"test-after-save.pdf"];
+    
     if([[NSFileManager defaultManager] fileExistsAtPath:path])
     {
         _pdfViewController = [[PDFViewController alloc] initWithPath:path];
@@ -24,10 +25,15 @@
     }
     
     _pdfViewController.title = @"Sample PDF";
+    
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:_pdfViewController];
-        [self.window setRootViewController:navigationController];
+    
+    [self.window setRootViewController:navigationController];
     [_pdfViewController release];
     [navigationController release];
+    
+     navigationController.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+    navigationController.navigationBar.translucent = NO;
     
     UIBarButtonItem* saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save:)];
     UIBarButtonItem* printBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Print" style:UIBarButtonItemStylePlain target:self action:@selector(print:)];

@@ -62,6 +62,8 @@
     self = [super init];
     if(self != nil)
     {
+        if([[[name componentsSeparatedByString:@"."] lastObject] isEqualToString:@"pdf"])
+            name = [name substringToIndex:name.length-4];
         document = [PDFUtility createPDFDocumentRefFromResource:name];
         documentPath = [[[NSBundle mainBundle] pathForResource:name ofType:@"pdf"] retain];
     }
@@ -93,9 +95,9 @@
         NSUInteger objectNumber;
         NSUInteger generationNumber;
         NSString* indirectObject = [self formIndirectObjectFrom:self.sourceCode WithName:form.name NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType BehindIndex:[self.sourceCode length]];
-        NSString* objectNumberString = [NSString stringWithFormat:@"%u",objectNumber];
-        NSString* generationNumberString = [NSString stringWithFormat:@"%05u",generationNumber];
-        NSString* offsetString = [NSString stringWithFormat:@"%010u",[self.documentData length]+1+[retval length]];
+        NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
+        NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
+        NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
         
         if(indirectObject)
         {
@@ -321,7 +323,7 @@
     NSScanner* scanner = [NSScanner scannerWithString:[file substringFromIndex:startxrefloc+[@"startxref" length]+1]];
     NSInteger newPrevValInt;
     [scanner scanInteger:&newPrevValInt];
-    NSString* newPrevVal = [NSString stringWithFormat:@"%u",newPrevValInt];
+    NSString* newPrevVal = [NSString stringWithFormat:@"%u",(unsigned int)newPrevValInt];
     NSString* trailer = [file substringWithRange:NSMakeRange(trailerloc+[@"trailer" length]+1, startxrefloc-trailerloc-1-[@"trailer" length]-1)];
     NSString* newTrailer = nil;
     
@@ -335,9 +337,14 @@
         newTrailer = [trailer stringByReplacingOccurrencesOfString:@"/Size" withString:[NSString stringWithFormat:@"/Prev %@/Size",newPrevVal]];
     }
    
-    return [[NSString stringWithFormat:@"trailer\r%@\rstartxref\r%u\r",newTrailer,fo] stringByAppendingString:@"%%EOF"];
+    return [[NSString stringWithFormat:@"trailer\r%@\rstartxref\r%u\r",newTrailer,(unsigned int)fo] stringByAppendingString:@"%%EOF"];
 }
 
+
+-(NSString*)formXML
+{
+    return [self.forms formXML];
+}
 
 
 
@@ -350,8 +357,7 @@
     NSScanner* scanner = [NSScanner scannerWithString:[code substringFromIndex:startxrefOffsetEnd]];
     NSInteger firstCrossReferenceTableOffset;
     [scanner scanInteger:&firstCrossReferenceTableOffset];
-    
-    //char test = [code characterAtIndex:firstCrossReferenceTableOffset];
+
     
     //todo
     
