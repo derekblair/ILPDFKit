@@ -46,11 +46,8 @@
         pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
          self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
         
-        /*
-        if(iPhone5 == NO || self.frame.size.width > self.frame.size.height)
-        {
-            //pdfView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, frame.size.height/2, 0);
-        }*/
+       
+        
        
         [self addSubview:pdfView];
         [pdfView release];
@@ -59,7 +56,9 @@
         
         [pdfView.scrollView setZoomScale:1];
         [pdfView.scrollView setContentOffset:CGPointZero];
-        [pdfView.scrollView setContentInset:UIEdgeInsetsZero];
+        
+        //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
+        [pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
         
        
         

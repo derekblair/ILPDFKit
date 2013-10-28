@@ -25,9 +25,12 @@
         
         
         //Configure these below
-        minFontSize = 10;
-        maxFontSize = 18;
-        fontScaleFactor = 0.75;
+        minFontSize = 12;
+        maxFontSize = 32;
+        
+        //The scale the font size with respect to the field height.
+        fontScaleFactor = 0.80;
+        
         self.layer.cornerRadius = self.frame.size.height/6;
         
         
