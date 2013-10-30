@@ -221,6 +221,7 @@
     NSUInteger searchLocation = [str rangeOfString:search options:NSBackwardsSearch range:NSMakeRange(0, index)].location;
     
     
+    
     if(searchLocation == NSNotFound)return nil;
     NSUInteger startMarkerLocation = [str rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, searchLocation+1)].location;
     if(startMarkerLocation == NSNotFound)return nil;

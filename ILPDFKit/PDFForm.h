@@ -43,6 +43,7 @@ typedef enum PDFFormType
     CGRect cropBox;
     CGRect mediaBox;
     NSString* name;
+    NSString* uname;
    
     NSUInteger flags;
     NSUInteger annotFlags;
@@ -98,6 +99,12 @@ typedef enum PDFFormType
  e.g PersonalInfo.Address.PostalCode
  */
 @property(nonatomic,retain) NSString* name;
+
+
+/** The name of the field shown to the user
+ */
+@property(nonatomic,retain) NSString* uname;
+
 
 /** The default value for the form.
  */
@@ -209,7 +216,7 @@ typedef enum PDFFormType
  @return A new view representing the form. The caller is responsible for releasing the new form view.
  @discussion The superview must be a UIScrollView or a subclass of UIScrollView.
  */
--(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth Margin:(CGFloat)margin HMargin:(CGFloat)hm;
+-(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin;
 
 
 

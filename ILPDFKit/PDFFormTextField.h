@@ -16,6 +16,7 @@
     CGFloat minFontSize;
     CGFloat maxFontSize;
     CGFloat fontScaleFactor;
+    CGFloat lineHeight;
 }
 
 /**---------------------------------------------------------------------------------------

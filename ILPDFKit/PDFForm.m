@@ -48,7 +48,7 @@
 @synthesize actions;
 @synthesize modified;
 @synthesize exportValue;
-
+@synthesize uname;
 
 -(id)initWithFieldDictionary:(PDFDictionary*)leaf Page:(PDFPage*)pg Parent:(PDFFormContainer*)p
 {
@@ -59,6 +59,7 @@
         self.name = [self getFormNameFromLeaf:leaf ];
         NSString* formTypeString = [self getAttributeFromLeaf:leaf Name:@"FT"  Inheritable:YES];
         self.defaultValue = [self getAttributeFromLeaf:leaf Name:@"DV"  Inheritable:YES];
+         self.uname = [self getAttributeFromLeaf:leaf Name:@"TU"  Inheritable:YES];
        flags = [[self getAttributeFromLeaf:leaf Name:@"Ff"  Inheritable:YES] unsignedIntegerValue];
         NSNumber* formTextAlignment = [self getAttributeFromLeaf:leaf Name:@"Q" Inheritable:YES];
         self.actions = [self getActionsFromLeaf:leaf];
@@ -178,6 +179,7 @@
     self.value = nil;
     self.options = nil;
     self.name = nil;
+    self.uname = nil;
     self.actions = nil;
     self.exportValue = nil;
     self.defaultValue = nil;
@@ -313,7 +315,7 @@
 }
 
 
--(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth Margin:(CGFloat)margin HMargin:(CGFloat)hm
+-(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
 {
     if([flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
     if([flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
@@ -327,7 +329,7 @@
         if([pg cropBox].size.width > maxWidth)maxWidth = [pg cropBox].size.width;
     }
     
-    CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*margin)/maxWidth)+margin;
+    CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
     
     CGFloat height = cropBox.size.height;
     CGRect correctedFrame = CGRectMake(frame.origin.x-cropBox.origin.x, height-frame.origin.y-frame.size.height-cropBox.origin.y, frame.size.width, frame.size.height);
@@ -335,35 +337,31 @@
     CGFloat factor = realWidth/width;
     
     CGFloat pageOffset = 0;
+    
     for(NSUInteger c = 0; c < self.page-1;c++)
     {
         PDFPage* pg = [self.parent.document.pages objectAtIndex:c];
         
         CGFloat iwidth = [pg cropBox].size.width;
         
-        CGFloat ihmargin = ((maxWidth-iwidth)/2)*((vwidth-2*margin)/maxWidth)+margin;
-        
+        CGFloat ihmargin = ((maxWidth-iwidth)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
         CGFloat iheight = [pg cropBox].size.height;
         CGFloat irealWidth = vwidth-2*ihmargin;
         CGFloat ifactor = irealWidth/iwidth;
         
-        pageOffset+= ((iheight*ifactor)+hm);
+        pageOffset+= iheight*ifactor+ymargin;
     }
     
-    pageFrame = CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+hm, correctedFrame.size.width*factor, correctedFrame.size.height*factor);
+    
+    pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+ymargin, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
     
     if(formUIElement)
     {
-        
-        //[self removeObserver:formUIElement forKeyPath:@"value"];
-        //[self removeObserver:formUIElement forKeyPath:@"options"];
         [formUIElement release];
         formUIElement = nil;
     }
     
-   
-    
-     uiBaseFrame = CGRectMake(pageFrame.origin.x, pageFrame.origin.y+pageOffset, pageFrame.size.width, pageFrame.size.height);
+     uiBaseFrame = CGRectIntegral(CGRectMake(pageFrame.origin.x, pageFrame.origin.y+pageOffset, pageFrame.size.width, pageFrame.size.height));
     
     switch (formType)
     {

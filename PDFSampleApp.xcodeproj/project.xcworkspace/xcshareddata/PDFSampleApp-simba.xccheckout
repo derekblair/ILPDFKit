@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>6F2F02B5-1AD0-45D7-890E-BCED1347EB2E</string>
+	<string>8F7927F9-8C6F-4939-BFAB-EE885C62A0DB</string>
 	<key>IDESourceControlProjectName</key>
 	<string>PDFSampleApp</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,11 +14,11 @@
 		<string>https://github.com/iwelabs/ILPDFKit.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>PDFSampleApp.xcodeproj/project.xcworkspace</string>
+	<string>PDFSampleApp/PDFSampleApp.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>92251DDF-49A6-45A9-A091-BDC76F765CDE</key>
-		<string>../..</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/iwelabs/ILPDFKit.git</string>

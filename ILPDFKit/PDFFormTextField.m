@@ -26,12 +26,17 @@
         
         //Configure these below
         minFontSize = 12;
-        maxFontSize = 32;
+        maxFontSize = 22;
+        
+        lineHeight = MIN(frame.size.height,maxFontSize);
         
         //The scale the font size with respect to the field height.
-        fontScaleFactor = 0.80;
+        fontScaleFactor = 0.75;
         
-        self.layer.cornerRadius = self.frame.size.height/6;
+        if(multiline == NO)
+        {
+            self.layer.cornerRadius = self.frame.size.height/6;
+        }
         
         
         multi = multiline;
@@ -54,7 +59,8 @@
             ((UITextView*)textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             ((UITextView*)textFieldOrTextView).delegate = self;
            
-            ((UITextView*)textFieldOrTextView).scrollEnabled = NO;
+            ((UITextView*)textFieldOrTextView).scrollEnabled = YES;
+            [((UITextView*)textFieldOrTextView) setTextContainerInset:UIEdgeInsetsMake(4, 4, 4, 4)];
         }
         else 
         {
@@ -71,7 +77,10 @@
        
         textFieldOrTextView.opaque = NO;
         textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        baseFontSize = MAX(MIN(maxFontSize,frame.size.height*fontScaleFactor),minFontSize);
+        
+        
+        if(multiline)baseFontSize = minFontSize;
+        else baseFontSize = MAX(MIN(maxFontSize,lineHeight*fontScaleFactor),minFontSize);
         
         
         
@@ -99,9 +108,11 @@
        CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
      
        {
-            baseFontSize = MAX(MIN(baseFontSize/factor,maxFontSize),minFontSize);
-           
-           if(baseFontSize > fontScaleFactor * self.bounds.size.height)baseFontSize = MAX(fontScaleFactor*self.bounds.size.height,minFontSize);
+           if(multi == NO)
+           {
+               baseFontSize = MAX(MIN(baseFontSize/factor,maxFontSize),minFontSize);
+               if(baseFontSize > fontScaleFactor * lineHeight)baseFontSize = MAX(fontScaleFactor*lineHeight,minFontSize);
+           }
            
            
            fontSize = baseFontSize*zoomScale;
@@ -173,10 +184,10 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    CGSize contentSize = CGSizeMake(textView.bounds.size.width-16, textView.bounds.size.height*2);
+    CGSize contentSize = CGSizeMake(textView.bounds.size.width-12, CGFLOAT_MAX);
     float numLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
     NSString* newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    if([newString length] <= [textView.text length])return YES;
+    if([newString length] < [textView.text length])return YES;
     
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -184,14 +195,16 @@
    
     
     CGRect textRect = [newString boundingRectWithSize:contentSize
-                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                        options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
                                       attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
                                         context:nil];
     
     [paragraphStyle release];
     
-    
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
+    
+    NSLog(@"the used lines are %f",usedLines);
+
     if(usedLines >= numLines && usedLines > 1)return NO;
     return YES;
 }

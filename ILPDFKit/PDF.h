@@ -33,14 +33,25 @@
 
 // These numbers below are essentially the pixel margins between the edge of a UIWebView and the beginning of the PDF canvas to display
 
-#define PDFLandscapePadWMargin 13.0
-#define PDFLandscapePadHMargin 7.0
-#define PDFPortraitPadWMargin 9.0
-#define PDFPortraitPadHMargin 7.0
-#define PDFPortraitPhoneWMargin 3.0
-#define PDFPortraitPhoneHMargin 7.0
-#define PDFLandscapePhoneWMargin 6.0
-#define PDFLandscapePhoneHMargin 7.0
+#define PDFLandscapePadWMargin 13.0f
+#define PDFLandscapePadHMargin 7.25f
+
+
+
+#define PDFPortraitPadWMargin 9.0f
+#define PDFPortraitPadHMargin 6.10f
+
+
+
+
+
+
+#define PDFPortraitPhoneWMargin 3.5
+#define PDFPortraitPhoneHMargin 6.7
+
+
+#define PDFLandscapePhoneWMargin 6.8
+#define PDFLandscapePhoneHMargin 6.5
 
 
 #define PDFWidgetColor [UIColor colorWithRed:0.7 green:0.85 blue:1.0 alpha:0.7]
