@@ -22,7 +22,6 @@
 		8F8B748318026E90003DD132 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B748118026E90003DD132 /* InfoPlist.strings */; };
 		8F8B748518026E90003DD132 /* PDFSampleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B748418026E90003DD132 /* PDFSampleAppTests.m */; };
 		8F9B1601185EDEBF0013901C /* document.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1600185EDEBF0013901C /* document.html */; };
-		8F9B1608185EE8550013901C /* Cert110.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1607185EE8550013901C /* Cert110.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +68,6 @@
 		8F8B748218026E90003DD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8F8B748418026E90003DD132 /* PDFSampleAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFSampleAppTests.m; sourceTree = "<group>"; };
 		8F9B1600185EDEBF0013901C /* document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = document.html; path = ILPDFKit/Resources/document.html; sourceTree = SOURCE_ROOT; };
-		8F9B1607185EE8550013901C /* Cert110.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Cert110.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +148,6 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8F9B1607185EE8550013901C /* Cert110.pdf */,
 				8F9B1600185EDEBF0013901C /* document.html */,
 				8F2900C61818F55400276590 /* test.pdf */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
@@ -275,7 +272,6 @@
 				8F9B1601185EDEBF0013901C /* document.html in Resources */,
 				8F2900C71818F55400276590 /* test.pdf in Resources */,
 				8F8B746A18026E90003DD132 /* InfoPlist.strings in Resources */,
-				8F9B1608185EE8550013901C /* Cert110.pdf in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

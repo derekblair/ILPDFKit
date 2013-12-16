@@ -20,13 +20,13 @@
     NSString *path = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0] stringByAppendingPathComponent:@"test-after-save.pdf"];
     
     
-   /* if([[NSFileManager defaultManager] fileExistsAtPath:path])
+    if([[NSFileManager defaultManager] fileExistsAtPath:path])
     {
         _pdfViewController = [[PDFViewController alloc] initWithPath:path];
     }
-    else*/
+    else
     {
-        _pdfViewController = [[PDFViewController alloc] initWithResource:@"Cert110"];
+        _pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
     }
     
     _pdfViewController.title = @"Sample PDF";
