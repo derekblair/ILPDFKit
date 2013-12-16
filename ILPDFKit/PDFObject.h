@@ -24,42 +24,59 @@ And other types are represented as follows
 Note that Strings and Numbers may be presented as generic PDFObject instances in the case when they are indirect objects.
  */
 
-@interface PDFObject : NSObject 
-{
-    NSUInteger _objectNumber;
-    NSInteger _generationNumber;
-    NSString* representation;
-}
+@interface PDFObject : NSObject
 
 
 /**
  The object number is an indirect object
  */
-@property(nonatomic) NSUInteger objectNumber;
+@property(nonatomic,readonly) NSUInteger objectNumber;
 
 /**
  The generation number is an indirect object. Else -1
  */
-@property(nonatomic) NSInteger generationNumber;
+@property(nonatomic,readonly) NSInteger generationNumber;
+
+/**
+ The parent document.
+ */
+@property(nonatomic,readonly) PDFDocument* parentDocument;
 
 
+/**---------------------------------------------------------------------------------------
+ * @name Creating a PDFObject
+ *  ---------------------------------------------------------------------------------------
+ */
 
 /**
  Initializes a pdf object based on a string representation of that object.
  @param rep The string representation of the PDF object from the parent document.
+@param parentDocument The parent document containing the object.
  @return The representation of the object as it is defined in its parent document.
  */
 
--(id)initWithPDFRepresentation:(NSString*)rep ;
+-(id)initWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument;
+
+
+/**
+ Initializes a pdf object based on its object number generation number and containing document.  Looks up the representation in the cross reference table.
+ @param objNumber The object number of the PDF object.
+ @param genNumber The generation number of the PDF object.
+ @param parentDocument The parent document containing the object.
+ @return The representation of the object as it is defined in its parent document.
+ */
+
+-(id)initWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument;
 
 
 /**
  Creates a new pdf object based on a string representation of that object.
  @param rep The string representation of the PDF object from the parent document.
+ @param parentDocument The parent document containing the object.
  @return The representation of the object as it is defined in its parent document.
  */
 
-+(PDFObject*)createWithPDFRepresentation:(NSString*)rep ;
++(PDFObject*)createWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument;
 
 
 /**
@@ -71,18 +88,11 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 
 
 /**
- @return The string representation of the object as it is defined in the PDF standard.
+ @return The ASCII string representation of the object.
  */
 -(NSString*)pdfFileRepresentation;
 
 
-/**
- For objects with only reference numbers and no representation, looks up the representation in the cross reference table
- belonging to document and sets it as the representation.
- @param document The document cooresponding to the cross reference table in which to look up the reference
- */
-
--(void)dereferenceWithDocument:(PDFDocument*)document;
 
 
 @end

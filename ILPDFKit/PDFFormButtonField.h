@@ -6,17 +6,6 @@
 /** The PDFFormButtonField represents a view for a PDF button field.
  */
 @interface PDFFormButtonField :PDFUIAdditionElementView
-{
-    BOOL radio;
-    BOOL noOff;
-    BOOL pushButton;
-    
-    NSString* name;
-    NSString* exportValue;
-    NSString* val;
-    NSUInteger defFontSize;
-    UIButton* button;
-}
 
 
 /** YES if a radio button, NO otherwise.

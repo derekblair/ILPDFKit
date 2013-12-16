@@ -9,15 +9,6 @@
 /** The PDFFormChoiceField represents a view for a PDF choice field.
  */
 @interface PDFFormChoiceField : PDFUIAdditionElementView<UITableViewDelegate,UITableViewDataSource>
-{
-    UITableView* tv;
-    NSArray* options;
-    NSUInteger selectedIndex;
-    UILabel* selection;
-    BOOL dropped;
-    PDFFormChoiceFieldDropIndicator* dropIndicator;
-    CGFloat baseFontHeight;
-}
 
 
 /**---------------------------------------------------------------------------------------

@@ -15,11 +15,6 @@
 @class PDFDictionary;
 
 @interface PDFPage : NSObject
-{
-    CGPDFPageRef page;
-    PDFDictionary* dictionary;
-    PDFDictionary* resources;
-}
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFPage
@@ -41,13 +36,12 @@
 -(UIImage*)thumbNailImage;
 
 /** The page dictionary.
- 
  */
 @property(nonatomic,readonly) PDFDictionary* dictionary;
 
 
 
-/** The page numbe beginning with 1.
+/** The page number beginning with 1.
  
  */
 @property(nonatomic,readonly) NSUInteger pageNumber;

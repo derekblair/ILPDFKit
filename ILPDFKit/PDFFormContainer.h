@@ -10,15 +10,6 @@
 /** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument. It manages the Adobe AcroScript execution environment as well as the UIKit representation of a PDFForm.
  */
 @interface PDFFormContainer : NSObject<UIWebViewDelegate,NSFastEnumeration>
-{
-    
-    NSMutableArray* formsByType[PDFFormTypeNumberOfFormTypes];
-    NSMutableArray* allForms;
-    NSMutableDictionary* nameTree;
-    PDFDocument* document;
-    UIWebView* jsParser;
-}
-
 
 /** The parent PDFDocument.
  */
@@ -145,17 +136,15 @@
 /** Sets a value/key pair for the script execution environment.
  @param value The value.
  @param key The key.
- @discussion This is implemented using HTML5 localStorage.
  */
--(void)setHTML5StorageValue:(NSString*)value ForKey:(NSString*)key;
+-(void)setDocumentValue:(NSString*)value ForKey:(NSString*)key;
 
 
 /** Gets a value based on a key from the script execution environment.
  @param key The key.
  @return The value associated with key. If no value exists, returns nil.
- @discussion This is implemented using HTML5 localStorage.
  */
--(NSString*)getHTML5StorageValueForKey:(NSString*)key;
+-(NSString*)getDocumentValueForKey:(NSString*)key;
 
 
 

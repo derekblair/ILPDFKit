@@ -7,19 +7,23 @@
 
 
 @implementation PDFFormButtonField
-@synthesize radio;
-@synthesize noOff;
-@synthesize pushButton;
-@synthesize name;
-@synthesize exportValue;
+{
+    
+    
+    
+    NSString* _val;
+    NSUInteger _defFontSize;
+    UIButton* _button;
+}
+
 
 -(void)dealloc
 {
-    [val release];
+    [_val release];
     self.name = nil;
     self.exportValue = nil;
-    [button removeFromSuperview];
-    [button release];
+    [_button removeFromSuperview];
+    [_button release];
     
     [super dealloc];
 }
@@ -29,23 +33,23 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        radio = rad;
+        _radio = rad;
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
-        defFontSize = MIN(16, self.frame.size.height*0.75);
-        button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        _defFontSize = MIN(16, self.frame.size.height*0.75);
+        _button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         
         
         CGFloat minDim = MIN(frame.size.width,frame.size.height)*0.85;
         CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
-        button.frame = CGRectMake(center.x-minDim, center.y-minDim, minDim*2, minDim*2);
-        if(radio)button.layer.cornerRadius = button.frame.size.width/2;
-        button.opaque = NO;
-        button.backgroundColor = [UIColor clearColor];
-        [self addSubview:button];
-        [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _button.frame = CGRectMake(center.x-minDim, center.y-minDim, minDim*2, minDim*2);
+        if(_radio)_button.layer.cornerRadius = _button.frame.size.width/2;
+        _button.opaque = NO;
+        _button.backgroundColor = [UIColor clearColor];
+        [self addSubview:_button];
+        [_button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.userInteractionEnabled = NO;
-        button.userInteractionEnabled  = YES;
+        _button.userInteractionEnabled  = YES;
     }
     return self;
 }
@@ -53,18 +57,18 @@
 
 -(void)setButtonSuperview
 {
-    [button removeFromSuperview];
+    [_button removeFromSuperview];
     CGRect frame = self.bounds;
     CGFloat minDim = MIN(frame.size.width,frame.size.height)*0.85;
     CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
-    button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, 2*minDim,2*minDim);
-    [self.superview insertSubview:button aboveSubview:self];
+    _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, 2*minDim,2*minDim);
+    [self.superview insertSubview:_button aboveSubview:self];
 }
 
 
 -(void)drawRect:(CGRect)rect
 {
-    if(pushButton)
+    if(_pushButton)
     {
         [super drawRect:rect];
         return;
@@ -80,7 +84,7 @@
     
     CGContextSaveGState(ctx);
     CGContextSetFillColorWithColor(ctx,PDFWidgetColor.CGColor);
-    if(radio == NO)
+    if(_radio == NO)
     {
         CGContextRef context = ctx;
         CGFloat radius = minDim/6;
@@ -110,13 +114,13 @@
     CGContextRestoreGState(ctx);
     
     
-    if(button.selected)
+    if(_button.selected)
     {
         CGContextSaveGState(ctx);
         
         CGFloat margin = minDim/3;
         
-        if(radio)
+        if(_radio)
         {
             
             CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
@@ -125,7 +129,7 @@
             CGContextFillPath(ctx);
             
         }
-        else if(pushButton == NO)
+        else if(_pushButton == NO)
         {
             CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
             CGContextSetLineWidth(ctx, rect.size.width/8);
@@ -151,24 +155,24 @@
         self.value = nil;
         return;
     }
-    if(val!=value)
+    if(_val!=value)
     {
-        [val release];val = [value retain];
+        [_val release];_val = [value retain];
     }
-    if(val)
+    if(_val)
     {
-        button.selected = [val isEqualToString:exportValue];
+        _button.selected = [_val isEqualToString:_exportValue];
     }
     else
     {
-        button.selected = NO;
+        _button.selected = NO;
     }
     [self refresh];
 }
 
 -(NSString*)value
 {
-    return val;
+    return _val;
 }
 
 
@@ -180,18 +184,18 @@
     
     CGFloat minDim = MIN(self.bounds.size.width,self.bounds.size.height)*0.85;
     CGPoint center = CGPointMake(self.bounds.size.width/2,self.bounds.size.height/2);
-    button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, minDim*2, minDim*2);
-    if(radio)
-    button.layer.cornerRadius = button.frame.size.width/2;
+    _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, minDim*2, minDim*2);
+    if(_radio)
+    _button.layer.cornerRadius = _button.frame.size.width/2;
     [self refresh];
-    [button setNeedsDisplay];
+    [_button setNeedsDisplay];
 }
 
 
 
 -(void)buttonPressed:(id)sender
 {
-    [delegate uiAdditionValueChanged:self];
+    [_delegate uiAdditionValueChanged:self];
 }
 
 
@@ -203,13 +207,13 @@
     CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
     rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
     
-    if(button.selected)
+    if(_button.selected)
     {
         CGContextSaveGState(ctx);
         
         CGFloat margin = minDim/3;
         
-        if(radio)
+        if(_radio)
         {
             
             CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
@@ -218,7 +222,7 @@
             CGContextFillPath(ctx);
             
         }
-        else if(pushButton == NO)
+        else if(_pushButton == NO)
         {
             CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
             CGContextSetLineWidth(ctx, rect.size.width/8);
@@ -239,9 +243,9 @@
 
 -(void)setPushButton:(BOOL)pb
 {
-    pushButton = pb;
+    _pushButton = pb;
     
-    if(pushButton)
+    if(_pushButton)
     {
      
         self.backgroundColor = [UIColor whiteColor];
@@ -252,12 +256,12 @@
 
 -(void)setNoOff:(BOOL)no
 {
-    noOff = no;
+    _noOff = no;
 }
 
 -(void)setRadio:(BOOL)rd
 {
-    radio = rd;
+    _radio = rd;
 }
 
 

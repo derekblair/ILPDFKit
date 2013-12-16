@@ -37,13 +37,8 @@
 #define PDFLandscapePadHMargin 7.25f
 
 
-
 #define PDFPortraitPadWMargin 9.0f
 #define PDFPortraitPadHMargin 6.10f
-
-
-
-
 
 
 #define PDFPortraitPhoneWMargin 3.5
@@ -55,3 +50,10 @@
 
 
 #define PDFWidgetColor [UIColor colorWithRed:0.7 green:0.85 blue:1.0 alpha:0.7]
+
+
+
+
+
+
+

@@ -7,17 +7,7 @@
 /** The PDFFormTextField represents a view for a PDF text field.
  */
 @interface PDFFormTextField : PDFUIAdditionElementView<UITextViewDelegate,UITextFieldDelegate>
-{
-    UIView* textFieldOrTextView;
-    CGFloat baseFontSize;
-    CGFloat fontSize;
-    BOOL multi;
-    
-    CGFloat minFontSize;
-    CGFloat maxFontSize;
-    CGFloat fontScaleFactor;
-    CGFloat lineHeight;
-}
+
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFFormTextField

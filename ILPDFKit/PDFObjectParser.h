@@ -23,13 +23,11 @@ As an example:
  PDFObjectParser is not meant to replace the Core Graphics PDF functions but rather provide of means of extracting more data related to the PDF file structure such as specific object and generation numbers.
  */
 
-@interface PDFObjectParser : NSObject<NSFastEnumeration>
-{
-    
-    NSString* str;
-}
+@class PDFDocument;
 
--(id)initWithString:(NSString*)strg;
-+(PDFObjectParser*)parserWithString:(NSString*)strg;
+@interface PDFObjectParser : NSObject<NSFastEnumeration>
+
+-(id)initWithString:(NSString*)strg Document:(PDFDocument*)parentDocument;
++(PDFObjectParser*)parserWithString:(NSString*)strg Document:(PDFDocument*)parentDocument;
 
 @end

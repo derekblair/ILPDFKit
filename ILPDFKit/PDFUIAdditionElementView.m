@@ -3,14 +3,10 @@
 
 @implementation PDFUIAdditionElementView
 
-@synthesize baseFrame;
-@synthesize delegate;
-
-
 -(void)dealloc
 {
-    [delegate removeObserver:self forKeyPath:@"value"];
-    [delegate removeObserver:self forKeyPath:@"options"];
+    [_delegate removeObserver:self forKeyPath:@"value"];
+    [_delegate removeObserver:self forKeyPath:@"options"];
     [super dealloc];
 }
 
@@ -19,8 +15,8 @@
     self = [super initWithFrame:frame];
     if(self != nil)
     {
-        baseFrame = frame;
-        zoomScale = 1.0;
+        _baseFrame = frame;
+        _zoomScale = 1.0;
     }
     return self;
 }
@@ -28,8 +24,8 @@
 
 -(void)updateWithZoom:(CGFloat)zoom
 {
-    zoomScale = zoom;
-    self.frame = CGRectMake(baseFrame.origin.x*zoom,baseFrame.origin.y*zoom,baseFrame.size.width*zoom,baseFrame.size.height*zoom);
+    _zoomScale = zoom;
+    self.frame = CGRectMake(_baseFrame.origin.x*zoom,_baseFrame.origin.y*zoom,_baseFrame.size.width*zoom,_baseFrame.size.height*zoom);
 }
 
 

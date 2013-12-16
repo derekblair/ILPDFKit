@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset='UTF-8'>
 <script>
     
 function Event()
 {
-    this.__defineGetter__("value", function(){
+    this.__defineGetter__('value', function(){
                              return getStorageValueForKey('EventValue');
                           });
     
     
-    this.__defineGetter__("willCommit", function(){
+    this.__defineGetter__('willCommit', function(){
                           return true;
                           });
 }
@@ -62,16 +62,16 @@ function Field(name) {
     var value = getStorageValueForKey('Field('+name+').value');
     
     
-    this.__defineGetter__("value", function(){
+    this.__defineGetter__('value', function(){
                           return value;
                           });
     
-    this.__defineSetter__("value", function(_value){
+    this.__defineSetter__('value', function(_value){
                           value = _value;
                           setStorageKeyValue('Field('+this.name+').value',_value);
                           });
     
-    this.__defineGetter__("numItems", function(){
+    this.__defineGetter__('numItems', function(){
                           return sizeArray(this.items);
                           });
     

@@ -8,27 +8,32 @@
 #import "PDFUtility.h"
 #import "PDFFormButtonField.h"
 #import "PDFFormContainer.h"
-
+#import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface PDFDocument()
     -(NSString*)formIndirectObjectFrom:(NSString*)str WithName:(NSString*)name NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type BehindIndex:(NSInteger)index;
     -(NSString*)constructTrailer:(NSString*)file FinalOffset:(NSUInteger)fo;
     -(NSMutableString*)sourceCode;
-    -(PDFDictionary*)getTrailer;
-    
+    -(PDFDictionary*)getTrailerBeforeOffset:(NSUInteger)offset;
+    -(NSUInteger)offsetForObjectWithNumber:(NSUInteger)number InSection:(NSUInteger)section;
+    -(NSString*)codeForIndirectObjectWithOffset:(NSUInteger)offset;
+    @property(nonatomic,readonly) NSArray* crossReferenceSectionsOffsets;
+
 @end
 
 @implementation PDFDocument
+{
+    NSMutableString* _sourceCode;
+    NSString* _documentPath;
+    PDFDictionary* _catalog;
+    PDFDictionary* _info;
+    PDFFormContainer* _forms;
+    NSArray* _pages;
+    NSArray* _crossReferenceSectionsOffsets;
+}
 
-@synthesize documentData;
-@synthesize catalog;
-@synthesize info;
-@synthesize pages;
-@synthesize pdfName;
-@synthesize forms;
-@synthesize documentPath;
-@synthesize document;
+
 
 
 -(void)dealloc
@@ -36,13 +41,14 @@
    
     self.documentData = nil;
     self.pdfName = nil;
-    [documentPath release];
-    [catalog release];
-    [info release];
-    [pages release];
-    [forms release];
-    [sourceCode release];
-    CGPDFDocumentRelease(document);
+    [_documentPath release];
+    [_catalog release];
+    [_info release];
+    [_pages release];
+    [_forms release];
+    [_sourceCode release];
+    [_crossReferenceSectionsOffsets release];
+    CGPDFDocumentRelease(_document);
     [super dealloc];
 }
 
@@ -51,8 +57,8 @@
     self = [super init];
     if(self != nil)
     {
-        document = [PDFUtility createPDFDocumentRefFromData:data];
-        documentData = [[NSMutableData alloc] initWithData:data];
+        _document = [PDFUtility createPDFDocumentRefFromData:data];
+        _documentData = [[NSMutableData alloc] initWithData:data];
     }
     return self;
 }
@@ -64,8 +70,8 @@
     {
         if([[[name componentsSeparatedByString:@"."] lastObject] isEqualToString:@"pdf"])
             name = [name substringToIndex:name.length-4];
-        document = [PDFUtility createPDFDocumentRefFromResource:name];
-        documentPath = [[[NSBundle mainBundle] pathForResource:name ofType:@"pdf"] retain];
+        _document = [PDFUtility createPDFDocumentRefFromResource:name];
+        _documentPath = [[[NSBundle mainBundle] pathForResource:name ofType:@"pdf"] retain];
     }
     return self;
 }
@@ -75,8 +81,8 @@
     self = [super init];
     if(self != nil)
     {
-        document = [PDFUtility createPDFDocumentRefFromPath:path];
-        documentPath = [path retain];
+        _document = [PDFUtility createPDFDocumentRefFromPath:path];
+        _documentPath = [path retain];
     }
     return self;
 }
@@ -86,7 +92,7 @@
 {
     NSMutableString* retval = [NSMutableString string];
     NSMutableArray* names = [NSMutableArray array];
-    for(PDFForm* form in forms)
+    for(PDFForm* form in _forms)
     {
         if(form.modified == NO)continue;
         if([names containsObject:form.name])continue;
@@ -124,12 +130,12 @@
 
 -(void)refresh
 {
-    [catalog release];catalog = nil;
-    [pages release];pages = nil;
-    [info release];info = nil;
-    [sourceCode release];sourceCode = nil;
-    CGPDFDocumentRelease(document);document = NULL;
-    document = [PDFUtility createPDFDocumentRefFromData:self.documentData];
+    [_catalog release];_catalog = nil;
+    [_pages release];_pages = nil;
+    [_info release];_info = nil;
+    [_sourceCode release];_sourceCode = nil;
+    CGPDFDocumentRelease(_document);_document = NULL;
+    _document = [PDFUtility createPDFDocumentRefFromData:self.documentData];
 }
 
 
@@ -138,81 +144,113 @@
 
 -(PDFFormContainer*)forms
 {
-    if(forms == nil)
+    if(_forms == nil)
     {
-        forms = [[PDFFormContainer alloc] initWithParentDocument:self];
+        _forms = [[PDFFormContainer alloc] initWithParentDocument:self];
     }
     
-    return forms;
+    return _forms;
 }
 
 
 -(NSMutableString*)sourceCode
 {
-    if(sourceCode == nil)
+    if(_sourceCode == nil)
     {
-        sourceCode = [[NSMutableString alloc] initWithData:self.documentData encoding:NSASCIIStringEncoding];
+        _sourceCode = [[NSMutableString alloc] initWithData:self.documentData encoding:NSASCIIStringEncoding];
     }
     
-    return sourceCode;
+    return _sourceCode;
 }
 
 -(NSMutableData*)documentData
 {
-    if(documentData == nil)
+    if(_documentData == nil)
     {
-        documentData = [[NSMutableData alloc] initWithContentsOfFile:documentPath options:NSDataReadingMappedAlways error:NULL];
+        _documentData = [[NSMutableData alloc] initWithContentsOfFile:_documentPath options:NSDataReadingMappedAlways error:NULL];
     }
     
-    return documentData;
+    return _documentData;
 }
 
 -(PDFDictionary*)catalog
 {
-    if(catalog == nil)
+    if(_catalog == nil)
     {
-        catalog = [[PDFDictionary alloc] initWithDictionary:CGPDFDocumentGetCatalog(document)];
+        _catalog = [[PDFDictionary alloc] initWithDictionary:CGPDFDocumentGetCatalog(_document)];
     }
     
-    return catalog;
+    return _catalog;
 }
 
 -(PDFDictionary*)info
 {
-    if(info == nil)
+    if(_info == nil)
     {
-        info = [[PDFDictionary alloc] initWithDictionary:CGPDFDocumentGetInfo(document)];
+        _info = [[PDFDictionary alloc] initWithDictionary:CGPDFDocumentGetInfo(_document)];
     }
     
-    return info;
+    return _info;
 }
 
 -(NSArray*)pages
 {
-    if(pages == nil)
+    if(_pages == nil)
     {
         NSMutableArray* temp = [[NSMutableArray alloc] init];
         
-        for(NSUInteger i = 0 ; i < CGPDFDocumentGetNumberOfPages(document); i++)
+        for(NSUInteger i = 0 ; i < CGPDFDocumentGetNumberOfPages(_document); i++)
         {
-            PDFPage* add = [[PDFPage alloc] initWithPage:CGPDFDocumentGetPage(document,i+1)];
+            PDFPage* add = [[PDFPage alloc] initWithPage:CGPDFDocumentGetPage(_document,i+1)];
             [temp addObject:add];
             [add release];
         }
         
-        pages = [[NSArray alloc] initWithArray:temp];
+        _pages = [[NSArray alloc] initWithArray:temp];
         [temp release];
     }
     
-    return pages;
+    return _pages;
+}
+
+-(NSArray*)crossReferenceSectionsOffsets
+{
+    
+    if(_crossReferenceSectionsOffsets == nil)
+    {
+        NSMutableArray* temp = [NSMutableArray array];
+        NSMutableString* code = [self sourceCode];
+        NSUInteger bound = code.length;
+        NSUInteger markerLength = [@"startxref" length];
+        
+        
+        while(YES){
+            
+            NSUInteger startxrefOffsetEnd = [code rangeOfString:@"startxref" options:NSBackwardsSearch range:NSMakeRange(0, bound)].location;
+            
+            if(startxrefOffsetEnd == NSNotFound)
+            {
+                _crossReferenceSectionsOffsets = [[NSArray alloc] initWithArray:temp];
+                break;
+            }
+            
+            NSScanner* scanner = [NSScanner scannerWithString:[code substringFromIndex:startxrefOffsetEnd+markerLength]];
+            NSInteger crossReferenceTableOffset;
+            [scanner scanInteger:&crossReferenceTableOffset];
+            [temp addObject:[NSNumber numberWithInteger:crossReferenceTableOffset]];
+            bound = startxrefOffsetEnd;
+        }
+    }
+    
+    return _crossReferenceSectionsOffsets;
 }
 
 -(NSUInteger)numberOfPages
 {
-    return CGPDFDocumentGetNumberOfPages(document);
+    return CGPDFDocumentGetNumberOfPages(_document);
 }
 
-#pragma mark - PDF File Text Utility
+#pragma mark - PDF File Saving
 
 -(NSString*)formIndirectObjectFrom:(NSString*)str WithName:(NSString*)name  NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type BehindIndex:(NSInteger)index
 {
@@ -223,6 +261,8 @@
     
     
     if(searchLocation == NSNotFound)return nil;
+    
+    
     NSUInteger startMarkerLocation = [str rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, searchLocation+1)].location;
     if(startMarkerLocation == NSNotFound)return nil;
     
@@ -348,36 +388,70 @@
 }
 
 
+#pragma mark - Parsing 
 
+
+-(NSUInteger)offsetForObjectWithNumber:(NSUInteger)number InSection:(NSUInteger)section
+{
+    /*NSUInteger sectionOffset = [[self.crossReferenceSectionsOffsets objectAtIndex:section] unsignedIntegerValue]+[@"xref" length];
+    
+    
+    NSRegularExpression* regexStart = [[NSRegularExpression alloc] initWithPattern:@"\d+ \d+[\s]+" options:0 error:NULL];
+    
+    
+    NSRegularExpression* regexElem = [[NSRegularExpression alloc] initWithPattern:@"\d{10} \d{5} n" options:0 error:NULL];
+    */
+    
+    
+    
+    return 0;
+    
+    
+    
+    
+    
+    
+}
+
+
+ -(NSString*)codeForIndirectObjectWithOffset:(NSUInteger)offset
+{
+    NSUInteger start = [[self.sourceCode substringFromIndex:offset] rangeOfString:@"obj"].location+[@"obj" length];
+    NSUInteger end = [[self.sourceCode substringFromIndex:offset] rangeOfString:@"endobj"].location;
+    return [self.sourceCode substringWithRange:NSMakeRange(start, end-start)];
+}
 
 
 -(NSString*)codeForObjectWithNumber:(NSInteger)objectNumber GenerationNumber:(NSInteger)generationNumber
 {
-    NSMutableString* code = [self sourceCode];
-    NSUInteger startxrefOffsetEnd = [code rangeOfString:@"startxref" options:NSBackwardsSearch].location+9;
-    NSScanner* scanner = [NSScanner scannerWithString:[code substringFromIndex:startxrefOffsetEnd]];
-    NSInteger firstCrossReferenceTableOffset;
-    [scanner scanInteger:&firstCrossReferenceTableOffset];
-
-    
-    //todo
+   
+    NSArray* crossRefSectionOffsets = self.crossReferenceSectionsOffsets;
+    for(NSInteger c = 0 ; c <[crossRefSectionOffsets count] ; c++)
+    {
+        NSUInteger offset = [self offsetForObjectWithNumber:objectNumber InSection:c];
+        if(offset!= NSNotFound)
+        {
+            return [self codeForIndirectObjectWithOffset:offset];
+        }
+        
+    }
     
     return nil;
 }
 
 
--(PDFDictionary*)getTrailer
+-(PDFDictionary*)getTrailerBeforeOffset:(NSUInteger)offset
 {
     NSMutableString* code = [self sourceCode];
 
-    NSUInteger trailerStartMarker = [code rangeOfString:@"trailer" options:NSBackwardsSearch].location;
-    NSUInteger trailerEndMarker = [code rangeOfString:@"startxref" options:NSBackwardsSearch].location;
+    NSUInteger trailerStartMarker = [code rangeOfString:@"trailer" options:NSBackwardsSearch range:NSMakeRange(0, offset)].location;
+    NSUInteger trailerEndMarker = [code rangeOfString:@"startxref" options:NSBackwardsSearch range:NSMakeRange(0, offset)].location;
     
     while ([code characterAtIndex:trailerStartMarker]!='<') {
         trailerStartMarker++;
     }
     
-    return [[[PDFDictionary alloc] initWithPDFRepresentation:[code substringWithRange:NSMakeRange(trailerStartMarker, trailerEndMarker-trailerStartMarker)]] autorelease];
+    return [[[PDFDictionary alloc] initWithPDFRepresentation:[code substringWithRange:NSMakeRange(trailerStartMarker, trailerEndMarker-trailerStartMarker)] Document:self] autorelease];
     
 }
 

@@ -11,13 +11,6 @@
  */
 
 @interface PDFFormAction : NSObject
-{
-    NSString* string; 
-    PDFForm* parent;
-    NSString* prefix;
-    NSString* key;
-}
-
 
 
 /** The action AcroScript.

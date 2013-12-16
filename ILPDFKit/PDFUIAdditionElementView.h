@@ -25,9 +25,8 @@
  */
 @interface PDFUIAdditionElementView : UIView
 {
-    CGRect baseFrame;
-    NSObject<PDFUIAdditionElementViewDelegate>*  delegate;
-    CGFloat zoomScale;
+    CGFloat _zoomScale;
+    NSObject<PDFUIAdditionElementViewDelegate>* _delegate;
 }
 
 

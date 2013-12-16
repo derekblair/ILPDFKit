@@ -13,10 +13,7 @@
  */
 
 @interface PDFArray : PDFObject<NSFastEnumeration>
-{
-    CGPDFArrayRef arr;
-    NSArray* nsa;
-}
+
 
 
 /** The NSArray backing store.

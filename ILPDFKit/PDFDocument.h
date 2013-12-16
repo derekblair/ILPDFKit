@@ -10,23 +10,6 @@
 @class PDFFormContainer;
 
 @interface PDFDocument : NSObject
-{
-    CGPDFDocumentRef document;
-    NSMutableData* documentData;
-   
-    NSMutableString* sourceCode;
-    NSString* documentPath;
-    PDFDictionary* catalog;
-    PDFDictionary* info;
-    PDFFormContainer* forms;
-    NSArray* pages;
-    NSString* pdfName;
-}
-
-
-
-
-
 
 
 /** The PDF file data.

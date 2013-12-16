@@ -18,10 +18,6 @@
 @class PDFDocument;
 
 @interface PDFViewController : UIViewController<UIPrintInteractionControllerDelegate>
-{
-    PDFDocument* document;
-    PDFView* pdfView;
-}
 
 /** The PDFDocument that represents the model for the PDFViewController
  */
@@ -68,8 +64,8 @@
  */
 
 
-/** Creates a new PDF document flattened with any overlayed drawings
- @return A new instance of PDFDocument composed of the orginal PDF with all form fields rendered as static text and images, underneath the vector graphics representing and scribbles or text inserted by the user. Thus the returned PDF has no forms and is suitable for printing. The caller is responsible for releasing the returned instance.
+/** Creates a new PDF document flattened with any overlayed AcroForms
+ @return A new instance of PDFDocument composed of the orginal PDF with all form fields rendered as static text and images. Thus the returned PDF has no forms and is suitable for printing. The caller is responsible for releasing the returned instance.
  */
 -(PDFDocument*)createMergedDocument;
 

@@ -7,44 +7,48 @@
 #import "PDFDocument.h"
 
 @implementation PDFObject
+{
+    NSString* _representation;
+}
+
 
 -(void)dealloc
 {
-    [representation release];
+    [_representation release];
     [super dealloc];
 }
 
 -(NSString*)pdfFileRepresentation
 {
-    return representation;
+    return _representation;
 }
 
+#pragma mark - Object Creation
 
-
-+(PDFObject*)createWithPDFRepresentation:(NSString*)rep 
++(PDFObject*)createWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument
 {
     NSString* test = [rep stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
     if(test.length>=2)
     {
         if([test characterAtIndex:0] == '<' && [test characterAtIndex:1] == '<')
-            return [[PDFDictionary alloc] initWithPDFRepresentation:rep ];
+            return [[PDFDictionary alloc] initWithPDFRepresentation:rep Document:parentDocument];
         if([test characterAtIndex:0] == '[')
-            return [[PDFArray alloc] initWithPDFRepresentation:rep ];
+            return [[PDFArray alloc] initWithPDFRepresentation:rep Document:parentDocument];
     }
     
-    return [[PDFObject alloc] initWithPDFRepresentation:rep ];
+    return [[PDFObject alloc] initWithPDFRepresentation:rep Document:parentDocument];
 }
 
 
--(id)initWithPDFRepresentation:(NSString*)rep 
+-(id)initWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument
 {
     self = [super init];
     if(self != nil)
     {
        
         NSString* temp = [rep stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
-        
-        representation = [temp retain];
+        _representation = [temp retain];
+        _parentDocument = parentDocument;
       
     }
     
@@ -57,16 +61,18 @@
     self = [super init];
     if(self != nil)
     {
+        
     }
     return self;
 }
 
 
-
-
--(void)dereferenceWithDocument:(PDFDocument*)document
+-(id)initWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument
 {
-    representation = [[document codeForObjectWithNumber:_objectNumber GenerationNumber:_generationNumber] retain];
+    
+    _objectNumber = objNumber;
+    _generationNumber = genNumber;
+    return [self initWithPDFRepresentation:[parentDocument codeForObjectWithNumber:_objectNumber GenerationNumber:_generationNumber] Document:parentDocument];
 }
 
 

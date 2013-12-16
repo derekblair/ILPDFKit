@@ -7,26 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
 		8F2900C71818F55400276590 /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F2900C61818F55400276590 /* test.pdf */; };
-		8F2900F01818F72D00276590 /* PDFArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900CB1818F72D00276590 /* PDFArray.m */; };
-		8F2900F11818F72D00276590 /* PDFDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900CD1818F72D00276590 /* PDFDictionary.m */; };
-		8F2900F21818F72D00276590 /* PDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900CF1818F72D00276590 /* PDFDocument.m */; };
-		8F2900F31818F72D00276590 /* PDFForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900D11818F72D00276590 /* PDFForm.m */; };
-		8F2900F41818F72D00276590 /* PDFFormAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900D31818F72D00276590 /* PDFFormAction.m */; };
-		8F2900F51818F72D00276590 /* PDFFormButtonField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900D51818F72D00276590 /* PDFFormButtonField.m */; };
-		8F2900F61818F72D00276590 /* PDFFormChoiceField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900D71818F72D00276590 /* PDFFormChoiceField.m */; };
-		8F2900F71818F72D00276590 /* PDFFormContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900D91818F72D00276590 /* PDFFormContainer.m */; };
-		8F2900F81818F72D00276590 /* PDFFormSignatureField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900DB1818F72D00276590 /* PDFFormSignatureField.m */; };
-		8F2900F91818F72D00276590 /* PDFFormTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900DD1818F72D00276590 /* PDFFormTextField.m */; };
-		8F2900FA1818F72D00276590 /* PDFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900DF1818F72D00276590 /* PDFObject.m */; };
-		8F2900FB1818F72D00276590 /* PDFObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900E11818F72D00276590 /* PDFObjectParser.m */; };
-		8F2900FC1818F72D00276590 /* PDFPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900E31818F72D00276590 /* PDFPage.m */; };
-		8F2900FD1818F72D00276590 /* PDFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900E51818F72D00276590 /* PDFStream.m */; };
-		8F2900FE1818F72D00276590 /* PDFUIAdditionElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900E71818F72D00276590 /* PDFUIAdditionElementView.m */; };
-		8F2900FF1818F72D00276590 /* PDFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900E91818F72D00276590 /* PDFUtility.m */; };
-		8F2901001818F72D00276590 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900EB1818F72D00276590 /* PDFView.m */; };
-		8F2901011818F72D00276590 /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2900ED1818F72D00276590 /* PDFViewController.m */; };
-		8F2901021818F72D00276590 /* parse.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F2900EF1818F72D00276590 /* parse.html */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
 		8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746118026E90003DD132 /* CoreGraphics.framework */; };
 		8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
@@ -39,9 +21,18 @@
 		8F8B747B18026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
 		8F8B748318026E90003DD132 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B748118026E90003DD132 /* InfoPlist.strings */; };
 		8F8B748518026E90003DD132 /* PDFSampleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B748418026E90003DD132 /* PDFSampleAppTests.m */; };
+		8F9B1601185EDEBF0013901C /* document.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1600185EDEBF0013901C /* document.html */; };
+		8F9B1608185EE8550013901C /* Cert110.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1607185EE8550013901C /* Cert110.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8F26D94F185E7E26005C00A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F26D915185E7CB9005C00A4;
+			remoteInfo = ILPDFKit;
+		};
 		8F8B747C18026E90003DD132 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8F8B745418026E90003DD132 /* Project object */;
@@ -49,48 +40,18 @@
 			remoteGlobalIDString = 8F8B745B18026E90003DD132;
 			remoteInfo = PDFSampleApp;
 		};
+		8F9B15F5185ED5650013901C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F26D914185E7CB9005C00A4;
+			remoteInfo = ILPDFKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
 		8F2900C61818F55400276590 /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
-		8F2900C91818F72D00276590 /* PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDF.h; sourceTree = "<group>"; };
-		8F2900CA1818F72D00276590 /* PDFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFArray.h; sourceTree = "<group>"; };
-		8F2900CB1818F72D00276590 /* PDFArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFArray.m; sourceTree = "<group>"; };
-		8F2900CC1818F72D00276590 /* PDFDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFDictionary.h; sourceTree = "<group>"; };
-		8F2900CD1818F72D00276590 /* PDFDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFDictionary.m; sourceTree = "<group>"; };
-		8F2900CE1818F72D00276590 /* PDFDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFDocument.h; sourceTree = "<group>"; };
-		8F2900CF1818F72D00276590 /* PDFDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFDocument.m; sourceTree = "<group>"; };
-		8F2900D01818F72D00276590 /* PDFForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFForm.h; sourceTree = "<group>"; };
-		8F2900D11818F72D00276590 /* PDFForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFForm.m; sourceTree = "<group>"; };
-		8F2900D21818F72D00276590 /* PDFFormAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormAction.h; sourceTree = "<group>"; };
-		8F2900D31818F72D00276590 /* PDFFormAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormAction.m; sourceTree = "<group>"; };
-		8F2900D41818F72D00276590 /* PDFFormButtonField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormButtonField.h; sourceTree = "<group>"; };
-		8F2900D51818F72D00276590 /* PDFFormButtonField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormButtonField.m; sourceTree = "<group>"; };
-		8F2900D61818F72D00276590 /* PDFFormChoiceField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormChoiceField.h; sourceTree = "<group>"; };
-		8F2900D71818F72D00276590 /* PDFFormChoiceField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormChoiceField.m; sourceTree = "<group>"; };
-		8F2900D81818F72D00276590 /* PDFFormContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormContainer.h; sourceTree = "<group>"; };
-		8F2900D91818F72D00276590 /* PDFFormContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormContainer.m; sourceTree = "<group>"; };
-		8F2900DA1818F72D00276590 /* PDFFormSignatureField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormSignatureField.h; sourceTree = "<group>"; };
-		8F2900DB1818F72D00276590 /* PDFFormSignatureField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormSignatureField.m; sourceTree = "<group>"; };
-		8F2900DC1818F72D00276590 /* PDFFormTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormTextField.h; sourceTree = "<group>"; };
-		8F2900DD1818F72D00276590 /* PDFFormTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFFormTextField.m; sourceTree = "<group>"; };
-		8F2900DE1818F72D00276590 /* PDFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFObject.h; sourceTree = "<group>"; };
-		8F2900DF1818F72D00276590 /* PDFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFObject.m; sourceTree = "<group>"; };
-		8F2900E01818F72D00276590 /* PDFObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFObjectParser.h; sourceTree = "<group>"; };
-		8F2900E11818F72D00276590 /* PDFObjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFObjectParser.m; sourceTree = "<group>"; };
-		8F2900E21818F72D00276590 /* PDFPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFPage.h; sourceTree = "<group>"; };
-		8F2900E31818F72D00276590 /* PDFPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFPage.m; sourceTree = "<group>"; };
-		8F2900E41818F72D00276590 /* PDFStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFStream.h; sourceTree = "<group>"; };
-		8F2900E51818F72D00276590 /* PDFStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFStream.m; sourceTree = "<group>"; };
-		8F2900E61818F72D00276590 /* PDFUIAdditionElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFUIAdditionElementView.h; sourceTree = "<group>"; };
-		8F2900E71818F72D00276590 /* PDFUIAdditionElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFUIAdditionElementView.m; sourceTree = "<group>"; };
-		8F2900E81818F72D00276590 /* PDFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFUtility.h; sourceTree = "<group>"; };
-		8F2900E91818F72D00276590 /* PDFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFUtility.m; sourceTree = "<group>"; };
-		8F2900EA1818F72D00276590 /* PDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFView.h; sourceTree = "<group>"; };
-		8F2900EB1818F72D00276590 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFView.m; sourceTree = "<group>"; };
-		8F2900EC1818F72D00276590 /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
-		8F2900ED1818F72D00276590 /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
-		8F2900EF1818F72D00276590 /* parse.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = parse.html; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B745F18026E90003DD132 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F8B746118026E90003DD132 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -107,6 +68,8 @@
 		8F8B748018026E90003DD132 /* PDFSampleAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PDFSampleAppTests-Info.plist"; sourceTree = "<group>"; };
 		8F8B748218026E90003DD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8F8B748418026E90003DD132 /* PDFSampleAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFSampleAppTests.m; sourceTree = "<group>"; };
+		8F9B1600185EDEBF0013901C /* document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = document.html; path = ILPDFKit/Resources/document.html; sourceTree = SOURCE_ROOT; };
+		8F9B1607185EE8550013901C /* Cert110.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Cert110.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */,
 				8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */,
 				8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */,
 				8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */,
@@ -133,63 +97,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8F2900C81818F72D00276590 /* ILPDFKit */ = {
+		8F26D94C185E7E26005C00A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8F2900C91818F72D00276590 /* PDF.h */,
-				8F2900CA1818F72D00276590 /* PDFArray.h */,
-				8F2900CB1818F72D00276590 /* PDFArray.m */,
-				8F2900CC1818F72D00276590 /* PDFDictionary.h */,
-				8F2900CD1818F72D00276590 /* PDFDictionary.m */,
-				8F2900CE1818F72D00276590 /* PDFDocument.h */,
-				8F2900CF1818F72D00276590 /* PDFDocument.m */,
-				8F2900D01818F72D00276590 /* PDFForm.h */,
-				8F2900D11818F72D00276590 /* PDFForm.m */,
-				8F2900D21818F72D00276590 /* PDFFormAction.h */,
-				8F2900D31818F72D00276590 /* PDFFormAction.m */,
-				8F2900D41818F72D00276590 /* PDFFormButtonField.h */,
-				8F2900D51818F72D00276590 /* PDFFormButtonField.m */,
-				8F2900D61818F72D00276590 /* PDFFormChoiceField.h */,
-				8F2900D71818F72D00276590 /* PDFFormChoiceField.m */,
-				8F2900D81818F72D00276590 /* PDFFormContainer.h */,
-				8F2900D91818F72D00276590 /* PDFFormContainer.m */,
-				8F2900DA1818F72D00276590 /* PDFFormSignatureField.h */,
-				8F2900DB1818F72D00276590 /* PDFFormSignatureField.m */,
-				8F2900DC1818F72D00276590 /* PDFFormTextField.h */,
-				8F2900DD1818F72D00276590 /* PDFFormTextField.m */,
-				8F2900DE1818F72D00276590 /* PDFObject.h */,
-				8F2900DF1818F72D00276590 /* PDFObject.m */,
-				8F2900E01818F72D00276590 /* PDFObjectParser.h */,
-				8F2900E11818F72D00276590 /* PDFObjectParser.m */,
-				8F2900E21818F72D00276590 /* PDFPage.h */,
-				8F2900E31818F72D00276590 /* PDFPage.m */,
-				8F2900E41818F72D00276590 /* PDFStream.h */,
-				8F2900E51818F72D00276590 /* PDFStream.m */,
-				8F2900E61818F72D00276590 /* PDFUIAdditionElementView.h */,
-				8F2900E71818F72D00276590 /* PDFUIAdditionElementView.m */,
-				8F2900E81818F72D00276590 /* PDFUtility.h */,
-				8F2900E91818F72D00276590 /* PDFUtility.m */,
-				8F2900EA1818F72D00276590 /* PDFView.h */,
-				8F2900EB1818F72D00276590 /* PDFView.m */,
-				8F2900EC1818F72D00276590 /* PDFViewController.h */,
-				8F2900ED1818F72D00276590 /* PDFViewController.m */,
-				8F2900EE1818F72D00276590 /* Resources */,
+				8F26D950185E7E26005C00A4 /* libILPDFKit.a */,
 			);
-			path = ILPDFKit;
-			sourceTree = "<group>";
-		};
-		8F2900EE1818F72D00276590 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8F2900EF1818F72D00276590 /* parse.html */,
-			);
-			path = Resources;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		8F8B745318026E90003DD132 = {
 			isa = PBXGroup;
 			children = (
-				8F2900C81818F72D00276590 /* ILPDFKit */,
+				8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */,
 				8F8B746518026E90003DD132 /* PDFSampleApp */,
 				8F8B747E18026E90003DD132 /* PDFSampleAppTests */,
 				8F8B745E18026E90003DD132 /* Frameworks */,
@@ -231,6 +150,8 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8F9B1607185EE8550013901C /* Cert110.pdf */,
+				8F9B1600185EDEBF0013901C /* document.html */,
 				8F2900C61818F55400276590 /* test.pdf */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
 				8F8B746818026E90003DD132 /* InfoPlist.strings */,
@@ -272,6 +193,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8F9B15F6185ED5650013901C /* PBXTargetDependency */,
 			);
 			name = PDFSampleApp;
 			productName = PDFSampleApp;
@@ -321,6 +243,12 @@
 			mainGroup = 8F8B745318026E90003DD132;
 			productRefGroup = 8F8B745D18026E90003DD132 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8F26D94C185E7E26005C00A4 /* Products */;
+					ProjectRef = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8F8B745B18026E90003DD132 /* PDFSampleApp */,
@@ -329,14 +257,25 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		8F26D950185E7E26005C00A4 /* libILPDFKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libILPDFKit.a;
+			remoteRef = 8F26D94F185E7E26005C00A4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		8F8B745A18026E90003DD132 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F2901021818F72D00276590 /* parse.html in Resources */,
+				8F9B1601185EDEBF0013901C /* document.html in Resources */,
 				8F2900C71818F55400276590 /* test.pdf in Resources */,
 				8F8B746A18026E90003DD132 /* InfoPlist.strings in Resources */,
+				8F9B1608185EE8550013901C /* Cert110.pdf in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,26 +295,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F2901001818F72D00276590 /* PDFView.m in Sources */,
 				8F8B746C18026E90003DD132 /* main.m in Sources */,
 				8F8B747018026E90003DD132 /* AppDelegate.m in Sources */,
-				8F2900F11818F72D00276590 /* PDFDictionary.m in Sources */,
-				8F2900F21818F72D00276590 /* PDFDocument.m in Sources */,
-				8F2900F71818F72D00276590 /* PDFFormContainer.m in Sources */,
-				8F2900F61818F72D00276590 /* PDFFormChoiceField.m in Sources */,
-				8F2900F41818F72D00276590 /* PDFFormAction.m in Sources */,
-				8F2900F81818F72D00276590 /* PDFFormSignatureField.m in Sources */,
-				8F2900FA1818F72D00276590 /* PDFObject.m in Sources */,
-				8F2900F91818F72D00276590 /* PDFFormTextField.m in Sources */,
-				8F2901011818F72D00276590 /* PDFViewController.m in Sources */,
-				8F2900FB1818F72D00276590 /* PDFObjectParser.m in Sources */,
-				8F2900FF1818F72D00276590 /* PDFUtility.m in Sources */,
-				8F2900FE1818F72D00276590 /* PDFUIAdditionElementView.m in Sources */,
-				8F2900F51818F72D00276590 /* PDFFormButtonField.m in Sources */,
-				8F2900FD1818F72D00276590 /* PDFStream.m in Sources */,
-				8F2900F31818F72D00276590 /* PDFForm.m in Sources */,
-				8F2900FC1818F72D00276590 /* PDFPage.m in Sources */,
-				8F2900F01818F72D00276590 /* PDFArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +315,11 @@
 			isa = PBXTargetDependency;
 			target = 8F8B745B18026E90003DD132 /* PDFSampleApp */;
 			targetProxy = 8F8B747C18026E90003DD132 /* PBXContainerItemProxy */;
+		};
+		8F9B15F6185ED5650013901C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ILPDFKit;
+			targetProxy = 8F9B15F5185ED5650013901C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -450,10 +376,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "";
 			};
 			name = Debug;
 		};
@@ -484,9 +411,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -496,14 +424,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
 				INFOPLIST_FILE = "PDFSampleApp/PDFSampleApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -513,12 +442,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
 				INFOPLIST_FILE = "PDFSampleApp/PDFSampleApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

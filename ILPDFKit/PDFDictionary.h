@@ -16,11 +16,6 @@
 @class PDFArray;
 
 @interface PDFDictionary : PDFObject<NSFastEnumeration>
-{
-    CGPDFDictionaryRef dict;
-    NSDictionary* nsd;
-    PDFDictionary* parent;
-}
 
 
 /** The NSDictionary backing store.

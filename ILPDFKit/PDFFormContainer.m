@@ -24,15 +24,22 @@
 @end
 
 @implementation PDFFormContainer
+{
+    
+    NSMutableArray* _formsByType[PDFFormTypeNumberOfFormTypes];
+    NSMutableArray* _allForms;
+    NSMutableDictionary* _nameTree;
+    UIWebView* _jsParser;
+}
 
-@synthesize document;
+
 
 -(void)dealloc
 {
-    for(NSUInteger i = 0 ; i < PDFFormTypeNumberOfFormTypes ; i++)[formsByType[i] release];
-    [allForms release];
-    [nameTree release];
-    [jsParser release];
+    for(NSUInteger i = 0 ; i < PDFFormTypeNumberOfFormTypes ; i++)[_formsByType[i] release];
+    [_allForms release];
+    [_nameTree release];
+    [_jsParser release];
     [super dealloc];
 }
 
@@ -41,16 +48,16 @@
     self = [super init];
     if(self!=nil)
     {
-        for(NSUInteger i = 0 ; i < PDFFormTypeNumberOfFormTypes ; i++)formsByType[i] = [[NSMutableArray alloc] init];
-        allForms = [[NSMutableArray alloc] init];
-        nameTree = [[NSMutableDictionary alloc] init];
-        document = parent;
+        for(NSUInteger i = 0 ; i < PDFFormTypeNumberOfFormTypes ; i++)_formsByType[i] = [[NSMutableArray alloc] init];
+        _allForms = [[NSMutableArray alloc] init];
+        _nameTree = [[NSMutableDictionary alloc] init];
+        _document = parent;
         NSMutableDictionary* pmap = [NSMutableDictionary dictionary];
-        for(PDFPage* page in document.pages)
+        for(PDFPage* page in _document.pages)
         {
             [pmap setObject:[NSNumber numberWithUnsignedInteger:page.pageNumber] forKey:[NSNumber numberWithUnsignedInteger:(NSUInteger)(page.dictionary.dict)]];
         }
-        for(PDFDictionary* field in [[document.catalog objectForKey:@"AcroForm"] objectForKey:@"Fields"])
+        for(PDFDictionary* field in [[_document.catalog objectForKey:@"AcroForm"] objectForKey:@"Fields"])
         {
             [self enumerateFields:field PageMap:pmap];
         }
@@ -62,7 +69,7 @@
 
 -(NSArray*)formsWithName:(NSString*)name
 {
-    id current = nameTree;
+    id current = _nameTree;
     NSArray* comps = [name componentsSeparatedByString:@"."];
     
     for(NSString* comp in comps)
@@ -85,28 +92,28 @@
 
 -(NSArray*)formsWithType:(PDFFormType)type
 {
-    return formsByType[type];
+    return _formsByType[type];
 }
 
 -(NSArray*)allForms
 {
-    return allForms;
+    return _allForms;
 }
 
 
 -(void)addForm:(PDFForm*)form
 {
-    [formsByType[form.formType] addObject:form];
-    [allForms addObject:form];
-    [self populateNameTreeNode:nameTree WithComponents:[form.name componentsSeparatedByString:@"."] Final:form];
+    [_formsByType[form.formType] addObject:form];
+    [_allForms addObject:form];
+    [self populateNameTreeNode:_nameTree WithComponents:[form.name componentsSeparatedByString:@"."] Final:form];
 }
 
 -(void)removeForm:(PDFForm*)form
 {
-    [formsByType[form.formType] removeObject:form];
-    [allForms removeObject:form];
+    [_formsByType[form.formType] removeObject:form];
+    [_allForms removeObject:form];
     
-    id current = nameTree;
+    id current = _nameTree;
     NSArray* comps = [form.name componentsSeparatedByString:@"."];
     
     for(NSString* comp in comps)
@@ -149,7 +156,7 @@
     leaf.parent = parent;
     
     NSUInteger index = targ?([[pmap objectForKey:[NSNumber numberWithUnsignedInteger:targ]] unsignedIntegerValue] - 1):0;
-    PDFForm* form = [[PDFForm alloc] initWithFieldDictionary:leaf Page:[document.pages objectAtIndex:index] Parent:self];
+    PDFForm* form = [[PDFForm alloc] initWithFieldDictionary:leaf Page:[_document.pages objectAtIndex:index] Parent:self];
     [self addForm:form];
     [form release];
 }
@@ -208,7 +215,7 @@
 
 -(void)executeJS:(NSString*)js
 {
-    [self setHTML5StorageValue:@"" ForKey:@"SubmitForm"];
+    [self setDocumentValue:@"" ForKey:@"SubmitForm"];
     
     for(PDFForm* form in [self allForms])
     {
@@ -217,7 +224,7 @@
             NSString* set = [[form.value componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@" "];
             if([set isEqualToString:@" "])set = @"";
             
-            [self setHTML5StorageValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"value"]];
+            [self setDocumentValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"value"]];
         }
         
         
@@ -225,18 +232,18 @@
         {
             NSString* set = [form.options componentsJoinedByString:[self delimeter]];
             
-            [self setHTML5StorageValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
+            [self setDocumentValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
         }
     }
     
-    if([jsParser stringByEvaluatingJavaScriptFromString:js])
+    if([_jsParser stringByEvaluatingJavaScriptFromString:js])
     {
         for(PDFForm* form in [self allForms])
         {
-            NSString* val = [self getHTML5StorageValueForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"value"]];
+            NSString* val = [self getDocumentValueForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"value"]];
             if([[[form actions] allValues] count] > 0)
             {
-                NSString* opt = [self getHTML5StorageValueForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
+                NSString* opt = [self getDocumentValueForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
                 if([opt length] > 0)
                 {
                     form.options = [opt componentsSeparatedByString:[self delimeter]];
@@ -256,35 +263,34 @@
     }
 }
 
--(void)setHTML5StorageValue:(NSString*)value ForKey:(NSString*)key
+-(void)setDocumentValue:(NSString*)value ForKey:(NSString*)key
 {
     NSString* ckey = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     NSString* cvalue = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    [jsParser stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setStorageKeyValue(\"%@\",\"%@\")",ckey ,cvalue]];
+    [_jsParser stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setDocumentKeyValue(\"%@\",\"%@\")",ckey ,cvalue]];
 }
 
--(NSString*)getHTML5StorageValueForKey:(NSString*)key
+-(NSString*)getDocumentValueForKey:(NSString*)key
 {
-    
     NSString* ckey = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    NSString* ret = [jsParser stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"getStorageValueForKey(\"%@\")",ckey]];
+    NSString* ret = [_jsParser stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"getDocumentValueForKey(\"%@\")",ckey]];
     if([ret length] == 0)return nil;
     return ret;
 }
 
 -(void)initializeJS
 {
-    [jsParser stringByEvaluatingJavaScriptFromString:@"localStorage.clear()"];
+   
     for(PDFForm* form in self)
     {
-        [self setHTML5StorageValue:[NSString stringWithFormat:@"%@",form.name] ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"name"]];
+        [self setDocumentValue:[NSString stringWithFormat:@"%@",form.name] ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"name"]];
         
         if([form.options count] && [[form.actions allValues] count]==0)
         {
             NSString* set = @"";
             for(NSString* comp in form.options)set = [set stringByAppendingString:[NSString stringWithFormat:@"%@%@",comp,[self delimeter]]];
             set = [set substringToIndex:[set length]-[[self delimeter] length]];
-            [self setHTML5StorageValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
+            [self setDocumentValue:set ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"items"]];
         }
     }
     
@@ -296,12 +302,12 @@
 
 -(void)loadJS
 {
-    jsParser = [[UIWebView alloc] init];
-    jsParser.delegate = self;
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"parse" ofType:@"html"];
+    _jsParser = [[UIWebView alloc] init];
+    _jsParser.delegate = self;
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"document" ofType:@"html"];
     NSURL* address = [NSURL fileURLWithPath:path];
     NSURLRequest* request = [NSURLRequest requestWithURL:address];
-    [jsParser loadRequest:request];
+    [_jsParser loadRequest:request];
 }
 
 #pragma mark - UIWebViewDidFinishLoading
@@ -330,7 +336,7 @@
 -(NSString*)formXML
 {
     NSMutableString* ret = [NSMutableString stringWithString:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r<fields>"];
-    [ret appendString:[self formXMLForFormsWithRootNode:nameTree]];
+    [ret appendString:[self formXMLForFormsWithRootNode:_nameTree]];
     [ret appendString:@"\r</fields>"];
     return [[[ret stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"&amp;#60;" withString:@"&#60;"] stringByReplacingOccurrencesOfString:@"&amp;#62;" withString:@"&#62;"];
 }

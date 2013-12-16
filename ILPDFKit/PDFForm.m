@@ -28,39 +28,23 @@
 @end
 
 @implementation PDFForm
-
-@synthesize value;
-@synthesize frame;
-@synthesize page;
-@synthesize formType;
-@synthesize cropBox;
-@synthesize mediaBox;
-@synthesize name;
-@synthesize defaultValue;
-@synthesize flagsString;
-@synthesize options;
-@synthesize textAlignment;
-@synthesize setAppearanceStream;
-
-@synthesize pageFrame;
-@synthesize uiBaseFrame;
-@synthesize parent;
-@synthesize actions;
-@synthesize modified;
-@synthesize exportValue;
-@synthesize uname;
+{
+    NSUInteger _flags;
+    NSUInteger _annotFlags;
+    PDFUIAdditionElementView* _formUIElement;
+}
 
 -(id)initWithFieldDictionary:(PDFDictionary*)leaf Page:(PDFPage*)pg Parent:(PDFFormContainer*)p
 {
     self = [super init];
     if(self != nil)
     {
-        value = [[self getAttributeFromLeaf:leaf Name:@"V" Inheritable:YES] retain];
+        _value = [[self getAttributeFromLeaf:leaf Name:@"V" Inheritable:YES] retain];
         self.name = [self getFormNameFromLeaf:leaf ];
         NSString* formTypeString = [self getAttributeFromLeaf:leaf Name:@"FT"  Inheritable:YES];
         self.defaultValue = [self getAttributeFromLeaf:leaf Name:@"DV"  Inheritable:YES];
          self.uname = [self getAttributeFromLeaf:leaf Name:@"TU"  Inheritable:YES];
-       flags = [[self getAttributeFromLeaf:leaf Name:@"Ff"  Inheritable:YES] unsignedIntegerValue];
+       _flags = [[self getAttributeFromLeaf:leaf Name:@"Ff"  Inheritable:YES] unsignedIntegerValue];
         NSNumber* formTextAlignment = [self getAttributeFromLeaf:leaf Name:@"Q" Inheritable:YES];
         self.actions = [self getActionsFromLeaf:leaf];
         self.exportValue = [self getExportValueFrom:leaf];
@@ -115,7 +99,7 @@
      
         if([leaf objectForKey:@"F"])
         {
-            annotFlags = [[leaf objectForKey:@"F"] unsignedIntegerValue];
+            _annotFlags = [[leaf objectForKey:@"F"] unsignedIntegerValue];
         }
         
         [[self.actions allValues] makeObjectsPerformSelector:@selector(setParent:) withObject:self];
@@ -129,9 +113,9 @@
         self.parent = p;
         
         {
-            BOOL noRotate = [flagsString rangeOfString:@"NoRotate"].location!=NSNotFound;
+            BOOL noRotate = [_flagsString rangeOfString:@"NoRotate"].location!=NSNotFound;
  
-            NSUInteger rotation = [(PDFPage*)[self.parent.document.pages objectAtIndex:page-1] rotationAngle];
+            NSUInteger rotation = [(PDFPage*)[self.parent.document.pages objectAtIndex:_page-1] rotationAngle];
             if(noRotate)rotation = 0;
             CGFloat a = self.frame.size.width;
             CGFloat b = self.frame.size.height;
@@ -167,13 +151,9 @@
 -(void)dealloc
 {
     
-    if(formUIElement)
+    if(_formUIElement)
     {
-        
-        
-        //[self removeObserver:formUIElement forKeyPath:@"value"];
-        //[self removeObserver:formUIElement forKeyPath:@"options"];
-        [formUIElement release];
+        [_formUIElement release];
     }
     
     self.value = nil;
@@ -196,8 +176,8 @@
         self.options = nil;
         return;
     }
-    [options release];
-    options = [opt retain];
+    [_options release];
+    _options = [opt retain];
 }
 
 
@@ -209,15 +189,15 @@
         return;
     }
     
-    if([val isEqualToString:value] == NO && (val||value))
+    if([val isEqualToString:_value] == NO && (val||_value))
     {
         self.modified = YES;
     }
     
-    if(value!=val)
+    if(_value!=val)
     {
-        [value release];
-        value = [val retain];
+        [_value release];
+        _value = [val retain];
     }
 }
 
@@ -226,85 +206,85 @@
 {
     NSString* temp = @"";
     
-    if(BIT(0, flags))
+    if(BIT(0, _flags))
     {
         temp = [temp stringByAppendingString:@"-ReadOnly"];
     }
-    if(BIT(1, flags))
+    if(BIT(1, _flags))
     {
         temp = [temp stringByAppendingString:@"-Required"];
     }
-    if(BIT(2, flags))
+    if(BIT(2, _flags))
     {
         temp = [temp stringByAppendingString:@"-NoExport"];
     }
     
-    if(formType == PDFFormTypeButton)
+    if(_formType == PDFFormTypeButton)
     {
     
-        if(BIT(14, flags))
+        if(BIT(14, _flags))
         {
             temp = [temp stringByAppendingString:@"-NoToggleToOff"];
         }
-        if(BIT(15, flags))
+        if(BIT(15, _flags))
         {
             temp = [temp stringByAppendingString:@"-Radio"];
         }
-        if(BIT(16, flags))
+        if(BIT(16, _flags))
         {
             temp = [temp stringByAppendingString:@"-Pushbutton"];
         }
         
     }
-    else if(formType == PDFFormTypeChoice)
+    else if(_formType == PDFFormTypeChoice)
     {
-        if(BIT(17, flags))
+        if(BIT(17, _flags))
         {
             temp = [temp stringByAppendingString:@"-Combo"];
         }
-        if(BIT(18, flags))
+        if(BIT(18, _flags))
         {
             temp = [temp stringByAppendingString:@"-Edit"];
         }
-        if(BIT(19, flags))
+        if(BIT(19, _flags))
         {
             temp = [temp stringByAppendingString:@"-Sort"];
         }             
     }
-    else if(formType == PDFFormTypeText)
+    else if(_formType == PDFFormTypeText)
     {   
-        if(BIT(12, flags))
+        if(BIT(12, _flags))
         {
             temp = [temp stringByAppendingString:@"-Multiline"];
         }
-        if(BIT(13, flags))
+        if(BIT(13, _flags))
         {
             temp = [temp stringByAppendingString:@"-Password"];
         }
     }
     
     
-    if(BIT(0, annotFlags))
+    if(BIT(0, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-Invisible"];
     }
-    if(BIT(1, annotFlags))
+    if(BIT(1, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-Hidden"];
     }
-    if(BIT(2, annotFlags))
+    if(BIT(2, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-Print"];
     }
-    if(BIT(3, annotFlags))
+    if(BIT(3, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-NoZoom"];
     }
-    if(BIT(4, annotFlags))
+    if(BIT(4, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-NoRotate"];
     }
-    if(BIT(5, annotFlags))
+    if(BIT(5, _annotFlags))
     {
         temp = [temp stringByAppendingString:@"-NoView"];
     }
@@ -317,11 +297,11 @@
 
 -(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
 {
-    if([flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
-    if([flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
-    if([flagsString rangeOfString:@"NoView"].location != NSNotFound)return nil;
+    if([_flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
+    if([_flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
+    if([_flagsString rangeOfString:@"NoView"].location != NSNotFound)return nil;
     
-    CGFloat width = cropBox.size.width;
+    CGFloat width = _cropBox.size.width;
     CGFloat maxWidth = width;
     
     for(PDFPage* pg in self.parent.document.pages)
@@ -331,8 +311,8 @@
     
     CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
     
-    CGFloat height = cropBox.size.height;
-    CGRect correctedFrame = CGRectMake(frame.origin.x-cropBox.origin.x, height-frame.origin.y-frame.size.height-cropBox.origin.y, frame.size.width, frame.size.height);
+    CGFloat height = _cropBox.size.height;
+    CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
     CGFloat realWidth = vwidth-2*hmargin;
     CGFloat factor = realWidth/width;
     
@@ -353,52 +333,52 @@
     }
     
     
-    pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+ymargin, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
+    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+ymargin, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
     
-    if(formUIElement)
+    if(_formUIElement)
     {
-        [formUIElement release];
-        formUIElement = nil;
+        [_formUIElement release];
+        _formUIElement = nil;
     }
     
-     uiBaseFrame = CGRectIntegral(CGRectMake(pageFrame.origin.x, pageFrame.origin.y+pageOffset, pageFrame.size.width, pageFrame.size.height));
+     _uiBaseFrame = CGRectIntegral(CGRectMake(_pageFrame.origin.x, _pageFrame.origin.y+pageOffset, _pageFrame.size.width, _pageFrame.size.height));
     
-    switch (formType)
+    switch (_formType)
     {
         case PDFFormTypeText:
         {
-            PDFFormTextField* temp = [[PDFFormTextField alloc] initWithFrame:uiBaseFrame Multiline:([flagsString rangeOfString:@"-Multiline"].location != NSNotFound) Alignment:textAlignment SecureEntry:([flagsString rangeOfString:@"-Password"].location != NSNotFound) ReadOnly:([flagsString rangeOfString:@"-ReadOnly"].location != NSNotFound)];
-            formUIElement = temp;
+            PDFFormTextField* temp = [[PDFFormTextField alloc] initWithFrame:_uiBaseFrame Multiline:([_flagsString rangeOfString:@"-Multiline"].location != NSNotFound) Alignment:_textAlignment SecureEntry:([_flagsString rangeOfString:@"-Password"].location != NSNotFound) ReadOnly:([_flagsString rangeOfString:@"-ReadOnly"].location != NSNotFound)];
+            _formUIElement = temp;
         }
             break;
         case PDFFormTypeButton:
         {
-            BOOL radio = ([flagsString rangeOfString:@"-Radio"].location != NSNotFound);
+            BOOL radio = ([_flagsString rangeOfString:@"-Radio"].location != NSNotFound);
             
-            if(setAppearanceStream)
+            if(_setAppearanceStream)
             {
-                if([setAppearanceStream rangeOfString:@"ZaDb"].location!=NSNotFound && [setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
+                if([_setAppearanceStream rangeOfString:@"ZaDb"].location!=NSNotFound && [_setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
             }
             
             
-            PDFFormButtonField* temp = [[PDFFormButtonField alloc] initWithFrame:uiBaseFrame Radio:radio ];
-            temp.noOff = ([flagsString rangeOfString:@"-NoToggleToOff"].location != NSNotFound);
+            PDFFormButtonField* temp = [[PDFFormButtonField alloc] initWithFrame:_uiBaseFrame Radio:radio ];
+            temp.noOff = ([_flagsString rangeOfString:@"-NoToggleToOff"].location != NSNotFound);
             temp.name = self.name;
-            temp.pushButton = ([flagsString rangeOfString:@"Pushbutton"].location != NSNotFound);
+            temp.pushButton = ([_flagsString rangeOfString:@"Pushbutton"].location != NSNotFound);
             temp.exportValue = self.exportValue;
-            formUIElement = temp;
+            _formUIElement = temp;
         }
             break;
         case PDFFormTypeChoice:
         {
-            PDFFormChoiceField* temp = [[PDFFormChoiceField alloc] initWithFrame:uiBaseFrame Options:options];
-            formUIElement = temp;
+            PDFFormChoiceField* temp = [[PDFFormChoiceField alloc] initWithFrame:_uiBaseFrame Options:_options];
+            _formUIElement = temp;
         }
             break;
         case PDFFormTypeSignature:
         {
-            PDFFormSignatureField* temp = [[PDFFormSignatureField alloc] initWithFrame:uiBaseFrame];
-            formUIElement = temp;
+            PDFFormSignatureField* temp = [[PDFFormSignatureField alloc] initWithFrame:_uiBaseFrame];
+            _formUIElement = temp;
         }
             break;
         case PDFFormTypeNone:
@@ -407,15 +387,15 @@
     }
     
     
-    if(formUIElement)
+    if(_formUIElement)
     {
-        [formUIElement retain];
-        [formUIElement setValue:self.value];
-        formUIElement.delegate = self;
-        [self addObserver:formUIElement forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
-        [self addObserver:formUIElement forKeyPath:@"options" options:NSKeyValueObservingOptionNew context:NULL];
+        [_formUIElement retain];
+        [_formUIElement setValue:self.value];
+        _formUIElement.delegate = self;
+        [self addObserver:_formUIElement forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
+        [self addObserver:_formUIElement forKeyPath:@"options" options:NSKeyValueObservingOptionNew context:NULL];
     }
-    return formUIElement;
+    return _formUIElement;
 }
 
 
@@ -423,8 +403,8 @@
 
 -(void)uiAdditionEntered:(PDFUIAdditionElementView *)sender
 {
-    [[actions objectForKey:@"E"] execute];
-    [[actions objectForKey:@"A"] execute];
+    [[_actions objectForKey:@"E"] execute];
+    [[_actions objectForKey:@"A"] execute];
 }
 
 -(void)uiAdditionValueChanged:(PDFUIAdditionElementView *)sender
@@ -447,23 +427,23 @@
             }
             else
             {
-                [parent setValue:set?nil:exportValue ForFormWithName:self.name];
+                [_parent setValue:set?nil:_exportValue ForFormWithName:self.name];
             }
         }
         else
         {
             self.modified = NO;
-            [[actions objectForKey:@"A"] execute];
+            [[_actions objectForKey:@"A"] execute];
             return;
         }
     }
     else
     {
-        [parent setValue:[v value] ForFormWithName:self.name];
-        [parent setHTML5StorageValue:self.value ForKey:@"EventValue"];
-        ((PDFFormAction*)[actions objectForKey:@"K"]).prefix = ((PDFFormAction*)[actions objectForKey:@"E"]).string;
-        [[actions objectForKey:@"K"] execute];
-        [[actions objectForKey:@"K"] execute];
+        [_parent setValue:[v value] ForFormWithName:self.name];
+        [_parent setDocumentValue:self.value ForKey:@"EventValue"];
+        ((PDFFormAction*)[_actions objectForKey:@"K"]).prefix = ((PDFFormAction*)[_actions objectForKey:@"E"]).string;
+        [[_actions objectForKey:@"K"] execute];
+        [[_actions objectForKey:@"K"] execute];
     }
 }
 

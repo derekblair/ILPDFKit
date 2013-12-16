@@ -7,10 +7,6 @@
  */
 
 @interface PDFUtility : NSObject
-{
-    
-}
-
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDF context

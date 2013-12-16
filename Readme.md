@@ -7,7 +7,7 @@ A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
 ## Installation
 
-   Add the source files located in the 'ILPDFKit' folder to your project.
+   Move the ILPDFKit folder and the ILPDFKit.xcodeproj file to your app directory. Add ILPDFKit.xcodeproj to your app project and ensure that ILPDFKit/Resources/document.html is added to your app resources (copied as a bundle resource). Ensure your app links against libILPDFKit.a . Then you should be good.
 
 ## Quick Start
 

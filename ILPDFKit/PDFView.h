@@ -9,12 +9,6 @@
 @class PDFUIAdditionElementView;
 
 @interface PDFView : UIView<UIScrollViewDelegate,UIGestureRecognizerDelegate>
-{
-    UIWebView* pdfView;
-    NSMutableArray* pdfUIAdditionElementViews;
-    PDFUIAdditionElementView* activeUIAdditionView;
-}
-
 
 /** The array contains the PDFUIAdditionElementView instances that are subviews of the pdfView's scrollView.
  */
@@ -29,7 +23,6 @@
 /** The webview used to render the PDF.
  */
 @property(nonatomic,readonly) UIWebView* pdfView;
-
 
 
 /**---------------------------------------------------------------------------------------

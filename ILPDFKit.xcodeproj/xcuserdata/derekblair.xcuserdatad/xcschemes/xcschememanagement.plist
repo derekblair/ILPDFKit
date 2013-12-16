@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>ILPDFKit-Resources.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>ILPDFKit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>ILPDFKitBundle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>8F26D914185E7CB9005C00A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F26D924185E7CB9005C00A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F26D990185E9F01005C00A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F26D9B8185EAE1E005C00A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

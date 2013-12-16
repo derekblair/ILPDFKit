@@ -8,28 +8,15 @@
 
 
 @interface PDFView()
-
-
-
-    
-
 @end
 
 
 @implementation PDFView
 
-
-@synthesize activeUIAdditionsView;
-@synthesize pdfUIAdditionElementViews;
-@synthesize pdfView;
-
-
 -(void)dealloc
 {
   
-    [pdfUIAdditionElementViews release];
-   
-    
+    [_pdfUIAdditionElementViews release];
     [super dealloc];
 }
 
@@ -39,33 +26,29 @@
     if (self)
     {
         CGRect contentFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-        pdfView = [[UIWebView alloc] initWithFrame:contentFrame];
-        pdfView.scalesPageToFit = YES;
-        pdfView.scrollView.delegate = self;
-        pdfView.scrollView.bouncesZoom = NO;
-        pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+        _pdfView = [[UIWebView alloc] initWithFrame:contentFrame];
+        _pdfView.scalesPageToFit = YES;
+        _pdfView.scrollView.delegate = self;
+        _pdfView.scrollView.bouncesZoom = NO;
+        _pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
          self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
         
        
         
        
-        [self addSubview:pdfView];
-        [pdfView release];
-        
-        
-        
-        [pdfView.scrollView setZoomScale:1];
-        [pdfView.scrollView setContentOffset:CGPointZero];
+        [self addSubview:_pdfView];
+        [_pdfView release];
+        [_pdfView.scrollView setZoomScale:1];
+        [_pdfView.scrollView setContentOffset:CGPointZero];
         
         //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
-        [pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
+        [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
         
-       
+        _pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:uiAdditionViews];
         
-        pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:uiAdditionViews];
-        for(PDFUIAdditionElementView* element in pdfUIAdditionElementViews)
+        for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
         {
-            [pdfView.scrollView addSubview:element];
+            [_pdfView.scrollView addSubview:element];
             if([element isKindOfClass:[PDFFormButtonField class]])
             {
                 [(PDFFormButtonField*)element setButtonSuperview];
@@ -74,11 +57,11 @@
         
         if([dataOrPath isKindOfClass:[NSString class]])
         {
-            [pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:dataOrPath]]];
+            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:dataOrPath]]];
         }
         else if([dataOrPath isKindOfClass:[NSData class]])
         {
-            [pdfView loadData:dataOrPath MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:nil];
+            [_pdfView loadData:dataOrPath MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:nil];
         }
 
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
@@ -92,14 +75,14 @@
 
 -(void)addPDFUIAdditionView:(PDFUIAdditionElementView*)viewToAdd
 {
-    [pdfUIAdditionElementViews addObject:viewToAdd];
-    [pdfView.scrollView addSubview:viewToAdd];
+    [_pdfUIAdditionElementViews addObject:viewToAdd];
+    [_pdfView.scrollView addSubview:viewToAdd];
 }
 
 -(void)removePDFUIAdditionView:(PDFUIAdditionElementView*)viewToRemove
 {
     [viewToRemove removeFromSuperview];
-    [pdfUIAdditionElementViews removeObject:viewToRemove];
+    [_pdfUIAdditionElementViews removeObject:viewToRemove];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -109,7 +92,7 @@
     CGFloat scale = scrollView.zoomScale;
     if(scale < 1.0f)scale = 1.0f;
     
-    for(PDFUIAdditionElementView* element in pdfUIAdditionElementViews)
+    for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
     {
         [element updateWithZoom:scale];
     }
@@ -130,18 +113,18 @@
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if(activeUIAdditionsView == nil)return NO;
+    if(_activeUIAdditionsView == nil)return NO;
     
-    if(!CGRectContainsPoint(activeUIAdditionsView.frame, [touch locationInView:pdfView.scrollView]))
+    if(!CGRectContainsPoint(_activeUIAdditionsView.frame, [touch locationInView:_pdfView.scrollView]))
     {
-        if([activeUIAdditionsView isKindOfClass:[UITextView class]])
+        if([_activeUIAdditionsView isKindOfClass:[UITextView class]])
         {
-            [activeUIAdditionsView resignFirstResponder];
+            [_activeUIAdditionsView resignFirstResponder];
             
         }
         else
         {
-            [activeUIAdditionsView resign];
+            [_activeUIAdditionsView resign];
         }
     }
     return NO;
@@ -151,22 +134,18 @@
 -(void)setUIAdditionViews:(NSArray*)additionViews
 {
     
-    for(UIView* v in pdfUIAdditionElementViews)[v removeFromSuperview];
-    [pdfUIAdditionElementViews release];pdfUIAdditionElementViews = nil;
-    pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:additionViews];
-    for(PDFUIAdditionElementView* element in pdfUIAdditionElementViews)
+    for(UIView* v in _pdfUIAdditionElementViews)[v removeFromSuperview];
+    [_pdfUIAdditionElementViews release];_pdfUIAdditionElementViews = nil;
+    _pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:additionViews];
+    for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
     {
-        [pdfView.scrollView addSubview:element];
+        [_pdfView.scrollView addSubview:element];
         if([element isKindOfClass:[PDFFormButtonField class]])
         {
             [(PDFFormButtonField*)element setButtonSuperview];
         }
     }
 }
-
-
-
-
 
 
 @end

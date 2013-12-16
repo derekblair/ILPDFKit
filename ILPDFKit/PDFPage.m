@@ -11,21 +11,17 @@
 @end
 
 @implementation PDFPage
+{
+    CGPDFPageRef _page;
+    PDFDictionary* _dictionary;
+    PDFDictionary* _resources;
+}
 
-@synthesize dictionary;
-@synthesize pageNumber;
-@synthesize rotationAngle;
-@synthesize mediaBox;
-@synthesize cropBox;
-@synthesize bleedBox;
-@synthesize trimBox;
-@synthesize artBox;
-@synthesize page;
-@synthesize resources;
+
 
 -(void)dealloc
 {
-    [dictionary release];
+    [_dictionary release];
     [super dealloc];
 }
 
@@ -34,7 +30,7 @@
     self = [super init];
     if(self != nil)
     {
-        page = pg;
+        _page = pg;
     }
     
     return self;
@@ -44,17 +40,17 @@
 
 -(PDFDictionary*)dictionary
 {
-    if(dictionary == nil)
+    if(_dictionary == nil)
     {
-        dictionary = [[PDFDictionary alloc] initWithDictionary: CGPDFPageGetDictionary(page)];
+        _dictionary = [[PDFDictionary alloc] initWithDictionary: CGPDFPageGetDictionary(_page)];
     }
     
-    return dictionary;
+    return _dictionary;
 }
 
 -(PDFDictionary*)resources
 {
-    if(resources == nil)
+    if(_resources == nil)
     {
         PDFDictionary* iter = self.dictionary;
         PDFDictionary* res = nil;
@@ -63,10 +59,10 @@
             iter = [iter objectForKey:@"Parent"];
             if(iter == nil)break;
         }
-        resources = res;
+        _resources = res;
     }
     
-    return resources;
+    return _resources;
 }
 
 -(UIImage*)thumbNailImage
@@ -81,37 +77,37 @@
 
 -(NSUInteger)pageNumber
 {
-    return CGPDFPageGetPageNumber(page);
+    return CGPDFPageGetPageNumber(_page);
 }
 
 -(NSInteger)rotationAngle
 {
-    return CGPDFPageGetRotationAngle(page);
+    return CGPDFPageGetRotationAngle(_page);
 }
 
 -(CGRect)mediaBox
 {
-    return [self rotateBox:CGPDFPageGetBoxRect(page, kCGPDFMediaBox)];
+    return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFMediaBox)];
 }
 
 -(CGRect)cropBox
 {
-    return [self rotateBox:CGPDFPageGetBoxRect(page, kCGPDFCropBox)];
+    return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFCropBox)];
 }
 
 -(CGRect)bleedBox
 {
-    return [self rotateBox:CGPDFPageGetBoxRect(page, kCGPDFBleedBox)];
+    return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFBleedBox)];
 }
 
 -(CGRect)trimBox
 {
-    return [self rotateBox:CGPDFPageGetBoxRect(page, kCGPDFTrimBox)];
+    return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFTrimBox)];
 }
 
 -(CGRect)artBox
 {
-    return [self rotateBox:CGPDFPageGetBoxRect(page, kCGPDFArtBox)];
+    return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFArtBox)];
 }
 
 

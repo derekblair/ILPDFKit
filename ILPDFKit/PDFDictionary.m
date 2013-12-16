@@ -25,16 +25,10 @@
 @end
 
 
-
-
-
-
-
-
 @implementation PDFDictionary
-@synthesize nsd;
-@synthesize dict;
-@synthesize parent;
+{
+    NSDictionary* _nsd;
+}
 
 void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 {
@@ -45,7 +39,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 -(void)dealloc
 {
-    [nsd release];
+    [_nsd release];
     [super dealloc];
 }
 
@@ -54,7 +48,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     self = [super init];
     if(self != nil)
     {
-        dict = pdict;
+        _dict = pdict;
     }
     
     return self;
@@ -64,7 +58,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(CGPDFObjectType)typeForKey:(NSString*)aKey
 {
     CGPDFObjectRef obj = NULL;
-    if(CGPDFDictionaryGetObject(dict, [aKey UTF8String], &obj))
+    if(CGPDFDictionaryGetObject(_dict, [aKey UTF8String], &obj))
     {
         return CGPDFObjectGetType(obj);
     }
@@ -109,31 +103,31 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 -(PDFDictionary*)parent
 {
-    if(parent == nil)
+    if(_parent == nil)
     {
-        parent = [self.nsd objectForKey:@"Parent"];
+        _parent = [self.nsd objectForKey:@"Parent"];
     }
-    return parent;
+    return _parent;
 }
 
 -(NSDictionary*)nsd
 {
-    if(nsd == nil)
+    if(_nsd == nil)
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         NSMutableArray* keys = [NSMutableArray array];
         NSMutableDictionary* nsdFiller = nil;
         
-        if(dict!=NULL)
+        if(_dict!=NULL)
         {
-            CGPDFDictionaryApplyFunction(dict, checkKeys, keys);
+            CGPDFDictionaryApplyFunction(_dict, checkKeys, keys);
         }
         else
         {
             nsdFiller = [NSMutableDictionary dictionary];
             NSMutableArray* keysAndValues = [NSMutableArray array];
             
-            PDFObjectParser* parser = [PDFObjectParser parserWithString:representation];
+            PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation] Document:self.parentDocument];
             
             for(id pdfObject in parser)[keysAndValues addObject:pdfObject];
             
@@ -152,7 +146,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
         for(NSString* key in keys)
         {
             NSAutoreleasePool* poolPDFObject  = [[NSAutoreleasePool alloc] init];
-            id set = (dict!=NULL?[self pdfObjectFromKey:key]:[nsdFiller objectForKey:key]);
+            id set = (_dict!=NULL?[self pdfObjectFromKey:key]:[nsdFiller objectForKey:key]);
 
             if(set != nil) 
             {
@@ -170,11 +164,11 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
            
         }
     
-        nsd = [[NSDictionary  dictionaryWithDictionary:temp] retain];
+        _nsd = [[NSDictionary  dictionaryWithDictionary:temp] retain];
         
         [pool drain];
     }
-    return nsd;
+    return _nsd;
 }
 
 
@@ -187,7 +181,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(id)pdfObjectFromKey:(NSString*)key
 {
     CGPDFObjectRef obj = NULL;
-    if(CGPDFDictionaryGetObject(dict, [key UTF8String], &obj))
+    if(CGPDFDictionaryGetObject(_dict, [key UTF8String], &obj))
     {
         CGPDFObjectType type =  CGPDFObjectGetType(obj);
         switch (type) {
@@ -211,7 +205,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(PDFDictionary*)dictionaryFromKey:(NSString *)key
 {
     CGPDFDictionaryRef dr = NULL;
-    if(CGPDFDictionaryGetDictionary(dict, [key UTF8String], &dr))
+    if(CGPDFDictionaryGetDictionary(_dict, [key UTF8String], &dr))
     {
         return [[[PDFDictionary alloc] initWithDictionary:dr] autorelease];
     }
@@ -221,7 +215,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(PDFArray*)arrayFromKey:(NSString *)key
 {
     CGPDFArrayRef ar = NULL;
-    if(CGPDFDictionaryGetArray(dict, [key UTF8String], &ar))
+    if(CGPDFDictionaryGetArray(_dict, [key UTF8String], &ar))
     {
         return [[[PDFArray alloc] initWithArray:ar] autorelease];
     }
@@ -233,7 +227,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(NSString*)stringFromKey:(NSString*)key
 {
     CGPDFStringRef str = NULL;
-    if(CGPDFDictionaryGetString(dict, [key UTF8String], &str))
+    if(CGPDFDictionaryGetString(_dict, [key UTF8String], &str))
     {
         return [(NSString*)CGPDFStringCopyTextString(str) autorelease];
     }
@@ -245,7 +239,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(NSString*)nameFromKey:(NSString*)key
 {
     const char* targ = NULL;
-    if(CGPDFDictionaryGetName(dict, [key UTF8String], &targ))
+    if(CGPDFDictionaryGetName(_dict, [key UTF8String], &targ))
     {
         return [NSString stringWithUTF8String:targ];
     }
@@ -256,7 +250,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(NSNumber*)integerFromKey:(NSString*)key
 {
     CGPDFInteger targ;
-    if(CGPDFDictionaryGetInteger(dict, [key UTF8String], &targ))
+    if(CGPDFDictionaryGetInteger(_dict, [key UTF8String], &targ))
     {
         return [NSNumber numberWithUnsignedInteger:(NSUInteger)targ];
     }
@@ -266,7 +260,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(NSNumber*)realFromKey:(NSString*)key
 {
     CGPDFReal targ;
-    if(CGPDFDictionaryGetNumber(dict, [key UTF8String], &targ))
+    if(CGPDFDictionaryGetNumber(_dict, [key UTF8String], &targ))
     {
         return [NSNumber numberWithFloat:(float)targ];
     }
@@ -278,7 +272,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(NSNumber*)booleanFromKey:(NSString*)key
 {
     CGPDFBoolean targ;
-    if(CGPDFDictionaryGetBoolean(dict, [key UTF8String], &targ))
+    if(CGPDFDictionaryGetBoolean(_dict, [key UTF8String], &targ))
     {
         return [NSNumber numberWithBool:(BOOL)targ];
     }
@@ -291,7 +285,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 -(PDFStream*)streamFromKey:(NSString*)key
 {
     CGPDFStreamRef targ = NULL;
-    if(CGPDFDictionaryGetStream(dict, [key UTF8String], &targ))
+    if(CGPDFDictionaryGetStream(_dict, [key UTF8String], &targ))
     {
         return [[[PDFStream alloc] initWithStream:targ] autorelease];
     }
@@ -311,10 +305,8 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 -(NSString*)pdfFileRepresentation
 {
-    if(representation)
-    {
-        return [NSString stringWithString:representation];
-    }
+   
+    if([super pdfFileRepresentation])return [super pdfFileRepresentation];
     
     NSArray* keys = [self allKeys];
     NSMutableString* ret = [NSMutableString stringWithString:@"<<\n"];

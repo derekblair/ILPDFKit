@@ -15,14 +15,12 @@
 
 @implementation PDFViewController
 
-@synthesize document;
-@synthesize pdfView;
 
 
 -(void)dealloc
 {
     [self removeFromParentViewController];
-    [pdfView removeFromSuperview];
+    [_pdfView removeFromSuperview];
     self.pdfView = nil;
     self.document = nil;
     
@@ -36,7 +34,7 @@
     if(self != nil)
     {
         
-        document = [[PDFDocument alloc] initWithData:data];
+        _document = [[PDFDocument alloc] initWithData:data];
     }
     return self;
 }
@@ -46,7 +44,7 @@
     self = [super init];
     if(self!=nil)
     {
-        document = [[PDFDocument alloc] initWithResource:name];
+        _document = [[PDFDocument alloc] initWithResource:name];
     }
     return self;
 }
@@ -56,7 +54,7 @@
     self = [super init];
     if(self != nil)
     {
-        document = [[PDFDocument alloc] initWithPath:path];
+        _document = [[PDFDocument alloc] initWithPath:path];
     }
     
     return self;
@@ -112,13 +110,13 @@
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    pdfView.alpha = 0;
+    _pdfView.alpha = 0;
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 
-    [pdfView removeFromSuperview];self.pdfView = nil;
+    [_pdfView removeFromSuperview];self.pdfView = nil;
     [self loadPDFView];
     
 }
@@ -135,7 +133,7 @@
         
             UIPrintInfo *printInfo = [UIPrintInfo printInfo];
             printInfo.outputType = UIPrintInfoOutputGeneral;
-            printInfo.jobName = document.pdfName;
+            printInfo.jobName = _document.pdfName;
             printInfo.duplex = UIPrintInfoDuplexLongEdge;
             pic.printInfo = printInfo;
             pic.showsPageRange = YES;
@@ -169,7 +167,7 @@
 
 -(PDFDocument*)createMergedDocumentAfterApplyingPaths:(NSArray*)paths ViewWidth:(CGFloat)width Margin:(CGFloat)margin
 {
-    NSUInteger numberOfPages = [document numberOfPages];
+    NSUInteger numberOfPages = [_document numberOfPages];
    
     CGFloat maxWidth = 0;
     
@@ -182,7 +180,20 @@
     
     NSMutableData* ret = [[NSMutableData data] retain];
     
-    UIGraphicsBeginPDFContextToData(ret, CGRectMake(0, 0, PDFDefaultCanvasWidth, PDFDefaultCanvasHeight), nil);
+    
+    CGFloat canvasWidth = PDFDefaultCanvasWidth;
+    CGFloat canvasHeight = PDFDefaultCanvasHeight;
+    
+    CGRect tempRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document.document,1), kCGPDFCropBox);
+    
+    if(tempRect.size.width>tempRect.size.height)
+    {
+        canvasWidth = PDFDefaultCanvasHeight;
+        canvasHeight = PDFDefaultCanvasWidth;
+    }
+    
+    
+    UIGraphicsBeginPDFContextToData(ret, CGRectMake(0, 0, canvasWidth, canvasHeight), nil);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     for(NSUInteger page = 1; page <= numberOfPages;page++)
@@ -190,26 +201,30 @@
 
         UIGraphicsBeginPDFPage();
         
-        CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(document.document,page), kCGPDFCropBox);
+        CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document.document,page), kCGPDFCropBox);
         
         CGFloat pwidth = mediaRect.size.width;
         CGFloat pheight = mediaRect.size.height;
-        CGFloat mX = (PDFDefaultCanvasWidth-pwidth)/2.0;
-        CGFloat mY = (PDFDefaultCanvasHeight-pheight)/2.0;
+        
+        CGFloat mX = (canvasWidth-pwidth)/2.0;
+        CGFloat mY = (canvasHeight-pheight)/2.0;
         
         CGContextSaveGState(ctx);
         CGContextScaleCTM(ctx,1,-1);
-        CGContextTranslateCTM(ctx, mX, -PDFDefaultCanvasHeight+mY*2);
-        CGContextDrawPDFPage(ctx, CGPDFDocumentGetPage(document.document,page));
+        CGContextTranslateCTM(ctx, mX, -canvasHeight+mY*2);
+        CGContextDrawPDFPage(ctx, CGPDFDocumentGetPage(_document.document,page));
+        
+        
+        
         CGContextRestoreGState(ctx);
         
         CGContextSaveGState(ctx);
-        CGContextTranslateCTM(ctx,0,-((page-1)*(PDFDefaultCanvasHeight+margin*widthScale)));
+        CGContextTranslateCTM(ctx,0,-((page-1)*(canvasHeight+margin*widthScale)));
         CGContextScaleCTM(ctx,widthScale,widthScale);
         CGContextTranslateCTM(ctx,-margin,-margin);
         
     
-        for(PDFUIAdditionElementView* additionElementView in pdfView.pdfUIAdditionElementViews)
+        for(PDFUIAdditionElementView* additionElementView in _pdfView.pdfUIAdditionElementViews)
         {
             CGContextSaveGState(ctx);
             CGContextTranslateCTM(ctx, additionElementView.baseFrame.origin.x, additionElementView.baseFrame.origin.y);
@@ -229,22 +244,22 @@
 
 -(void)reload
 {
-    [document refresh];
-    [pdfView removeFromSuperview];
-    [pdfView release];
+    [_document refresh];
+    [_pdfView removeFromSuperview];
+    [_pdfView release];
     [self loadPDFView];
 }
 
 -(void)setBackColor:(UIColor*)color
 {
-    pdfView.pdfView.backgroundColor = color;
+    _pdfView.pdfView.backgroundColor = color;
 }
 
 #pragma mark - Hidden
 
 -(void)loadPDFView
 {
-    id pass = (document.documentPath?document.documentPath:document.documentData);
+    id pass = (_document.documentPath?_document.documentPath:_document.documentData);
     
    CGRect frm = [self currentFrame:self.interfaceOrientation];
     
@@ -253,10 +268,10 @@
     
     CGPoint margins = [self getMargins];
     
-    NSArray* additionViews = [document.forms createUIAdditionViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
-        pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
+    NSArray* additionViews = [_document.forms createUIAdditionViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
+        _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
     [additionViews release];
-    [self.view addSubview:pdfView];
+    [self.view addSubview:_pdfView];
 }
 
 #pragma mark - UIPrintInteractionControllerDelegate

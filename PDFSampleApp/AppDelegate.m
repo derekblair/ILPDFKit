@@ -4,6 +4,11 @@
 #import "PDFDocument.h"
 
 @implementation AppDelegate
+{
+    PDFViewController* _pdfViewController;
+        
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -15,13 +20,13 @@
     NSString *path = [ [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES) objectAtIndex:0] stringByAppendingPathComponent:@"test-after-save.pdf"];
     
     
-    if([[NSFileManager defaultManager] fileExistsAtPath:path])
+   /* if([[NSFileManager defaultManager] fileExistsAtPath:path])
     {
         _pdfViewController = [[PDFViewController alloc] initWithPath:path];
     }
-    else
+    else*/
     {
-        _pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
+        _pdfViewController = [[PDFViewController alloc] initWithResource:@"Cert110"];
     }
     
     _pdfViewController.title = @"Sample PDF";
@@ -29,8 +34,7 @@
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:_pdfViewController];
     
     [self.window setRootViewController:navigationController];
-    [_pdfViewController release];
-    [navigationController release];
+   
     
      navigationController.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
     navigationController.navigationBar.translucent = NO;
@@ -39,8 +43,7 @@
     UIBarButtonItem* printBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Print" style:UIBarButtonItemStylePlain target:self action:@selector(print:)];
     
     [_pdfViewController.navigationItem setRightBarButtonItems:@[saveBarButtonItem,printBarButtonItem]];
-    [saveBarButtonItem release];
-    [printBarButtonItem release];
+   
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -62,14 +65,14 @@
        
        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Saved to test-after-save.pdf in the app documents directory. This app will load this file the next time it is started." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
        [alertView show];
-       [alertView release];
+      
        
        
    }else
    {
        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed. Make sure the PDF you are saving is not compressed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
        [alertView show];
-       [alertView release];
+   
    }
 }
 

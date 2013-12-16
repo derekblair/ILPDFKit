@@ -5,12 +5,6 @@
 
 
 
-/** The PDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the 'Fields' array of the document's 'AcroForm' dictionary. Thus each instance of PDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A 'Field' is a collection of PDFForm with the same name. All forms in a field have the same value. A 'Field' represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named 'Sex' and marked 'Male' and 'Female' respectively to collect the information of a person's gender. A form can create a UIView representation of itself that can respond to user interaction.
- 
-        PDFChoiceField* comboBox = [comboBoxTypeForm createUIAdditionViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
-        [webView.scrollView addSubview comboBox];
-        [comboBox release];
- */
 
 #define BIT(n,i) (((i)>>(n))&1)
 
@@ -31,42 +25,21 @@ typedef enum PDFFormType
 @class PDFUIElement;
 @class PDFUIAdditionElementView;
 
-@interface PDFForm : NSObject<PDFUIAdditionElementViewDelegate>
-{
-    NSUInteger page;
-    CGRect frame;
-    PDFFormType formType;
-    NSString* value;
-    NSString* defaultValue;
-    NSString* exportValue;
-    NSString* setAppearanceStream;
-    CGRect cropBox;
-    CGRect mediaBox;
-    NSString* name;
-    NSString* uname;
-   
-    NSUInteger flags;
-    NSUInteger annotFlags;
-    NSString* flagsString;
-    NSArray* options;
-    
-    UITextAlignment textAlignment;
-    CGRect uiBaseFrame;
-    PDFFormContainer* parent;
-    NSMutableDictionary* actions;
-    CGRect pageFrame;
-    BOOL  modified;
-    
-    
-    PDFUIAdditionElementView* formUIElement;
-}
 
+
+/** The PDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the 'Fields' array of the document's 'AcroForm' dictionary. Thus each instance of PDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A 'Field' is a collection of PDFForm with the same name. All forms in a field have the same value. A 'Field' represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named 'Sex' and marked 'Male' and 'Female' respectively to collect the information of a person's gender. A form can create a UIView representation of itself that can respond to user interaction.
+ 
+ PDFChoiceField* comboBox = [comboBoxTypeForm createUIAdditionViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
+ [webView.scrollView addSubview comboBox];
+ [comboBox release];
+ */
+@interface PDFForm : NSObject<PDFUIAdditionElementViewDelegate>
 
 /** The value of the form.
  */
 @property(nonatomic,retain) NSString* value;
 
-/** The page of the form.
+/** The page number on which the form appears. The first page has value 1.
  */
 @property(nonatomic) NSUInteger page;
 

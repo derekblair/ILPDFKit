@@ -27,70 +27,64 @@ PDFObjectParserState;
 
 
 @implementation PDFObjectParser
+{
+    NSString* _str;
+    PDFDocument* _parentDocument;
+}
 
 -(void)dealloc
 {
-    [str release];
+    [_str release];
     [super dealloc];
 }
 
-+(PDFObjectParser*)parserWithString:(NSString *)strg 
++(PDFObjectParser*)parserWithString:(NSString *)strg Document:(PDFDocument*)parentDocument
 {
-    return [[[PDFObjectParser alloc] initWithString:strg] autorelease];
+    return [[[PDFObjectParser alloc] initWithString:strg Document:parentDocument] autorelease];
     
 }
 
-
--(id)initWithString:(NSString *)strg 
+-(id)initWithString:(NSString *)strg Document:(PDFDocument*)parentDocument
 {
     self = [super init];
     if(self!=nil)
     {
       
+        _parentDocument = parentDocument;
         
         if([strg characterAtIndex:0]=='<')
         {
-            str = [strg substringWithRange:NSMakeRange(1, strg.length-2)] ;
+            _str = [strg substringWithRange:NSMakeRange(1, strg.length-2)] ;
         }
-        else str = strg;
+        else _str = strg;
         
-        
-        
-        if(str)
+        if(_str)
         {
             
+            //Here we replace indirect object references with a representation that is more easily parsed on the next step.
             NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"(\\d+)\\s+(\\d+)\\s+[R]\\W" options:0 error:NULL];
-            
-            
-            str = [regex stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, str.length) withTemplate:@"($1,$2,ioref)"];
-            
-            
+            _str = [regex stringByReplacingMatchesInString:_str options:0 range:NSMakeRange(0, _str.length) withTemplate:@"($1,$2,ioref)"];
             [regex release];
         }
         
-        
-        
-        [str retain];
-        
+        [_str retain];
     }
-    
     return self;
 }
 
 -(id)parseNextElement:(PDFObjectParserState*)state
 {
-    
     NSUInteger index = state->index;
     NSUInteger nestCount = state -> nestCount;
     NSUInteger startOfScanIndex = state -> startOfScanIndex;
     id ret = nil;
     
-    while(index < str.length)
+    while(index < _str.length)
     {
     
         NSRange range = {0,0};
         
-        unichar cur = [str characterAtIndex:index];
+        unichar cur = [_str characterAtIndex:index];
         
         BOOL found = NO;
         BOOL ws = isWS(cur);
@@ -99,7 +93,6 @@ PDFObjectParserState;
         BOOL dl = isDelim(cur);
         if(od)nestCount++;
         if(cd)nestCount--;
-        
         
         if(startOfScanIndex == 0)
         {
@@ -122,15 +115,13 @@ PDFObjectParserState;
                 startOfScanIndex = index; 
             }
             else found = NO;
-
-            
         }
         
         index++;
             
         if(found)
         {
-            ret =  [self pdfObjectFromString:[str substringWithRange:range]];
+            ret =  [self pdfObjectFromString:[_str substringWithRange:range]];
             break;
         }
         
@@ -142,64 +133,22 @@ PDFObjectParserState;
     return ret;
 }
 
-
-/*
--(BOOL)scanForIndirectObjectAtIndex:(NSUInteger)index
-{
-    
-    
-    NSString* test = [str substringFromIndex:index];
-    
-    NSUInteger loc = [test rangeOfString:@"R"].location;
-    if(loc == NSNotFound)return NO;
-    
-    NSCharacterSet* numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    for(NSInteger c = loc+index-1; c>=0;c--)
-    {
-        unichar current = [str characterAtIndex:c];
-        if([PDFUtility isWhiteSpace:current])continue;
-        if([numbers characterIsMember:current] == NO)return NO;
-        else break;
-    }
-    
-    if(loc < test.length-1)
-    {
-        unichar next = [test characterAtIndex:loc+1];
-        if([PDFUtility isWhiteSpace:next] == NO && [PDFUtility isDelimeter:next] == NO)return NO;
-    }
-    
-    
-    NSString* jam = [[test substringToIndex:loc] stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
-    
-    if(jam.length !=0 && [jam rangeOfCharacterFromSet:[numbers invertedSet]].location != NSNotFound)return NO;
-    
-    return YES;
-}*/
-
-
-
-
-
+// the string passed musn't include an indirect object definition header. eg ' 7 0 obj '
 
 -(id)pdfObjectFromString:(NSString*)st
 {
     
     NSString* work = [st stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
     
-    
-    
-    
     if([work rangeOfString:@"ioref"].location!= NSNotFound)
     {
         NSArray* tokens = [[work substringWithRange:NSMakeRange(1, work.length-1)] componentsSeparatedByString:@","];
-        PDFObject* ret = [[[PDFObject alloc] initWithPDFRepresentation:nil] autorelease];
-        ret.objectNumber = [[tokens objectAtIndex:0] integerValue];
-        ret.generationNumber = [[tokens objectAtIndex:1] integerValue];
+        PDFObject* ret = [[[PDFObject alloc] initWithObjectNumber:[[tokens objectAtIndex:0] integerValue] GenerationNumber:[[tokens objectAtIndex:1] integerValue] Document:_parentDocument] autorelease];
+      
       
         return ret;
     }
-    
-    
+
     if([work characterAtIndex:0] == '(' && [work characterAtIndex:work.length-1] == ')')
         return [work substringWithRange:NSMakeRange(1, work.length-2)]; // String
     
@@ -224,54 +173,7 @@ PDFObjectParserState;
     if([work isEqualToString:@"false"])return [NSNumber numberWithBool:NO];
     if([work isEqualToString:@"null"])return nil;
     
-    /*
-    //Indirect Reference
-    if([work characterAtIndex:work.length-1] == 'R')
-    {
-        
-        NSInteger objectNumber;
-        NSInteger generationNumber;
-        NSScanner* scanner = [NSScanner scannerWithString:work];
-        [scanner scanInteger:&objectNumber];
-        [scanner scanInteger:&generationNumber];
-        
-        NSString* rep = [NSString stringWithString:[parent codeForObjectWithNumber:objectNumber GenerationNumber:generationNumber]];
-        return [self pdfObjectFromString:rep];
-        
-    }
-    
-    //Indirect Definition
-    
-    if(work.length>6 && [[work substringFromIndex:work.length-6] isEqualToString:@"endobj"])
-    {
-        NSUInteger loc = [work rangeOfString:@"obj"].location;
-        if(loc!=NSNotFound)
-        {
-            
-            NSScanner* scanner = [NSScanner scannerWithString:[work substringToIndex:loc]];
-            NSInteger genN;
-            NSInteger objN;
-            [scanner scanInteger:&objN];
-            [scanner scanInteger:&genN];
-            
-            NSString* final = [work substringFromIndex:loc+3];
-            NSUInteger locf = [final rangeOfString:@"endobj" options:NSBackwardsSearch].location;
-            
-            PDFObject* ret = [[PDFObject createWithPDFRepresentation:[final substringToIndex:locf] Parent:parent] autorelease];
-            
-            ret.objectNumber = objN;
-            ret.generationNumber = genN;
-            return ret;
-            
-            
-        }
-        else return nil;
-    }*/
-    
-    
-    //Dictionary or Stream or Array
-    
-    return [[PDFObject createWithPDFRepresentation:work] autorelease];
+    return [[PDFObject createWithPDFRepresentation:work Document:_parentDocument] autorelease];
     
     
 }
@@ -301,7 +203,7 @@ PDFObjectParserState;
     
 
     NSUInteger batchCount = 0;
-    while (parserState.index < str.length && batchCount < len)
+    while (parserState.index < _str.length && batchCount < len)
     {
         id obj = [self parseNextElement:&parserState];
         if(obj)

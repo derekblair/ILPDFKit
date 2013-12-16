@@ -4,15 +4,18 @@
 #import "PDFDictionary.h"
 
 @implementation PDFStream
+{
+    CGPDFStreamRef _strm;
+    NSData* _data;
+    PDFDictionary* _dictionary;
+    CGPDFDataFormat _dataFormat;
+}
 
-@synthesize data;
-@synthesize dictionary;
-@synthesize dataFormat;
 
 -(void)dealloc
 {
-    [data release];
-    [dictionary release];
+    [_data release];
+    [_dictionary release];
     [super dealloc];
 }
 
@@ -21,7 +24,7 @@
     self = [super init];
     if(self != nil)
     {
-        strm = pstrm;
+        _strm = pstrm;
     }
     
     return self;
@@ -31,40 +34,39 @@
 
 -(PDFDictionary*)dictionary
 {
-    if(dictionary == nil)
+    if(_dictionary == nil)
     {
-        CGPDFDictionaryRef dict = CGPDFStreamGetDictionary(strm);
+        CGPDFDictionaryRef dict = CGPDFStreamGetDictionary(_strm);
         if(dict)
         {
-            dictionary = [[PDFDictionary alloc] initWithDictionary:dict];
+            _dictionary = [[PDFDictionary alloc] initWithDictionary:dict];
         }
     }
-    
-    return dictionary;
+    return _dictionary;
 }
 
 
 -(CGPDFDataFormat)dataFormat
 {
-    if(data == nil)
+    if(_data == nil)
     {
         NSData* temp = self.data;
         temp = nil;
     }
     
-    return dataFormat;
+    return _dataFormat;
 }
 
 -(NSData*)data
 {
-    if(data == nil)
+    if(_data == nil)
     {
-        CFDataRef dat = CGPDFStreamCopyData(strm, &dataFormat);
-        data = [((NSData*)dat) retain];
+        CFDataRef dat = CGPDFStreamCopyData(_strm, &_dataFormat);
+        _data = [((NSData*)dat) retain];
         CFRelease(dat);
     }
     
-    return data;
+    return _data;
 }
 
 @end

@@ -8,10 +8,6 @@
 
 @implementation PDFFormAction
 
-@synthesize string;
-@synthesize prefix;
-@synthesize parent;
-@synthesize key;
 
 // Only Javascript Actions are Supported
 
@@ -31,7 +27,7 @@
             }
             else if([js isKindOfClass:[PDFStream class]])
             {
-                NSString* temp = [[NSString alloc] initWithData:[js data] encoding:NSUTF8StringEncoding];
+                NSString* temp = [[NSString alloc] initWithData:[js data] encoding:NSASCIIStringEncoding];
                 self.string = temp;
                 [temp release];
             }
@@ -44,8 +40,8 @@
 
 -(void)execute
 {
-    NSString* exec = string;
-    if(prefix)exec = [prefix stringByAppendingFormat:@"\n\n%@;",exec];
+    NSString* exec = _string;
+    if(_prefix)exec = [_prefix stringByAppendingFormat:@"\n\n%@;",exec];
     [self.parent.parent executeJS:exec];
 }
 
