@@ -3,13 +3,6 @@
 
 @implementation PDFUIAdditionElementView
 
--(void)dealloc
-{
-    [_delegate removeObserver:self forKeyPath:@"value"];
-    [_delegate removeObserver:self forKeyPath:@"options"];
-    [super dealloc];
-}
-
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

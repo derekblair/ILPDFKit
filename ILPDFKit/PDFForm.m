@@ -153,6 +153,8 @@
     
     if(_formUIElement)
     {
+        [self removeObserver:_formUIElement forKeyPath:@"value"];
+        [self removeObserver:_formUIElement forKeyPath:@"options"];
         [_formUIElement release];
     }
     

@@ -6,6 +6,7 @@
 @implementation AppDelegate
 {
     PDFViewController* _pdfViewController;
+    UINavigationController* _navigationController;
         
 }
 
@@ -31,13 +32,13 @@
     
     _pdfViewController.title = @"Sample PDF";
     
-    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:_pdfViewController];
+    _navigationController = [[UINavigationController alloc] initWithRootViewController:_pdfViewController];
     
-    [self.window setRootViewController:navigationController];
+    [self.window setRootViewController:_navigationController];
    
     
-     navigationController.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
-    navigationController.navigationBar.translucent = NO;
+     _navigationController.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+    _navigationController.navigationBar.translucent = NO;
     
     UIBarButtonItem* saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save:)];
     UIBarButtonItem* printBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Print" style:UIBarButtonItemStylePlain target:self action:@selector(print:)];
@@ -52,7 +53,13 @@
 
 -(void)print:(id)sender
 {
-    [_pdfViewController openPrintInterfaceFromBarButtonItem:sender];
+    ///[_pdfViewController openPrintInterfaceFromBarButtonItem:sender];
+    [_window setRootViewController:nil];
+    [_navigationController.view removeFromSuperview];
+    _navigationController = nil;
+    _pdfViewController = nil;
+    
+    
 }
 
 
