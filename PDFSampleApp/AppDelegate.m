@@ -53,13 +53,7 @@
 
 -(void)print:(id)sender
 {
-    ///[_pdfViewController openPrintInterfaceFromBarButtonItem:sender];
-    [_window setRootViewController:nil];
-    [_navigationController.view removeFromSuperview];
-    _navigationController = nil;
-    _pdfViewController = nil;
-    
-    
+    [_pdfViewController openPrintInterfaceFromBarButtonItem:sender];
 }
 
 

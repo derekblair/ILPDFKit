@@ -116,6 +116,11 @@
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 
+    for(PDFForm* form in self.document.forms)
+    {
+        [form removeObservers];
+    }
+    
     [_pdfView removeFromSuperview];self.pdfView = nil;
     [self loadPDFView];
     

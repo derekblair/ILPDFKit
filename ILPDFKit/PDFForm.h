@@ -192,6 +192,20 @@ typedef enum PDFFormType
 -(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin;
 
 
+/**---------------------------------------------------------------------------------------
+ * @name KVO
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/**
+ 
+ Removes any UI elements observing the form value
+ */
+
+-(void)removeObservers;
+
+
 
 
 @end

@@ -10,6 +10,7 @@
 #import "PDFFormContainer.h"
 #import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
+#define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
 
 @interface PDFDocument()
     -(NSString*)formIndirectObjectFrom:(NSString*)str WithName:(NSString*)name NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type BehindIndex:(NSInteger)index;
@@ -72,6 +73,15 @@
             name = [name substringToIndex:name.length-4];
         _document = [PDFUtility createPDFDocumentRefFromResource:name];
         _documentPath = [[[NSBundle mainBundle] pathForResource:name ofType:@"pdf"] retain];
+        
+        
+        
+        NSString* test = [self codeForObjectWithNumber:42 GenerationNumber:0];
+        
+        
+        
+        test = nil;
+
     }
     return self;
 }
@@ -83,7 +93,10 @@
     {
         _document = [PDFUtility createPDFDocumentRefFromPath:path];
         _documentPath = [path retain];
-    }
+        
+        
+        
+           }
     return self;
 }
 
@@ -393,21 +406,58 @@
 
 -(NSUInteger)offsetForObjectWithNumber:(NSUInteger)number InSection:(NSUInteger)section
 {
-    /*NSUInteger sectionOffset = [[self.crossReferenceSectionsOffsets objectAtIndex:section] unsignedIntegerValue]+[@"xref" length];
+    NSUInteger sectionOffset = [[self.crossReferenceSectionsOffsets objectAtIndex:section] unsignedIntegerValue]+[@"xref" length];
+    
+    NSString* searchStart = [self.sourceCode substringFromIndex:sectionOffset];
     
     
-    NSRegularExpression* regexStart = [[NSRegularExpression alloc] initWithPattern:@"\d+ \d+[\s]+" options:0 error:NULL];
+    NSRegularExpression* regexStart = [[NSRegularExpression alloc] initWithPattern:@"[0-9]{1,9} [0-9]{1,4}" options:0 error:NULL];
     
-    
-    NSRegularExpression* regexElem = [[NSRegularExpression alloc] initWithPattern:@"\d{10} \d{5} n" options:0 error:NULL];
-    */
-    
-    
-    
-    return 0;
+     NSUInteger start = [regexStart rangeOfFirstMatchInString:searchStart options:0 range:NSMakeRange(0, searchStart.length)].location;
     
     
     
+    NSScanner* scanner = [NSScanner scannerWithString:[searchStart substringFromIndex:start]];
+    NSInteger startingObjectNumber;
+    NSInteger objectCount;
+    [scanner scanInteger:&startingObjectNumber];
+    [scanner scanInt:&objectCount];
+    
+    
+    
+    while(1)
+    {
+        start++;
+        char c = [searchStart characterAtIndex:start];
+        if(c == 'n' || c == 'f')
+        {
+            start = start-17;
+            break;
+        }
+    }
+    
+    NSString* linesStart = [searchStart substringFromIndex:start];
+    
+    
+    if(number >= startingObjectNumber && number<startingObjectNumber+objectCount)
+    {
+        NSArray* lines = [linesStart componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nf"]];
+        
+        NSString* targ = [lines objectAtIndex:number-startingObjectNumber];
+        
+        
+        NSScanner* scanner = [NSScanner scannerWithString:targ];
+        
+        NSInteger offset = 7;
+        
+        [scanner scanInteger:&offset];
+        
+        return (NSUInteger)offset;
+        
+    }
+    
+    
+    return NSNotFound;
     
     
     

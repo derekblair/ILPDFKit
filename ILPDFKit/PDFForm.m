@@ -151,13 +151,7 @@
 -(void)dealloc
 {
     
-    if(_formUIElement)
-    {
-        [self removeObserver:_formUIElement forKeyPath:@"value"];
-        [self removeObserver:_formUIElement forKeyPath:@"options"];
-        [_formUIElement release];
-    }
-    
+    [self removeObservers];
     self.value = nil;
     self.options = nil;
     self.name = nil;
@@ -633,6 +627,22 @@
     }
     
     return nil;
+}
+
+
+#pragma mark - KVO
+
+
+-(void)removeObservers
+{
+    if(_formUIElement)
+    {
+        [self removeObserver:_formUIElement forKeyPath:@"value"];
+        [self removeObserver:_formUIElement forKeyPath:@"options"];
+        [_formUIElement release];
+        _formUIElement = nil;
+    }
+    
 }
 
 @end
