@@ -25,7 +25,7 @@ s.license      = "MIT"
 s.author       = { "Derek Blair" => "derekjblair@gmail.com" }
 s.platform     = :ios
 s.ios.deployment_target = "7.0"
-s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.2" }
+s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.3" }
 s.source_files  = "ILPDFKit/*.{h,m}"
 s.resource  = "ILPDFKit/Resources/javascript-runtime.html"
 s.frameworks = "QuartzCore", "UIKit"
