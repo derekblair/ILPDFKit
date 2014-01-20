@@ -24,6 +24,18 @@ A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
     
     [_pdfViewController.document saveFormsToDocumentData]
     [_pdfViewController.document writeToFile:somePath];
+
+## PDF Support
+
+  The PDF standard is constanty evolving and many more recent features are not supported, especially those introduced after PDF 1.3.
+
+In particular, following is not supported for saving:
+
+   * Object Streams
+   * Cross-Reference Streams
+   
+PDF files must use standard cross reference tables and indriect objects for saving to function correctly.
+  
     
 ## Features
 
