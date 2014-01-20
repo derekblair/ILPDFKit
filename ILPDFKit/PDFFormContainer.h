@@ -128,7 +128,7 @@
 
 /** Executes a script.
  @param js The script to execute.
- @discussion The script only modifies PDFFormObjects in value or options.
+ @discussion The script only modifies PDFForm objects in value or options.
  */
 -(void)executeJS:(NSString*)js;
 

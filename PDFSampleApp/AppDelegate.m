@@ -59,22 +59,21 @@
 
 -(void)save:(id)sender
 {
-   if([_pdfViewController.document saveFormsToDocumentData])
-   {
-       [_pdfViewController.document writeToFile:@"test-after-save.pdf"];
+   [_pdfViewController.document saveFormsToDocumentData:^(BOOL success) {
        
+       if(success) {
+           [_pdfViewController.document writeToFile:@"test-after-save.pdf"];
+           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Saved to test-after-save.pdf in the app documents directory. This app will load this file the next time it is started." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+           [alertView show];
+       }else
+       {
+           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed. Make sure the PDF you are saving is not compressed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+           [alertView show];
+           
+       }
+
        
-       UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Saved to test-after-save.pdf in the app documents directory. This app will load this file the next time it is started." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-       [alertView show];
-      
-       
-       
-   }else
-   {
-       UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed. Make sure the PDF you are saving is not compressed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-       [alertView show];
-   
-   }
-}
+   }];
+ }
 
 @end

@@ -8,6 +8,12 @@
 #import "PDFView.h"
 #import "PDFViewController.h"
 
+
+// Set this flag to ensure that the Core Graphics functions are used to parse the PDF file.
+// Turning is flag off is experimental and not recommended.
+
+#define PDFUseCGParsing 1
+
 // Change the macros below to suit your own needs.
 
 #define PDFDefaultCanvasWidth 612.0f

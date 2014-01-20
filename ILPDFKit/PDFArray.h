@@ -125,17 +125,7 @@
  */
 -(BOOL)isEqualToArray:(PDFArray*)otherArray;
 
-/**---------------------------------------------------------------------------------------
- * @name Creating a Description
- *  ---------------------------------------------------------------------------------------
- */
 
-
-/** Returns a string that represents the contents of the array, formatted as a property list.
- 
- @return A string that represents the contents of the array, formatted as a property list.
- */
--(NSString*)description;
 
 
 

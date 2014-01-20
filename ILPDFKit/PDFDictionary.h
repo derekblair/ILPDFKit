@@ -21,8 +21,8 @@
 /** The NSDictionary backing store.
  @discussion PDFDictionary maps the CGPDFDictionary dict onto the NSDictionary nsd. Thus nsd contains all the information of its owning PDFDictionary except for its parent.
  */
-
 @property(nonatomic,readonly) NSDictionary* nsd;
+
 
 /** The CGPDFDictionaryRef that defines the dictionary.
  */
@@ -61,19 +61,6 @@
 
 -(CGPDFObjectType)typeForKey:(NSString*)aKey;
 
-
-/**---------------------------------------------------------------------------------------
- * @name Creating a Description
- *  ---------------------------------------------------------------------------------------
- */
-
-
-/** Returns a string that represents the contents of the dictionary, formatted as a property list.
- 
- @return A string that represents the contents of the dictionary, formatted as a property list.
- */
-
--(NSString*)description;
 
 
 
@@ -132,6 +119,10 @@
  @discussion Two dictionaries have equal contents if they each hold the same number of entries and, for a given key, the corresponding value objects in each dictionary satisfy the isEqual: test.
  */
 -(BOOL)isEqualToDictionary:(PDFDictionary*)otherDictionary;
+
+
+
+-(NSString*)updatedRepresentation;
 
 
 @end

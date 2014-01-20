@@ -8,7 +8,7 @@
 
 @interface PDFViewController()
     -(void)loadPDFView;
-    -(PDFDocument*)createMergedDocumentAfterApplyingPaths:(NSArray*)paths ViewWidth:(CGFloat)width Margin:(CGFloat)margin;
+    -(PDFDocument*)createFlattenedDocumentAfterApplyingPaths:(NSArray*)paths ViewWidth:(CGFloat)width Margin:(CGFloat)margin;
     -(CGRect)currentFrame:(UIInterfaceOrientation)o;
     -(CGPoint)getMargins;
 @end
@@ -62,9 +62,6 @@
 
 -(CGRect)currentFrame:(UIInterfaceOrientation)o
 {
-    
-    
-    
     if(UIInterfaceOrientationIsPortrait(o))
     {
         return CGRectMake(0, 0, PDFDeviceMinorDimension, PDFDeviceMajorDimension);
@@ -132,7 +129,7 @@
     UIPrintInteractionController *pic = [UIPrintInteractionController sharedPrintController];
     [pic dismissAnimated:NO];
     pic.delegate = self;
-    PDFDocument* printd = [self createMergedDocument];
+    PDFDocument* printd = [self createFlattenedDocument];
     
     if(pic && [UIPrintInteractionController canPrintData:printd.documentData]) {
         
@@ -157,20 +154,62 @@
     
     [printd release];
     return NO;
+    
+   
 }
 
 
 
--(PDFDocument*)createMergedDocument
+-(PDFDocument*)createFlattenedDocument
 {
    CGPoint margins = [self getMargins];
-    return [self createMergedDocumentAfterApplyingPaths:@[] ViewWidth:self.view.bounds.size.width Margin:margins.x];
+    return [self createFlattenedDocumentAfterApplyingPaths:@[] ViewWidth:self.view.bounds.size.width Margin:margins.x];
+}
+
+
+
+-(UIImage*)imageFromPage:(NSUInteger)page width:(float)width
+{
+    
+    
+    PDFDocument* flat = [self createFlattenedDocument];
+    CGPDFDocumentRef doc = flat.document;
+    
+    CGPDFPageRef pageref = CGPDFDocumentGetPage(doc, page);
+   
+    CGRect pageRect = CGPDFPageGetBoxRect(pageref, kCGPDFMediaBox);
+    CGFloat pdfScale = width/pageRect.size.width;
+    pageRect.size = CGSizeMake(pageRect.size.width*pdfScale, pageRect.size.height*pdfScale);
+    pageRect.origin = CGPointZero;
+    
+    
+    UIGraphicsBeginImageContext(pageRect.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // White BG
+    CGContextSetRGBFillColor(context, 1.0,1.0,1.0,1.0);
+    CGContextFillRect(context,pageRect);
+    
+    CGContextSaveGState(context);
+    CGContextTranslateCTM(context, 0.0, pageRect.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextConcatCTM(context, CGPDFPageGetDrawingTransform(pageref, kCGPDFMediaBox, pageRect, 0, true));
+    
+    CGContextDrawPDFPage(context, pageref);
+    CGContextRestoreGState(context);
+    
+    UIImage *thm = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    [flat release];
+    return thm;
 }
 
 #pragma mark - Printing
 
 
--(PDFDocument*)createMergedDocumentAfterApplyingPaths:(NSArray*)paths ViewWidth:(CGFloat)width Margin:(CGFloat)margin
+-(PDFDocument*)createFlattenedDocumentAfterApplyingPaths:(NSArray*)paths ViewWidth:(CGFloat)width Margin:(CGFloat)margin
 {
     NSUInteger numberOfPages = [_document numberOfPages];
    

@@ -34,7 +34,7 @@
 
 /** The document info dictionary
  */
-@property(nonatomic,readonly) PDFDictionary* info;
+//@property(nonatomic,readonly) PDFDictionary* info;
 
 /** An array containing PDFPage objects cooresponding in order and content to the pages of the document.
  */
@@ -96,11 +96,11 @@
  */
 
 
-/** Saves any changes in the PDF forms to its data. Must be an uncompressed PDF not counting images/fonts etc.
+/** Saves any changes in the PDF forms to its data. Must be PDF 1.3 compliant.
  Call writeToFile to subsequently save the updated PDF to disk.
- @return YES if successful, NO is failed.
+ @param completion Called after completion with a variable indicating success or failure.
  */
--(BOOL)saveFormsToDocumentData;
+-(void)saveFormsToDocumentData:(void (^)(BOOL success))completion;
 
 
 

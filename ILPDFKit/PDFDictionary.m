@@ -7,10 +7,6 @@
 #import "PDFDocument.h"
 #import "PDFObjectParser.h"
 
-
-
-
-
 @interface PDFDictionary()
     -(PDFDictionary*)dictionaryFromKey:(NSString*)key;
     -(PDFArray*)arrayFromKey:(NSString*)key;
@@ -21,7 +17,6 @@
     -(NSNumber*)booleanFromKey:(NSString*)key;
     -(PDFStream*)streamFromKey:(NSString*)key;
     -(id)pdfObjectFromKey:(NSString*)key;
-   
 @end
 
 
@@ -87,12 +82,6 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     return [self.nsd isEqualToDictionary:otherDictionary.nsd];
 }
 
-
--(NSString*)description
-{
-    return [self.nsd description];
-}
-
 -(NSUInteger)count
 {
     return [self.nsd count];
@@ -129,7 +118,9 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
             
             PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation] Document:self.parentDocument];
             
-            for(id pdfObject in parser)[keysAndValues addObject:pdfObject];
+            for(id pdfObject in parser){
+                [keysAndValues addObject:pdfObject];
+            }
             
             if([keysAndValues count]&1)return nil;
             
@@ -173,10 +164,6 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 
 #pragma mark - Hidden
-
-
-
-
 
 -(id)pdfObjectFromKey:(NSString*)key
 {
@@ -303,11 +290,8 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 #pragma mark - Respresentaion
 
--(NSString*)pdfFileRepresentation
+-(NSString*)updatedRepresentation
 {
-   
-    if([super pdfFileRepresentation])return [super pdfFileRepresentation];
-    
     NSArray* keys = [self allKeys];
     NSMutableString* ret = [NSMutableString stringWithString:@"<<\n"];
     for(int i = 0  ; i < [self count];i++)
@@ -322,6 +306,5 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     
     return [NSString stringWithString:ret];
 }
-
 
 @end

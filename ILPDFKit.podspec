@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
  
   s.name         = "ILPDFKit"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "A toolkit for filling out and saving PDF forms, and extracting PDF data."
 
   s.description  = <<-DESC
@@ -19,15 +19,15 @@ Pod::Spec.new do |s|
 					* Rapidly, parse, extract and analyze PDF document structure, data and properties.
                    DESC
 
-s.homepage     = "http://iwelabs.co/ILPDFKit"
-s.screenshot  = "http://i.imgur.com/lwuG0aC.png"
+s.homepage     = "http://ilpdfkit.com"
+s.screenshot  = "http://imgur.com/oo5HLUg.png"
 s.license      = "MIT"
 s.author       = { "Derek Blair" => "derekjblair@gmail.com" }
 s.platform     = :ios
 s.ios.deployment_target = "7.0"
 s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.2" }
 s.source_files  = "ILPDFKit/*.{h,m}"
-s.resource  = "ILPDFKit/Resources/parse.html"
+s.resource  = "ILPDFKit/Resources/javascript-runtime.html"
 s.frameworks = "QuartzCore", "UIKit"
 
 end

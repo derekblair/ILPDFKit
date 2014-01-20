@@ -39,13 +39,21 @@
     return [[PDFObject alloc] initWithPDFRepresentation:rep Document:parentDocument];
 }
 
++(PDFObject*)createWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument
+{
+    PDFObject* ret =  [PDFObject createWithPDFRepresentation:[parentDocument codeForObjectWithNumber:objNumber GenerationNumber:genNumber] Document:parentDocument];
+    ret.objectNumber = objNumber;
+    ret.generationNumber = genNumber;
+    
+    return ret;
+}
+
 
 -(id)initWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument
 {
     self = [super init];
     if(self != nil)
     {
-       
         NSString* temp = [rep stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
         _representation = [temp retain];
         _parentDocument = parentDocument;
@@ -61,19 +69,21 @@
     self = [super init];
     if(self != nil)
     {
-        
     }
     return self;
 }
 
+#pragma mark - NSCopying
 
--(id)initWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument
-{
-    
-    _objectNumber = objNumber;
-    _generationNumber = genNumber;
-    return [self initWithPDFRepresentation:[parentDocument codeForObjectWithNumber:_objectNumber GenerationNumber:_generationNumber] Document:parentDocument];
+- (id)copyWithZone:(NSZone *)zone {
+    PDFObject *newObject = [[self class] allocWithZone:zone];
+    newObject->_representation = [_representation copyWithZone:zone];
+    newObject.objectNumber = _objectNumber;
+    newObject.generationNumber = _generationNumber;
+    newObject->_parentDocument = _parentDocument;
+    return newObject;
 }
+
 
 
 

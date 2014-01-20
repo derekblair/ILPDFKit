@@ -8,16 +8,15 @@
 
 #define BIT(n,i) (((i)>>(n))&1)
 
-typedef enum PDFFormType
-{
-    PDFFormTypeNone = 0, 
+typedef NS_ENUM(NSUInteger, PDFFormType) {
+    PDFFormTypeNone = 0,
     PDFFormTypeText,
     PDFFormTypeButton,
     PDFFormTypeChoice,
     PDFFormTypeSignature,
     PDFFormTypeNumberOfFormTypes
-    
-} PDFFormType;
+};
+
 
 @class PDFFormContainer;
 @class PDFPage;
@@ -148,6 +147,12 @@ typedef enum PDFFormType
 /** The appearance stream for the set state of button forms. Can be used to customize button appearance to better match the PDF.
  */
 @property(nonatomic,retain) NSString* setAppearanceStream;
+
+
+/**
+ The field dictionary that defines the form
+ */
+@property(nonatomic,retain) PDFDictionary* dictionary;
 
 
 

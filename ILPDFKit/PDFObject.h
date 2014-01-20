@@ -24,18 +24,18 @@ And other types are represented as follows
 Note that Strings and Numbers may be presented as generic PDFObject instances in the case when they are indirect objects.
  */
 
-@interface PDFObject : NSObject
+@interface PDFObject : NSObject<NSCopying>
 
 
 /**
  The object number is an indirect object
  */
-@property(nonatomic,readonly) NSUInteger objectNumber;
+@property(nonatomic) NSUInteger objectNumber;
 
 /**
  The generation number is an indirect object. Else -1
  */
-@property(nonatomic,readonly) NSInteger generationNumber;
+@property(nonatomic) NSInteger generationNumber;
 
 /**
  The parent document.
@@ -59,14 +59,14 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 
 
 /**
- Initializes a pdf object based on its object number generation number and containing document.  Looks up the representation in the cross reference table.
+ Creates a new pdf object based on an object number, generation number and containing document.  Looks up the representation in the cross reference table.
  @param objNumber The object number of the PDF object.
  @param genNumber The generation number of the PDF object.
  @param parentDocument The parent document containing the object.
  @return The representation of the object as it is defined in its parent document.
  */
 
--(id)initWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument;
++(PDFObject*)createWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument;
 
 
 /**

@@ -5,6 +5,23 @@
 #import "PDFObject.h"
 
 
+
+
+@interface NSString(Test)
+-(id)objectForKey:(NSString*)key;
+@end
+
+
+@implementation NSString(Test)
+
+-(id)objectForKey:(NSString*)key
+{
+    NSLog(@"the string causing problems is %@",self);
+    return nil;
+}
+
+@end
+
 #define isDelim(c) ((c) == '(' || (c) == ')' || (c) == '<' || (c) == '>' || (c) == '[' || (c) == ']' || (c) == '{' || (c) == '}' || (c) == '/' ||  (c) == '%')
 #define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
 #define isODelim(c) ((c) == '(' ||  (c) == '<' ||  (c) == '[')
@@ -62,8 +79,8 @@ PDFObjectParserState;
         {
             
             //Here we replace indirect object references with a representation that is more easily parsed on the next step.
-            NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"(\\d+)\\s+(\\d+)\\s+[R]\\W" options:0 error:NULL];
-            _str = [regex stringByReplacingMatchesInString:_str options:0 range:NSMakeRange(0, _str.length) withTemplate:@"($1,$2,ioref)"];
+            NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"(\\d+)\\s+(\\d+)\\s+[R](\\W)" options:0 error:NULL];
+            _str = [regex stringByReplacingMatchesInString:_str options:0 range:NSMakeRange(0, _str.length) withTemplate:@"($1,$2,ioref)$3"];
             [regex release];
         }
         
@@ -100,7 +117,6 @@ PDFObjectParserState;
         }
         else
         {
-
             range.location = startOfScanIndex;
             range.length = index - startOfScanIndex;
             found = YES;
@@ -140,12 +156,10 @@ PDFObjectParserState;
     
     NSString* work = [st stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
     
-    if([work rangeOfString:@"ioref"].location!= NSNotFound)
+    if([work hasSuffix:@"ioref)"] && [work characterAtIndex:0] == '(')
     {
         NSArray* tokens = [[work substringWithRange:NSMakeRange(1, work.length-1)] componentsSeparatedByString:@","];
-        PDFObject* ret = [[[PDFObject alloc] initWithObjectNumber:[[tokens objectAtIndex:0] integerValue] GenerationNumber:[[tokens objectAtIndex:1] integerValue] Document:_parentDocument] autorelease];
-      
-      
+        PDFObject* ret = [[PDFObject createWithObjectNumber:[[tokens objectAtIndex:0] integerValue] GenerationNumber:[[tokens objectAtIndex:1] integerValue] Document:_parentDocument] autorelease];
         return ret;
     }
 

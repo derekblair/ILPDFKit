@@ -8,20 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
+		8F27E89C188CF6BF00DAA0D6 /* testnew.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */; };
 		8F2900C71818F55400276590 /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F2900C61818F55400276590 /* test.pdf */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
 		8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746118026E90003DD132 /* CoreGraphics.framework */; };
 		8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
-		8F8B746A18026E90003DD132 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B746818026E90003DD132 /* InfoPlist.strings */; };
 		8F8B746C18026E90003DD132 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B746B18026E90003DD132 /* main.m */; };
 		8F8B747018026E90003DD132 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B746F18026E90003DD132 /* AppDelegate.m */; };
 		8F8B747218026E90003DD132 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B747118026E90003DD132 /* Images.xcassets */; };
-		8F8B747918026E90003DD132 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B747818026E90003DD132 /* XCTest.framework */; };
-		8F8B747A18026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
-		8F8B747B18026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
-		8F8B748318026E90003DD132 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B748118026E90003DD132 /* InfoPlist.strings */; };
-		8F8B748518026E90003DD132 /* PDFSampleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B748418026E90003DD132 /* PDFSampleAppTests.m */; };
-		8F9B1601185EDEBF0013901C /* document.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1600185EDEBF0013901C /* document.html */; };
+		8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1600185EDEBF0013901C /* javascript-runtime.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +26,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8F26D915185E7CB9005C00A4;
 			remoteInfo = ILPDFKit;
-		};
-		8F8B747C18026E90003DD132 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8F8B745418026E90003DD132 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F8B745B18026E90003DD132;
-			remoteInfo = PDFSampleApp;
 		};
 		8F9B15F5185ED5650013901C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -50,24 +38,20 @@
 
 /* Begin PBXFileReference section */
 		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
+		8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testnew.pdf; sourceTree = "<group>"; };
 		8F2900C61818F55400276590 /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B745F18026E90003DD132 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F8B746118026E90003DD132 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8F8B746318026E90003DD132 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PDFSampleApp-Info.plist"; sourceTree = "<group>"; };
-		8F8B746918026E90003DD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8F8B746B18026E90003DD132 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8F8B746D18026E90003DD132 /* PDFSampleApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PDFSampleApp-Prefix.pch"; sourceTree = "<group>"; };
 		8F8B746E18026E90003DD132 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8F8B746F18026E90003DD132 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8F8B747118026E90003DD132 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		8F8B747718026E90003DD132 /* PDFSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDFSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B747818026E90003DD132 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		8F8B748018026E90003DD132 /* PDFSampleAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PDFSampleAppTests-Info.plist"; sourceTree = "<group>"; };
-		8F8B748218026E90003DD132 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8F8B748418026E90003DD132 /* PDFSampleAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFSampleAppTests.m; sourceTree = "<group>"; };
-		8F9B1600185EDEBF0013901C /* document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = document.html; path = ILPDFKit/Resources/document.html; sourceTree = SOURCE_ROOT; };
+		8F9B1600185EDEBF0013901C /* javascript-runtime.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "javascript-runtime.html"; path = "ILPDFKit/Resources/javascript-runtime.html"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,16 +63,6 @@
 				8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */,
 				8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */,
 				8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F8B747418026E90003DD132 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F8B747918026E90003DD132 /* XCTest.framework in Frameworks */,
-				8F8B747B18026E90003DD132 /* UIKit.framework in Frameworks */,
-				8F8B747A18026E90003DD132 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +82,6 @@
 			children = (
 				8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */,
 				8F8B746518026E90003DD132 /* PDFSampleApp */,
-				8F8B747E18026E90003DD132 /* PDFSampleAppTests */,
 				8F8B745E18026E90003DD132 /* Frameworks */,
 				8F8B745D18026E90003DD132 /* Products */,
 			);
@@ -118,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				8F8B745C18026E90003DD132 /* PDFSampleApp.app */,
-				8F8B747718026E90003DD132 /* PDFSampleAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,30 +120,12 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8F9B1600185EDEBF0013901C /* document.html */,
+				8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */,
+				8F9B1600185EDEBF0013901C /* javascript-runtime.html */,
 				8F2900C61818F55400276590 /* test.pdf */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
-				8F8B746818026E90003DD132 /* InfoPlist.strings */,
 				8F8B746B18026E90003DD132 /* main.m */,
 				8F8B746D18026E90003DD132 /* PDFSampleApp-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8F8B747E18026E90003DD132 /* PDFSampleAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				8F8B748418026E90003DD132 /* PDFSampleAppTests.m */,
-				8F8B747F18026E90003DD132 /* Supporting Files */,
-			);
-			path = PDFSampleAppTests;
-			sourceTree = "<group>";
-		};
-		8F8B747F18026E90003DD132 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				8F8B748018026E90003DD132 /* PDFSampleAppTests-Info.plist */,
-				8F8B748118026E90003DD132 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -197,24 +151,6 @@
 			productReference = 8F8B745C18026E90003DD132 /* PDFSampleApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8F8B747618026E90003DD132 /* PDFSampleAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8F8B748B18026E90003DD132 /* Build configuration list for PBXNativeTarget "PDFSampleAppTests" */;
-			buildPhases = (
-				8F8B747318026E90003DD132 /* Sources */,
-				8F8B747418026E90003DD132 /* Frameworks */,
-				8F8B747518026E90003DD132 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8F8B747D18026E90003DD132 /* PBXTargetDependency */,
-			);
-			name = PDFSampleAppTests;
-			productName = PDFSampleAppTests;
-			productReference = 8F8B747718026E90003DD132 /* PDFSampleAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,11 +160,6 @@
 				CLASSPREFIX = IL;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = IweLabs;
-				TargetAttributes = {
-					8F8B747618026E90003DD132 = {
-						TestTargetID = 8F8B745B18026E90003DD132;
-					};
-				};
 			};
 			buildConfigurationList = 8F8B745718026E90003DD132 /* Build configuration list for PBXProject "PDFSampleApp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -249,7 +180,6 @@
 			projectRoot = "";
 			targets = (
 				8F8B745B18026E90003DD132 /* PDFSampleApp */,
-				8F8B747618026E90003DD132 /* PDFSampleAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -269,18 +199,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F9B1601185EDEBF0013901C /* document.html in Resources */,
+				8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */,
+				8F27E89C188CF6BF00DAA0D6 /* testnew.pdf in Resources */,
 				8F2900C71818F55400276590 /* test.pdf in Resources */,
-				8F8B746A18026E90003DD132 /* InfoPlist.strings in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F8B747518026E90003DD132 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F8B748318026E90003DD132 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,47 +218,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8F8B747318026E90003DD132 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8F8B748518026E90003DD132 /* PDFSampleAppTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8F8B747D18026E90003DD132 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F8B745B18026E90003DD132 /* PDFSampleApp */;
-			targetProxy = 8F8B747C18026E90003DD132 /* PBXContainerItemProxy */;
-		};
 		8F9B15F6185ED5650013901C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ILPDFKit;
 			targetProxy = 8F9B15F5185ED5650013901C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8F8B746818026E90003DD132 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8F8B746918026E90003DD132 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8F8B748118026E90003DD132 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8F8B748218026E90003DD132 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8F8B748618026E90003DD132 /* Debug */ = {
@@ -450,48 +340,6 @@
 			};
 			name = Release;
 		};
-		8F8B748C18026E90003DD132 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDFSampleApp.app/PDFSampleApp";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "PDFSampleAppTests/PDFSampleAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		8F8B748D18026E90003DD132 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PDFSampleApp.app/PDFSampleApp";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
-				INFOPLIST_FILE = "PDFSampleAppTests/PDFSampleAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -509,15 +357,6 @@
 			buildConfigurations = (
 				8F8B748918026E90003DD132 /* Debug */,
 				8F8B748A18026E90003DD132 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8F8B748B18026E90003DD132 /* Build configuration list for PBXNativeTarget "PDFSampleAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8F8B748C18026E90003DD132 /* Debug */,
-				8F8B748D18026E90003DD132 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

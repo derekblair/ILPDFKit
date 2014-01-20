@@ -304,7 +304,7 @@
 {
     _jsParser = [[UIWebView alloc] init];
     _jsParser.delegate = self;
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"document" ofType:@"html"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"javascript-runtime" ofType:@"html"];
     NSURL* address = [NSURL fileURLWithPath:path];
     NSURLRequest* request = [NSURLRequest requestWithURL:address];
     [_jsParser loadRequest:request];

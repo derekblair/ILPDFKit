@@ -92,10 +92,6 @@
     return [self.nsa isEqualToArray:otherArray.nsa];
 }
 
--(NSString*)description
-{
-    return [self.nsa description];
-}
 
 #pragma mark - Getter
 

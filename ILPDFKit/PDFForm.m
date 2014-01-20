@@ -39,6 +39,8 @@
     self = [super init];
     if(self != nil)
     {
+        self.dictionary = leaf;
+        
         _value = [[self getAttributeFromLeaf:leaf Name:@"V" Inheritable:YES] retain];
         self.name = [self getFormNameFromLeaf:leaf ];
         NSString* formTypeString = [self getAttributeFromLeaf:leaf Name:@"FT"  Inheritable:YES];
@@ -152,6 +154,7 @@
 {
     
     [self removeObservers];
+    self.dictionary = nil;
     self.value = nil;
     self.options = nil;
     self.name = nil;

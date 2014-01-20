@@ -4,10 +4,12 @@
 <meta charset='UTF-8'>
 <script>
     
+// Class Definitions
+    
 function Event()
 {
     this.__defineGetter__('value', function(){
-                             return getStorageValueForKey('EventValue');
+                             return getDocumentValueForKey('EventValue');
                           });
     
     
@@ -15,9 +17,15 @@ function Event()
                           return true;
                           });
 }
+
+
+// Root Objects
     
-var event = new Event();
-    
+window.event = new Event();
+window.store = new Object();
+
+
+// Helper Functions
     
 function logArray(arr)
 {
@@ -48,10 +56,10 @@ function sizeArray(arr)
 function Field(name) {
     
     this.name = name;
-    this.type = getStorageValueForKey('Field('+name+').type');
+    this.type = getDocumentValueForKey('Field('+name+').type');
     this.items = [];
     
-     var items_string = getStorageValueForKey('Field('+name+').items');
+     var items_string = getDocumentValueForKey('Field('+name+').items');
     if(items_string != null)
     {
         if(items_string.length == 0)this.items = [];
@@ -59,7 +67,7 @@ function Field(name) {
         this.items = items_string.split('*delim*');
     }
     
-    var value = getStorageValueForKey('Field('+name+').value');
+    var value = getDocumentValueForKey('Field('+name+').value');
     
     
     this.__defineGetter__('value', function(){
@@ -68,7 +76,7 @@ function Field(name) {
     
     this.__defineSetter__('value', function(_value){
                           value = _value;
-                          setStorageKeyValue('Field('+this.name+').value',_value);
+                          setDocumentKeyValue('Field('+this.name+').value',_value);
                           });
     
     this.__defineGetter__('numItems', function(){
@@ -80,19 +88,19 @@ function Field(name) {
     this.clearItems = function(){
         
         this.items = [];
-        setStorageKeyValue('Field('+this.name+').items',logArray(this.items));
+        setDocumentKeyValue('Field('+this.name+').items',logArray(this.items));
     
     }
     
     this.insertItemAt = function(cName,nIdx){
         this.items[nIdx] = cName;
-        setStorageKeyValue('Field('+this.name+').items',logArray(this.items));
+        setDocumentKeyValue('Field('+this.name+').items',logArray(this.items));
     }
 }
     
 function getField(cName)
 {
-    var name = getStorageValueForKey('Field('+cName+').name');
+    var name = getDocumentValueForKey('Field('+cName+').name');
     if(name!=null)
     return new Field(name);
     return null;
@@ -117,18 +125,18 @@ function submitForm(param)
         output += property + ':' + param[property]+';';
     }    
     
-    setStorageKeyValue('SubmitForm',output);
+    setDocumentKeyValue('SubmitForm',output);
 }
     
-function setStorageKeyValue(key,value)
+function setDocumentKeyValue(key,value)
 {
-    localStorage[key] = value;
+    store[key] = value;
     
 }
     
-function getStorageValueForKey(key)
+function getDocumentValueForKey(key)
 {
-    return localStorage[key];
+    return store[key];
 }
     
 </script>

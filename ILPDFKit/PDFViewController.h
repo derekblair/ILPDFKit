@@ -59,7 +59,7 @@
 
 
 /**---------------------------------------------------------------------------------------
- * @name Creating Merged Documents
+ * @name Creating Flattened Documents
  *  ---------------------------------------------------------------------------------------
  */
 
@@ -67,7 +67,17 @@
 /** Creates a new PDF document flattened with any overlayed AcroForms
  @return A new instance of PDFDocument composed of the orginal PDF with all form fields rendered as static text and images. Thus the returned PDF has no forms and is suitable for printing. The caller is responsible for releasing the returned instance.
  */
--(PDFDocument*)createMergedDocument;
+-(PDFDocument*)createFlattenedDocument;
+
+
+/**
+ Converts a PDF page to an image.
+ @param page The page number. 1 is the forst page.
+ @param width The desired width of the returned image.
+ @return A UIImage representing the page.
+ */
+
+-(UIImage*)imageFromPage:(NSUInteger)page width:(float)width;
 
 /**---------------------------------------------------------------------------------------
  * @name Printing
