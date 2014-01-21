@@ -24,7 +24,6 @@
     -(NSString*)getExportValueFrom:(PDFDictionary*)leaf;
     -(NSString*)getSetAppearanceStreamFromLeaf:(PDFDictionary*)leaf;
     -(void)updateFlagsString;
-
 @end
 
 @implementation PDFForm
@@ -32,6 +31,7 @@
     NSUInteger _flags;
     NSUInteger _annotFlags;
     PDFUIAdditionElementView* _formUIElement;
+    
 }
 
 -(id)initWithFieldDictionary:(PDFDictionary*)leaf Page:(PDFPage*)pg Parent:(PDFFormContainer*)p
@@ -91,6 +91,7 @@
             self.formType = PDFFormTypeSignature;
         }
         
+        self.rawRect = [[leaf objectForKey:@"Rect"] nsa];
         self.frame = [[leaf objectForKey:@"Rect"] rect];
         
  
@@ -163,7 +164,7 @@
     self.exportValue = nil;
     self.defaultValue = nil;
     self.setAppearanceStream = nil;
-    
+    self.rawRect = nil;
     self.flagsString = nil;
     [super dealloc];
 }

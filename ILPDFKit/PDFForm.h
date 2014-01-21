@@ -131,6 +131,9 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  */
 @property(nonatomic,retain) NSMutableDictionary* actions;
 
+/** The NSArray of NSNumber values representing the raw frame rectangle for the form.
+ */
+@property(nonatomic,retain) NSArray* rawRect;
 
 
 /** This is used with button forms only. Gives the name of the choice represented by that button.

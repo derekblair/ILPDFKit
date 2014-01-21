@@ -13,7 +13,7 @@
 #define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
 
 @interface PDFDocument()
-    -(NSString*)formIndirectObjectFrom:(NSString*)str WithName:(NSString*)name UserFacingName:(NSString*)uname NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type BehindIndex:(NSInteger)index;
+    -(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifier:(NSString*)ident NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type;
     -(NSString*)constructTrailer:(NSString*)file FinalOffset:(NSUInteger)fo;
     -(NSMutableString*)sourceCode;
     -(PDFDictionary*)getTrailerBeforeOffset:(NSUInteger)offset;
@@ -109,10 +109,21 @@
                NSString* indirectObject = nil;
                
                
+               NSArray* rawRect = form.rawRect;
+               
+               NSNumberFormatter *ft = [[NSNumberFormatter alloc] init];
+               [ft setNumberStyle:NSNumberFormatterDecimalStyle];
+               [ft setMaximumFractionDigits:3];
+               
+               //Could Potentially Fail for multi-page PDF files.
+               NSString* uniqueSearchIdentifier = [NSString stringWithFormat:@"/Rect[%@ %@ %@ %@]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]];
+               
+               [ft release];
+               
                if(PDFUseCGParsing)
                {
                    
-                   indirectObject = [self formIndirectObjectFrom:self.sourceCode WithName:form.name UserFacingName:form.uname NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType BehindIndex:[self.sourceCode length]];
+                   indirectObject = [self formIndirectObjectFrom:self.sourceCode  WithUniqueIdentifier:uniqueSearchIdentifier NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
                }
                else
                {
@@ -196,14 +207,27 @@
     {
         _sourceCode = [[NSMutableString alloc] initWithData:self.documentData encoding:NSASCIIStringEncoding];
         
-        while([_sourceCode rangeOfString:@"/T "].location!=NSNotFound)
+        while([_sourceCode rangeOfString:@"  "].location!=NSNotFound)
         {
-            [_sourceCode replaceOccurrencesOfString:@"/T " withString:@"/T" options:0 range:NSMakeRange(0, [_sourceCode length])];
+            [_sourceCode replaceOccurrencesOfString:@"  " withString:@" " options:0 range:NSMakeRange(0, [_sourceCode length])];
         }
-        while([_sourceCode rangeOfString:@"/TU "].location!=NSNotFound)
+        
+        while([_sourceCode rangeOfString:@"[ "].location!=NSNotFound)
         {
-            [_sourceCode replaceOccurrencesOfString:@"/TU " withString:@"/TU" options:0 range:NSMakeRange(0, [_sourceCode length])];
+            [_sourceCode replaceOccurrencesOfString:@"[ " withString:@"[" options:0 range:NSMakeRange(0, [_sourceCode length])];
         }
+        
+        while([_sourceCode rangeOfString:@" ["].location!=NSNotFound)
+        {
+            [_sourceCode replaceOccurrencesOfString:@" [" withString:@"[" options:0 range:NSMakeRange(0, [_sourceCode length])];
+        }
+        
+        while([_sourceCode rangeOfString:@" ]"].location!=NSNotFound)
+        {
+            [_sourceCode replaceOccurrencesOfString:@" ]" withString:@"]" options:0 range:NSMakeRange(0, [_sourceCode length])];
+        }
+
+        
     }
     
     return _sourceCode;
@@ -300,20 +324,9 @@
 
 #pragma mark - PDF File Saving
 
--(NSString*)formIndirectObjectFrom:(NSString*)str WithName:(NSString*)name UserFacingName:(NSString*)uname  NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type BehindIndex:(NSInteger)index
+-(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifier:(NSString*)ident  NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type
 {
-    BOOL simple = ([[name componentsSeparatedByString:@"."] count]==1);
-    NSString* search = [NSString stringWithFormat:@"/T(%@)",[[name componentsSeparatedByString:@"."] lastObject]];
-    NSUInteger searchLocation = [str rangeOfString:search options:NSBackwardsSearch range:NSMakeRange(0, index)].location;
-    
-    
-    
-    if(searchLocation == NSNotFound)
-    {
-        search = [NSString stringWithFormat:@"/TU(%@)",uname];
-        searchLocation = [str rangeOfString:search options:NSBackwardsSearch range:NSMakeRange(0, index)].location;
-        simple = YES;
-    }
+    NSUInteger searchLocation = [str rangeOfString:ident options:NSBackwardsSearch range:NSMakeRange(0, str.length)].location;
     
     
     if(searchLocation == NSNotFound)return nil;
@@ -332,26 +345,6 @@
     [scanner scanInteger:(NSInteger*)generationNumber];
     NSString* ret =  [str substringWithRange:NSMakeRange(startLocation+1, [[str substringFromIndex:startLocation+1] rangeOfString:@"endobj"].location+[@"endobj" length])];
     
-    if(simple == NO)
-    {
-        NSString* parentName = @"/Parent";
-        NSUInteger objNumber;
-        NSUInteger genNumber;
-        NSUInteger lastDot = [name rangeOfString:@"." options:NSBackwardsSearch].location;
-        [self formIndirectObjectFrom:str WithName:[name substringToIndex:lastDot] UserFacingName:uname  NewValue:(id)[NSNull null] ObjectNumber:&objNumber GenerationNumber:&genNumber Type:type BehindIndex:[str length]];
-        NSUInteger parentLoc = [ret rangeOfString:parentName].location;
-        if(parentLoc == NSNotFound)return nil;
-        NSString* scans = [ret substringFromIndex:parentLoc+[parentName length]];
-        NSScanner* mscanner = [NSScanner scannerWithString:scans];
-        NSInteger nObjNumber,nGenNumber;
-        [mscanner scanInteger:&nObjNumber];
-        [mscanner scanInteger:&nGenNumber];
-        
-        if(nObjNumber!=objNumber || nGenNumber!=genNumber)
-        {
-            return [self formIndirectObjectFrom:str WithName:name UserFacingName:uname  NewValue:value ObjectNumber:objectNumber GenerationNumber:generationNumber Type:type  BehindIndex:searchLocation];
-        }
-    }
     
     if([value isKindOfClass:[NSNull class]])return ret;
     
@@ -379,7 +372,7 @@
         else 
         {
             if(value == nil)value = @"";
-            return [ret stringByReplacingOccurrencesOfString:search withString:[NSString stringWithFormat:@"%@/V(%@)",search,value]];
+            return [ret stringByReplacingOccurrencesOfString:ident withString:[NSString stringWithFormat:@"%@/V(%@)",ident,value]];
         }
     }
     else 
@@ -407,7 +400,7 @@
         {
             if(value == nil)value = @"";
             NSString* set = [value stringByReplacingOccurrencesOfString:@" " withString:@"#20"];
-            return [ret stringByReplacingOccurrencesOfString:search withString:[[NSString stringWithFormat:@"%@/V/",search] stringByAppendingString:set]];
+            return [ret stringByReplacingOccurrencesOfString:ident withString:[[NSString stringWithFormat:@"%@/V/",ident] stringByAppendingString:set]];
         }
     }
     return nil;
@@ -422,17 +415,40 @@
     NSInteger newPrevValInt;
     [scanner scanInteger:&newPrevValInt];
     NSString* newPrevVal = [NSString stringWithFormat:@"%u",(unsigned int)newPrevValInt];
-    NSString* trailer = [file substringWithRange:NSMakeRange(trailerloc+[@"trailer" length]+1, startxrefloc-trailerloc-1-[@"trailer" length]-1)];
-    NSString* newTrailer = nil;
     
-    if([trailer rangeOfString:@"/Prev"].location != NSNotFound)
+    NSString* newTrailer = nil;
+    if(trailerloc!=NSNotFound)
     {
-        NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:@"/Prev [0-9]*" options:0 error:NULL];
-        newTrailer = [reg stringByReplacingMatchesInString:trailer options:0 range:NSMakeRange(0, [trailer length]) withTemplate:[NSString stringWithFormat:@"/Prev %@",newPrevVal]];
-    }
-    else 
+        NSString* trailer = [file substringWithRange:NSMakeRange(trailerloc+[@"trailer" length]+1, startxrefloc-trailerloc-1-[@"trailer" length]-1)];
+        
+        
+        if([trailer rangeOfString:@"/Prev"].location != NSNotFound)
+        {
+            NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:@"/Prev [0-9]*" options:0 error:NULL];
+            newTrailer = [reg stringByReplacingMatchesInString:trailer options:0 range:NSMakeRange(0, [trailer length]) withTemplate:[NSString stringWithFormat:@"/Prev %@",newPrevVal]];
+        }
+        else 
+        {
+            newTrailer = [trailer stringByReplacingOccurrencesOfString:@"/Size" withString:[NSString stringWithFormat:@"/Prev %@/Size",newPrevVal]];
+        }
+    }else
     {
-        newTrailer = [trailer stringByReplacingOccurrencesOfString:@"/Size" withString:[NSString stringWithFormat:@"/Prev %@/Size",newPrevVal]];
+        
+        NSUInteger lastRoot = [file rangeOfString:@"/Root" options:NSBackwardsSearch].location;
+        
+        if(lastRoot != NSNotFound)
+        {
+            
+            NSUInteger start = [file rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, lastRoot)].location+[@"obj" length];
+            NSUInteger end = [file rangeOfString:@"stream" options:0 range:NSMakeRange(start, file.length-start)].location-1;
+            newTrailer = [file substringWithRange:NSMakeRange(start, end-start+1)];
+            newTrailer = [newTrailer stringByReplacingOccurrencesOfString:@"/Size" withString:[NSString stringWithFormat:@"/Prev %@/Size",newPrevVal]];
+            
+        }
+        else
+        {
+            return nil;
+        }
     }
    
     return [[NSString stringWithFormat:@"trailer\r%@\rstartxref\r%u\r",newTrailer,(unsigned int)fo] stringByAppendingString:@"%%EOF"];
