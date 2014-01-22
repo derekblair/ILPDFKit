@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67640CC9188F655B00A4134F /* testA.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC6188F655B00A4134F /* testA.pdf */; };
+		67640CCA188F655B00A4134F /* testB.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC7188F655B00A4134F /* testB.pdf */; };
+		67640CCB188F655B00A4134F /* testC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC8188F655B00A4134F /* testC.pdf */; };
 		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
-		8F27E89C188CF6BF00DAA0D6 /* testnew.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */; };
-		8F2900C71818F55400276590 /* test.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8F2900C61818F55400276590 /* test.pdf */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
 		8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746118026E90003DD132 /* CoreGraphics.framework */; };
 		8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
@@ -37,9 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		67640CC6188F655B00A4134F /* testA.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testA.pdf; sourceTree = "<group>"; };
+		67640CC7188F655B00A4134F /* testB.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testB.pdf; sourceTree = "<group>"; };
+		67640CC8188F655B00A4134F /* testC.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testC.pdf; sourceTree = "<group>"; };
 		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
-		8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testnew.pdf; sourceTree = "<group>"; };
-		8F2900C61818F55400276590 /* test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = test.pdf; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B745F18026E90003DD132 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F8B746118026E90003DD132 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -120,9 +122,10 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8F27E89B188CF6BF00DAA0D6 /* testnew.pdf */,
+				67640CC6188F655B00A4134F /* testA.pdf */,
+				67640CC7188F655B00A4134F /* testB.pdf */,
+				67640CC8188F655B00A4134F /* testC.pdf */,
 				8F9B1600185EDEBF0013901C /* javascript-runtime.html */,
-				8F2900C61818F55400276590 /* test.pdf */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
 				8F8B746B18026E90003DD132 /* main.m */,
 				8F8B746D18026E90003DD132 /* PDFSampleApp-Prefix.pch */,
@@ -200,9 +203,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */,
-				8F27E89C188CF6BF00DAA0D6 /* testnew.pdf in Resources */,
-				8F2900C71818F55400276590 /* test.pdf in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
+				67640CC9188F655B00A4134F /* testA.pdf in Resources */,
+				67640CCA188F655B00A4134F /* testB.pdf in Resources */,
+				67640CCB188F655B00A4134F /* testC.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

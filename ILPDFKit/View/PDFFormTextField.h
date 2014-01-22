@@ -1,12 +1,12 @@
 
 
 #import <UIKit/UIKit.h>
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
 
 /** The PDFFormTextField represents a view for a PDF text field.
  */
-@interface PDFFormTextField : PDFUIAdditionElementView<UITextViewDelegate,UITextFieldDelegate>
+@interface PDFFormTextField : PDFWidgetAnnotationView<UITextViewDelegate,UITextFieldDelegate>
 
 
 /**---------------------------------------------------------------------------------------

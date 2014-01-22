@@ -1,7 +1,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "PDFView.h"
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 #import "PDFFormButtonField.h"
 #import "PDF.h"
 
@@ -16,11 +16,11 @@
 -(void)dealloc
 {
   
-    [_pdfUIAdditionElementViews release];
+    [_pdfWidgetAnnotationViews release];
     [super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)uiAdditionViews
+- (id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -44,9 +44,9 @@
         //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
         [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
         
-        _pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:uiAdditionViews];
+        _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:widgetAnnotationViews];
         
-        for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
+        for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
         {
             [_pdfView.scrollView addSubview:element];
             if([element isKindOfClass:[PDFFormButtonField class]])
@@ -73,16 +73,16 @@
 }
 
 
--(void)addPDFUIAdditionView:(PDFUIAdditionElementView*)viewToAdd
+-(void)addPDFWidgetAnnotationView:(PDFWidgetAnnotationView*)viewToAdd
 {
-    [_pdfUIAdditionElementViews addObject:viewToAdd];
+    [_pdfWidgetAnnotationViews addObject:viewToAdd];
     [_pdfView.scrollView addSubview:viewToAdd];
 }
 
--(void)removePDFUIAdditionView:(PDFUIAdditionElementView*)viewToRemove
+-(void)removePDFWidgetAnnotationView:(PDFWidgetAnnotationView*)viewToRemove
 {
     [viewToRemove removeFromSuperview];
-    [_pdfUIAdditionElementViews removeObject:viewToRemove];
+    [_pdfWidgetAnnotationViews removeObject:viewToRemove];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -92,7 +92,7 @@
     CGFloat scale = scrollView.zoomScale;
     if(scale < 1.0f)scale = 1.0f;
     
-    for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
+    for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
     {
         [element updateWithZoom:scale];
     }
@@ -113,31 +113,31 @@
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if(_activeUIAdditionsView == nil)return NO;
+    if(_activeWidgetAnnotationView == nil)return NO;
     
-    if(!CGRectContainsPoint(_activeUIAdditionsView.frame, [touch locationInView:_pdfView.scrollView]))
+    if(!CGRectContainsPoint(_activeWidgetAnnotationView.frame, [touch locationInView:_pdfView.scrollView]))
     {
-        if([_activeUIAdditionsView isKindOfClass:[UITextView class]])
+        if([_activeWidgetAnnotationView isKindOfClass:[UITextView class]])
         {
-            [_activeUIAdditionsView resignFirstResponder];
+            [_activeWidgetAnnotationView resignFirstResponder];
             
         }
         else
         {
-            [_activeUIAdditionsView resign];
+            [_activeWidgetAnnotationView resign];
         }
     }
     return NO;
 }
 
 
--(void)setUIAdditionViews:(NSArray*)additionViews
+-(void)setWidgetAnnotationViews:(NSArray*)additionViews
 {
     
-    for(UIView* v in _pdfUIAdditionElementViews)[v removeFromSuperview];
-    [_pdfUIAdditionElementViews release];_pdfUIAdditionElementViews = nil;
-    _pdfUIAdditionElementViews = [[NSMutableArray alloc] initWithArray:additionViews];
-    for(PDFUIAdditionElementView* element in _pdfUIAdditionElementViews)
+    for(UIView* v in _pdfWidgetAnnotationViews)[v removeFromSuperview];
+    [_pdfWidgetAnnotationViews release];_pdfWidgetAnnotationViews = nil;
+    _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:additionViews];
+    for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
     {
         [_pdfView.scrollView addSubview:element];
         if([element isKindOfClass:[PDFFormButtonField class]])

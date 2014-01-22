@@ -6,18 +6,18 @@
  */
 
 
-@class PDFUIAdditionElementView;
+@class PDFWidgetAnnotationView;
 
 @interface PDFView : UIView<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
-/** The array contains the PDFUIAdditionElementView instances that are subviews of the pdfView's scrollView.
+/** The array contains the PDFWidgetAnnotationView instances that are subviews of the pdfView's scrollView.
  */
-@property(nonatomic,readonly) NSMutableArray* pdfUIAdditionElementViews;
+@property(nonatomic,readonly) NSMutableArray* pdfWidgetAnnotationViews;
 
 
-/** The view in pdfUIAdditionElementViews has holds the input focus.
+/** The view in pdfWidgetAnnotationViews has holds the input focus.
  */
-@property(nonatomic,assign) PDFUIAdditionElementView* activeUIAdditionsView;
+@property(nonatomic,assign) PDFWidgetAnnotationView* activeWidgetAnnotationView;
 
 
 /** The webview used to render the PDF.
@@ -33,11 +33,11 @@
  
  @param frame Frame of the view.
  @param dataOrPath Either NSData for PDF data or NSString for a PDF file path.
- @param uiAdditionViews NSArray of instances of PDFUIAdditionalElementView to be added to the pdfView scrollView.
+ @param widgetAnnotationViews NSArray of instances of PDFWidgetAnnotationalElementView to be added to the pdfView scrollView.
  @return A new instance of PDFView.
  */
 
--(id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)uiAdditionViews;
+-(id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews;
 
 
 /**---------------------------------------------------------------------------------------
@@ -47,20 +47,20 @@
 /** Adds an addition view.
  
  
- @param viewToAdd PDFUIAdditionalElementView to be added to the pdfView scrollView.
+ @param viewToAdd PDFWidgetAnnotationalElementView to be added to the pdfView scrollView.
  
  */
 
--(void)addPDFUIAdditionView:(PDFUIAdditionElementView*)viewToAdd;
+-(void)addPDFWidgetAnnotationView:(PDFWidgetAnnotationView*)viewToAdd;
 
 
 /** Removes an addition view.
  
  
- @param viewToRemove PDFUIAdditionalElementView to be removed from the pdfView scrollView.
+ @param viewToRemove PDFWidgetAnnotationalElementView to be removed from the pdfView scrollView.
 
  */
--(void)removePDFUIAdditionView:(PDFUIAdditionElementView*)viewToRemove;
+-(void)removePDFWidgetAnnotationView:(PDFWidgetAnnotationView*)viewToRemove;
 
 
 /** Sets the UI addition views
@@ -68,7 +68,7 @@
  
  */
 
--(void)setUIAdditionViews:(NSArray*)additionViews;
+-(void)setWidgetAnnotationViews:(NSArray*)additionViews;
 
 
 

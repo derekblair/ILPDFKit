@@ -21,6 +21,7 @@
     -(NSString*)codeForIndirectObjectWithOffset:(NSUInteger)offset;
     -(PDFDictionary*)createCatalog;
 
+
     @property(nonatomic,readonly) NSArray* crossReferenceSectionsOffsets;
 @end
 
@@ -113,7 +114,7 @@
                
                NSNumberFormatter *ft = [[NSNumberFormatter alloc] init];
                [ft setNumberStyle:NSNumberFormatterDecimalStyle];
-               [ft setMaximumFractionDigits:3];
+               [ft setMaximumFractionDigits:4];
                
                //Could Potentially Fail for multi-page PDF files.
                NSString* uniqueSearchIdentifier = [NSString stringWithFormat:@"/Rect[%@ %@ %@ %@]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]];
@@ -362,9 +363,14 @@
                 [oldval appendString:[NSString stringWithCharacters:&append length:1]];
                 
                 if([ret characterAtIndex:c] == '/')dc++;
-                if([ret characterAtIndex:c] == '>')dc++;
+                if([ret characterAtIndex:c] == '>')
+                {
+                    dc++;
+                    [oldval appendString:@" "];
+                }
             }
             NSString* val = [oldval substringToIndex:oldval.length-1];
+            
             
             if(value == nil)value = @"";
             return [ret stringByReplacingOccurrencesOfString:val withString:[NSString stringWithFormat:@"/V(%@)",value]];
@@ -375,7 +381,7 @@
             return [ret stringByReplacingOccurrencesOfString:ident withString:[NSString stringWithFormat:@"%@/V(%@)",ident,value]];
         }
     }
-    else 
+    else
     {
         if([ret rangeOfString:@"/V"].location!=NSNotFound)
         {
@@ -481,7 +487,7 @@
     [scanner scanInteger:&startingObjectNumber];
     [scanner scanInt:&objectCount];
     
-    while(1)
+    while(YES)
     {
         start++;
         char c = [searchStart characterAtIndex:start];

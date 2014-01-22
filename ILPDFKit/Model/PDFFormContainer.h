@@ -9,7 +9,7 @@
 
 /** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument. It manages the Adobe AcroScript execution environment as well as the UIKit representation of a PDFForm.
  */
-@interface PDFFormContainer : NSObject<UIWebViewDelegate,NSFastEnumeration>
+@interface PDFFormContainer : NSObject<NSFastEnumeration>
 
 /** The parent PDFDocument.
  */
@@ -71,23 +71,6 @@
 -(NSArray*)formsWithType:(PDFFormType)type;
 
 
-/**---------------------------------------------------------------------------------------
- * @name Adding and Removing Forms
- *  ---------------------------------------------------------------------------------------
- */
-
-/** Adds a form to the container
- @param form The form to add.
- */
--(void)addForm:(PDFForm*)form;
-
-/** Removes a form from the container
- @param form The form to remove.
- */
--(void)removeForm:(PDFForm*)form;
-
-
-
 
 /**---------------------------------------------------------------------------------------
  * @name Getting Visual Representations
@@ -101,7 +84,7 @@
  @param hmargin The top margin of the superview with respect to the PDF canvas portion of the UIWebView.
  @return An NSArray containing the resulting views. You are responsible for releasing the array.
  */
--(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin;
+-(NSArray*)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin;
 
 
 
@@ -117,38 +100,6 @@
  */
 -(void)setValue:(NSString*)val ForFormWithName:(NSString*)name;
 
-
-
-
-/**---------------------------------------------------------------------------------------
- * @name Script Execution
- *  ---------------------------------------------------------------------------------------
- */
-
-
-/** Executes a script.
- @param js The script to execute.
- @discussion The script only modifies PDFForm objects in value or options.
- */
--(void)executeJS:(NSString*)js;
-
-
-/** Sets a value/key pair for the script execution environment.
- @param value The value.
- @param key The key.
- */
--(void)setDocumentValue:(NSString*)value ForKey:(NSString*)key;
-
-
-/** Gets a value based on a key from the script execution environment.
- @param key The key.
- @return The value associated with key. If no value exists, returns nil.
- */
--(NSString*)getDocumentValueForKey:(NSString*)key;
-
-
-
-
 /**---------------------------------------------------------------------------------------
  * @name XML 
  *  ---------------------------------------------------------------------------------------
@@ -158,6 +109,22 @@
  @return The xml string defining the value and hierarchical structure of all forms in the document.
  */
 -(NSString*)formXML;
+
+
+
+
+/**---------------------------------------------------------------------------------------
+ * @name Scripting
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/** Attemps to run a script that at most can mutate the state of the document forms.
+ */
+-(void)executeScript:(NSString*)script;
+
+
+
+
 
 
 

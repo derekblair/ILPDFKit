@@ -196,7 +196,7 @@
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.opaque = NO;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX(0.5*tableView.bounds.size.height/5,_baseFontHeight/1.2f)]];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX(tableView.bounds.size.height/([_options count]),_baseFontHeight)]];
     cell.textLabel.text = [_options objectAtIndex:indexPath.row];
     [cell.textLabel setTextColor:[UIColor blackColor]];
     return cell;
@@ -222,7 +222,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self setValue:[_options objectAtIndex:indexPath.row]];
-    [_delegate uiAdditionValueChanged:self];
+    [_delegate widgetAnnotationValueChanged:self];
 }
 
 
@@ -232,7 +232,7 @@
 {
     if(_dropped == NO)
     {
-        [_delegate uiAdditionEntered:self];
+        [_delegate widgetAnnotationEntered:self];
     }
     _dropped = !_dropped;
     
@@ -240,7 +240,7 @@
     
     if(_dropped)
     {
-        ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = self;
+        ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
         [_tv reloadData];
         
         if(_selectedIndex < [_options count])
@@ -257,7 +257,7 @@
     }
     else 
     {
-        ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = nil;
+        ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
         [UIView animateWithDuration:0.3 animations:^{
             _tv.alpha = 0;
             self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/MIN(6,[_options count]+1));

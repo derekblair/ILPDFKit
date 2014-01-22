@@ -44,7 +44,7 @@
 +(CGPDFDocumentRef)createPDFDocumentRefFromPath:(NSString*)pathToPdfDoc;
 
 
-/** Creates a PDF compatible string hash escaped to remove PDF delimeter characters .
+/** Creates a PDF compatible string escaped to remove PDF delimeter characters .
  @param stringToEncode The string to encode.
  @return An ecoded string. 
  */

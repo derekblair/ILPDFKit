@@ -1,7 +1,7 @@
 
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
-@implementation PDFUIAdditionElementView
+@implementation PDFWidgetAnnotationView
 
 -(id)initWithFrame:(CGRect)frame
 {

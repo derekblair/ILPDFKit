@@ -1,11 +1,11 @@
 
 #import <UIKit/UIKit.h>
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
 
 /** The PDFFormButtonField represents a view for a PDF button field.
  */
-@interface PDFFormButtonField :PDFUIAdditionElementView
+@interface PDFFormButtonField :PDFWidgetAnnotationView
 
 
 /** YES if a radio button, NO otherwise.

@@ -153,7 +153,7 @@
 
 -(void)textChanged:(id)sender
 {
-    [_delegate uiAdditionValueChanged:self];
+    [_delegate widgetAnnotationValueChanged:self];
 }
 
 -(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect 
@@ -175,18 +175,18 @@
 
 -(void)textViewDidBeginEditing:(UITextView*)textView
 {
-    [_delegate uiAdditionEntered:self];
-    ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = self;
+    [_delegate widgetAnnotationEntered:self];
+    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
 }
 
 -(void)textViewDidEndEditing:(UITextView*)textView{
   
-    ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = nil;
+    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
 }
 
 -(void)textViewDidChange:(UITextView*)textView
 {
-    [_delegate uiAdditionValueChanged:self];
+    [_delegate widgetAnnotationValueChanged:self];
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -239,13 +239,13 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [_delegate uiAdditionEntered:self];
-     ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = self;
+    [_delegate widgetAnnotationEntered:self];
+     ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    ((PDFView*)(self.superview.superview.superview)).activeUIAdditionsView = nil;
+    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
 }
 
 

@@ -1,32 +1,32 @@
 
 #import <Foundation/Foundation.h>
 
-@class PDFUIAdditionElementView;
+@class PDFWidgetAnnotationView;
 
 
-/** The PDFUIAdditionElementViewDelegate responds to user interaction with a PDFUIAdditionElementView.
+/** The PDFWidgetAnnotationViewDelegate responds to user interaction with a PDFWidgetAnnotationView.
  */
-@protocol PDFUIAdditionElementViewDelegate <NSObject>
+@protocol PDFWidgetAnnotationViewDelegate <NSObject>
 /** Called when the value changes.
- @param sender The sending PDFUIAdditionElementView.
+ @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)uiAdditionValueChanged:(PDFUIAdditionElementView*)sender;
+    -(void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView*)sender;
 /** Called when the the element is focused or expanded.
- @param sender The sending PDFUIAdditionElementView.
+ @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)uiAdditionEntered:(PDFUIAdditionElementView*)sender;
+    -(void)widgetAnnotationEntered:(PDFWidgetAnnotationView*)sender;
 /** Called when the options changes for choice field views.
- @param sender The sending PDFUIAdditionElementView.
+ @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)uiAdditionOptionsChanged:(PDFUIAdditionElementView*)sender;
+    -(void)widgetAnnotationOptionsChanged:(PDFWidgetAnnotationView*)sender;
 @end
 
-/** The PDFUIAdditionElementView represents a subview of a PDFView that represents an interactive or accessory element. A PDFForm is an example.
+/** The PDFWidgetAnnotationView represents a subview of a PDFView that represents an interactive or accessory element. A PDFForm is an example.
  */
-@interface PDFUIAdditionElementView : UIView
+@interface PDFWidgetAnnotationView : UIView
 {
     CGFloat _zoomScale;
-    NSObject<PDFUIAdditionElementViewDelegate>* _delegate;
+    NSObject<PDFWidgetAnnotationViewDelegate>* _delegate;
 }
 
 
@@ -48,7 +48,7 @@
 
 /** The delegate.
  */
-@property(nonatomic,assign) NSObject<PDFUIAdditionElementViewDelegate>* delegate;
+@property(nonatomic,assign) NSObject<PDFWidgetAnnotationViewDelegate>* delegate;
 
 
 

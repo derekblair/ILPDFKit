@@ -1,6 +1,6 @@
 
 #import <UIKit/UIKit.h>
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
 
 @class PDFFormChoiceFieldDropIndicator;
@@ -8,7 +8,7 @@
 
 /** The PDFFormChoiceField represents a view for a PDF choice field.
  */
-@interface PDFFormChoiceField : PDFUIAdditionElementView<UITableViewDelegate,UITableViewDataSource>
+@interface PDFFormChoiceField : PDFWidgetAnnotationView<UITableViewDelegate,UITableViewDataSource>
 
 
 /**---------------------------------------------------------------------------------------

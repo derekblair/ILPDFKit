@@ -7,7 +7,7 @@
 #import "PDFPage.h"
 #import "PDFFormAction.h"
 #import "PDFStream.h"
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 #import "PDFFormChoiceField.h"
 #import "PDFUtility.h"
 
@@ -16,11 +16,21 @@
     -(NSArray*)formsDescendingFromTreeNode:(NSDictionary*)node;
     -(void)applyAnnotationTypeLeafToForms:(PDFDictionary*)leaf Parent:(PDFDictionary*)parent PageMap:(NSDictionary*)pmap;
     -(void)enumerateFields:(PDFDictionary*)fieldDict PageMap:(NSDictionary*)pmap;
-    -(NSString*)delimeter;
     -(NSArray*)allForms;
-    -(void)initializeJS;
     -(NSString*)formXMLForFormsWithRootNode:(NSDictionary*)node;
-    -(void)loadJS;
+    -(void)addForm:(PDFForm*)form;
+    -(void)removeForm:(PDFForm*)form;
+
+@end
+
+@interface PDFFormContainer(JavascriptExecution)<UIWebViewDelegate>
+  -(void)initializeJS;
+  -(void)loadJS;
+  -(NSString*)delimeter;
+-(void)executeJS:(NSString*)js;
+  -(void)setDocumentValue:(NSString*)value ForKey:(NSString*)key;
+  -(NSString*)getDocumentValueForKey:(NSString*)key;
+  -(void)setEventValue:(id)value;
 @end
 
 @implementation PDFFormContainer
@@ -127,10 +137,7 @@
 
 #pragma mark - Hidden
 
--(NSString*)delimeter
-{
-    return @"*delim*";
-}
+
 
 -(void)enumerateFields:(PDFDictionary*)fieldDict PageMap:(NSDictionary*)pmap
 {
@@ -213,6 +220,122 @@
 
 #pragma mark - JS
 
+
+
+#pragma mark - Value Setting
+
+
+-(void)setValue:(NSString*)val ForFormWithName:(NSString*)name
+{
+    for(PDFForm* form in [self formsWithName:name])
+    {
+        if((([form.value isEqualToString:val] == NO) && (form.value!=nil || val!=nil)))
+        {
+            form.value = val;
+        }
+    }
+}
+
+#pragma mark - formXML
+
+-(NSString*)formXML
+{
+    NSMutableString* ret = [NSMutableString stringWithString:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r<fields>"];
+    [ret appendString:[self formXMLForFormsWithRootNode:_nameTree]];
+    [ret appendString:@"\r</fields>"];
+    return [[[ret stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"&amp;#60;" withString:@"&#60;"] stringByReplacingOccurrencesOfString:@"&amp;#62;" withString:@"&#62;"];
+}
+
+
+-(NSString*)formXMLForFormsWithRootNode:(NSDictionary*)node
+{
+    NSMutableString* ret = [NSMutableString string];
+    for(NSString* key in [node allKeys])
+    {
+        id obj = [node objectForKey:key];
+        if([obj isKindOfClass:[NSMutableArray class]])
+        {
+            PDFForm* form = (PDFForm*)[obj lastObject];
+            if([form.value length])[ret appendFormat:@"\r<%@>%@</%@>",key,[PDFUtility urlEncodeStringXML: form.value],key];
+        }
+        else
+        {
+            NSString* val = [self formXMLForFormsWithRootNode:obj];
+            if([val length])[ret appendFormat:@"\r<%@>%@</%@>",key,val,key];
+        }
+    }
+    return ret;
+}
+
+
+#pragma mark - NSFastEnumeration
+
+
+-(NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])buffer count:(NSUInteger)len
+{
+    return [[self allForms] countByEnumeratingWithState:state objects:buffer count:len];
+}
+
+
+-(NSArray*)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin
+{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for(PDFForm* form in self)
+    {
+        if(form.formType == PDFFormTypeChoice)continue;
+        id add = [form createWidgetAnnotationViewForSuperviewWithWidth:width XMargin:margin YMargin:hmargin];
+          if(add) [ret addObject:add];
+        [add release];
+    }
+    NSMutableArray* temp = [[NSMutableArray alloc] init];
+    
+    
+    //We keep choice fileds on top.
+    for(PDFForm* form in [self formsWithType:PDFFormTypeChoice])
+    {
+        id add = [form createWidgetAnnotationViewForSuperviewWithWidth:width XMargin:margin YMargin:hmargin];
+        if(add) [temp addObject:add];
+        [add release];
+    }
+    
+    [temp sortUsingComparator:^NSComparisonResult(PDFFormChoiceField* obj1, PDFFormChoiceField* obj2) {
+        
+        if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
+        return NSOrderedDescending;
+    }
+     ];
+    [ret addObjectsFromArray:temp];
+    [temp release];
+    return ret;
+}
+
+#pragma mark - Scripting
+
+
+-(void)executeScript:(NSString*)script
+{
+    [self executeJS:script];
+}
+
+@end
+
+
+
+
+@implementation PDFFormContainer(JavascriptExecution)
+
+
+-(void)setEventValue:(id)value
+{
+    [self setDocumentValue:value ForKey:@"EventValue"];
+}
+
+
+-(NSString*)delimeter
+{
+    return @"*delim*";
+}
+
 -(void)executeJS:(NSString*)js
 {
     [self setDocumentValue:@"" ForKey:@"SubmitForm"];
@@ -280,7 +403,7 @@
 
 -(void)initializeJS
 {
-   
+    
     for(PDFForm* form in self)
     {
         [self setDocumentValue:[NSString stringWithFormat:@"%@",form.name] ForKey:[NSString stringWithFormat:@"Field(%@).%@",form.name,@"name"]];
@@ -316,94 +439,5 @@
 {
     [self initializeJS];
 }
-
-#pragma mark - Value Setting
-
-
--(void)setValue:(NSString*)val ForFormWithName:(NSString*)name
-{
-    for(PDFForm* form in [self formsWithName:name])
-    {
-        if((([form.value isEqualToString:val] == NO) && (form.value!=nil || val!=nil)))
-        {
-            form.value = val;
-        }
-    }
-}
-
-#pragma mark - formXML
-
--(NSString*)formXML
-{
-    NSMutableString* ret = [NSMutableString stringWithString:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r<fields>"];
-    [ret appendString:[self formXMLForFormsWithRootNode:_nameTree]];
-    [ret appendString:@"\r</fields>"];
-    return [[[ret stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"] stringByReplacingOccurrencesOfString:@"&amp;#60;" withString:@"&#60;"] stringByReplacingOccurrencesOfString:@"&amp;#62;" withString:@"&#62;"];
-}
-
-
--(NSString*)formXMLForFormsWithRootNode:(NSDictionary*)node
-{
-    NSMutableString* ret = [NSMutableString string];
-    for(NSString* key in [node allKeys])
-    {
-        id obj = [node objectForKey:key];
-        if([obj isKindOfClass:[NSMutableArray class]])
-        {
-            PDFForm* form = (PDFForm*)[obj lastObject];
-            if([form.value length])[ret appendFormat:@"\r<%@>%@</%@>",key,[PDFUtility urlEncodeStringXML: form.value],key];
-        }
-        else
-        {
-            NSString* val = [self formXMLForFormsWithRootNode:obj];
-            if([val length])[ret appendFormat:@"\r<%@>%@</%@>",key,val,key];
-        }
-    }
-    return ret;
-}
-
-
-#pragma mark - NSFastEnumeration
-
-
--(NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id [])buffer count:(NSUInteger)len
-{
-    return [[self allForms] countByEnumeratingWithState:state objects:buffer count:len];
-}
-
-
--(NSArray*)createUIAdditionViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin
-{
-    NSMutableArray* ret = [[NSMutableArray alloc] init];
-    for(PDFForm* form in self)
-    {
-        if(form.formType == PDFFormTypeChoice)continue;
-        id add = [form createUIAdditionViewForSuperviewWithWidth:width XMargin:margin YMargin:hmargin];
-          if(add) [ret addObject:add];
-        [add release];
-    }
-    NSMutableArray* temp = [[NSMutableArray alloc] init];
-    
-    
-    //We keep choice fileds on top.
-    for(PDFForm* form in [self formsWithType:PDFFormTypeChoice])
-    {
-        id add = [form createUIAdditionViewForSuperviewWithWidth:width XMargin:margin YMargin:hmargin];
-        if(add) [temp addObject:add];
-        [add release];
-    }
-    
-    [temp sortUsingComparator:^NSComparisonResult(PDFFormChoiceField* obj1, PDFFormChoiceField* obj2) {
-        
-        if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
-        return NSOrderedDescending;
-    }
-     ];
-    [ret addObjectsFromArray:temp];
-    [temp release];
-    return ret;
-}
-
-
 
 @end

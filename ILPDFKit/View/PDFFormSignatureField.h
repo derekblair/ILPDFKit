@@ -1,9 +1,9 @@
 
 #import <UIKit/UIKit.h>
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
 
 /** The PDFFormSignatureField represents a view for a PDF signature field. Not currently implemented.
  */
-@interface PDFFormSignatureField : PDFUIAdditionElementView
+@interface PDFFormSignatureField : PDFWidgetAnnotationView
 @end

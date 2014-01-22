@@ -42,7 +42,7 @@
 {
     NSString* exec = _string;
     if(_prefix)exec = [_prefix stringByAppendingFormat:@"\n\n%@;",exec];
-    [self.parent.parent executeJS:exec];
+    [(self.parent.parent) executeScript:exec];
 }
 
 -(void)dealloc

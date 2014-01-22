@@ -1,7 +1,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "PDFUIAdditionElementView.h"
+#import "PDFWidgetAnnotationView.h"
 
 
 
@@ -22,17 +22,17 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 @class PDFPage;
 @class PDFDictionary;
 @class PDFUIElement;
-@class PDFUIAdditionElementView;
+@class PDFWidgetAnnotationView;
 
 
 
 /** The PDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the 'Fields' array of the document's 'AcroForm' dictionary. Thus each instance of PDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A 'Field' is a collection of PDFForm with the same name. All forms in a field have the same value. A 'Field' represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named 'Sex' and marked 'Male' and 'Female' respectively to collect the information of a person's gender. A form can create a UIView representation of itself that can respond to user interaction.
  
- PDFChoiceField* comboBox = [comboBoxTypeForm createUIAdditionViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
+ PDFChoiceField* comboBox = [comboBoxTypeForm createWidgetAnnotationViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
  [webView.scrollView addSubview comboBox];
  [comboBox release];
  */
-@interface PDFForm : NSObject<PDFUIAdditionElementViewDelegate>
+@interface PDFForm : NSObject<PDFWidgetAnnotationViewDelegate>
 
 /** The value of the form.
  */
@@ -197,7 +197,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  @return A new view representing the form. The caller is responsible for releasing the new form view.
  @discussion The superview must be a UIScrollView or a subclass of UIScrollView.
  */
--(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin;
+-(PDFWidgetAnnotationView*)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin;
 
 
 /**---------------------------------------------------------------------------------------

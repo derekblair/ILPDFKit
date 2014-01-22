@@ -1,6 +1,7 @@
 
 #import "AppDelegate.h"
 #import "PDFViewController.h"
+#import "PDF.h"
 #import "PDFDocument.h"
 
 @implementation AppDelegate
@@ -27,7 +28,7 @@
     }
     else
     {
-        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testnew"];
+        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testA"];
     }
     
     _pdfViewController.title = @"Sample PDF";
@@ -53,7 +54,31 @@
 
 -(void)print:(id)sender
 {
-    [_pdfViewController openPrintInterfaceFromBarButtonItem:sender];
+    UIPrintInteractionController *pic = [UIPrintInteractionController sharedPrintController];
+    [pic dismissAnimated:NO];
+    // Save first, then print
+    [_pdfViewController.document saveFormsToDocumentData:^(BOOL success) {
+        
+        
+        if(pic && [UIPrintInteractionController canPrintData:_pdfViewController.document.documentData]) {
+            
+            UIPrintInfo *printInfo = [UIPrintInfo printInfo];
+            printInfo.outputType = UIPrintInfoOutputGeneral;
+            printInfo.jobName = _pdfViewController.document.pdfName;
+            printInfo.duplex = UIPrintInfoDuplexLongEdge;
+            pic.printInfo = printInfo;
+            pic.showsPageRange = YES;
+            pic.printingItem = _pdfViewController.document.documentData;
+            if(iPad)
+            {
+                [pic presentFromBarButtonItem:sender animated:YES completionHandler:^(UIPrintInteractionController *printInteractionController, BOOL completed, NSError *error){}];
+            }else
+            {
+                [pic presentAnimated:YES completionHandler:^(UIPrintInteractionController *printInteractionController, BOOL completed, NSError *error){}];
+            }
+        }
+        
+    }];
 }
 
 
@@ -67,7 +92,7 @@
            [alertView show];
        }else
        {
-           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed. Make sure the PDF you are saving is not compressed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
            [alertView show];
            
        }

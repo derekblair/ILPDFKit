@@ -30,7 +30,7 @@
 {
     NSUInteger _flags;
     NSUInteger _annotFlags;
-    PDFUIAdditionElementView* _formUIElement;
+    PDFWidgetAnnotationView* _formUIElement;
     
 }
 
@@ -295,7 +295,7 @@
 }
 
 
--(PDFUIAdditionElementView*)createUIAdditionViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
+-(PDFWidgetAnnotationView*)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
 {
     if([_flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
     if([_flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
@@ -308,12 +308,22 @@
     {
         if([pg cropBox].size.width > maxWidth)maxWidth = [pg cropBox].size.width;
     }
-    
+    /*
+     vwidth-2*xmargin = pixel width of canvas on screen for full screen scaled page
+     xmargin = pixel width of grey border between canvas and edge of UIWebView for full scaled page.
+     maxWidth = PDF canvas points of widest page;
+     ((vwidth-2*xmargin)/maxWidth) = converstion factor from canvas space to device space.
+     
+     Thus hmargin is the horizonal pixel margin from the border of the screen to the beginning of the page canvas.
+     
+     */
     CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
     
     CGFloat height = _cropBox.size.height;
     CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
+    
     CGFloat realWidth = vwidth-2*hmargin;
+    
     CGFloat factor = realWidth/width;
     
     CGFloat pageOffset = 0;
@@ -399,19 +409,19 @@
 }
 
 
-#pragma mark - PDFUIAdditionElementViewDelegate
+#pragma mark - PDFWidgetAnnotationViewDelegate
 
--(void)uiAdditionEntered:(PDFUIAdditionElementView *)sender
+-(void)widgetAnnotationEntered:(PDFWidgetAnnotationView *)sender
 {
     [[_actions objectForKey:@"E"] execute];
     [[_actions objectForKey:@"A"] execute];
 }
 
--(void)uiAdditionValueChanged:(PDFUIAdditionElementView *)sender
+-(void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView *)sender
 {
     
     self.modified = YES;
-    PDFUIAdditionElementView* v = ((PDFUIAdditionElementView *)sender);
+    PDFWidgetAnnotationView* v = ((PDFWidgetAnnotationView *)sender);
     
     if([v isKindOfClass:[PDFFormButtonField class]])
     {
@@ -440,16 +450,16 @@
     else
     {
         [_parent setValue:[v value] ForFormWithName:self.name];
-        [_parent setDocumentValue:self.value ForKey:@"EventValue"];
+        
+        //[_parent performSelector:@selector(setEventValue:) withObject:self.value ];
         ((PDFFormAction*)[_actions objectForKey:@"K"]).prefix = ((PDFFormAction*)[_actions objectForKey:@"E"]).string;
-        [[_actions objectForKey:@"K"] execute];
         [[_actions objectForKey:@"K"] execute];
     }
 }
 
--(void)uiAdditionOptionsChanged:(PDFUIAdditionElementView *)sender
+-(void)widgetAnnotationOptionsChanged:(PDFWidgetAnnotationView *)sender
 {
-    self.options = ((PDFUIAdditionElementView*)sender).options;
+    self.options = ((PDFWidgetAnnotationView*)sender).options;
 }
 
 -(void)reset

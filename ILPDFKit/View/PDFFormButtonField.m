@@ -195,7 +195,7 @@
 
 -(void)buttonPressed:(id)sender
 {
-    [_delegate uiAdditionValueChanged:self];
+    [_delegate widgetAnnotationValueChanged:self];
 }
 
 
