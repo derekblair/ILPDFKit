@@ -10,6 +10,7 @@
 		67640CC9188F655B00A4134F /* testA.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC6188F655B00A4134F /* testA.pdf */; };
 		67640CCA188F655B00A4134F /* testB.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC7188F655B00A4134F /* testB.pdf */; };
 		67640CCB188F655B00A4134F /* testC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC8188F655B00A4134F /* testC.pdf */; };
+		67CD1D1218909EBD00B153A1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CD1D1118909EBD00B153A1 /* libz.dylib */; };
 		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
 		8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746118026E90003DD132 /* CoreGraphics.framework */; };
@@ -41,6 +42,7 @@
 		67640CC6188F655B00A4134F /* testA.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testA.pdf; sourceTree = "<group>"; };
 		67640CC7188F655B00A4134F /* testB.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testB.pdf; sourceTree = "<group>"; };
 		67640CC8188F655B00A4134F /* testC.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testC.pdf; sourceTree = "<group>"; };
+		67CD1D1118909EBD00B153A1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B745F18026E90003DD132 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67CD1D1218909EBD00B153A1 /* libz.dylib in Frameworks */,
 				8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */,
 				8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */,
 				8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */,
@@ -100,6 +103,7 @@
 		8F8B745E18026E90003DD132 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				67CD1D1118909EBD00B153A1 /* libz.dylib */,
 				8F8B745F18026E90003DD132 /* Foundation.framework */,
 				8F8B746118026E90003DD132 /* CoreGraphics.framework */,
 				8F8B746318026E90003DD132 /* UIKit.framework */,

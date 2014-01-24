@@ -91,6 +91,9 @@
 +(NSString*)urlEncodeStringXML:(NSString*)str;
 
 
++(NSData*)gzipInflate:(NSData*)data;
++(NSData*)zlibInflate:(NSData*)data;
+
 
 
 

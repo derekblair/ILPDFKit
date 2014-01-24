@@ -210,7 +210,7 @@
     
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
     
-    NSLog(@"the used lines are %f",usedLines);
+   
 
     if(usedLines >= numLines && usedLines > 1)return NO;
     return YES;
