@@ -28,7 +28,7 @@
     }
     else
     {
-        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testC"];
+        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testD.pdf"];
     }
     
     _pdfViewController.title = @"Sample PDF";
@@ -92,7 +92,7 @@
            [alertView show];
        }else
        {
-           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+           UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Failure" message:@"Save Failed. Make sure you are not using object streams (PDF 1.5)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
            [alertView show];
            
        }

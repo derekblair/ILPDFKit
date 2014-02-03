@@ -15,35 +15,27 @@
 #define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
 
 @interface PDFDocument()
-    -(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifier:(NSString*)ident NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type;
+    -(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifiers:(NSArray*)idents NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type;
     -(NSString*)constructTrailer:(NSString*)file FinalOffset:(NSUInteger)fo;
-    -(NSMutableString*)sourceCode;
+    -(NSString*)constructXRefStream;
+    -(NSString*)sourceCode;
 @end
 
 
 
 @interface PDFDocument(Parsing)
-
-    -(PDFDictionary*)getTrailerBeforeOffset:(NSUInteger)offset;
-    -(NSUInteger)offsetForObjectWithNumber:(NSUInteger)number InSection:(NSUInteger)section;
-    -(NSString*)codeForIndirectObjectWithOffset:(NSUInteger)offset;
-    -(PDFDictionary*)createCatalog;
-    @property(nonatomic,readonly) NSArray* crossReferenceSectionsOffsets;
-
-
     -(NSArray*)pdfObjectsParsedFormObjectStream:(NSString*)stream number:(NSUInteger)number;
 
 @end
 
 @implementation PDFDocument
 {
-    NSMutableString* _sourceCode;
+    NSString* _sourceCode;
     NSString* _documentPath;
     PDFDictionary* _catalog;
     PDFDictionary* _info;
     PDFFormContainer* _forms;
     NSArray* _pages;
-    NSArray* _crossReferenceSectionsOffsets;
 }
 
 -(void)dealloc
@@ -57,7 +49,6 @@
     [_pages release];
     [_forms release];
     [_sourceCode release];
-    [_crossReferenceSectionsOffsets release];
     CGPDFDocumentRelease(_document);
     [super dealloc];
 }
@@ -113,8 +104,8 @@
                if([names containsObject:form.name])continue;
                [names addObject:form.name];
                form.modified = NO;
-               NSUInteger objectNumber = form.dictionary.objectNumber;
-               NSUInteger generationNumber = form.dictionary.generationNumber;
+               __block NSUInteger objectNumber ;//= form.dictionary.objectNumber;
+               __block NSUInteger generationNumber ;//= form.dictionary.generationNumber;
                
                
                NSString* indirectObject = nil;
@@ -122,53 +113,163 @@
                
                NSArray* rawRect = form.rawRect;
                
-               NSNumberFormatter *ft = [[NSNumberFormatter alloc] init];
-               [ft setNumberStyle:NSNumberFormatterDecimalStyle];
-               [ft setMaximumFractionDigits:4];
                
-               //Could Potentially Fail for multi-page PDF files.
-               NSString* uniqueSearchIdentifier = [NSString stringWithFormat:@"/Rect[%@ %@ %@ %@]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]];
+               NSString* uniqueSearchIdentifierA =
+             
+               ({
+                   NSNumberFormatter *ft = [[[NSNumberFormatter alloc] init] autorelease];
+                   [ft setNumberStyle:NSNumberFormatterDecimalStyle];
+                   [ft setMaximumFractionDigits:3];
+                   [[NSString stringWithFormat:@"/Rect[\\s]*\\[[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*\\]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]] stringByReplacingOccurrencesOfString:@"." withString:@"\\."];
+               });
                
-               [ft release];
                
-               if(PDFUseCGParsing)
+               
+               NSString* uniqueSearchIdentifierB =
+               
+               ({
+                   NSNumberFormatter *ft = [[[NSNumberFormatter alloc] init] autorelease];
+                   [ft setNumberStyle:NSNumberFormatterDecimalStyle];
+                   [ft setMaximumFractionDigits:4];
+                   [[NSString stringWithFormat:@"/Rect[\\s]*\\[[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*\\]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]] stringByReplacingOccurrencesOfString:@"." withString:@"\\."];
+               });
+
+    
+               BOOL usesObjectStreams = NO;
+               if([self.sourceCode rangeOfString:@"ObjStm"].location!=NSNotFound)usesObjectStreams = YES;
+               
+               
+              
                {
+                   indirectObject = [self formIndirectObjectFrom:self.sourceCode  WithUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB] NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
+               
                    
-                   indirectObject = [self formIndirectObjectFrom:self.sourceCode  WithUniqueIdentifier:uniqueSearchIdentifier NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
-               }
-               else
-               {
-                   
-                   indirectObject = [ form.dictionary pdfFileRepresentation];
-                   NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:@"/V.*)" options:0 error:NULL];
-                   if([[reg matchesInString:indirectObject options:0 range:NSMakeRange(0, [indirectObject length])] count])
+                   if(indirectObject)
                    {
-                       indirectObject = [reg stringByReplacingMatchesInString:indirectObject options:0 range:NSMakeRange(0, [indirectObject length]) withTemplate:[NSString stringWithFormat:@"/V(%@)",form.value]];
+                       NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
+                       NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
+                       NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
+                       
+                       [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",indirectObject,objectNumberString,offsetString,generationNumberString];
+                       NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
+                       [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];
+                   }
+                   else if(usesObjectStreams == YES)
+                   {
+                       
+                       
+                       __block   NSRange searchRange;
+                       searchRange.location = NSNotFound;
+                       __block NSString* streamObject = nil;
+                       __block NSString* streamData = nil;
+                       __block NSString* streamIndirectObject = nil;
+                       
+                         [[NSRegularExpression regularExpressionWithPattern:@"ObjStm" options:0 error:NULL] enumerateMatchesInString:self.sourceCode options:0 range:NSMakeRange(0, self.sourceCode.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+
+                             NSUInteger start = result.range.location;
+                             NSUInteger objEnd = [_sourceCode rangeOfString:@"stream" options:0 range:NSMakeRange(start, _sourceCode.length-start)].location-1;
+                             NSUInteger objStart = [_sourceCode rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, start)].location+[@"obj" length];
+                             NSUInteger outerObjStart = objStart - [@"obj" length];
+                             
+                             
+                             
+                             while([_sourceCode characterAtIndex:outerObjStart]!='\n' && [_sourceCode characterAtIndex:outerObjStart]!='\r')outerObjStart--;
+                             
+                             
+                             
+                             NSUInteger outerObjEnd = [_sourceCode rangeOfString:@"endobj" options:0    range:NSMakeRange(objStart,_sourceCode.length-objStart)].location +[@"endobj" length];
+                            
+                             PDFDictionary* streamDictionary = [[PDFDictionary alloc] initWithPDFRepresentation:[_sourceCode substringWithRange:NSMakeRange(objStart, objEnd-objStart+1)] Document:self];
+                             
+                             BOOL needsInflation = NO;
+                             
+                             if([[streamDictionary objectForKey:@"Filter"] isEqualToString:@"FlateDecode"])
+                             {
+                                 needsInflation = YES;
+                             }
+                             
+                             NSUInteger streamDataStart = objEnd+1+[@"stream" length];
+                             NSUInteger streamDataEnd = [_sourceCode rangeOfString:@"endstream" options:0 range:NSMakeRange(streamDataStart, _sourceCode.length-streamDataStart)].location-2;
+                             if([_sourceCode characterAtIndex:streamDataStart] == '\r')streamDataStart+=2;
+                             else if ([_sourceCode characterAtIndex:streamDataStart] == '\n')streamDataStart++;
+            
+                             NSUInteger properLength = [[streamDictionary objectForKey:@"Length"] integerValue];
+                             NSUInteger supposedLength = (streamDataEnd-streamDataStart+1);
+                             
+                             if(supposedLength > properLength)
+                             {
+                                 supposedLength = properLength;
+                             }
+                    
+                             
+                             NSString* resultString = nil;
+                            
+                             if(needsInflation)
+                             {
+                                 NSData* stringData = [PDFUtility zlibInflate:[_documentData subdataWithRange:NSMakeRange(streamDataStart, supposedLength)] ] ;
+                                 resultString = [[[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding] autorelease];
+                             }else
+                             {
+                                 resultString = [_sourceCode substringWithRange:NSMakeRange(streamDataStart, supposedLength)];
+                             }
+                             
+                            searchRange.location = NSNotFound;
+                    
+                            searchRange = [[NSRegularExpression regularExpressionWithPattern:uniqueSearchIdentifierA options:0 error:NULL] rangeOfFirstMatchInString:resultString options:0 range:NSMakeRange(0, resultString.length) ];
+                             
+                             if(searchRange.location == NSNotFound)
+                             {
+                                  searchRange = [[NSRegularExpression regularExpressionWithPattern:uniqueSearchIdentifierB options:0 error:NULL] rangeOfFirstMatchInString:resultString options:0 range:NSMakeRange(0, resultString.length) ];
+                             }
+    
+                             if(searchRange.location != NSNotFound)
+                             {
+                                
+                                 streamData = resultString;
+                                 streamObject = [_sourceCode substringWithRange:NSMakeRange(outerObjStart, outerObjEnd-outerObjStart+1)];
+                                 streamIndirectObject = [self formIndirectObjectFrom:[[self pdfObjectsParsedFormObjectStream:resultString number:[[streamDictionary objectForKey:@"N"] integerValue] ] componentsJoinedByString:@"\n" ]  WithUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB] NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
+                                 *stop = YES;
+                             }
+                         }];
+                       
+                       
+                       if(streamIndirectObject)
+                       {
+                           
+                           
+                          /* NSLog(@"success we got this far with %@",streamObject);
+                           
+                           
+                           NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
+                           NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
+                           NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
+                           [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",streamIndirectObject,objectNumberString,offsetString,generationNumberString];
+                           NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
+                           [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];*/
+                           
+                           
+                           //NSString* updateXRefStream = [self constructXRefStream];
+                           //[retval appendString:updateXRefStream];
+                           
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               completion(NO);
+                           });
+                           return ;
+                           
+                       }
+                       
+                       
+                       
                    }
                    else
                    {
-                       indirectObject = [[indirectObject substringToIndex:indirectObject.length-2] stringByAppendingString: [NSString stringWithFormat:@"/V(%@)>>",form.value]];
-                       
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           completion(NO);
+                       });
+                       return ;
                    }
                }
                
-               NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
-               NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
-               NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
-               
-               if(indirectObject)
-               {
-                   [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",indirectObject,objectNumberString,offsetString,generationNumberString];
-                   NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
-                   [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];
-               }
-               else
-               {
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                       completion(NO);
-                   });
-                   return ;
-               }
            }
            
            [self.documentData appendData:[retval dataUsingEncoding:NSASCIIStringEncoding]];
@@ -211,94 +312,12 @@
     return _forms;
 }
 
-
--(NSMutableString*)sourceCode
+-(NSString*)sourceCode
 {
     if(_sourceCode == nil)
     {
-        _sourceCode = [[NSMutableString alloc] initWithData:self.documentData encoding:NSASCIIStringEncoding];
-        
-        // TODO: Finish the code below to support object streams.
-        
-       /* NSMutableArray* replaceArr = [NSMutableArray array];
-        
-        
-        NSUInteger start = NSNotFound;
-        
-        while([_sourceCode rangeOfString:@"ObjStm"].location != NSNotFound)
-        {
-            
-            
-            start = [_sourceCode rangeOfString:@"ObjStm"].location;
-            
-          
-            NSUInteger objEnd = [_sourceCode rangeOfString:@"stream" options:0 range:NSMakeRange(start, _sourceCode.length-start)].location-1;
-            
-            NSUInteger objStart = [_sourceCode rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, start)].location+[@"obj" length];
-            
-            
-            PDFDictionary* streamDictionary = [[PDFDictionary alloc] initWithPDFRepresentation:[_sourceCode substringWithRange:NSMakeRange(objStart, objEnd-objStart+1)] Document:self];
-            
-            if([[streamDictionary objectForKey:@"Filter"] isEqualToString:@"FlateDecode"])
-            {
-                NSLog(@"Fate Decode");
-            }
-            
-            
-            NSUInteger streamDataStart = objEnd+1+[@"stream" length];
-            NSUInteger streamDataEnd = [_sourceCode rangeOfString:@"endstream" options:0 range:NSMakeRange(streamDataStart, _sourceCode.length-streamDataStart)].location-2;
-            
-            if([_sourceCode characterAtIndex:streamDataStart] == '\r')streamDataStart+=2;
-            else if ([_sourceCode characterAtIndex:streamDataStart] == '\n')streamDataStart++;
-            
-            NSUInteger properLength = [[streamDictionary objectForKey:@"Length"] integerValue];
-            NSUInteger supposedLength = (streamDataEnd-streamDataStart+1);
-            
-            if(supposedLength > properLength)
-            {
-                supposedLength = properLength;
-            }
-            
+        _sourceCode = [[NSString alloc] initWithData:self.documentData encoding:NSASCIIStringEncoding];
        
-            
-
-            NSData* stringData = [PDFUtility zlibInflate:[_documentData subdataWithRange:NSMakeRange(streamDataStart, supposedLength)] ] ;
-            NSString* resultString = [[[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding] autorelease];
-            
-            NSArray* correctedObjects = [self pdfObjectsParsedFormObjectStream:resultString number:[[streamDictionary objectForKey:@"N"] integerValue] ];
-            
-            NSString* replace = [correctedObjects componentsJoinedByString:@"\n"];
-            [replaceArr addObject:replace];
-            
-            [_sourceCode replaceOccurrencesOfString:@"ObjStm" withString:@"ObjDne" options:0 range:NSMakeRange(start, 9)];
-        
-        }
-        
-        if(start!=NSNotFound)
-        {
-             NSUInteger objStartAfter = [_sourceCode rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, start)].location;
-            [_sourceCode insertString:[replaceArr componentsJoinedByString:@"\n"] atIndex:objStartAfter];
-        }*/
-        
-        while([_sourceCode rangeOfString:@"  "].location!=NSNotFound)
-        {
-            [_sourceCode replaceOccurrencesOfString:@"  " withString:@" " options:0 range:NSMakeRange(0, [_sourceCode length])];
-        }
-        
-        while([_sourceCode rangeOfString:@"[ "].location!=NSNotFound)
-        {
-            [_sourceCode replaceOccurrencesOfString:@"[ " withString:@"[" options:0 range:NSMakeRange(0, [_sourceCode length])];
-        }
-        
-        while([_sourceCode rangeOfString:@" ["].location!=NSNotFound)
-        {
-            [_sourceCode replaceOccurrencesOfString:@" [" withString:@"[" options:0 range:NSMakeRange(0, [_sourceCode length])];
-        }
-        
-        while([_sourceCode rangeOfString:@" ]"].location!=NSNotFound)
-        {
-            [_sourceCode replaceOccurrencesOfString:@" ]" withString:@"]" options:0 range:NSMakeRange(0, [_sourceCode length])];
-        }
     }
     
     return _sourceCode;
@@ -355,38 +374,6 @@
     return _pages;
 }
 
--(NSArray*)crossReferenceSectionsOffsets
-{
-    
-    if(_crossReferenceSectionsOffsets == nil)
-    {
-        NSMutableArray* temp = [NSMutableArray array];
-        NSMutableString* code = [self sourceCode];
-        NSUInteger bound = code.length;
-        NSUInteger markerLength = [@"startxref" length];
-        
-        
-        while(YES){
-            
-            NSUInteger startxrefOffsetEnd = [code rangeOfString:@"startxref" options:NSBackwardsSearch range:NSMakeRange(0, bound)].location;
-            
-            if(startxrefOffsetEnd == NSNotFound)
-            {
-                _crossReferenceSectionsOffsets = [[NSArray alloc] initWithArray:temp];
-                break;
-            }
-            
-            NSScanner* scanner = [NSScanner scannerWithString:[code substringFromIndex:startxrefOffsetEnd+markerLength]];
-            NSInteger crossReferenceTableOffset;
-            [scanner scanInteger:&crossReferenceTableOffset];
-            [temp addObject:[NSNumber numberWithInteger:crossReferenceTableOffset]];
-            bound = startxrefOffsetEnd;
-        }
-    }
-    
-    return _crossReferenceSectionsOffsets;
-}
-
 -(NSUInteger)numberOfPages
 {
     return CGPDFDocumentGetNumberOfPages(_document);
@@ -394,15 +381,19 @@
 
 #pragma mark - PDF File Saving
 
--(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifier:(NSString*)ident  NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type
+-(NSString*)formIndirectObjectFrom:(NSString*)str WithUniqueIdentifiers:(NSArray*)idents  NewValue:(NSString*)value ObjectNumber:(NSUInteger*)objectNumber GenerationNumber:(NSUInteger*)generationNumber Type:(PDFFormType)type
 {
-    NSUInteger searchLocation = [str rangeOfString:ident options:NSBackwardsSearch range:NSMakeRange(0, str.length)].location;
+    NSRange searchRange;
+    searchRange.location = NSNotFound;
     
+    for(int c = 0; searchRange.location == NSNotFound && c < idents.count;c++)
+    {
+        searchRange = [[NSRegularExpression regularExpressionWithPattern:idents[c] options:0 error:NULL] rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, str.length) ];
+    }
     
-    if(searchLocation == NSNotFound)return nil;
-    
-    
-    NSUInteger startMarkerLocation = [str rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, searchLocation+1)].location;
+    if(searchRange.location == NSNotFound)return nil;
+    NSString* ident = [str substringWithRange:searchRange];
+    NSUInteger startMarkerLocation = [str rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, searchRange.location+1)].location;
     if(startMarkerLocation == NSNotFound)return nil;
     
     NSUInteger startLocation = startMarkerLocation;
@@ -488,6 +479,13 @@
     return nil;
 }
 
+
+
+-(NSString*)constructXRefStream
+{
+    return nil;
+}
+
 -(NSString*)constructTrailer:(NSString*)file FinalOffset:(NSUInteger)fo
 {
     NSUInteger trailerloc = [file rangeOfString:@"trailer" options:NSBackwardsSearch].location;
@@ -543,120 +541,6 @@
 }
 
 
-#pragma mark - Parsing 
-
-
--(NSUInteger)offsetForObjectWithNumber:(NSUInteger)number InSection:(NSUInteger)section
-{
-    NSUInteger sectionOffset = [[self.crossReferenceSectionsOffsets objectAtIndex:section] unsignedIntegerValue]+[@"xref" length];
-    
-    NSString* searchStart = [self.sourceCode substringFromIndex:sectionOffset];
-    
-    
-    NSRegularExpression* regexStart = [[NSRegularExpression alloc] initWithPattern:@"[0-9]{1,9} [0-9]{1,4}" options:0 error:NULL];
-    
-     NSUInteger start = [regexStart rangeOfFirstMatchInString:searchStart options:0 range:NSMakeRange(0, searchStart.length)].location;
-    
-    NSScanner* scanner = [NSScanner scannerWithString:[searchStart substringFromIndex:start]];
-    NSInteger startingObjectNumber;
-    NSInteger objectCount;
-    [scanner scanInteger:&startingObjectNumber];
-    [scanner scanInt:&objectCount];
-    
-    while(YES)
-    {
-        start++;
-        char c = [searchStart characterAtIndex:start];
-        if(c == 'n' || c == 'f')
-        {
-            start = start-17;
-            break;
-        }
-    }
-    
-    NSString* linesStart = [searchStart substringFromIndex:start];
-    
-    
-    if(number >= startingObjectNumber && number<startingObjectNumber+objectCount)
-    {
-        NSArray* lines = [linesStart componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"nf"]];
-        
-        NSString* targ = [lines objectAtIndex:number-startingObjectNumber];
-        
-        
-        NSScanner* scanner = [NSScanner scannerWithString:targ];
-        
-        NSInteger offset = 7;
-        
-        [scanner scanInteger:&offset];
-        
-        return (NSUInteger)offset;
-        
-    }
-
-    return NSNotFound;
-}
-
-
- -(NSString*)codeForIndirectObjectWithOffset:(NSUInteger)offset
-{
-    NSString* search = [self.sourceCode substringFromIndex:offset];
-    
-    NSUInteger start = [search rangeOfString:@"obj"].location+[@"obj" length];
-    NSUInteger end = [search rangeOfString:@"endobj"].location;
-    return [search substringWithRange:NSMakeRange(start, end-start)];
-}
-
-
--(NSString*)codeForObjectWithNumber:(NSInteger)objectNumber GenerationNumber:(NSInteger)generationNumber
-{
-   
-    NSArray* crossRefSectionOffsets = self.crossReferenceSectionsOffsets;
-    for(NSInteger c = 0 ; c <[crossRefSectionOffsets count] ; c++)
-    {
-        NSUInteger offset = [self offsetForObjectWithNumber:objectNumber InSection:c];
-        if(offset!= NSNotFound)
-        {
-            return [self codeForIndirectObjectWithOffset:offset];
-        }
-        
-    }
-    
-    return nil;
-}
-
-
--(PDFDictionary*)getTrailerBeforeOffset:(NSUInteger)offset
-{
-    NSMutableString* code = [self sourceCode];
-
-    NSUInteger trailerStartMarker = [code rangeOfString:@"trailer" options:NSBackwardsSearch range:NSMakeRange(0, code.length)].location;
-    NSUInteger trailerEndMarker = [code rangeOfString:@"startxref" options:NSBackwardsSearch range:NSMakeRange(0, code.length)].location;
-    
-    while ([code characterAtIndex:trailerStartMarker]!='<') {
-        trailerStartMarker++;
-    }
-    
-    return [[[PDFDictionary alloc] initWithPDFRepresentation:[code substringWithRange:NSMakeRange(trailerStartMarker, trailerEndMarker-trailerStartMarker)] Document:self] autorelease];
-    
-}
-
- -(PDFDictionary*)createCatalog
-{
-    NSArray* searchArray = [@[[NSNumber numberWithInteger:self.sourceCode.length]] arrayByAddingObjectsFromArray:self.crossReferenceSectionsOffsets];
-
-    for(NSNumber* offset in searchArray)
-    {
-        PDFDictionary* trailer = [self getTrailerBeforeOffset:[offset unsignedIntegerValue]];
-        if([trailer objectForKey:@"Root"])
-        {
-            return [[trailer objectForKey:@"Root"] retain];
-        }
-    }
-    
-    return nil;
-    
-}
 
 
 -(NSArray*)pdfObjectsParsedFormObjectStream:(NSString*)stream number:(NSUInteger)number
@@ -720,6 +604,9 @@
     
 }
 
-
+-(NSString*)codeForObjectWithNumber:(NSInteger)objectNumber GenerationNumber:(NSInteger)generationNumber
+{
+    return nil;
+}
 
 @end
