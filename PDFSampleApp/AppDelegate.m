@@ -28,7 +28,7 @@
     }
     else
     {
-        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testD.pdf"];
+        _pdfViewController = [[PDFViewController alloc] initWithResource:@"testE.pdf"];
     }
     
     _pdfViewController.title = @"Sample PDF";

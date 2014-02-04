@@ -237,19 +237,47 @@
                        {
                            
                            
-                          /* NSLog(@"success we got this far with %@",streamObject);
+                          /* 430 0 R is the original stream. in objectNumber
                            
                            
-                           NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
-                           NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
-                           NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
-                           [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",streamIndirectObject,objectNumberString,offsetString,generationNumberString];
-                           NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
-                           [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];*/
+                           newnum 0 obj
+                           <</First 5/Length body.length /N 1 /Type/ObjStm /Extends 430 0 R>>stream
+                           445 0
+                           <</DA(/CourierNewPSMT 10.00 Tf 0 g)/F 4/FT/Tx/MK<<>>/MaxLen 83/P 417 0 R/Parent 124 0 R/Q 0/Rect[90.255 663.704 594.709 676.46]/V(dere)/StructParent 1/Subtype/Widget/T<FEFF006400650073006300720069006200650064005B0030005D>/TU(This questionnaire is sent to you pursuant to 19 CFR 181.72, The questionnaire will be used in determining if the)/Type/Annot>>
+                           endstream
+                           endobj
+                           
+                           
+                           */
+                           
+                           
+                           /*
+                            
+                            
+                            
+                            
+                            
+                            */
+                           
+                           
+                           
+                           
+                           
+                           //NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
+                          // NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
+                          // NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
+                          // [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",streamIndirectObject,objectNumberString,offsetString,generationNumberString];
+                           //NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
+                          // [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];*/
                            
                            
                            //NSString* updateXRefStream = [self constructXRefStream];
                            //[retval appendString:updateXRefStream];
+                           
+                           
+                           
+                           
+                           
                            
                            dispatch_async(dispatch_get_main_queue(), ^{
                                completion(NO);
