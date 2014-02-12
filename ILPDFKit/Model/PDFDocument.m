@@ -252,19 +252,19 @@
                            
                            
                            
-                          NSInteger streamObjectNumber;
-                           NSInteger streamGenerationNumber;
+                          //NSInteger streamObjectNumber;
+                          // NSInteger streamGenerationNumber;
                            
                            
-                           NSScanner* scanner = [NSScanner scannerWithString:streamCompressedObject];
+                          // NSScanner* scanner = [NSScanner scannerWithString:streamCompressedObject];
                            
-                           [scanner scanInteger:&streamObjectNumber];
-                           [scanner scanInteger:&streamGenerationNumber];
+                          // [scanner scanInteger:&streamObjectNumber];
+                          // [scanner scanInteger:&streamGenerationNumber];
                            
-                           NSString* indirectObjectHeader = [NSString stringWithFormat:@"%u %u obj",objectNumber,generationNumber];
+                          // NSString* indirectObjectHeader = [NSString stringWithFormat:@"%u %u obj",objectNumber,generationNumber];
                            
                            
-                           NSString* updateStreamBody = [[[streamTargetIndirectObject stringByReplacingOccurrencesOfString:indirectObjectHeader withString:[NSString stringWithFormat:@"%u %u",objectNumber,generationNumber]] stringByReplacingOccurrencesOfString:@"endobj" withString:@""] stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
+                          // NSString* updateStreamBody = [[[streamTargetIndirectObject stringByReplacingOccurrencesOfString:indirectObjectHeader withString:[NSString stringWithFormat:@"%u %u",objectNumber,generationNumber]] stringByReplacingOccurrencesOfString:@"endobj" withString:@""] stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
                            
                            
                           
@@ -286,17 +286,17 @@
                            PDFDictionary* xrefTrailerHeaderDictionaryObj = [[[PDFDictionary alloc] initWithPDFRepresentation:xrefTrailerHeaderDictionary ] autorelease];
                            
                            
-                           NSString* rawUpdate = [[[NSString alloc] initWithData:[PDFUtility zlibDeflate:[updateStreamBody dataUsingEncoding:NSASCIIStringEncoding]] encoding:NSASCIIStringEncoding] autorelease];
+                          // NSString* rawUpdate = [[[NSString alloc] initWithData:[PDFUtility zlibDeflate:[updateStreamBody dataUsingEncoding:NSASCIIStringEncoding]] encoding:NSASCIIStringEncoding] autorelease];
                            
                            
                            
-                           NSUInteger updateObjStmObjectNumber = objectNumber;
+                          // NSUInteger updateObjStmObjectNumber = objectNumber;
                            //[[xrefTrailerHeaderDictionaryObj objectForKey:@"Size"] unsignedIntegerValue];
                            NSUInteger updateXRefStmObjectNumber = 999999;
                            
                            
                            
-                           NSUInteger updateObjStmOffset = (unsigned int)([self.documentData length]+1+[retval length]);
+                           NSUInteger updateObjectOffset = (unsigned int)([self.documentData length]+1+[retval length]);
                            
                            NSUInteger updateXRefStmSize = 999999;
                            
@@ -307,14 +307,14 @@
                            updateXRefStmPrev++;
                            
                            
-                           NSString* updateStream = [NSString stringWithFormat:@"%u %u obj\n<</First %u/Length %u /Filter/FlateDecode /N 1 /Type/ObjStm /Extends %u %u R >>\nstream\n%@\nendstream\nendobj",updateObjStmObjectNumber,0,[updateStreamBody rangeOfString:@"<<"].location,rawUpdate.length,streamObjectNumber,streamGenerationNumber,rawUpdate];
+                           //NSString* updateObj = [NSString stringWithFormat:@"%u %u obj\n<</First %u/Length %u /Filter/FlateDecode /N 1 /Type/ObjStm /Extends %u %u R >>\nstream\n%@\nendstream\nendobj",updateObjStmObjectNumber,0,[updateStreamBody rangeOfString:@"<<"].location,rawUpdate.length,streamObjectNumber,streamGenerationNumber,rawUpdate];
                            
                            
-                           NSUInteger updateXRefStmOffset = updateObjStmOffset+1+[updateStream length];
+                           NSUInteger updateXRefStmOffset = updateObjectOffset+1+[streamTargetIndirectObject length];
                            
                            
                            
-                           NSString* updateXrefStmBody = [[NSString stringWithFormat:@"01 %06x 00\n01 %06x 00\n02 %06x 00",updateObjStmOffset,updateXRefStmOffset,updateObjStmObjectNumber] uppercaseString];
+                           NSString* updateXrefStmBody = [[NSString stringWithFormat:@"01 %06x 00\n01 %06x 00",updateObjectOffset,updateXRefStmOffset] uppercaseString];
                            
                            
                            
@@ -325,7 +325,10 @@
                            NSString* updateTrailerXrefStm = [NSString stringWithFormat:@"%u %u obj\n%@\nstream\n%@\nendstream\nendobj",updateXRefStmObjectNumber,0,[xrefTrailerHeaderDictionaryObj updatedRepresentation:updateDif],updateXrefStmBody];
                            
                            
-                           NSString* finalAppend = [NSString stringWithFormat:@"\n%@\n%@\nstartxref\n%u\n",updateStream,updateTrailerXrefStm,updateXRefStmOffset];
+                           NSString* finalAppend = [NSString stringWithFormat:@"\n%@\n%@\nstartxref\n%u\n",streamTargetIndirectObject,updateTrailerXrefStm,updateXRefStmOffset];
+                           
+                           
+                           
                            
                            [retval appendString:[finalAppend stringByAppendingString:@"%%EOF"]];
                        
