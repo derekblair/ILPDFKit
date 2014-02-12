@@ -16,6 +16,7 @@
     -(NSNumber*)realAtIndex:(NSUInteger)index;
     -(NSNumber*)booleanAtIndex:(NSUInteger)index;
     -(id)pdfObjectAtIndex:(NSUInteger)index;
+    -(CGPDFObjectType)typeAtIndex:(NSUInteger)aIndex;
 @end
 
 @implementation PDFArray
@@ -45,12 +46,16 @@
 
 -(CGPDFObjectType)typeAtIndex:(NSUInteger)aIndex
 {
-    CGPDFObjectRef obj = NULL;
-    if(CGPDFArrayGetObject(_arr, aIndex, &obj))
-    {
-        return CGPDFObjectGetType(obj);
-    }
-    
+     if(_arr != NULL)
+     {
+            CGPDFObjectRef obj = NULL;
+            if(CGPDFArrayGetObject(_arr, aIndex, &obj))
+            {
+                return CGPDFObjectGetType(obj);
+            }
+            
+            return kCGPDFObjectTypeNull;
+     }
     return kCGPDFObjectTypeNull;
 }
 
@@ -109,7 +114,7 @@
         {
             nsaFiller = [NSMutableArray array];
            
-            PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation] Document:self.parentDocument];
+            PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation]];
             
              for(id pdfObject in parser)[nsaFiller addObject:pdfObject];
 
@@ -198,7 +203,9 @@
     CGPDFStringRef str = NULL;
     if(CGPDFArrayGetString(_arr, index, &str))
     {
-       return [(NSString*)CGPDFStringCopyTextString(str) autorelease];
+       NSString* ret = [(NSString*)CGPDFStringCopyTextString(str) autorelease];
+       [ret setAsName:NO];
+       return ret;
        
     }
     return nil;
@@ -210,7 +217,9 @@
     const char* targ = NULL;
     if(CGPDFArrayGetName(_arr, index, &targ))
     {
-        return [NSString stringWithUTF8String:targ];
+        NSString* ret = [NSString stringWithUTF8String:targ];
+        [ret setAsName:YES];
+        return ret;
     }
     
     return nil;
@@ -277,7 +286,7 @@
     NSMutableString* ret = [NSMutableString stringWithString:@"["];
     for(int i = 0  ; i < [self count];i++)
     {
-        [ret appendFormat:@" %@",[PDFUtility pdfObjectRepresentationFrom:[self objectAtIndex:i] Type:[self typeAtIndex:i]]];
+        [ret appendFormat:@" %@",[PDFUtility pdfObjectRepresentationFrom:[self objectAtIndex:i]]];
     }
     
     [ret appendString:@"]"];

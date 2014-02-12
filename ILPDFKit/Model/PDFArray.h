@@ -52,7 +52,7 @@
  @param aIndex The key for which to return the corresponding type.
  @return The type of the value associated with aIndex, or kCGPDFObjectTypeNull if no value is associated with aIndex.
  */
--(CGPDFObjectType)typeAtIndex:(NSUInteger)aIndex;
+
 
 
 /**---------------------------------------------------------------------------------------

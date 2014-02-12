@@ -2,6 +2,16 @@
 
 #import <Foundation/Foundation.h>
 
+@interface NSString(PDF)
+
+    -(BOOL)isName;
+    -(void)setAsName:(BOOL)isName;
+
+@end
+
+
+
+
 @class PDFDocument;
 
 /** This class represents an abstract base class from which all PDF object classes inherit from.
@@ -14,7 +24,7 @@ Stream becomes PDFStream
  
 And other types are represented as follows
  
- - Name becomes PDFName
+ - Name becomes NSString
  - String becomes NSString
  - Real becomes NSNumber
  - Integer becomes NSNumber
@@ -28,19 +38,19 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 
 
 /**
- The object number is an indirect object
+ The object number if instance is an indirect object
  */
-@property(nonatomic) NSUInteger objectNumber;
+//@property(nonatomic) NSUInteger objectNumber;
 
 /**
- The generation number is an indirect object. Else -1
+ The generation number if instance is an indirect object. Else -1
  */
-@property(nonatomic) NSInteger generationNumber;
+//@property(nonatomic) NSInteger generationNumber;
 
 /**
  The parent document.
  */
-@property(nonatomic,readonly) PDFDocument* parentDocument;
+//@property(nonatomic,readonly) PDFDocument* parentDocument;
 
 
 /**---------------------------------------------------------------------------------------
@@ -55,7 +65,7 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
  @return The representation of the object as it is defined in its parent document.
  */
 
--(id)initWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument;
+-(id)initWithPDFRepresentation:(NSString*)rep; //Document:(PDFDocument*)parentDocument;
 
 
 /**
@@ -66,7 +76,7 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
  @return The representation of the object as it is defined in its parent document.
  */
 
-+(PDFObject*)createWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument;
+//+(PDFObject*)createWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument;
 
 
 /**
@@ -76,7 +86,7 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
  @return The representation of the object as it is defined in its parent document.
  */
 
-+(PDFObject*)createWithPDFRepresentation:(NSString*)rep Document:(PDFDocument*)parentDocument;
++(PDFObject*)createWithPDFRepresentation:(NSString*)rep ;
 
 
 /**

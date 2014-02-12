@@ -1,7 +1,7 @@
 
 #import "PDFObjectParser.h"
 #import "PDFUtility.h"
-#import "PDFDocument.h"
+//#import "PDFDocument.h"
 #import "PDFObject.h"
 
 
@@ -46,7 +46,7 @@ PDFObjectParserState;
 @implementation PDFObjectParser
 {
     NSString* _str;
-    PDFDocument* _parentDocument;
+    //PDFDocument* _parentDocument;
 }
 
 -(void)dealloc
@@ -55,19 +55,19 @@ PDFObjectParserState;
     [super dealloc];
 }
 
-+(PDFObjectParser*)parserWithString:(NSString *)strg Document:(PDFDocument*)parentDocument
++(PDFObjectParser*)parserWithString:(NSString *)strg //Document:(PDFDocument*)parentDocument
 {
-    return [[[PDFObjectParser alloc] initWithString:strg Document:parentDocument] autorelease];
+    return [[[PDFObjectParser alloc] initWithString:strg /*Document:parentDocument*/] autorelease];
     
 }
 
--(id)initWithString:(NSString *)strg Document:(PDFDocument*)parentDocument
+-(id)initWithString:(NSString *)strg// Document:(PDFDocument*)parentDocument
 {
     self = [super init];
     if(self!=nil)
     {
       
-        _parentDocument = parentDocument;
+       // _parentDocument = parentDocument;
         
         if([strg characterAtIndex:0]=='<')
         {
@@ -156,21 +156,31 @@ PDFObjectParserState;
     
     NSString* work = [st stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
     
-    if([work hasSuffix:@"ioref)"] && [work characterAtIndex:0] == '(')
+    /*if([work hasSuffix:@"ioref)"] && [work characterAtIndex:0] == '(')
     {
         NSArray* tokens = [[work substringWithRange:NSMakeRange(1, work.length-1)] componentsSeparatedByString:@","];
-        PDFObject* ret = [[PDFObject createWithObjectNumber:[[tokens objectAtIndex:0] integerValue] GenerationNumber:[[tokens objectAtIndex:1] integerValue] Document:_parentDocument] autorelease];
+        [[tokens objectAtIndex:0] integerValue] [[tokens objectAtIndex:1] integerValue]
+        
+        
+        
+        
+        
+    }*/
+
+    if([work characterAtIndex:0] == '(' && [work characterAtIndex:work.length-1] == ')'){
+        NSString* ret = [work substringWithRange:NSMakeRange(1, work.length-2)]; // String
+        [ret setAsName:NO];
         return ret;
     }
-
-    if([work characterAtIndex:0] == '(' && [work characterAtIndex:work.length-1] == ')')
-        return [work substringWithRange:NSMakeRange(1, work.length-2)]; // String
     
     if([work characterAtIndex:0] == '<' && [work characterAtIndex:work.length-1] == '>' && [work characterAtIndex:1] != '<')
         return [[work substringWithRange:NSMakeRange(1, work.length-2)] dataUsingEncoding:NSUTF8StringEncoding]; // HexString
     
-    if([work characterAtIndex:0] == '/')
-        return [work substringWithRange:NSMakeRange(1, work.length-1)]; // Name
+    if([work characterAtIndex:0] == '/'){
+        NSString* ret = [work substringWithRange:NSMakeRange(1, work.length-1)];
+        [ret setAsName:YES];
+        return ret;
+    }
     
     if( [work rangeOfCharacterFromSet:[[NSCharacterSet characterSetWithCharactersInString:@"0987654321+-."] invertedSet]].location == NSNotFound) // Real or Integer
     {
@@ -187,7 +197,9 @@ PDFObjectParserState;
     if([work isEqualToString:@"false"])return [NSNumber numberWithBool:NO];
     if([work isEqualToString:@"null"])return nil;
     
-    return [[PDFObject createWithPDFRepresentation:work Document:_parentDocument] autorelease];
+    return [[PDFObject createWithPDFRepresentation:work /*Document:_parentDocument*/] autorelease];
+    
+   
     
     
 }

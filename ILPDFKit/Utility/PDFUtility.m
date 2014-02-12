@@ -100,19 +100,25 @@ static PDFUtility* _sharedPDFUtility = nil;
 }
 
 
-+(NSString*)pdfObjectRepresentationFrom:(id)obj Type:(CGPDFObjectType)type
++(NSString*)pdfObjectRepresentationFrom:(id)obj
 {
     NSString* objRepresentation = nil;
     
     if([obj isKindOfClass:[NSString class]])
     {
-        if(type == kCGPDFObjectTypeName)
+        if([obj isName])
         {
             objRepresentation = [NSString stringWithFormat:@"/%@",[PDFUtility pdfEncodedString:obj]];
         }
         else
         {
-            objRepresentation = [NSString stringWithFormat:@"(%@)",obj];
+            if([obj hasSuffix:@"ioref"])
+            {
+                NSArray* tokens = [obj componentsSeparatedByString:@","];
+                objRepresentation = [NSString stringWithFormat:@"%u %u R",[[tokens objectAtIndex:0] integerValue],[[tokens objectAtIndex:1] integerValue]];
+                
+            }
+            else objRepresentation = [NSString stringWithFormat:@"(%@)",obj];
         }
     }
     else if([obj isKindOfClass:[NSData class]])
@@ -123,7 +129,7 @@ static PDFUtility* _sharedPDFUtility = nil;
     }
     else if([obj isKindOfClass:[NSNumber class]])
     {
-        if(type == kCGPDFObjectTypeBoolean)
+        if (strcmp([obj objCType], @encode(BOOL)) == 0)
         {
             if([obj boolValue])objRepresentation = @"true";
             else objRepresentation = @"false";
@@ -318,6 +324,48 @@ static PDFUtility* _sharedPDFUtility = nil;
         return [NSData dataWithData: decompressed];
     }
     else return nil;
+}
+
+
++ (NSData *)zlibDeflate:(NSData*)data
+{
+	if ([data length] == 0) return data;
+    
+	z_stream strm;
+    
+	strm.zalloc = Z_NULL;
+	strm.zfree = Z_NULL;
+	strm.opaque = Z_NULL;
+	strm.total_out = 0;
+	strm.next_in=(Bytef *)[data bytes];
+	strm.avail_in = (uInt)[data length];
+    
+	// Compresssion Levels:
+	//   Z_NO_COMPRESSION
+	//   Z_BEST_SPEED
+	//   Z_BEST_COMPRESSION
+	//   Z_DEFAULT_COMPRESSION
+    
+	if (deflateInit(&strm, Z_DEFAULT_COMPRESSION) != Z_OK) return nil;
+    
+	NSMutableData *compressed = [NSMutableData dataWithLength:16384];  // 16K chuncks for expansion
+    
+	do {
+        
+		if (strm.total_out >= [compressed length])
+			[compressed increaseLengthBy: 16384];
+        
+		strm.next_out = [compressed mutableBytes] + strm.total_out;
+		strm.avail_out = (uInt)([compressed length] - strm.total_out);
+        
+		deflate(&strm, Z_FINISH);
+        
+	} while (strm.avail_out == 0);
+    
+	deflateEnd(&strm);
+    
+	[compressed setLength: strm.total_out];
+	return [NSData dataWithData: compressed];
 }
 
 

@@ -59,7 +59,7 @@
  @return The type of the value associated with aKey, or nil if no value is associated with aKey.
  */
 
--(CGPDFObjectType)typeForKey:(NSString*)aKey;
+
 
 
 
@@ -122,7 +122,7 @@
 
 
 
--(NSString*)updatedRepresentation;
+-(NSString*)updatedRepresentation:(NSDictionary*)update;
 
 
 @end

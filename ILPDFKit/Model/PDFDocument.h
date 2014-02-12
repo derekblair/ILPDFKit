@@ -122,17 +122,6 @@
 -(NSString*)formXML;
 
 
-/**
- Looks up an object in the cross-reference table
- @param objectNumber The object number of the object to find
- @param generationNumber The generation number of the object to find
- @return The file represention of the object including the the obj and endobj bounding lines.
- @discussion Not currently implemented.
- */
-
-
--(NSString*)codeForObjectWithNumber:(NSInteger)objectNumber GenerationNumber:(NSInteger)generationNumber;
-
 
 
 

@@ -17,6 +17,7 @@
     -(NSNumber*)booleanFromKey:(NSString*)key;
     -(PDFStream*)streamFromKey:(NSString*)key;
     -(id)pdfObjectFromKey:(NSString*)key;
+    -(CGPDFObjectType)typeForKey:(NSString*)aKey;
 @end
 
 
@@ -52,13 +53,17 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 -(CGPDFObjectType)typeForKey:(NSString*)aKey
 {
-    CGPDFObjectRef obj = NULL;
-    if(CGPDFDictionaryGetObject(_dict, [aKey UTF8String], &obj))
+    if(_dict != NULL)
     {
-        return CGPDFObjectGetType(obj);
+        CGPDFObjectRef obj = NULL;
+        if(CGPDFDictionaryGetObject(_dict, [aKey UTF8String], &obj))
+        {
+            return CGPDFObjectGetType(obj);
+        }
+        
+        return kCGPDFObjectTypeName;
     }
-    
-    return kCGPDFObjectTypeName;
+    return kCGPDFObjectTypeNull;
 }
 
 -(id)objectForKey:(NSString*)aKey
@@ -116,7 +121,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
             nsdFiller = [NSMutableDictionary dictionary];
             NSMutableArray* keysAndValues = [NSMutableArray array];
             
-            PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation] Document:self.parentDocument];
+            PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation]];
             
             for(id pdfObject in parser){
                 [keysAndValues addObject:pdfObject];
@@ -216,7 +221,9 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     CGPDFStringRef str = NULL;
     if(CGPDFDictionaryGetString(_dict, [key UTF8String], &str))
     {
-        return [(NSString*)CGPDFStringCopyTextString(str) autorelease];
+        NSString* ret = [(NSString*)CGPDFStringCopyTextString(str) autorelease];
+        [ret setAsName:NO];
+        return ret;
     }
        
     return nil;
@@ -228,7 +235,9 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     const char* targ = NULL;
     if(CGPDFDictionaryGetName(_dict, [key UTF8String], &targ))
     {
-        return [NSString stringWithUTF8String:targ];
+        NSString* ret = [NSString stringWithUTF8String:targ];
+        [ret setAsName:YES];
+        return ret;
     }
     
     return nil;
@@ -290,16 +299,22 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 #pragma mark - Respresentaion
 
--(NSString*)updatedRepresentation
+-(NSString*)updatedRepresentation:(NSDictionary*)update
 {
     NSArray* keys = [self allKeys];
     NSMutableString* ret = [NSMutableString stringWithString:@"<<\n"];
     for(int i = 0  ; i < [self count];i++)
     {
         NSString* key = [keys objectAtIndex:i];
-        id obj = [self objectForKey:key];
-        NSString* objRepresentation = [PDFUtility pdfObjectRepresentationFrom:obj Type:[self typeForKey:key]];
-        [ret appendString:[NSString stringWithFormat:@"/%@ %@\n",[PDFUtility pdfEncodedString:key],objRepresentation]];
+        if(![[update objectForKey:key] isKindOfClass:[NSNull class]])
+        {
+            id obj = [self objectForKey:key];
+            
+            if([update objectForKey:key])obj = [update objectForKey:key];
+            
+            NSString* objRepresentation = [PDFUtility pdfObjectRepresentationFrom:obj];
+            [ret appendString:[NSString stringWithFormat:@"/%@ %@\n",[PDFUtility pdfEncodedString:key],objRepresentation]];
+        }
     }
     
     [ret appendString:@">>"];

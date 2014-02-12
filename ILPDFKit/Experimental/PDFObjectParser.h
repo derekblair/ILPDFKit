@@ -27,7 +27,7 @@ As an example:
 
 @interface PDFObjectParser : NSObject<NSFastEnumeration>
 
--(id)initWithString:(NSString*)strg Document:(PDFDocument*)parentDocument;
-+(PDFObjectParser*)parserWithString:(NSString*)strg Document:(PDFDocument*)parentDocument;
+-(id)initWithString:(NSString*)strg;// Document:(PDFDocument*)parentDocument;
++(PDFObjectParser*)parserWithString:(NSString*)strg;// Document:(PDFDocument*)parentDocument;
 
 @end

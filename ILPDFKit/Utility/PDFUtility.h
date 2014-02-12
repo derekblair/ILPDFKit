@@ -55,7 +55,7 @@
  @param type The type
  @return The string representation
  */
-+(NSString*)pdfObjectRepresentationFrom:(id)obj Type:(CGPDFObjectType)type;
++(NSString*)pdfObjectRepresentationFrom:(id)obj;
 
 /**
  @return The whitespace character set as defined by the PDF standard.
@@ -92,6 +92,7 @@
 
 
 +(NSData*)gzipInflate:(NSData*)data;
++ (NSData *)zlibDeflate:(NSData*)data;
 +(NSData*)zlibInflate:(NSData*)data;
 
 

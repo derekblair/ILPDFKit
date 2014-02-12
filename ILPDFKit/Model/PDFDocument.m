@@ -160,9 +160,9 @@
                        
                        __block   NSRange searchRange;
                        searchRange.location = NSNotFound;
-                       __block NSString* streamObject = nil;
-                       __block NSString* streamData = nil;
-                       __block NSString* streamIndirectObject = nil;
+                       __block NSString* streamCompressedObject = nil;
+                       __block NSString* streamDecompressedData = nil;
+                       __block NSString* streamTargetIndirectObject = nil;
                        
                          [[NSRegularExpression regularExpressionWithPattern:@"ObjStm" options:0 error:NULL] enumerateMatchesInString:self.sourceCode options:0 range:NSMakeRange(0, self.sourceCode.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
 
@@ -179,7 +179,7 @@
                              
                              NSUInteger outerObjEnd = [_sourceCode rangeOfString:@"endobj" options:0    range:NSMakeRange(objStart,_sourceCode.length-objStart)].location +[@"endobj" length];
                             
-                             PDFDictionary* streamDictionary = [[PDFDictionary alloc] initWithPDFRepresentation:[_sourceCode substringWithRange:NSMakeRange(objStart, objEnd-objStart+1)] Document:self];
+                             PDFDictionary* streamDictionary = [[PDFDictionary alloc] initWithPDFRepresentation:[_sourceCode substringWithRange:NSMakeRange(objStart, objEnd-objStart+1)]];
                              
                              BOOL needsInflation = NO;
                              
@@ -225,65 +225,117 @@
                              if(searchRange.location != NSNotFound)
                              {
                                 
-                                 streamData = resultString;
-                                 streamObject = [_sourceCode substringWithRange:NSMakeRange(outerObjStart, outerObjEnd-outerObjStart+1)];
-                                 streamIndirectObject = [self formIndirectObjectFrom:[[self pdfObjectsParsedFormObjectStream:resultString number:[[streamDictionary objectForKey:@"N"] integerValue] ] componentsJoinedByString:@"\n" ]  WithUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB] NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
+                                 streamDecompressedData = resultString;
+                                 streamCompressedObject = [_sourceCode substringWithRange:NSMakeRange(outerObjStart, outerObjEnd-outerObjStart+1)];
+                                 streamTargetIndirectObject = [self formIndirectObjectFrom:[[self pdfObjectsParsedFormObjectStream:resultString number:[[streamDictionary objectForKey:@"N"] integerValue] ] componentsJoinedByString:@"\n" ]  WithUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB] NewValue:form.value ObjectNumber:&objectNumber GenerationNumber:&generationNumber Type:form.formType];
                                  *stop = YES;
                              }
                          }];
                        
                        
-                       if(streamIndirectObject)
+                       if(streamTargetIndirectObject)
                        {
                            
                            
-                          /* 430 0 R is the original stream. in objectNumber
                            
+                          /* NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
+                           NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
+                           NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
                            
-                           newnum 0 obj
-                           <</First 5/Length body.length /N 1 /Type/ObjStm /Extends 430 0 R>>stream
-                           445 0
-                           <</DA(/CourierNewPSMT 10.00 Tf 0 g)/F 4/FT/Tx/MK<<>>/MaxLen 83/P 417 0 R/Parent 124 0 R/Q 0/Rect[90.255 663.704 594.709 676.46]/V(dere)/StructParent 1/Subtype/Widget/T<FEFF006400650073006300720069006200650064005B0030005D>/TU(This questionnaire is sent to you pursuant to 19 CFR 181.72, The questionnaire will be used in determining if the)/Type/Annot>>
-                           endstream
-                           endobj
-                           
-                           
-                           */
-                           
-                           
-                           /*
-                            
-                            
-                            
-                            
-                            
-                            */
-                           
-                           
-                           
-                           
-                           
-                           //NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
-                          // NSString* generationNumberString = [NSString stringWithFormat:@"%05u",(unsigned int)generationNumber];
-                          // NSString* offsetString = [NSString stringWithFormat:@"%010u",(unsigned int)([self.documentData length]+1+[retval length])];
-                          // [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",streamIndirectObject,objectNumberString,offsetString,generationNumberString];
-                           //NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
-                          // [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];*/
-                           
-                           
-                           //NSString* updateXRefStream = [self constructXRefStream];
-                           //[retval appendString:updateXRefStream];
+                           [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",streamTargetIndirectObject,objectNumberString,offsetString,generationNumberString];
+                           NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[self.documentData length];
+                           [retval appendString:[self constructTrailer:[self.sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];*/
                            
                            
                            
                            
                            
                            
+                           
+                          NSInteger streamObjectNumber;
+                           NSInteger streamGenerationNumber;
+                           
+                           
+                           NSScanner* scanner = [NSScanner scannerWithString:streamCompressedObject];
+                           
+                           [scanner scanInteger:&streamObjectNumber];
+                           [scanner scanInteger:&streamGenerationNumber];
+                           
+                           NSString* indirectObjectHeader = [NSString stringWithFormat:@"%u %u obj",objectNumber,generationNumber];
+                           
+                           
+                           NSString* updateStreamBody = [[[streamTargetIndirectObject stringByReplacingOccurrencesOfString:indirectObjectHeader withString:[NSString stringWithFormat:@"%u %u",objectNumber,generationNumber]] stringByReplacingOccurrencesOfString:@"endobj" withString:@""] stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
+                           
+                           
+                          
+                           
+                          
+                           NSString* xrefTrailerHeaderDictionary = (
+                           
+                           {
+                                NSUInteger lastRoot = [_sourceCode rangeOfString:@"/XRef" options:NSBackwardsSearch].location;
+                               NSUInteger start = [_sourceCode rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, lastRoot)].location+[@"obj" length];
+                               NSUInteger end = [_sourceCode rangeOfString:@"stream" options:0 range:NSMakeRange(start, _sourceCode.length-start)].location-1;
+                               xrefTrailerHeaderDictionary = [_sourceCode substringWithRange:NSMakeRange(start, end-start+1)];
+                               
+                               
+                           });
+                           
+
+                           
+                           PDFDictionary* xrefTrailerHeaderDictionaryObj = [[[PDFDictionary alloc] initWithPDFRepresentation:xrefTrailerHeaderDictionary ] autorelease];
+                           
+                           
+                           NSString* rawUpdate = [[[NSString alloc] initWithData:[PDFUtility zlibDeflate:[updateStreamBody dataUsingEncoding:NSASCIIStringEncoding]] encoding:NSASCIIStringEncoding] autorelease];
+                           
+                           
+                           
+                           NSUInteger updateObjStmObjectNumber = objectNumber;
+                           //[[xrefTrailerHeaderDictionaryObj objectForKey:@"Size"] unsignedIntegerValue];
+                           NSUInteger updateXRefStmObjectNumber = 999999;
+                           
+                           
+                           
+                           NSUInteger updateObjStmOffset = (unsigned int)([self.documentData length]+1+[retval length]);
+                           
+                           NSUInteger updateXRefStmSize = 999999;
+                           
+                           
+                            NSUInteger lastRoot = [_sourceCode rangeOfString:@"/XRef" options:NSBackwardsSearch].location;
+                           NSUInteger updateXRefStmPrev = [_sourceCode rangeOfString:@"obj" options:NSBackwardsSearch range:NSMakeRange(0, lastRoot)].location;
+                           while([_sourceCode characterAtIndex:updateXRefStmPrev]!='\n' && [_sourceCode characterAtIndex:updateXRefStmPrev]!='\r')updateXRefStmPrev--;
+                           updateXRefStmPrev++;
+                           
+                           
+                           NSString* updateStream = [NSString stringWithFormat:@"%u %u obj\n<</First %u/Length %u /Filter/FlateDecode /N 1 /Type/ObjStm /Extends %u %u R >>\nstream\n%@\nendstream\nendobj",updateObjStmObjectNumber,0,[updateStreamBody rangeOfString:@"<<"].location,rawUpdate.length,streamObjectNumber,streamGenerationNumber,rawUpdate];
+                           
+                           
+                           NSUInteger updateXRefStmOffset = updateObjStmOffset+1+[updateStream length];
+                           
+                           
+                           
+                           NSString* updateXrefStmBody = [[NSString stringWithFormat:@"01 %06x 00\n01 %06x 00\n02 %06x 00",updateObjStmOffset,updateXRefStmOffset,updateObjStmObjectNumber] uppercaseString];
+                           
+                           
+                           
+                           NSString* filterName = @"ASCIIHexDecode";[filterName setAsName:YES];
+                           
+                           NSDictionary* updateDif = @{@"Filter":filterName,@"DecodeParms":[NSNull null],@"Size":[NSNumber numberWithUnsignedInteger:updateXRefStmSize],@"Length":[NSNumber numberWithUnsignedInteger:updateXrefStmBody.length],@"W":[[[PDFArray alloc] initWithPDFRepresentation:@"[1 3 1]"] autorelease],@"Prev":[NSNumber numberWithUnsignedInteger:updateXRefStmPrev]};
+                           
+                           NSString* updateTrailerXrefStm = [NSString stringWithFormat:@"%u %u obj\n%@\nstream\n%@\nendstream\nendobj",updateXRefStmObjectNumber,0,[xrefTrailerHeaderDictionaryObj updatedRepresentation:updateDif],updateXrefStmBody];
+                           
+                           
+                           NSString* finalAppend = [NSString stringWithFormat:@"\n%@\n%@\nstartxref\n%u\n",updateStream,updateTrailerXrefStm,updateXRefStmOffset];
+                           
+                           [retval appendString:[finalAppend stringByAppendingString:@"%%EOF"]];
+                       
+                       }
+                           else
+                       {
                            dispatch_async(dispatch_get_main_queue(), ^{
                                completion(NO);
                            });
                            return ;
-                           
                        }
                        
                        
@@ -632,9 +684,5 @@
     
 }
 
--(NSString*)codeForObjectWithNumber:(NSInteger)objectNumber GenerationNumber:(NSInteger)generationNumber
-{
-    return nil;
-}
 
 @end
