@@ -437,10 +437,9 @@
 {
     _jsParser = [[UIWebView alloc] init];
     _jsParser.delegate = self;
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"javascript-runtime" ofType:@"html"];
-    NSURL* address = [NSURL fileURLWithPath:path];
-    NSURLRequest* request = [NSURLRequest requestWithURL:address];
-    [_jsParser loadRequest:request];
+    NSString* javascript = @"<html><head><script>function Event(){this.__defineGetter__('value',function(){return getDocumentValueForKey('EventValue')});this.__defineGetter__('willCommit',function(){return true})}function logArray(e){var t='';for(var n=0;n<e.length-1;n++){if(typeof e[n]!='undefined')t=t+e[n]+'*delim*'}if(typeof e[e.length-1]!='undefined')t=t+e[e.length-1];return t}function sizeArray(e){var t=0;for(var n=0;n<e.length;n++){if(typeof e[n]!='undefined')t++}return t}function Field(e){this.name=e;this.type=getDocumentValueForKey('Field('+e+').type');this.items=[];var t=getDocumentValueForKey('Field('+e+').items');if(t!=null){if(t.length==0)this.items=[];else this.items=t.split('*delim*')}var n=getDocumentValueForKey('Field('+e+').value');this.__defineGetter__('value',function(){return n});this.__defineSetter__('value',function(e){n=e;setDocumentKeyValue('Field('+this.name+').value',e)});this.__defineGetter__('numItems',function(){return sizeArray(this.items)});this.setAction=function(e,t){};this.clearItems=function(){this.items=[];setDocumentKeyValue('Field('+this.name+').items',logArray(this.items))};this.insertItemAt=function(e,t){this.items[t]=e;setDocumentKeyValue('Field('+this.name+').items',logArray(this.items))}}function getField(e){var t=getDocumentValueForKey('Field('+e+').name');if(t!=null)return new Field(t);return null}function getPrintParams(){return null}function print(e){}function submitForm(e){var t='';for(property in e){t+=property+':'+e[property]+';'}setDocumentKeyValue('SubmitForm',t)}function setDocumentKeyValue(e,t){store[e]=t}function getDocumentValueForKey(e){return store[e]}window.event=new Event;window.store=new Object</script></head><body></body></html>";
+    NSData* htmlData = [javascript dataUsingEncoding:NSUTF8StringEncoding];
+    [_jsParser loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:[NSURL URLWithString:@"localhost"]];
 }
 
 #pragma mark - UIWebDelegate
@@ -449,5 +448,6 @@
 {
     [self initializeJS];
 }
+
 
 @end

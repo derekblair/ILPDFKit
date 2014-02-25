@@ -67,7 +67,6 @@
 		67640C9C188F605100A4134F /* PDFStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFStream.h; sourceTree = "<group>"; };
 		67640C9D188F605100A4134F /* PDFStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFStream.m; sourceTree = "<group>"; };
 		67640C9E188F605100A4134F /* PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDF.h; sourceTree = "<group>"; };
-		67640CA0188F605100A4134F /* javascript-runtime.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "javascript-runtime.html"; sourceTree = "<group>"; };
 		67640CA2188F605100A4134F /* PDFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFUtility.h; sourceTree = "<group>"; };
 		67640CA3188F605100A4134F /* PDFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFUtility.m; sourceTree = "<group>"; };
 		67640CA5188F605100A4134F /* PDFFormButtonField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFFormButtonField.h; sourceTree = "<group>"; };
@@ -142,14 +141,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		67640C9F188F605100A4134F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				67640CA0188F605100A4134F /* javascript-runtime.html */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		67640CA1188F605100A4134F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,7 +204,6 @@
 			children = (
 				67640C85188F605100A4134F /* Controller */,
 				67640C8D188F605100A4134F /* Model */,
-				67640C9F188F605100A4134F /* Resources */,
 				67640CA1188F605100A4134F /* Utility */,
 				67640CA4188F605100A4134F /* View */,
 				8F26D91B185E7CB9005C00A4 /* Supporting Files */,

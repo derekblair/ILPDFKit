@@ -7,39 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		674DA78918BC301F00BB62EF /* testB.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 674DA78818BC301F00BB62EF /* testB.pdf */; };
+		674DA79118BC360B00BB62EF /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 674DA79018BC352E00BB62EF /* libILPDFKit.a */; };
 		67640CC9188F655B00A4134F /* testA.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC6188F655B00A4134F /* testA.pdf */; };
 		67CD1D1218909EBD00B153A1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CD1D1118909EBD00B153A1 /* libz.dylib */; };
-		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
 		8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746118026E90003DD132 /* CoreGraphics.framework */; };
 		8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B746318026E90003DD132 /* UIKit.framework */; };
 		8F8B746C18026E90003DD132 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B746B18026E90003DD132 /* main.m */; };
 		8F8B747018026E90003DD132 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8B746F18026E90003DD132 /* AppDelegate.m */; };
 		8F8B747218026E90003DD132 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F8B747118026E90003DD132 /* Images.xcassets */; };
-		8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */ = {isa = PBXBuildFile; fileRef = 8F9B1600185EDEBF0013901C /* javascript-runtime.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8F26D94F185E7E26005C00A4 /* PBXContainerItemProxy */ = {
+		674DA78F18BC352E00BB62EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
+			containerPortal = 674DA78B18BC352E00BB62EF /* ILPDFKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8F26D915185E7CB9005C00A4;
-			remoteInfo = ILPDFKit;
-		};
-		8F9B15F5185ED5650013901C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F26D914185E7CB9005C00A4;
 			remoteInfo = ILPDFKit;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		674DA78818BC301F00BB62EF /* testB.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testB.pdf; sourceTree = "<group>"; };
+		674DA78B18BC352E00BB62EF /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILPDFKit.xcodeproj; path = ILPDFKit/ILPDFKit.xcodeproj; sourceTree = "<group>"; };
 		67640CC6188F655B00A4134F /* testA.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testA.pdf; sourceTree = "<group>"; };
 		67CD1D1118909EBD00B153A1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8B745F18026E90003DD132 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8F8B746118026E90003DD132 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -51,7 +45,6 @@
 		8F8B746F18026E90003DD132 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8F8B747118026E90003DD132 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8F8B747818026E90003DD132 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		8F9B1600185EDEBF0013901C /* javascript-runtime.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "javascript-runtime.html"; path = "ILPDFKit/Resources/javascript-runtime.html"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				674DA79118BC360B00BB62EF /* libILPDFKit.a in Frameworks */,
 				67CD1D1218909EBD00B153A1 /* libz.dylib in Frameworks */,
-				8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */,
 				8F8B746218026E90003DD132 /* CoreGraphics.framework in Frameworks */,
 				8F8B746418026E90003DD132 /* UIKit.framework in Frameworks */,
 				8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */,
@@ -70,10 +63,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8F26D94C185E7E26005C00A4 /* Products */ = {
+		674DA78C18BC352E00BB62EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8F26D950185E7E26005C00A4 /* libILPDFKit.a */,
+				674DA79018BC352E00BB62EF /* libILPDFKit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,7 +74,7 @@
 		8F8B745318026E90003DD132 = {
 			isa = PBXGroup;
 			children = (
-				8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */,
+				674DA78B18BC352E00BB62EF /* ILPDFKit.xcodeproj */,
 				8F8B746518026E90003DD132 /* PDFSampleApp */,
 				8F8B745E18026E90003DD132 /* Frameworks */,
 				8F8B745D18026E90003DD132 /* Products */,
@@ -122,8 +115,8 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				674DA78818BC301F00BB62EF /* testB.pdf */,
 				67640CC6188F655B00A4134F /* testA.pdf */,
-				8F9B1600185EDEBF0013901C /* javascript-runtime.html */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
 				8F8B746B18026E90003DD132 /* main.m */,
 				8F8B746D18026E90003DD132 /* PDFSampleApp-Prefix.pch */,
@@ -145,7 +138,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8F9B15F6185ED5650013901C /* PBXTargetDependency */,
 			);
 			name = PDFSampleApp;
 			productName = PDFSampleApp;
@@ -174,8 +166,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8F26D94C185E7E26005C00A4 /* Products */;
-					ProjectRef = 8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */;
+					ProductGroup = 674DA78C18BC352E00BB62EF /* Products */;
+					ProjectRef = 674DA78B18BC352E00BB62EF /* ILPDFKit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -186,11 +178,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8F26D950185E7E26005C00A4 /* libILPDFKit.a */ = {
+		674DA79018BC352E00BB62EF /* libILPDFKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libILPDFKit.a;
-			remoteRef = 8F26D94F185E7E26005C00A4 /* PBXContainerItemProxy */;
+			remoteRef = 674DA78F18BC352E00BB62EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -200,9 +192,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
 				67640CC9188F655B00A4134F /* testA.pdf in Resources */,
+				674DA78918BC301F00BB62EF /* testB.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,14 +211,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8F9B15F6185ED5650013901C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ILPDFKit;
-			targetProxy = 8F9B15F5185ED5650013901C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8F8B748618026E90003DD132 /* Debug */ = {
@@ -262,6 +246,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -297,6 +285,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -314,6 +306,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = "PDFSampleApp/PDFSampleApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -332,6 +328,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFSampleApp/PDFSampleApp-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = "PDFSampleApp/PDFSampleApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
