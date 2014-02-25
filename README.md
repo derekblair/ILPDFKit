@@ -14,7 +14,7 @@
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following: 
     
 ```objective-c
-#import "pdf.h"
+#import "PDF.h"
 
 _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
     
