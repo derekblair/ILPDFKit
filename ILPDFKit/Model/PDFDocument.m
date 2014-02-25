@@ -25,7 +25,6 @@
 
 @implementation PDFDocument
 {
-    NSString* _sourceCode;
     NSString* _documentPath;
     PDFDictionary* _catalog;
     PDFDictionary* _info;
@@ -43,7 +42,6 @@
     [_info release];
     [_pages release];
     [_forms release];
-    [_sourceCode release];
     CGPDFDocumentRelease(_document);
     [super dealloc];
 }
@@ -106,7 +104,6 @@
     [_catalog release];_catalog = nil;
     [_pages release];_pages = nil;
     [_info release];_info = nil;
-    [_sourceCode release];_sourceCode = nil;
     CGPDFDocumentRelease(_document);_document = NULL;
     _document = [PDFUtility createPDFDocumentRefFromData:self.documentData];
 }

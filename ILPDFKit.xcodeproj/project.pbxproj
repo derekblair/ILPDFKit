@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		674DA78218BBDA3400BB62EF /* PDFSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 674DA78118BBDA3400BB62EF /* PDFSerializer.m */; };
+		674DA78618BC2ED200BB62EF /* PDFObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 674DA78518BC2ED200BB62EF /* PDFObjectParser.m */; };
 		67640CB2188F605100A4134F /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C89188F605100A4134F /* PDFViewController.m */; };
-		67640CB3188F605100A4134F /* PDFObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C8C188F605100A4134F /* PDFObjectParser.m */; };
 		67640CB4188F605100A4134F /* PDFArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C8F188F605100A4134F /* PDFArray.m */; };
 		67640CB5188F605100A4134F /* PDFDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C91188F605100A4134F /* PDFDictionary.m */; };
 		67640CB6188F605100A4134F /* PDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C93188F605100A4134F /* PDFDocument.m */; };
@@ -46,10 +46,10 @@
 /* Begin PBXFileReference section */
 		674DA78018BBDA3400BB62EF /* PDFSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFSerializer.h; sourceTree = "<group>"; };
 		674DA78118BBDA3400BB62EF /* PDFSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFSerializer.m; sourceTree = "<group>"; };
+		674DA78418BC2ED200BB62EF /* PDFObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFObjectParser.h; sourceTree = "<group>"; };
+		674DA78518BC2ED200BB62EF /* PDFObjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFObjectParser.m; sourceTree = "<group>"; };
 		67640C88188F605100A4134F /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
 		67640C89188F605100A4134F /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
-		67640C8B188F605100A4134F /* PDFObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFObjectParser.h; sourceTree = "<group>"; };
-		67640C8C188F605100A4134F /* PDFObjectParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFObjectParser.m; sourceTree = "<group>"; };
 		67640C8E188F605100A4134F /* PDFArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFArray.h; sourceTree = "<group>"; };
 		67640C8F188F605100A4134F /* PDFArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFArray.m; sourceTree = "<group>"; };
 		67640C90188F605100A4134F /* PDFDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFDictionary.h; sourceTree = "<group>"; };
@@ -117,15 +117,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		67640C8A188F605100A4134F /* Experimental */ = {
-			isa = PBXGroup;
-			children = (
-				67640C8B188F605100A4134F /* PDFObjectParser.h */,
-				67640C8C188F605100A4134F /* PDFObjectParser.m */,
-			);
-			path = Experimental;
-			sourceTree = "<group>";
-		};
 		67640C8D188F605100A4134F /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +153,8 @@
 		67640CA1188F605100A4134F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				674DA78418BC2ED200BB62EF /* PDFObjectParser.h */,
+				674DA78518BC2ED200BB62EF /* PDFObjectParser.m */,
 				67640CA2188F605100A4134F /* PDFUtility.h */,
 				67640CA3188F605100A4134F /* PDFUtility.m */,
 			);
@@ -219,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				67640C85188F605100A4134F /* Controller */,
-				67640C8A188F605100A4134F /* Experimental */,
 				67640C8D188F605100A4134F /* Model */,
 				67640C9F188F605100A4134F /* Resources */,
 				67640CA1188F605100A4134F /* Utility */,
@@ -295,9 +287,9 @@
 				67640CB6188F605100A4134F /* PDFDocument.m in Sources */,
 				67640CC0188F605100A4134F /* PDFFormTextField.m in Sources */,
 				67640CBA188F605100A4134F /* PDFPage.m in Sources */,
+				674DA78618BC2ED200BB62EF /* PDFObjectParser.m in Sources */,
 				67640CBB188F605100A4134F /* PDFStream.m in Sources */,
 				67640CBC188F605100A4134F /* PDFUtility.m in Sources */,
-				67640CB3188F605100A4134F /* PDFObjectParser.m in Sources */,
 				67640CBF188F605100A4134F /* PDFFormSignatureField.m in Sources */,
 				674DA78218BBDA3400BB62EF /* PDFSerializer.m in Sources */,
 				67640CB4188F605100A4134F /* PDFArray.m in Sources */,
