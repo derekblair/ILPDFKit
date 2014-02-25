@@ -3,7 +3,7 @@
 A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
 
-![screenshot](http://imgur.com/oo5HLUg.png "Screenshot")
+![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
 
 ## Installation
 
@@ -13,34 +13,40 @@ A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following:
 
-    _pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
+    _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
     
     
     // Manually set a form value
     
-    [_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"FullName"];
+    [_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"Contacts.FirstName"];
     
     // Save a form updated manually or via the user to disk
     
     [_pdfViewController.document saveFormsToDocumentData]
     [_pdfViewController.document writeToFile:somePath];
 
-## PDF Support
+## PDF Support 
 
-  The PDF standard is constanty evolving and many more recent features are not supported, especially those introduced after PDF 1.3.
+ILPDFKit currently supports a narrow range of PDF versions and is not suitable for a production app that needs to save general PDF files from versions 1.3 to 1.7
   
-    
+ PDF features that cause issues with saving include:
+  
+  1. Linearized PDF files (Linearization is broken after save. File will open correctly using UIWebView, Preview, and Chrome but Adobe reader fails)
+  
+  2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes refered to as compressed files as object streams can compress PDF objects in the file).
+  
 ## Features
+
+
 
 
   For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
   
   * View and interact with PDF forms (Button, Text, and Choice)
   * Extract and modify AcroForm values.
-  * Support for JavaScript PDF actions (A, E and K keys)
-  * Save form data to the original PDF file (Uncompressed PDF files only)
+  * Support for JavaScript PDF actions (A, E and K keys) (Limited)
+  * Save form data to the original PDF file (See limitations above)
   * Created XML respresentation of all forms and data for form submission.
-  * Print filled out forms to a printer or flat PDF.
   * Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
   * Rapidly, parse, extract and analyze PDF document structure, data and properties.
   
@@ -61,20 +67,22 @@ A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 	{
 		// Get
 		NSString* formValue = form.value;
-		NSString* formName = form.name;
+		NSString* formName = form.name; // Fully qualified field name.
 		
 		// Set
-		form.value = @"hahahaha";
+		form.value = @"foo";
 		// If the form is visible on screen it will updated automatically.
 	}
 
 
 ### Saving Forms
 
-	[_pdfViewController.document saveFormsToDocumentData];
-	/* At this point, _pdfViewController.documentData represents the updated PDF.
-	   You can do as you wish with it. Upload, save to disk etc.
-	*/ 
+	[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
+		/* At this point, _pdfViewController.documentData represents the updated PDF.
+	   	   You can do as you wish with it. Upload, save to disk etc.
+		*/
+	}];
+	 
 	
 ### Sending Form XML Data 
 
