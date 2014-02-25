@@ -6,7 +6,6 @@
 /**
     The PDFSerialzer class encapsulates the task of saving the changes in a PDF, such as form value changes, to the source PDF file itself.
  The file can then easily to be written to disk or sent over the internet with the changes intact. This class is a static class.
- 
  */
 @interface PDFSerializer : NSObject
 

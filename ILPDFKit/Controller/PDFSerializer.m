@@ -7,10 +7,8 @@
 
 
 @interface PDFSerializer()
-//+(NSString*)indirectObjectFrom:(NSString*)str withUniqueIdentifiers:(NSArray*)idents newValue:(NSString*)value objectNumber:(NSUInteger*)objectNumber generationNumber:(NSUInteger*)generationNumber type:(PDFFormType)type;
++(NSString*)indirectObjectFrom:(NSString*)str withUniqueIdentifiers:(NSArray*)idents newValue:(NSString*)value objectNumber:(NSUInteger*)objectNumber generationNumber:(NSUInteger*)generationNumber type:(PDFFormType)type;
 +(NSString*)constructTrailer:(NSString*)file FinalOffset:(NSUInteger)fo;
-+(NSArray*)pdfObjectsParsedFormObjectStream:(NSString*)stream number:(NSUInteger)number;
-+(NSString*)appendedStringForObjStmObjectWithSearchA:(NSString*)searchA searchB:(NSString*)searchB form:(PDFForm*)form source:(NSString*)sourceCode baseData:(NSData*)baseData currentAppendedString:(NSString*)curAppend;
 @end
 
 @implementation PDFSerializer
@@ -54,10 +52,6 @@
                    });
                    
                     NSString* indirectObject  = [PDFSerializer indirectObjectFrom:sourceCode withUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB]  newValue:form.value objectNumber:&objectNumber generationNumber:&generationNumber type:form.formType];
-                    
-                    
-                    //[self indirectObjectFrom:sourceCode  withUniqueIdentifiers:@[uniqueSearchIdentifierA,uniqueSearchIdentifierB] newValue:form.value objectNumber:&objectNumber generationNumber:&generationNumber type:form.formType];
-                    
                    if(indirectObject)
                    {
                        NSString* objectNumberString = [NSString stringWithFormat:@"%u",(unsigned int)objectNumber];
@@ -67,15 +61,6 @@
                        [retval appendFormat:@"\r%@\rxref\r0 1\r0000000000 65535 f\r\n%@ 1\r%@ %@ n\r\n",indirectObject,objectNumberString,offsetString,generationNumberString];
                        NSUInteger finalOffset = [retval rangeOfString:@"xref" options:NSBackwardsSearch].location+[baseData length];
                        [retval appendString:[self constructTrailer:[sourceCode stringByAppendingString:retval] FinalOffset:finalOffset]];
-                   }
-                   else if([sourceCode rangeOfString:@"ObjStm"].location!=NSNotFound)
-                   {
-                       NSString* finalAppend = [PDFSerializer appendedStringForObjStmObjectWithSearchA:uniqueSearchIdentifierA searchB:uniqueSearchIdentifierB form:form source:sourceCode baseData:baseData currentAppendedString:retval];
-                
-                       if(finalAppend){
-                           [retval appendString:[finalAppend stringByAppendingString:@"%%EOF"]];
-                       }
-                       else isSuccess = NO;
                    }
                    else isSuccess = NO;
                }
@@ -171,9 +156,12 @@
     return [[NSString stringWithFormat:@"trailer\r%@\rstartxref\r%u\r",newTrailer,(unsigned int)fo] stringByAppendingString:@"%%EOF"];
 }
 
+// Do not venture beyond here. Crazy broken code lies beyond.
+
+/*
 +(NSArray*)pdfObjectsParsedFormObjectStream:(NSString*)stream number:(NSUInteger)number
 {
-    /*NSMutableArray* ret = [NSMutableArray array];
+    NSMutableArray* ret = [NSMutableArray array];
     
     NSUInteger currentStart = 0;
     NSUInteger currentEnd = 0;
@@ -223,16 +211,17 @@
         }
     }
     
-    return ret;*/
-    return nil;
+    return ret;
+
 }
+*/
 
-
+/*
 +(NSString*)appendedStringForObjStmObjectWithSearchA:(NSString*)searchA searchB:(NSString*)searchB form:(PDFForm*)form source:(NSString*)sourceCode baseData:(NSData*)baseData currentAppendedString:(NSString*)curAppend
 {
     
     
-  /*  __block NSUInteger objectNumber;
+    __block NSUInteger objectNumber;
     __block NSUInteger generationNumber;
     
     __block   NSRange searchRange;
@@ -380,10 +369,10 @@
         
         
         return finalAppend;
-    }else return nil;*/
-    return nil;
+    }else return nil;
+
     
-}
+}*/
 
 
 @end
