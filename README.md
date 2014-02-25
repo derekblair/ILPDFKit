@@ -75,8 +75,7 @@ _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
 ### Getting/Setting Form Values Explicity
 
 ```objective-c
-for(PDFForm* form in _pdfViewController.document.forms)
-{
+for(PDFForm* form in _pdfViewController.document.forms){
 	// Get
 	NSString* formValue = form.value;
 	NSString* formName = form.name; // Fully qualified field name.

@@ -16,6 +16,7 @@
     CGFloat _maxFontSize;
     CGFloat _fontScaleFactor;
     CGFloat _lineHeight;
+    CGFloat _iPhoneCorrection;
 }
 
 
@@ -41,6 +42,9 @@
         
         //The scale the font size with respect to the field height.
         _fontScaleFactor = 0.75;
+        
+        
+        _iPhoneCorrection = (iPad?1.0:0.6);
         
         if(multiline == NO)
         {
@@ -123,7 +127,7 @@
            }
            
            
-           _fontSize = _baseFontSize*_zoomScale;
+           _fontSize = _baseFontSize*_zoomScale*_iPhoneCorrection;
           
            textField.font = [UIFont systemFontOfSize:_fontSize];
        }
@@ -141,7 +145,7 @@
 {
     [super updateWithZoom:zoom];
     
-    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom]];
+    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom*_iPhoneCorrection]];
     [_textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];
 }
