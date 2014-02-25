@@ -1,6 +1,6 @@
 #ILPDFKit
 
-A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
+> A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
 
 ![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
@@ -11,19 +11,17 @@ A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
 
 ## Quick Start
 
- The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following:
-
-    _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
+ The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following: 
     
+```objective-c
+_pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
     
-    // Manually set a form value
+// Manually set a form value
+[_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"Contacts.FirstName"];
     
-    [_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"Contacts.FirstName"];
-    
-    // Save a form updated manually or via the user to disk
-    
-    [_pdfViewController.document saveFormsToDocumentData]
-    [_pdfViewController.document writeToFile:somePath];
+// Save via a flat PDF.
+NSData* flatPDF = [_pdfViewController.document flatten]
+```
 
 ## PDF Support 
 
@@ -95,6 +93,13 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
 
 [CocoaDocs](http://cocoadocs.org/docsets/ILPDFKit)
 
+
+
+## Contact
+
+
+[Derek Blair](http://github.com/derekblair)
+[@derekblr](https://twitter.com/derekblr)
 
 ## License
 
