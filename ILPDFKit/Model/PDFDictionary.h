@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import "PDFObject.h"
@@ -122,6 +123,18 @@
 
 
 
+
+/**---------------------------------------------------------------------------------------
+ * @name Updating Representations
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/** Returns the number of entries in the dictionary.
+
+ @param The PDF dictionary to apply to an update by merging values taking precendence over the receiver.
+ @return The updated representation
+ */
 -(NSString*)updatedRepresentation:(NSDictionary*)update;
 
 

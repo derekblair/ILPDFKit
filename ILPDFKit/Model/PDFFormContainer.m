@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFFormContainer.h"
 #import "PDFDocument.h"
@@ -43,6 +44,8 @@
 }
 
 
+#pragma mark - NSObject
+
 
 -(void)dealloc
 {
@@ -52,6 +55,9 @@
     [_jsParser release];
     [super dealloc];
 }
+
+
+#pragma mark - Initialization
 
 -(id)initWithParentDocument:(PDFDocument*)parent
 {
@@ -75,7 +81,12 @@
         [self loadJS];
     }
     return self;
-}   
+}
+
+
+
+
+#pragma mark - Getting Forms
 
 -(NSArray*)formsWithName:(NSString*)name
 {
@@ -110,6 +121,8 @@
     return _allForms;
 }
 
+
+#pragma mark - Adding and Removing Forms
 
 -(void)addForm:(PDFForm*)form
 {
@@ -217,12 +230,7 @@
     [self populateNameTreeNode:dict WithComponents:[components subarrayWithRange:NSMakeRange(1, [components count]-1)] Final:final];
 }
 
-
-#pragma mark - JS
-
-
-
-#pragma mark - Value Setting
+#pragma mark - Form Value Setting
 
 
 -(void)setValue:(NSString*)val ForFormWithName:(NSString*)name
@@ -321,8 +329,10 @@
 
 
 
-
 @implementation PDFFormContainer(JavascriptExecution)
+
+
+#pragma mark - Javascript
 
 
 -(void)setEventValue:(id)value
@@ -433,7 +443,7 @@
     [_jsParser loadRequest:request];
 }
 
-#pragma mark - UIWebViewDidFinishLoading
+#pragma mark - UIWebDelegate
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {

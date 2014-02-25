@@ -1,26 +1,9 @@
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFObjectParser.h"
 #import "PDFUtility.h"
-//#import "PDFDocument.h"
 #import "PDFObject.h"
-
-
-
-
-@interface NSString(Test)
--(id)objectForKey:(NSString*)key;
-@end
-
-
-@implementation NSString(Test)
-
--(id)objectForKey:(NSString*)key
-{
-    NSLog(@"the string causing problems is %@",self);
-    return nil;
-}
-
-@end
 
 #define isDelim(c) ((c) == '(' || (c) == ')' || (c) == '<' || (c) == '>' || (c) == '[' || (c) == ']' || (c) == '{' || (c) == '}' || (c) == '/' ||  (c) == '%')
 #define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
@@ -46,8 +29,9 @@ PDFObjectParserState;
 @implementation PDFObjectParser
 {
     NSString* _str;
-    //PDFDocument* _parentDocument;
 }
+
+#pragma mark - NSObject
 
 -(void)dealloc
 {
@@ -55,20 +39,20 @@ PDFObjectParserState;
     [super dealloc];
 }
 
-+(PDFObjectParser*)parserWithString:(NSString *)strg //Document:(PDFDocument*)parentDocument
+
+#pragma mark - Initialization
+
++(PDFObjectParser*)parserWithString:(NSString *)strg
 {
-    return [[[PDFObjectParser alloc] initWithString:strg /*Document:parentDocument*/] autorelease];
+    return [[[PDFObjectParser alloc] initWithString:strg] autorelease];
     
 }
 
--(id)initWithString:(NSString *)strg// Document:(PDFDocument*)parentDocument
+-(id)initWithString:(NSString *)strg
 {
     self = [super init];
     if(self!=nil)
     {
-      
-       // _parentDocument = parentDocument;
-        
         if([strg characterAtIndex:0]=='<')
         {
             _str = [strg substringWithRange:NSMakeRange(1, strg.length-2)] ;
@@ -77,7 +61,6 @@ PDFObjectParserState;
         
         if(_str)
         {
-            
             //Here we replace indirect object references with a representation that is more easily parsed on the next step.
             NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"(\\d+)\\s+(\\d+)\\s+[R](\\W)" options:0 error:NULL];
             _str = [regex stringByReplacingMatchesInString:_str options:0 range:NSMakeRange(0, _str.length) withTemplate:@"($1,$2,ioref)$3"];
@@ -88,6 +71,8 @@ PDFObjectParserState;
     }
     return self;
 }
+
+#pragma mark - Parsing
 
 -(id)parseNextElement:(PDFObjectParserState*)state
 {
@@ -153,19 +138,7 @@ PDFObjectParserState;
 
 -(id)pdfObjectFromString:(NSString*)st
 {
-    
     NSString* work = [st stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
-    
-    /*if([work hasSuffix:@"ioref)"] && [work characterAtIndex:0] == '(')
-    {
-        NSArray* tokens = [[work substringWithRange:NSMakeRange(1, work.length-1)] componentsSeparatedByString:@","];
-        [[tokens objectAtIndex:0] integerValue] [[tokens objectAtIndex:1] integerValue]
-        
-        
-        
-        
-        
-    }*/
 
     if([work characterAtIndex:0] == '(' && [work characterAtIndex:work.length-1] == ')'){
         NSString* ret = [work substringWithRange:NSMakeRange(1, work.length-2)]; // String
@@ -197,11 +170,7 @@ PDFObjectParserState;
     if([work isEqualToString:@"false"])return [NSNumber numberWithBool:NO];
     if([work isEqualToString:@"null"])return nil;
     
-    return [[PDFObject createWithPDFRepresentation:work /*Document:_parentDocument*/] autorelease];
-    
-   
-    
-    
+    return [[PDFObject createWithPDFRepresentation:work] autorelease];
 }
 
 #pragma mark - NSFastEnumeration
@@ -226,7 +195,6 @@ PDFObjectParserState;
         parserState.startOfScanIndex = (NSUInteger)((state->extra)[1]);
         
     }
-    
 
     NSUInteger batchCount = 0;
     while (parserState.index < _str.length && batchCount < len)

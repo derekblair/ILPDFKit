@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import <Foundation/Foundation.h>
 
@@ -27,7 +28,26 @@ As an example:
 
 @interface PDFObjectParser : NSObject<NSFastEnumeration>
 
--(id)initWithString:(NSString*)strg;// Document:(PDFDocument*)parentDocument;
-+(PDFObjectParser*)parserWithString:(NSString*)strg;// Document:(PDFDocument*)parentDocument;
+
+/**---------------------------------------------------------------------------------------
+ * @name Creating a PDFObjectParser
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/** Initializes with a string to parse
+ 
+ @param strg The string to parse.
+ @return self.
+ */
+-(id)initWithString:(NSString*)strg;
+
+
+/** Creates an autoreleased instance of PDFObjectParser initialized with a string.
+ 
+ @param strg The string to parse.
+ @return An instance of PDFObjectParser.
+ */
++(PDFObjectParser*)parserWithString:(NSString*)strg;
 
 @end

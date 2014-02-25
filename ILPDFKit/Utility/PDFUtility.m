@@ -1,15 +1,16 @@
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFUtility.h"
 #import "PDFObject.h"
 #import "PDFDocument.h"
-
 #import <zlib.h>
 
 @implementation PDFUtility
 
-
-#pragma mark - Memory Lifecycle
 static PDFUtility* _sharedPDFUtility = nil;
+
+#pragma mark - NSObject
 
 -(void)dealloc
 {
@@ -28,6 +29,19 @@ static PDFUtility* _sharedPDFUtility = nil;
     return self;
 }
 
++(id)alloc
+{
+	@synchronized([PDFUtility class])
+	{
+		NSAssert(_sharedPDFUtility == nil, @"Attempted to allocate a second instance of a PDFUtility");
+		_sharedPDFUtility = [super alloc];
+		return _sharedPDFUtility;
+	}
+	return nil;
+}
+
+#pragma mark - Shared Instance
+
 +(PDFUtility*)sharedPDFUtility
 {
 	@synchronized([PDFUtility class])
@@ -40,16 +54,8 @@ static PDFUtility* _sharedPDFUtility = nil;
 	return nil;
 }
 
-+(id)alloc
-{
-	@synchronized([PDFUtility class])
-	{
-		NSAssert(_sharedPDFUtility == nil, @"Attempted to allocate a second instance of a PDFUtility");
-		_sharedPDFUtility = [super alloc];
-		return _sharedPDFUtility;
-	}
-	return nil;
-}
+
+#pragma mark - Utility Functions
 
 
 +(CGContextRef)outputPDFContextCreate:(const CGRect *)inMediaBox Path:(CFStringRef)path
@@ -106,19 +112,20 @@ static PDFUtility* _sharedPDFUtility = nil;
     
     if([obj isKindOfClass:[NSString class]])
     {
-        if([obj isName])
+        
+        if([obj rangeOfString:@"ioref"].location!=NSNotFound)
+        {
+            NSArray* tokens = [obj componentsSeparatedByString:@","];
+            objRepresentation = [NSString stringWithFormat:@"%u %u R",[[tokens objectAtIndex:0] integerValue],[[tokens objectAtIndex:1] integerValue]];
+            
+        }
+        else if([obj isName])
         {
             objRepresentation = [NSString stringWithFormat:@"/%@",[PDFUtility pdfEncodedString:obj]];
         }
         else
         {
-            if([obj hasSuffix:@"ioref"])
-            {
-                NSArray* tokens = [obj componentsSeparatedByString:@","];
-                objRepresentation = [NSString stringWithFormat:@"%u %u R",[[tokens objectAtIndex:0] integerValue],[[tokens objectAtIndex:1] integerValue]];
-                
-            }
-            else objRepresentation = [NSString stringWithFormat:@"(%@)",obj];
+            objRepresentation = [NSString stringWithFormat:@"(%@)",obj];
         }
     }
     else if([obj isKindOfClass:[NSData class]])
@@ -222,9 +229,6 @@ static PDFUtility* _sharedPDFUtility = nil;
     return ret;
 }
 
-
-
-
 +(NSString*)urlEncodeStringXML:(NSString*)str
 {
     if(str == nil)return nil;
@@ -234,8 +238,6 @@ static PDFUtility* _sharedPDFUtility = nil;
     return [[str stringByReplacingOccurrencesOfString:@"<" withString:@"&#60;"] stringByReplacingOccurrencesOfString:@">" withString:@"&#62;"] ;
     
 }
-
-
 
 +(NSData *)gzipInflate:(NSData*)data
 {

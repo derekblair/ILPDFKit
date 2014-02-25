@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFDictionary.h"
 #import "PDFArray.h"
@@ -301,9 +302,11 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
 
 -(NSString*)updatedRepresentation:(NSDictionary*)update
 {
-    NSArray* keys = [self allKeys];
+    
+    NSArray* keys = [[[NSSet setWithArray:[self allKeys]] setByAddingObjectsFromArray:[update allKeys]] allObjects];
+    
     NSMutableString* ret = [NSMutableString stringWithString:@"<<\n"];
-    for(int i = 0  ; i < [self count];i++)
+    for(int i = 0  ; i < [keys count];i++)
     {
         NSString* key = [keys objectAtIndex:i];
         if(![[update objectForKey:key] isKindOfClass:[NSNull class]])
@@ -318,6 +321,10 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
     }
     
     [ret appendString:@">>"];
+    
+    NSRegularExpression* regex = [[NSRegularExpression alloc] initWithPattern:@"\\((\\d+),(\\d+),ioref\\)" options:0 error:NULL];
+    ret = [NSMutableString stringWithString:[regex stringByReplacingMatchesInString:ret options:0 range:NSMakeRange(0, ret.length) withTemplate:@" $1 $2 R "]];
+    [regex release];
     
     return [NSString stringWithString:ret];
 }

@@ -1,3 +1,5 @@
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFForm.h"
 #import "PDFFormButtonField.h"
@@ -33,6 +35,29 @@
     PDFWidgetAnnotationView* _formUIElement;
     
 }
+
+
+#pragma mark - NSObject
+
+-(void)dealloc
+{
+    
+    [self removeObservers];
+    self.dictionary = nil;
+    self.value = nil;
+    self.options = nil;
+    self.name = nil;
+    self.uname = nil;
+    self.actions = nil;
+    self.exportValue = nil;
+    self.defaultValue = nil;
+    self.setAppearanceStream = nil;
+    self.rawRect = nil;
+    self.flagsString = nil;
+    [super dealloc];
+}
+
+#pragma mark - Initialization
 
 -(id)initWithFieldDictionary:(PDFDictionary*)leaf Page:(PDFPage*)pg Parent:(PDFFormContainer*)p
 {
@@ -151,23 +176,8 @@
     return self;
 }
 
--(void)dealloc
-{
-    
-    [self removeObservers];
-    self.dictionary = nil;
-    self.value = nil;
-    self.options = nil;
-    self.name = nil;
-    self.uname = nil;
-    self.actions = nil;
-    self.exportValue = nil;
-    self.defaultValue = nil;
-    self.setAppearanceStream = nil;
-    self.rawRect = nil;
-    self.flagsString = nil;
-    [super dealloc];
-}
+
+#pragma mark - Upating Forms
 
 -(void)setOptions:(NSArray *)opt
 {
@@ -295,6 +305,9 @@
 }
 
 
+#pragma mark - Form UI Representation
+
+
 -(PDFWidgetAnnotationView*)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
 {
     if([_flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
@@ -331,14 +344,11 @@
     for(NSUInteger c = 0; c < self.page-1;c++)
     {
         PDFPage* pg = [self.parent.document.pages objectAtIndex:c];
-        
         CGFloat iwidth = [pg cropBox].size.width;
-        
         CGFloat ihmargin = ((maxWidth-iwidth)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
         CGFloat iheight = [pg cropBox].size.height;
         CGFloat irealWidth = vwidth-2*ihmargin;
         CGFloat ifactor = irealWidth/iwidth;
-        
         pageOffset+= iheight*ifactor+ymargin;
     }
     
@@ -450,8 +460,6 @@
     else
     {
         [_parent setValue:[v value] ForFormWithName:self.name];
-        
-        //[_parent performSelector:@selector(setEventValue:) withObject:self.value ];
         ((PDFFormAction*)[_actions objectForKey:@"K"]).prefix = ((PDFFormAction*)[_actions objectForKey:@"E"]).string;
         [[_actions objectForKey:@"K"] execute];
     }
@@ -461,6 +469,9 @@
 {
     self.options = ((PDFWidgetAnnotationView*)sender).options;
 }
+
+
+#pragma mark - Resetting Forms
 
 -(void)reset
 {

@@ -1,3 +1,5 @@
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFPage.h"
 #import "PDFDictionary.h"
@@ -17,13 +19,16 @@
     PDFDictionary* _resources;
 }
 
-
+#pragma mark - NSObject
 
 -(void)dealloc
 {
     [_dictionary release];
     [super dealloc];
 }
+
+
+#pragma mark - Initialization
 
 -(id)initWithPage:(CGPDFPageRef)pg
 {

@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFObject.h"
 #import "PDFUtility.h"
@@ -30,13 +31,12 @@
 
 @end
 
-
-
 @implementation PDFObject
 {
     NSString* _representation;
 }
 
+#pragma mark - NSObject
 
 -(void)dealloc
 {
@@ -66,25 +66,14 @@
     return [[PDFObject alloc] initWithPDFRepresentation:rep];
 }
 
-/*
-+(PDFObject*)createWithObjectNumber:(NSUInteger)objNumber GenerationNumber:(NSUInteger)genNumber Document:(PDFDocument*)parentDocument
-{
-    PDFObject* ret =  [PDFObject createWithPDFRepresentation:[parentDocument codeForObjectWithNumber:objNumber GenerationNumber:genNumber] Document:parentDocument];
-    ret.objectNumber = objNumber;
-    ret.generationNumber = genNumber;
-    
-    return ret;
-}*/
 
-
--(id)initWithPDFRepresentation:(NSString*)rep// Document:(PDFDocument*)parentDocument
+-(id)initWithPDFRepresentation:(NSString*)rep
 {
     self = [super init];
     if(self != nil)
     {
         NSString* temp = [rep stringByTrimmingCharactersInSet:[PDFUtility whiteSpaceCharacterSet]];
         _representation = [temp retain];
-       // _parentDocument = parentDocument;
       
     }
     
@@ -100,18 +89,6 @@
     }
     return self;
 }
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    PDFObject *newObject = [[self class] allocWithZone:zone];
-    newObject->_representation = [_representation copyWithZone:zone];
-   // newObject.objectNumber = _objectNumber;
-   // newObject.generationNumber = _generationNumber;
-   // newObject->_parentDocument = _parentDocument;
-    return newObject;
-}
-
 
 
 

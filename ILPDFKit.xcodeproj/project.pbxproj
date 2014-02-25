@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		674DA78218BBDA3400BB62EF /* PDFSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 674DA78118BBDA3400BB62EF /* PDFSerializer.m */; };
 		67640CB2188F605100A4134F /* PDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C89188F605100A4134F /* PDFViewController.m */; };
 		67640CB3188F605100A4134F /* PDFObjectParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C8C188F605100A4134F /* PDFObjectParser.m */; };
 		67640CB4188F605100A4134F /* PDFArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 67640C8F188F605100A4134F /* PDFArray.m */; };
@@ -43,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		674DA78018BBDA3400BB62EF /* PDFSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFSerializer.h; sourceTree = "<group>"; };
+		674DA78118BBDA3400BB62EF /* PDFSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFSerializer.m; sourceTree = "<group>"; };
 		67640C88188F605100A4134F /* PDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFViewController.h; sourceTree = "<group>"; };
 		67640C89188F605100A4134F /* PDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
 		67640C8B188F605100A4134F /* PDFObjectParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFObjectParser.h; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 			children = (
 				67640C88188F605100A4134F /* PDFViewController.h */,
 				67640C89188F605100A4134F /* PDFViewController.m */,
+				674DA78018BBDA3400BB62EF /* PDFSerializer.h */,
+				674DA78118BBDA3400BB62EF /* PDFSerializer.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 				67640CBC188F605100A4134F /* PDFUtility.m in Sources */,
 				67640CB3188F605100A4134F /* PDFObjectParser.m in Sources */,
 				67640CBF188F605100A4134F /* PDFFormSignatureField.m in Sources */,
+				674DA78218BBDA3400BB62EF /* PDFSerializer.m in Sources */,
 				67640CB4188F605100A4134F /* PDFArray.m in Sources */,
 				67640CC2188F605100A4134F /* PDFWidgetAnnotationView.m in Sources */,
 				67640CB5188F605100A4134F /* PDFDictionary.m in Sources */,

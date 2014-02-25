@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import "PDFForm.h"
@@ -119,13 +120,9 @@
  */
 
 /** Attemps to run a script that at most can mutate the state of the document forms.
+ @param script The script to execute.
  */
 -(void)executeScript:(NSString*)script;
-
-
-
-
-
 
 
 

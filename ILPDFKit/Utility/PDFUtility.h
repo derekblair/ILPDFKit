@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import <Foundation/Foundation.h>
 
@@ -91,8 +92,23 @@
 +(NSString*)urlEncodeStringXML:(NSString*)str;
 
 
+/**
+ @param data The data to decompress
+ @return The gzip decompressed data.
+ */
 +(NSData*)gzipInflate:(NSData*)data;
-+ (NSData *)zlibDeflate:(NSData*)data;
+
+/**
+ @param data The data to compress
+ @return The zlib compressed data.
+ */
++(NSData *)zlibDeflate:(NSData*)data;
+
+
+/**
+ @param data The data to decompress
+ @return The zlib decompressed data.
+ */
 +(NSData*)zlibInflate:(NSData*)data;
 
 

@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFFormAction.h"
 #import "PDFForm.h"
@@ -9,7 +10,22 @@
 @implementation PDFFormAction
 
 
+
+#pragma mark - NSObject
+
+-(void)dealloc
+{
+    self.string = nil;
+    self.prefix = nil;
+    self.key = nil;
+    [super dealloc];
+}
+
+
 // Only Javascript Actions are Supported
+
+
+#pragma mark - Initialization
 
 -(id)initWithActionDictionary:(PDFDictionary*)dict
 {
@@ -37,6 +53,7 @@
     return self;
 }
 
+#pragma mark - Script Execution
 
 -(void)execute
 {
@@ -45,12 +62,6 @@
     [(self.parent.parent) executeScript:exec];
 }
 
--(void)dealloc
-{
-    self.string = nil;
-    self.prefix = nil;
-    self.key = nil;
-    [super dealloc];
-}
+
 
 @end

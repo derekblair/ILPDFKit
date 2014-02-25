@@ -1,4 +1,5 @@
-
+//  Created by Derek Blair on 2/24/2014.
+//  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
@@ -10,8 +11,6 @@
         [self.navigationController pushDetailViewController:pdfViewController animated:YES];
         [pdfViewController release];
  */
-
-
 
 
 @class PDFView;

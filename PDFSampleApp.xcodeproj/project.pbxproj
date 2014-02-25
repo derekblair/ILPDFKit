@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		67640CC9188F655B00A4134F /* testA.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC6188F655B00A4134F /* testA.pdf */; };
-		67640CCA188F655B00A4134F /* testB.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC7188F655B00A4134F /* testB.pdf */; };
-		67640CCB188F655B00A4134F /* testC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 67640CC8188F655B00A4134F /* testC.pdf */; };
-		678600931896FC8F007CA80E /* testD.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 678600921896FC8F007CA80E /* testD.pdf */; };
-		6786009518974C5D007CA80E /* testE.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6786009418974C5D007CA80E /* testE.pdf */; };
 		67CD1D1218909EBD00B153A1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 67CD1D1118909EBD00B153A1 /* libz.dylib */; };
 		8F26D98A185E7F5C005C00A4 /* libILPDFKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F26D950185E7E26005C00A4 /* libILPDFKit.a */; };
 		8F8B746018026E90003DD132 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8B745F18026E90003DD132 /* Foundation.framework */; };
@@ -42,10 +38,6 @@
 
 /* Begin PBXFileReference section */
 		67640CC6188F655B00A4134F /* testA.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testA.pdf; sourceTree = "<group>"; };
-		67640CC7188F655B00A4134F /* testB.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testB.pdf; sourceTree = "<group>"; };
-		67640CC8188F655B00A4134F /* testC.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testC.pdf; sourceTree = "<group>"; };
-		678600921896FC8F007CA80E /* testD.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testD.pdf; sourceTree = "<group>"; };
-		6786009418974C5D007CA80E /* testE.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testE.pdf; sourceTree = "<group>"; };
 		67CD1D1118909EBD00B153A1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8F26D94B185E7E26005C00A4 /* ILPDFKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ILPDFKit.xcodeproj; sourceTree = "<group>"; };
 		8F8B745C18026E90003DD132 /* PDFSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,11 +122,7 @@
 		8F8B746618026E90003DD132 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6786009418974C5D007CA80E /* testE.pdf */,
-				678600921896FC8F007CA80E /* testD.pdf */,
 				67640CC6188F655B00A4134F /* testA.pdf */,
-				67640CC7188F655B00A4134F /* testB.pdf */,
-				67640CC8188F655B00A4134F /* testC.pdf */,
 				8F9B1600185EDEBF0013901C /* javascript-runtime.html */,
 				8F8B746718026E90003DD132 /* PDFSampleApp-Info.plist */,
 				8F8B746B18026E90003DD132 /* main.m */,
@@ -215,10 +203,6 @@
 				8F9B1601185EDEBF0013901C /* javascript-runtime.html in Resources */,
 				8F8B747218026E90003DD132 /* Images.xcassets in Resources */,
 				67640CC9188F655B00A4134F /* testA.pdf in Resources */,
-				67640CCA188F655B00A4134F /* testB.pdf in Resources */,
-				6786009518974C5D007CA80E /* testE.pdf in Resources */,
-				67640CCB188F655B00A4134F /* testC.pdf in Resources */,
-				678600931896FC8F007CA80E /* testD.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
