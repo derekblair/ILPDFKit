@@ -21,6 +21,14 @@ _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
     
 // Save via a flat PDF.
 NSData* flatPDF = [_pdfViewController.document flatten]
+
+// Save directing to the original document, preserving interactive features
+[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
+		/* At this point, _pdfViewController.documentData represents the updated PDF.
+	   	   You can do as you wish with it. Upload, save to disk etc.
+		*/
+}];
+
 ```
 
 ## PDF Support 
@@ -54,38 +62,46 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
 
 ### Filling out Forms
 
-	_pdfViewController = [[PDFViewController alloc] initWithResource:@"test"];
-	[self.window setRootViewController:_pdfViewController];
-	// Have fun filling out the form.
+```objective-c
+_pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
+
+[self.window setRootViewController:_pdfViewController];
+// Have fun filling out the form.
+```
 
 
 ### Getting/Setting Form Values Explicity
 
-	for(PDFForm* form in _pdfViewController.document.forms)
-	{
-		// Get
-		NSString* formValue = form.value;
-		NSString* formName = form.name; // Fully qualified field name.
-		
-		// Set
-		form.value = @"foo";
-		// If the form is visible on screen it will updated automatically.
-	}
+```objective-c
+for(PDFForm* form in _pdfViewController.document.forms)
+{
+	// Get
+	NSString* formValue = form.value;
+	NSString* formName = form.name; // Fully qualified field name.
+	
+	// Set
+	form.value = @"foo";
+	// If the form is visible on screen it will updated automatically.
+}
+```
 
 
 ### Saving Forms
 
-	[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
-		/* At this point, _pdfViewController.documentData represents the updated PDF.
-	   	   You can do as you wish with it. Upload, save to disk etc.
-		*/
-	}];
+```objective-c
+[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
+	/* At this point, _pdfViewController.documentData represents the updated PDF.
+   	   You can do as you wish with it. Upload, save to disk etc.
+	*/
+}];
+```
 	 
 	
 ### Sending Form XML Data 
-
-	NSString* documentFormsXML = [_pdfViewController.document formsXML];
-	// Push to webservice
+```objective-c
+NSString* documentFormsXML = [_pdfViewController.document formsXML];
+// Push to webservice
+```
 	
 
 
