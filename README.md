@@ -7,7 +7,8 @@
 
 ## Installation
 
-   Move the ILPDFKit folder and the ILPDFKit.xcodeproj file to your app directory. Add ILPDFKit.xcodeproj to your app project. Ensure your app links against the libILPDFKit.a target. Then you should be good to go.
+   You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the UIKit and QuartzCore frameworks. Alternatively, you may use Cocoa Pods, with the pod, 'ILPDFKit' . 
+
 
 ## Quick Start
 
