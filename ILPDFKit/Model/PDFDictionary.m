@@ -113,7 +113,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info)
         else
         {
             nsdFiller = [NSMutableDictionary dictionary];
-            NSMutableArray* keysAndValues = [NSMutableArray array];
+            NSMutableArray* keysAndValues = [[NSMutableArray alloc] init];
             
             PDFObjectParser* parser = [PDFObjectParser parserWithString:[self pdfFileRepresentation]];
             

@@ -20,6 +20,13 @@
 }
 
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]
+    removeObserver:self];
+}
+
+
 -(id)initWithFrame:(CGRect)frame Multiline:(BOOL)multiline Alignment:(UITextAlignment)alignment SecureEntry:(BOOL)secureEntry ReadOnly:(BOOL)ro
 {
     self = [super initWithFrame:frame];
@@ -38,7 +45,7 @@
         _fontScaleFactor = 0.75;
         
         
-        _iPhoneCorrection = (iPad?1.0:0.6);
+        _iPhoneCorrection = (iPad?1.2:0.6);
         
         if(multiline == NO)
         {
@@ -138,7 +145,6 @@
 -(void)updateWithZoom:(CGFloat)zoom
 {
     [super updateWithZoom:zoom];
-    
     [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom*_iPhoneCorrection]];
     [_textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];
@@ -173,12 +179,12 @@
 -(void)textViewDidBeginEditing:(UITextView*)textView
 {
     [self.delegate widgetAnnotationEntered:self];
-    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
+    self.parentView.activeWidgetAnnotationView = self;
 }
 
 -(void)textViewDidEndEditing:(UITextView*)textView{
   
-    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
+    self.parentView.activeWidgetAnnotationView = nil;
 }
 
 -(void)textViewDidChange:(UITextView*)textView
@@ -235,12 +241,12 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.delegate widgetAnnotationEntered:self];
-     ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
+     self.parentView.activeWidgetAnnotationView = self;
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
+    self.parentView.activeWidgetAnnotationView = nil;
 }
 
 

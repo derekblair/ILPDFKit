@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @class PDFWidgetAnnotationView;
-
+@class PDFView;
 
 /** The PDFWidgetAnnotationViewDelegate responds to user interaction with a PDFWidgetAnnotationView.
  */
@@ -50,6 +50,11 @@
 /** The delegate.
  */
 @property(nonatomic,weak) NSObject<PDFWidgetAnnotationViewDelegate>* delegate;
+
+
+/** The parent view.
+ */
+@property(nonatomic,weak) PDFView* parentView;
 
 
 

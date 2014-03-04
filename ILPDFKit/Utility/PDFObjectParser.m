@@ -67,7 +67,7 @@ PDFObjectParserState;
     NSUInteger index = state->index;
     NSUInteger nestCount = state -> nestCount;
     NSUInteger startOfScanIndex = state -> startOfScanIndex;
-    id ret = nil;
+    id __strong ret = nil;
     
     while(index < _str.length)
     {
@@ -186,7 +186,7 @@ PDFObjectParserState;
     NSUInteger batchCount = 0;
     while (parserState.index < _str.length && batchCount < len)
     {
-        id obj = [self parseNextElement:&parserState];
+        __autoreleasing id obj = [self parseNextElement:&parserState];
         if(obj)
         {
             stackbuf[batchCount] = obj;
@@ -199,7 +199,7 @@ PDFObjectParserState;
     ((state->extra)[1]) = (unsigned long)parserState.startOfScanIndex;
     
     state->itemsPtr = stackbuf;
-    state->mutationsPtr = &((state->extra)[2]);
+    state->mutationsPtr = (__bridge void*)_str;
     
     return batchCount;
 }

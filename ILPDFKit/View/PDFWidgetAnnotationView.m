@@ -2,8 +2,19 @@
 //  Copyright (c) 2014 iwelabs. All rights reserved.
 
 #import "PDFWidgetAnnotationView.h"
+#import "PDFView.h"
 
 @implementation PDFWidgetAnnotationView
+
+
+-(void)dealloc
+{
+    if(_parentView.activeWidgetAnnotationView == self)
+    {
+        [self resign];
+        _parentView.activeWidgetAnnotationView = nil;
+    }
+}
 
 -(id)initWithFrame:(CGRect)frame
 {

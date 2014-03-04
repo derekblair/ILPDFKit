@@ -37,6 +37,7 @@
     PDFFormChoiceFieldDropIndicator* _dropIndicator;
     CGFloat _baseFontHeight;
     CGFloat _iPhoneCorrection;
+    CGFloat _iPhoneCellCorrection;
 }
 
 
@@ -62,7 +63,8 @@
         self.clipsToBounds = YES;
         _baseFontHeight = MAX(floorf(frame.size.height)-2,12);
         
-        _iPhoneCorrection = (iPad?1.0:0.8);
+         _iPhoneCorrection = (iPad?0.95:0.7);
+         _iPhoneCellCorrection = (iPad?0.8:0.7);
         
         _selection = [[UILabel alloc] initWithFrame:CGRectMake(1, 0, frame.size.width-frame.size.height, frame.size.height)];
         _selection.opaque = NO;
@@ -153,7 +155,7 @@
     [super updateWithZoom:zoom];
     _dropIndicator.frame = CGRectMake(self.frame.size.width-self.frame.size.height*1.5, -self.frame.size.height*0.25, self.frame.size.height*1.5, self.frame.size.height*1.5);
     _selection.frame  = CGRectMake(1, 0, self.frame.size.width, self.frame.size.height);
-    [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*zoom*(iPad?1.0:0.6)]];
+    [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*zoom*_iPhoneCorrection]];
     _dropIndicator.transform = CGAffineTransformMakeRotation(0);
     [_dropIndicator setNeedsDisplay];
     _tv.alpha = 0;
@@ -186,7 +188,7 @@
     cell.textLabel.opaque = NO;
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.opaque = NO;
-    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX([self tableView:tableView heightForRowAtIndexPath:indexPath]*0.8,_baseFontHeight)*(iPad?1.0:0.7)]];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX([self tableView:tableView heightForRowAtIndexPath:indexPath],_baseFontHeight)*_iPhoneCellCorrection]];
     cell.textLabel.text = [_options objectAtIndex:indexPath.row];
     [cell.textLabel setTextColor:[UIColor blackColor]];
     return cell;
@@ -230,7 +232,7 @@
     
     if(_dropped)
     {
-        ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = self;
+        self.parentView.activeWidgetAnnotationView = self;
         [_tv reloadData];
         
         if(_selectedIndex < [_options count])
@@ -247,7 +249,7 @@
     }
     else 
     {
-        ((PDFView*)(self.superview.superview.superview)).activeWidgetAnnotationView = nil;
+        self.parentView.activeWidgetAnnotationView = nil;
         [UIView animateWithDuration:0.3 animations:^{
             _tv.alpha = 0;
             self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/MIN(6,[_options count]+1));

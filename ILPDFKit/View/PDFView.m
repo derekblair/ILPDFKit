@@ -10,10 +10,14 @@
 
 
 @interface PDFView()
+    -(void)fadeInWidgetAnnotations;
 @end
 
 
 @implementation PDFView
+{
+    BOOL _canvasLoaded;
+}
 
 - (id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews
 {
@@ -25,12 +29,10 @@
         _pdfView.scalesPageToFit = YES;
         _pdfView.scrollView.delegate = self;
         _pdfView.scrollView.bouncesZoom = NO;
+        _pdfView.delegate = self;
         _pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
          self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
         
-       
-        
-       
         [self addSubview:_pdfView];
         [_pdfView.scrollView setZoomScale:1];
         [_pdfView.scrollView setContentOffset:CGPointZero];
@@ -42,7 +44,10 @@
         
         for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
         {
+            element.alpha = 0;
+            element.parentView = self;
             [_pdfView.scrollView addSubview:element];
+            
             if([element isKindOfClass:[PDFFormButtonField class]])
             {
                 [(PDFFormButtonField*)element setButtonSuperview];
@@ -76,6 +81,19 @@
 {
     [viewToRemove removeFromSuperview];
     [_pdfWidgetAnnotationViews removeObject:viewToRemove];
+}
+
+
+#pragma mark - UIWebViewDelegate
+
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    _canvasLoaded = YES;
+    if(_pdfWidgetAnnotationViews)
+    {
+        [self fadeInWidgetAnnotations];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -130,14 +148,33 @@
     for(UIView* v in _pdfWidgetAnnotationViews)[v removeFromSuperview];
     _pdfWidgetAnnotationViews = nil;
     _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:additionViews];
+    
     for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
     {
+        element.alpha = 0;
+        element.parentView = self;
         [_pdfView.scrollView addSubview:element];
         if([element isKindOfClass:[PDFFormButtonField class]])
         {
             [(PDFFormButtonField*)element setButtonSuperview];
         }
     }
+    
+    
+    if(_canvasLoaded)[self fadeInWidgetAnnotations];
+}
+
+
+#pragma mark - Hidden
+
+
+-(void)fadeInWidgetAnnotations
+{
+    [UIView animateWithDuration:0.7 delay:0.3 options:0 animations:^{
+        for(UIView* v in _pdfWidgetAnnotationViews)v.alpha = 1;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 
