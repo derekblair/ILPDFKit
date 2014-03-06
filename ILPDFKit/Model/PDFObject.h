@@ -7,9 +7,15 @@
 /**
  This category is used to tell the difference between a string and a name while always using a NSString.
  */
-
 @interface NSString(PDF)
+
+/**
+ @return YES if the receiver is obtained via the parsing of a PDF name.
+ */
     -(BOOL)isName;
+/**
+ @param isName Used to declare the receiver to be treated as a PDF name when interacting with other PDF objects.
+ */
     -(void)setAsName:(BOOL)isName;
 @end
 
@@ -49,7 +55,6 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 /**
  Initializes a pdf object based on a string representation of that object.
  @param rep The string representation of the PDF object from the parent document.
-@param parentDocument The parent document containing the object.
  @return The representation of the object as it is defined in its parent document.
  */
 
@@ -60,7 +65,6 @@ Note that Strings and Numbers may be presented as generic PDFObject instances in
 /**
  Creates a new pdf object based on a string representation of that object.
  @param rep The string representation of the PDF object from the parent document.
- @param parentDocument The parent document containing the object.
  @return The representation of the object as it is defined in its parent document.
  */
 

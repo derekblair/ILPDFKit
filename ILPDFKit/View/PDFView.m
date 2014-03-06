@@ -170,7 +170,7 @@
 
 -(void)fadeInWidgetAnnotations
 {
-    [UIView animateWithDuration:0.7 delay:0.3 options:0 animations:^{
+    [UIView animateWithDuration:0.5 delay:0.2 options:0 animations:^{
         for(UIView* v in _pdfWidgetAnnotationViews)v.alpha = 1;
     } completion:^(BOOL finished) {
         

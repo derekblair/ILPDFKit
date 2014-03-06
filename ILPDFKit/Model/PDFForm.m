@@ -659,6 +659,10 @@
 
 @end
 
+@interface PDFForm (Private)
+-(PDFWidgetAnnotationView*)annotationView;
+@end
+
 @implementation PDFForm(Private)
 
 -(PDFWidgetAnnotationView*)annotationView
@@ -667,3 +671,7 @@
 }
 
 @end
+
+
+
+

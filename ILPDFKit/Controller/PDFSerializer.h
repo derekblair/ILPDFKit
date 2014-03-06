@@ -9,5 +9,12 @@
  */
 @interface PDFSerializer : NSObject
 
+
+/** Attempts to save any changes in the PDF forms of a document to the document itself.
+ 
+ @param baseData The data that represents the PDF file you are saving to.
+ @param forms The collection of forms that contain the changes to save if they exist.
+ @param completion Called after the save operation has completed.
+ */
 +(void)saveDocumentChanges:(NSMutableData*)baseData basedOnForms:(id<NSFastEnumeration>)forms  completion:(void (^)(BOOL success))completion;
 @end

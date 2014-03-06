@@ -116,7 +116,7 @@
  */
 -(void)writeToFile:(NSString*)name;
 
-/** Flattens the interactive elements, rendering the form values directly in the PDF.
+/** Flattens the interactive elements, rendering the form values directly in the PDF. Useful for saving the PDF.
  @return The data for the static flattened PDF.
  */
 -(NSData*)flattenedData;

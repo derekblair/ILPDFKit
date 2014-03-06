@@ -13,6 +13,7 @@
  * @name Creating a PDF context
  *  ---------------------------------------------------------------------------------------
  */
+
 /** Creates a PDF context.
  @param inMediaBox The media box defining the pages for the PDF context.
  @param path Points to the file to attach to the context.
@@ -22,7 +23,7 @@
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDF Document
- *
+ *  ---------------------------------------------------------------------------------------
  */
 
 /** Creates a PDF Document.
@@ -52,8 +53,7 @@
 +(NSString*)pdfEncodedString:(NSString*)stringToEncode;
 
 /** Finds the proper string reprentation of a PDF name string or number
- @param obj The NSString instance or NSNumber instance wrapping the PDF object
- @param type The type
+ @param obj The instance wrapping the PDF object.
  @return The string representation
  */
 +(NSString*)pdfObjectRepresentationFrom:(id)obj;

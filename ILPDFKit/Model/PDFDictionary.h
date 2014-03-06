@@ -49,21 +49,6 @@
 
 -(id)initWithDictionary:(CGPDFDictionaryRef)pdict;
 
-/**---------------------------------------------------------------------------------------
- * @name Getting Object Type
- *  ---------------------------------------------------------------------------------------
- */
-
-/** Returns the CPDFObjectType associated with the PDF object with key aKey.
- 
- @param aKey The key for which to return the corresponding type.
- @return The type of the value associated with aKey, or nil if no value is associated with aKey.
- */
-
-
-
-
-
 
 /**---------------------------------------------------------------------------------------
  * @name Accessing Keys and Values
@@ -132,7 +117,7 @@
 
 /** Returns the number of entries in the dictionary.
 
- @param The PDF dictionary to apply to an update by merging values taking precendence over the receiver.
+ @param update The dictionary to apply to an update by merging values. The passed dictionary takes precedence and passing null for a key indicates that this key should be removed.
  @return The updated representation
  */
 -(NSString*)updatedRepresentation:(NSDictionary*)update;

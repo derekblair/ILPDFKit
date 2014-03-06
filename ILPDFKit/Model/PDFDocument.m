@@ -17,6 +17,7 @@
 
 #define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
 
+
 @interface PDFDocument()
 @end
 
@@ -201,7 +202,10 @@
             CGContextSaveGState(ctx);
             CGRect frame = form.frame;
             CGRect correctedFrame = CGRectMake(frame.origin.x-mediaRect.origin.x, mediaRect.size.height-frame.origin.y-frame.size.height-mediaRect.origin.y, frame.size.width, frame.size.height);
-            PDFWidgetAnnotationView* widgetView = [form annotationView];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            PDFWidgetAnnotationView* widgetView = [form performSelector:@selector(annotationView)];
+#pragma clang diagnostic pop
             CGContextTranslateCTM(ctx, correctedFrame.origin.x, correctedFrame.origin.y);
             [widgetView vectorRenderInPDFContext:ctx ForRect:correctedFrame];
             CGContextRestoreGState(ctx);

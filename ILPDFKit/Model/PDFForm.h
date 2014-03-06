@@ -9,6 +9,7 @@
 
 #define BIT(n,i) (((i)>>(n))&1)
 
+
 typedef NS_ENUM(NSUInteger, PDFFormType) {
     PDFFormTypeNone = 0,
     PDFFormTypeText,
@@ -194,7 +195,8 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 /** Returns a view to represent the form.
  
  @param vwidth The width of the superview bounds.
- @param margin The margin width for the actual content frame in the superview.
+ @param xmargin The horizonal margin width for the actual content frame in the superview.
+ @param ymargin The vertical margin height for the actual content frame in the superview.
  @return A new view representing the form. The caller is responsible for releasing the new form view.
  @discussion The superview must be a UIScrollView or a subclass of UIScrollView.
  */
@@ -206,19 +208,12 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  *  ---------------------------------------------------------------------------------------
  */
 
-
 /**
- 
  Removes any UI elements observing the form value
  */
 
 -(void)removeObservers;
 
-
-
-
 @end
 
-@interface PDFForm (Private)
-    -(PDFWidgetAnnotationView*)annotationView;
-@end
+

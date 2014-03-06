@@ -23,14 +23,7 @@ _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
 [_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"Contacts.FirstName"];
     
 // Save via a flat PDF.
-NSData* flatPDF = [_pdfViewController.document flatten]
-
-// Save directing to the original document, preserving interactive features
-[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
-		/* At this point, _pdfViewController.documentData represents the updated PDF.
-	   	   You can do as you wish with it. Upload, save to disk etc.
-		*/
-}];
+NSData* flatPDF = [_pdfViewController.document flattenedData]
 
 ```
 
