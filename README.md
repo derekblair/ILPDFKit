@@ -102,7 +102,7 @@ NSString* documentFormsXML = [_pdfViewController.document formsXML];
 
 ## Documentation
 
-[CocoaDocs](http://cocoadocs.org/docsets/ILPDFKit)
+[ilpdfkit.com](http://ilpdfkit.com/index.html)
 
 
 
