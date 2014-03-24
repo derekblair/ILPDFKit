@@ -31,7 +31,6 @@
 - (IBAction)viewPDF:(id)sender
 {
     ILPDFKit *ilpdf = [[ILPDFKit alloc] initWithPDF:@"testA.pdf"];
-    [ilpdf setDebugForms:TRUE];
     [self presentViewController:ilpdf animated:YES completion:^{}];
 }
 
