@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-#import "PDF.h"
+#import "ILPDFKit.h"
 
 @interface ViewController ()
 
