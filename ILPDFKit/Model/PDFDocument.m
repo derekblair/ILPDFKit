@@ -199,16 +199,18 @@
         
         for(PDFForm* form in self.forms)
         {
-            CGContextSaveGState(ctx);
-            CGRect frame = form.frame;
-            CGRect correctedFrame = CGRectMake(frame.origin.x-mediaRect.origin.x, mediaRect.size.height-frame.origin.y-frame.size.height-mediaRect.origin.y, frame.size.width, frame.size.height);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-            PDFWidgetAnnotationView* widgetView = [form performSelector:@selector(annotationView)];
-#pragma clang diagnostic pop
-            CGContextTranslateCTM(ctx, correctedFrame.origin.x, correctedFrame.origin.y);
-            [widgetView vectorRenderInPDFContext:ctx ForRect:correctedFrame];
-            CGContextRestoreGState(ctx);
+            if(form.page == page) {
+                CGContextSaveGState(ctx);
+                CGRect frame = form.frame;
+                CGRect correctedFrame = CGRectMake(frame.origin.x-mediaRect.origin.x, mediaRect.size.height-frame.origin.y-frame.size.height-mediaRect.origin.y, frame.size.width, frame.size.height);
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wundeclared-selector"
+                PDFWidgetAnnotationView* widgetView = [form performSelector:@selector(annotationView)];
+    #pragma clang diagnostic pop
+                CGContextTranslateCTM(ctx, correctedFrame.origin.x, correctedFrame.origin.y);
+                [widgetView vectorRenderInPDFContext:ctx ForRect:correctedFrame];
+                CGContextRestoreGState(ctx);
+            }
         }
     }
     
