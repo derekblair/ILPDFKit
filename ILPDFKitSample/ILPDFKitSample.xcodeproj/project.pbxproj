@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CD7A07518E0C74200B8FED3 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7A07118E0C74200B8FED3 /* Main_iPad.storyboard */; };
+		0CD7A07618E0C74200B8FED3 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7A07318E0C74200B8FED3 /* Main_iPhone.storyboard */; };
+		0CD7A07918E0C74900B8FED3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7A07818E0C74900B8FED3 /* ViewController.m */; };
+		0CD7A07C18E0C7B800B8FED3 /* ILPDFKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7A07B18E0C7B800B8FED3 /* ILPDFKit.m */; };
 		67AB6D1C18C5189F005E8D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB6D1B18C5189F005E8D36 /* Foundation.framework */; };
 		67AB6D1E18C5189F005E8D36 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB6D1D18C5189F005E8D36 /* CoreGraphics.framework */; };
 		67AB6D2018C5189F005E8D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67AB6D1F18C5189F005E8D36 /* UIKit.framework */; };
@@ -38,6 +42,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CD7A07218E0C74200B8FED3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		0CD7A07418E0C74200B8FED3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		0CD7A07718E0C74900B8FED3 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0CD7A07818E0C74900B8FED3 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0CD7A07A18E0C7B800B8FED3 /* ILPDFKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPDFKit.h; sourceTree = "<group>"; };
+		0CD7A07B18E0C7B800B8FED3 /* ILPDFKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILPDFKit.m; sourceTree = "<group>"; };
 		67AB6D1818C5189F005E8D36 /* ILPDFKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILPDFKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67AB6D1B18C5189F005E8D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		67AB6D1D18C5189F005E8D36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -139,6 +149,10 @@
 			children = (
 				67AB6D2A18C5189F005E8D36 /* ILAppDelegate.h */,
 				67AB6D2B18C5189F005E8D36 /* ILAppDelegate.m */,
+				0CD7A07118E0C74200B8FED3 /* Main_iPad.storyboard */,
+				0CD7A07318E0C74200B8FED3 /* Main_iPhone.storyboard */,
+				0CD7A07718E0C74900B8FED3 /* ViewController.h */,
+				0CD7A07818E0C74900B8FED3 /* ViewController.m */,
 				67AB6D2D18C5189F005E8D36 /* Images.xcassets */,
 				67AB6D2218C5189F005E8D36 /* Supporting Files */,
 			);
@@ -162,6 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				67AB6D5918C52131005E8D36 /* Controller */,
+				0CD7A07A18E0C7B800B8FED3 /* ILPDFKit.h */,
+				0CD7A07B18E0C7B800B8FED3 /* ILPDFKit.m */,
 				67AB6D5E18C52131005E8D36 /* Model */,
 				67AB6D7118C52131005E8D36 /* PDF.h */,
 				67AB6D7218C52131005E8D36 /* Utility */,
@@ -273,6 +289,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 67AB6D0F18C5189F005E8D36;
 			productRefGroup = 67AB6D1918C5189F005E8D36 /* Products */;
@@ -289,7 +306,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD7A07518E0C74200B8FED3 /* Main_iPad.storyboard in Resources */,
 				67AB6D2618C5189F005E8D36 /* InfoPlist.strings in Resources */,
+				0CD7A07618E0C74200B8FED3 /* Main_iPhone.storyboard in Resources */,
 				67AB6D2E18C5189F005E8D36 /* Images.xcassets in Resources */,
 				67AB6D4C18C518FD005E8D36 /* testA.pdf in Resources */,
 				67AB6D4D18C518FD005E8D36 /* testB.pdf in Resources */,
@@ -307,6 +326,7 @@
 				67AB6D8818C52131005E8D36 /* PDFDocument.m in Sources */,
 				67AB6D8A18C52131005E8D36 /* PDFFormAction.m in Sources */,
 				67AB6D8C18C52131005E8D36 /* PDFObject.m in Sources */,
+				0CD7A07C18E0C7B800B8FED3 /* ILPDFKit.m in Sources */,
 				67AB6D8918C52131005E8D36 /* PDFForm.m in Sources */,
 				67AB6D9518C52131005E8D36 /* PDFView.m in Sources */,
 				67AB6D9018C52131005E8D36 /* PDFUtility.m in Sources */,
@@ -319,6 +339,7 @@
 				67AB6D2C18C5189F005E8D36 /* ILAppDelegate.m in Sources */,
 				67AB6D9418C52131005E8D36 /* PDFFormTextField.m in Sources */,
 				67AB6D9118C52131005E8D36 /* PDFFormButtonField.m in Sources */,
+				0CD7A07918E0C74900B8FED3 /* ViewController.m in Sources */,
 				67AB6D9318C52131005E8D36 /* PDFFormSignatureField.m in Sources */,
 				67AB6D9218C52131005E8D36 /* PDFFormChoiceField.m in Sources */,
 				67AB6D9618C52131005E8D36 /* PDFWidgetAnnotationView.m in Sources */,
@@ -330,6 +351,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0CD7A07118E0C74200B8FED3 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0CD7A07218E0C74200B8FED3 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		0CD7A07318E0C74200B8FED3 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0CD7A07418E0C74200B8FED3 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
 		67AB6D2418C5189F005E8D36 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -375,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -410,7 +447,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

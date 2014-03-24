@@ -9,6 +9,10 @@
 #import "PDF.h"
 
 @interface PDFViewController()
+{
+    UIColor *backColor;
+}
+
     -(void)loadPDFView;
     -(CGRect)currentFrame:(UIInterfaceOrientation)o;
     -(CGPoint)getMargins;
@@ -111,9 +115,19 @@
     [self loadPDFView];
 }
 
--(void)setBackColor:(UIColor*)color
+-(void)setBackColor:(UIColor*)color animated:(BOOL)animated
 {
-    _pdfView.pdfView.backgroundColor = color;
+    backColor = color;
+    
+    if(!backColor)
+        backColor = [UIColor colorWithRed:0.74f green:0.74f blue:0.76f alpha:1.f];
+    
+    if(animated)
+        [UIView animateWithDuration:0.3f animations:^{
+            _pdfView.pdfView.backgroundColor = backColor;
+        }];
+    else
+        _pdfView.pdfView.backgroundColor = backColor;
 }
 
 #pragma mark - Hidden
@@ -139,6 +153,7 @@
     NSArray* additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
         _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
     [self.view addSubview:_pdfView];
+    [self setBackColor:backColor animated:FALSE];
 }
 
 -(CGPoint)getMargins

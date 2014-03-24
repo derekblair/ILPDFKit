@@ -135,6 +135,7 @@
         }
         else
         {
+            keyboardClosed = TRUE;
             [_activeWidgetAnnotationView resign];
         }
     }
