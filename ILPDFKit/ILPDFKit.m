@@ -121,8 +121,17 @@ BOOL debugForms = FALSE;
 
 - (IBAction)openActivitySheet:(UIBarButtonItem*)sender
 {
-    //Create an activity view controller with the profile as its activity item. APLProfile conforms to the UIActivityItemSource protocol.
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[_pdfViewController.document flattenedData]] applicationActivities:nil];
+    //Get the PDF title.
+    NSString *title = @"Attachment-1.pdf";
+    if([_file isKindOfClass:[NSString class]])
+        title = [_file lastPathComponent];
+    
+    //Write the PDF to a temp file.
+    NSString *path = [NSTemporaryDirectory() stringByAppendingString:title];
+    [[_pdfViewController.document flattenedData] writeToFile:path atomically:TRUE];
+    
+    //Create an activity view controller with the PDF as its activity item.
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:path]] applicationActivities:nil];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         //iPhone, present activity view controller as is.
