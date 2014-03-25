@@ -188,13 +188,31 @@
 {
     if(iPad)
     {
-        if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPadWMargin,PDFPortraitPadHMargin);
-        else return CGPointMake(PDFLandscapePadWMargin,PDFLandscapePadHMargin);
+        if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            if(SYSTEM_VERSION_LESS_THAN(@"7.0"))
+                return CGPointMake(PDFPortraitPadWMargin,PDFPortraitPadWMargin);
+        
+            return CGPointMake(PDFPortraitPadWMargin,PDFPortraitPadHMargin);
+        } else {
+            if(SYSTEM_VERSION_LESS_THAN(@"7.0"))
+                return CGPointMake(PDFLandscapePadWMargin,PDFLandscapePadWMargin);
+                
+            return CGPointMake(PDFLandscapePadWMargin,PDFLandscapePadHMargin);
+        }
     }
     else
     {
-        if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPhoneWMargin,PDFPortraitPhoneHMargin);
-        else return CGPointMake(PDFLandscapePhoneWMargin,PDFLandscapePhoneHMargin);
+        if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            if(SYSTEM_VERSION_LESS_THAN(@"7.0"))
+                return CGPointMake(PDFPortraitPhoneWMargin,PDFPortraitPhoneWMargin);
+            
+            return CGPointMake(PDFPortraitPhoneWMargin,PDFPortraitPhoneHMargin);
+        } else {
+            if(SYSTEM_VERSION_LESS_THAN(@"7.0"))
+                return CGPointMake(PDFLandscapePhoneWMargin,PDFLandscapePhoneWMargin);
+                
+            return CGPointMake(PDFLandscapePhoneWMargin,PDFLandscapePhoneHMargin);
+        }
     }
 }
 
