@@ -115,7 +115,7 @@
     loading.center = CGPointMake(self.view.frame.size.width/2+95, self.view.frame.size.height/2-44);
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
-    CGSize size = CGSizeMake(10, spinner.frame.size.height);
+    CGSize size = CGSizeMake(15, spinner.frame.size.height);
     UIGraphicsBeginImageContext(size);
     UIImage* spacer = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
