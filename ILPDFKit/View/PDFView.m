@@ -30,6 +30,7 @@
         _pdfView.scrollView.delegate = self;
         _pdfView.scrollView.bouncesZoom = NO;
         _pdfView.delegate = self;
+        _pdfView.opaque = NO;
         _pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
          self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
         

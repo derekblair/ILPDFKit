@@ -46,7 +46,7 @@ BOOL debugForms = FALSE;
         }
         else {
             file = nil;
-            _pdfViewController = [[PDFViewController alloc] initWithData:file];
+            _pdfViewController = [[PDFViewController alloc] initWithData:nil];
         }
         
         self.navigationBar.translucent = FALSE;
