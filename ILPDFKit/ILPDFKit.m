@@ -46,7 +46,8 @@ BOOL debugForms = FALSE;
         }
         else {
             file = nil;
-            _pdfViewController = [[PDFViewController alloc] initWithData:nil];
+            _pdfViewController = (PDFViewController*)[[UIViewController alloc] init];
+            _pdfViewController.view.backgroundColor = [UIColor colorWithRed:0.74f green:0.74f blue:0.76f alpha:1.f];
         }
         
         self.navigationBar.translucent = FALSE;

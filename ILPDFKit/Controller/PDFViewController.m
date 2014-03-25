@@ -11,6 +11,7 @@
 @interface PDFViewController()
 {
     UIColor *backColor;
+    UITableViewCell *loading;
 }
 
     -(void)loadPDFView;
@@ -46,6 +47,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.opaque = YES;
     [self loadPDFView];
+    [self showLoading];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -78,7 +80,6 @@
     self = [super init];
     if(self != nil)
     {
-        
         _document = [[PDFDocument alloc] initWithData:data];
     }
     return self;
@@ -106,6 +107,27 @@
 }
 
 #pragma mark - Configuration
+
+-(void)showLoading
+{
+    loading = [[UITableViewCell alloc] init];
+    loading.backgroundColor = [UIColor clearColor];
+    loading.center = CGPointMake(self.view.frame.size.width/2+95, self.view.frame.size.height/2-44);
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    CGSize size = CGSizeMake(10, spinner.frame.size.height);
+    UIGraphicsBeginImageContext(size);
+    UIImage* spacer = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    loading.imageView.image = spacer;
+    [loading.imageView addSubview:spinner];
+    
+    [spinner startAnimating];
+    
+    loading.textLabel.text = @"Loading…";
+    loading.textLabel.textColor = [UIColor darkGrayColor];
+    [self.view addSubview:loading];
+}
 
 -(void)reload
 {
@@ -146,14 +168,20 @@
 
 -(void)loadPDFView
 {
-    id pass = (_document.documentPath?_document.documentPath:_document.documentData);
-    CGRect frm = [self currentFrame:self.interfaceOrientation];
-    self.view.frame = CGRectMake(0,self.view.frame.origin.y,frm.size.width,frm.size.height-self.view.frame.origin.y);
-    CGPoint margins = [self getMargins];
-    NSArray* additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
-        _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
-    [self.view addSubview:_pdfView];
-    [self setBackColor:backColor animated:FALSE];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+        id pass = (_document.documentPath?_document.documentPath:_document.documentData);
+        CGRect frm = [self currentFrame:self.interfaceOrientation];
+        self.view.frame = CGRectMake(0,self.view.frame.origin.y,frm.size.width,frm.size.height-self.view.frame.origin.y);
+        CGPoint margins = [self getMargins];
+        NSArray* additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
+            [self.view addSubview:_pdfView];
+            [self setBackColor:backColor animated:FALSE];
+            [loading removeFromSuperview];
+        });
+    });
 }
 
 -(CGPoint)getMargins
