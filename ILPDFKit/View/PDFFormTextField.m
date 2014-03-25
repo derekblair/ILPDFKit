@@ -120,15 +120,10 @@
         UITextField* textField = (UITextField*)_textFieldOrTextView;
         
         CGSize fontSize;
-        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            fontSize = [value sizeWithFont:textField.font];
-#pragma clang diagnostic pop
-            
-        } else {
+        if([value respondsToSelector:@selector(sizeWithAttributes:)])
             fontSize = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}];
-        }
+        else
+            fontSize = [value sizeWithFont:textField.font];
         
         CGFloat factor = fontSize.width/(textField.bounds.size.width);
         
@@ -182,8 +177,12 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = align;
-    //[text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
-    [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    
+    if([text respondsToSelector:@selector(drawAtPoint:withAttributes:)])
+        [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    else
+        [text drawAtPoint:CGPointMake(0,0) withFont:font];
+    
     UIGraphicsPopContext();
 }
 
@@ -239,15 +238,10 @@
     if([newString length] <= [textField.text length])return YES;
     
     CGSize fontSize;
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        fontSize = [newString sizeWithFont:textField.font];
-#pragma clang diagnostic pop
-        
-    } else {
+    if([newString respondsToSelector:@selector(sizeWithAttributes:)])
         fontSize = [newString sizeWithAttributes:@{NSFontAttributeName:textField.font}];
-    }
+    else
+        fontSize = [newString sizeWithFont:textField.font];
     
     if(fontSize.width > (textField.bounds.size.width))
     {
@@ -257,15 +251,11 @@
             _fontSize = _baseFontSize*_zoomScale;
             textField.font = [UIFont systemFontOfSize:_fontSize];
             
-            if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                fontSize = [newString sizeWithFont:textField.font];
-#pragma clang diagnostic pop
-                
-            } else {
+            CGSize fontSize;
+            if([newString respondsToSelector:@selector(sizeWithAttributes:)])
                 fontSize = [newString sizeWithAttributes:@{NSFontAttributeName:textField.font}];
-            }
+            else
+                fontSize = [newString sizeWithFont:textField.font];
             
             if(fontSize.width > (textField.bounds.size.width))return NO;
         }

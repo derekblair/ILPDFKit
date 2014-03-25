@@ -122,35 +122,40 @@ BOOL debugForms = FALSE;
 
 - (IBAction)openActivitySheet:(UIBarButtonItem*)sender
 {
-    //Get the PDF title.
-    NSString *title = @"Attachment-1.pdf";
-    if([_file isKindOfClass:[NSString class]])
-        title = [_file lastPathComponent];
-    
-    //Write the PDF to a temp file.
-    NSString *path = [NSTemporaryDirectory() stringByAppendingString:title];
-    [[_pdfViewController.document flattenedData] writeToFile:path atomically:TRUE];
-    
-    //Create an activity view controller with the PDF as its activity item.
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:path]] applicationActivities:nil];
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        //iPhone, present activity view controller as is.
-        [_pdfViewController presentViewController:activityViewController animated:YES completion:nil];
-    }
-    else
-    {
-        //iPad, present the view controller inside a popover.
-        if (![activityPopover isPopoverVisible]) {
-            activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-            [activityPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
-        else
-        {
-            //Dismiss if the button is tapped while popover is visible.
-            [activityPopover dismissPopoverAnimated:YES];
-        }
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0), ^{
+        //Get the PDF title.
+        NSString *title = @"Attachment-1.pdf";
+        if([_file isKindOfClass:[NSString class]])
+            title = [_file lastPathComponent];
+        
+        //Write the PDF to a temp file.
+        NSString *path = [NSTemporaryDirectory() stringByAppendingString:title];
+        [[_pdfViewController.document flattenedData] writeToFile:path atomically:TRUE];
+        
+        //Create an activity view controller with the PDF as its activity item.
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:path]] applicationActivities:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+                //iPhone, present activity view controller as is.
+                [_pdfViewController presentViewController:activityViewController animated:YES completion:nil];
+            }
+            else
+            {
+                //iPad, present the view controller inside a popover.
+                if (![activityPopover isPopoverVisible]) {
+                    activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+                    if(!self.navigationBarHidden)
+                        [activityPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                }
+                else
+                {
+                    //Dismiss if the button is tapped while popover is visible.
+                    [activityPopover dismissPopoverAnimated:YES];
+                }
+            }
+        });
+    });
 }
 
 - (void)setTitle:(NSString *)title

@@ -172,8 +172,12 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = align;
-    //[text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
-    [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    
+    if([text respondsToSelector:@selector(drawAtPoint:withAttributes:)])
+        [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    else
+        [text drawAtPoint:CGPointMake(0,0) withFont:font];
+    
     UIGraphicsPopContext();
 }
 
