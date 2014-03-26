@@ -215,15 +215,18 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     
-    
-    CGRect textRect = [newString boundingRectWithSize:contentSize
-                                              options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                           attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
-                                              context:nil];
+    CGRect textRect;
+    if([newString respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
+        textRect = [newString boundingRectWithSize:contentSize
+                                           options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                        attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                           context:nil];
+    else
+        textRect = [[[NSAttributedString alloc] initWithString:text] boundingRectWithSize:contentSize
+                                                                                  options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                                                                  context:nil];
     
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
-    
-    
     
     if(usedLines >= numLines && usedLines > 1)return NO;
     return YES;
