@@ -413,6 +413,9 @@
 
 -(void)widgetAnnotationEntered:(PDFWidgetAnnotationView *)sender
 {
+    if(debugForms)
+        NSLog(@"%s %@", __FUNCTION__, self.name);
+    
     [[_actions objectForKey:@"E"] execute];
     [[_actions objectForKey:@"A"] execute];
 }

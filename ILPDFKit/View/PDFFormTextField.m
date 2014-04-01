@@ -23,7 +23,7 @@
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter]
-    removeObserver:self];
+     removeObserver:self];
 }
 
 
@@ -31,9 +31,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-       
+        
         self.opaque = NO;
-        self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
+        self.backgroundColor = ro||readOnly?[UIColor clearColor]:PDFWidgetColor;
         
         //Configure these below
         _minFontSize = 12;
@@ -61,33 +61,33 @@
             ((UITextField*)_textFieldOrTextView).secureTextEntry = YES;
         }
         
-        if(ro)
+        if(ro||readOnly)
         {
             _textFieldOrTextView.userInteractionEnabled = NO;
         }
-    
+        
         if(multiline)
         {
-            ((UITextView*)_textFieldOrTextView).textAlignment = alignment;
+            ((UITextView*)_textFieldOrTextView).textAlignment = (NSTextAlignment)alignment;
             ((UITextView*)_textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             ((UITextView*)_textFieldOrTextView).delegate = self;
-           
+            
             ((UITextView*)_textFieldOrTextView).scrollEnabled = YES;
             [((UITextView*)_textFieldOrTextView) setTextContainerInset:UIEdgeInsetsMake(4, 4, 4, 4)];
         }
-        else 
+        else
         {
-            ((UITextField*)_textFieldOrTextView).textAlignment = alignment;
+            ((UITextField*)_textFieldOrTextView).textAlignment = (NSTextAlignment)alignment;
             ((UITextField*)_textFieldOrTextView).delegate = self;
-           
+            
             ((UITextField*)_textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-            [[NSNotificationCenter defaultCenter] 
-             addObserver:self 
+            [[NSNotificationCenter defaultCenter]
+             addObserver:self
              selector:@selector(textChanged:)
-             name:UITextFieldTextDidChangeNotification 
+             name:UITextFieldTextDidChangeNotification
              object:_textFieldOrTextView];
         }
-       
+        
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
         
@@ -115,25 +115,32 @@
     }
     [_textFieldOrTextView performSelector:@selector(setText:) withObject:value];
     
-   if(_multi == NO)
-   {
-       UITextField* textField = (UITextField*)_textFieldOrTextView;
-       CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
-     
-       {
-           if(_multi == NO)
-           {
-               _baseFontSize = MAX(MIN(_baseFontSize/factor,_maxFontSize),_minFontSize);
-               if(_baseFontSize > _fontScaleFactor * _lineHeight)_baseFontSize = MAX(_fontScaleFactor*_lineHeight,_minFontSize);
-           }
-           
-           
-           _fontSize = _baseFontSize*_zoomScale*_iPhoneCorrection;
-          
-           textField.font = [UIFont systemFontOfSize:_fontSize];
-       }
-   }
-   [self refresh];
+    if(_multi == NO)
+    {
+        UITextField* textField = (UITextField*)_textFieldOrTextView;
+        
+        CGSize fontSize;
+        if([value respondsToSelector:@selector(sizeWithAttributes:)])
+            fontSize = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}];
+        else
+            fontSize = [value sizeWithFont:textField.font];
+        
+        CGFloat factor = fontSize.width/(textField.bounds.size.width);
+        
+        {
+            if(_multi == NO)
+            {
+                _baseFontSize = MAX(MIN(_baseFontSize/factor,_maxFontSize),_minFontSize);
+                if(_baseFontSize > _fontScaleFactor * _lineHeight)_baseFontSize = MAX(_fontScaleFactor*_lineHeight,_minFontSize);
+            }
+            
+            
+            _fontSize = _baseFontSize*_zoomScale*_iPhoneCorrection;
+            
+            textField.font = [UIFont systemFontOfSize:_fontSize];
+        }
+    }
+    [self refresh];
 }
 
 -(NSString*)value
@@ -161,7 +168,7 @@
     [self.delegate widgetAnnotationValueChanged:self];
 }
 
--(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect 
+-(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect
 {
     NSString* text = [(id)_textFieldOrTextView text];
     UIFont* font = [UIFont systemFontOfSize:rect.size.height];
@@ -170,7 +177,12 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = align;
-    [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    
+    if([text respondsToSelector:@selector(drawAtPoint:withAttributes:)])
+        [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    else
+        [text drawAtPoint:CGPointMake(0,0) withFont:font];
+    
     UIGraphicsPopContext();
 }
 
@@ -183,7 +195,7 @@
 }
 
 -(void)textViewDidEndEditing:(UITextView*)textView{
-  
+    
     self.parentView.activeWidgetAnnotationView = nil;
 }
 
@@ -202,17 +214,20 @@
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-   
     
-    CGRect textRect = [newString boundingRectWithSize:contentSize
-                                        options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                      attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
-                                        context:nil];
+    CGRect textRect;
+    if([newString respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
+        textRect = [newString boundingRectWithSize:contentSize
+                                           options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                        attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
+                                           context:nil];
+    else
+        textRect = [[[NSAttributedString alloc] initWithString:text] boundingRectWithSize:contentSize
+                                                                                  options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                                                                  context:nil];
     
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
     
-   
-
     if(usedLines >= numLines && usedLines > 1)return NO;
     return YES;
 }
@@ -224,14 +239,28 @@
 {
     NSString* newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if([newString length] <= [textField.text length])return YES;
-    if([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width))
+    
+    CGSize fontSize;
+    if([newString respondsToSelector:@selector(sizeWithAttributes:)])
+        fontSize = [newString sizeWithAttributes:@{NSFontAttributeName:textField.font}];
+    else
+        fontSize = [newString sizeWithFont:textField.font];
+    
+    if(fontSize.width > (textField.bounds.size.width))
     {
         if(_baseFontSize > _minFontSize)
         {
             _baseFontSize = _minFontSize;
             _fontSize = _baseFontSize*_zoomScale;
             textField.font = [UIFont systemFontOfSize:_fontSize];
-            if([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width))return NO;
+            
+            CGSize fontSize;
+            if([newString respondsToSelector:@selector(sizeWithAttributes:)])
+                fontSize = [newString sizeWithAttributes:@{NSFontAttributeName:textField.font}];
+            else
+                fontSize = [newString sizeWithFont:textField.font];
+            
+            if(fontSize.width > (textField.bounds.size.width))return NO;
         }
         else return NO;
     }
@@ -241,7 +270,7 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.delegate widgetAnnotationEntered:self];
-     self.parentView.activeWidgetAnnotationView = self;
+    self.parentView.activeWidgetAnnotationView = self;
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField

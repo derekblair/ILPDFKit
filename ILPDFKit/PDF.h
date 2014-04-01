@@ -1,15 +1,19 @@
 //  Created by Derek Blair on 2/24/2014.
 //  Copyright (c) 2014 iwelabs. All rights reserved.
 
+#import "ILPDFKit.h"
 #import "PDFDictionary.h"
 #import "PDFArray.h"
 #import "PDFStream.h"
 #import "PDFForm.h"
+#import "PDFFormContainer.h"
 #import "PDFPage.h"
 #import "PDFDocument.h"
 #import "PDFView.h"
 #import "PDFViewController.h"
 
+extern BOOL debugForms;
+extern BOOL readOnly;
 
 // Set this flag to ensure that the Core Graphics functions are used to parse the PDF file.
 // Turning is flag off is experimental and not recommended.
@@ -32,6 +36,8 @@
 #define iPhone5HardMajorWidth 568
 #define iPadHardMinorWidth 768
 #define iPadHardMajorWidth 1024
+
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 
 

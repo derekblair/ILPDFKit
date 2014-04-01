@@ -44,6 +44,9 @@
         [_button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.userInteractionEnabled = NO;
         _button.userInteractionEnabled  = YES;
+        
+        if(readOnly)
+            _button.userInteractionEnabled  = NO;
     }
     return self;
 }
@@ -76,37 +79,38 @@
     rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
     
     
-    CGContextSaveGState(ctx);
-    CGContextSetFillColorWithColor(ctx,PDFWidgetColor.CGColor);
-    if(_radio == NO)
-    {
-        CGContextRef context = ctx;
-        CGFloat radius = minDim/6;
+    if(!readOnly) {
+        CGContextSaveGState(ctx);
+        CGContextSetFillColorWithColor(ctx,PDFWidgetColor.CGColor);
+        if(_radio == NO)
+        {
+            CGContextRef context = ctx;
+            CGFloat radius = minDim/6;
+            
+            CGContextMoveToPoint(context, rect.origin.x, rect.origin.y + radius);
+            CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y + rect.size.height - radius);
+            CGContextAddArc(context, rect.origin.x + radius, rect.origin.y + rect.size.height - radius,
+                            radius, M_PI, M_PI / 2, 1);
+            CGContextAddLineToPoint(context, rect.origin.x + rect.size.width - radius,
+                                    rect.origin.y + rect.size.height);
+            CGContextAddArc(context, rect.origin.x + rect.size.width - radius,
+                            rect.origin.y + rect.size.height - radius, radius, M_PI / 2, 0.0f, 1);
+            CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y + radius);
+            CGContextAddArc(context, rect.origin.x + rect.size.width - radius, rect.origin.y + radius,
+                            radius, 0.0f, -M_PI / 2, 1);
+            CGContextAddLineToPoint(context, rect.origin.x + radius, rect.origin.y);
+            CGContextAddArc(context, rect.origin.x + radius, rect.origin.y + radius, radius,
+                            -M_PI / 2, M_PI, 1);
+            
+            CGContextFillPath(context);
+        }
+        else
+        {
+            CGContextFillEllipseInRect(ctx, rect);
+        }
         
-        CGContextMoveToPoint(context, rect.origin.x, rect.origin.y + radius);
-        CGContextAddLineToPoint(context, rect.origin.x, rect.origin.y + rect.size.height - radius);
-        CGContextAddArc(context, rect.origin.x + radius, rect.origin.y + rect.size.height - radius,
-                        radius, M_PI, M_PI / 2, 1);
-        CGContextAddLineToPoint(context, rect.origin.x + rect.size.width - radius,
-                                rect.origin.y + rect.size.height);
-        CGContextAddArc(context, rect.origin.x + rect.size.width - radius,
-                        rect.origin.y + rect.size.height - radius, radius, M_PI / 2, 0.0f, 1);
-        CGContextAddLineToPoint(context, rect.origin.x + rect.size.width, rect.origin.y + radius);
-        CGContextAddArc(context, rect.origin.x + rect.size.width - radius, rect.origin.y + radius,
-                        radius, 0.0f, -M_PI / 2, 1);
-        CGContextAddLineToPoint(context, rect.origin.x + radius, rect.origin.y);
-        CGContextAddArc(context, rect.origin.x + radius, rect.origin.y + radius, radius,
-                        -M_PI / 2, M_PI, 1);
-        
-        CGContextFillPath(context);
+        CGContextRestoreGState(ctx);
     }
-    else
-    {
-        CGContextFillEllipseInRect(ctx, rect);
-    }
-    
-    CGContextRestoreGState(ctx);
-    
     
     if(_button.selected)
     {

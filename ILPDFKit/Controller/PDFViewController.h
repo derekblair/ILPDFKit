@@ -73,7 +73,7 @@
 /** Sets the background color for the PDF view.
  @param color The new color.
  */
--(void)setBackColor:(UIColor*)color;
+-(void)setBackColor:(UIColor*)color animated:(BOOL)animated;
 
 
 

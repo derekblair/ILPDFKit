@@ -74,7 +74,9 @@
             [self enumerateFields:field PageMap:pmap];
         }
         
-        [self loadJS];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [self loadJS];
+        });
     }
     return self;
 }

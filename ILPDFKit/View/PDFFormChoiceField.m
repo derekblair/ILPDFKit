@@ -48,6 +48,10 @@
     {
         self.opaque = NO;
         self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
+        if(readOnly) {
+            self.backgroundColor = [UIColor clearColor];
+            self.userInteractionEnabled = NO;
+        }
         self.layer.cornerRadius = self.frame.size.height/6;
         _options = opt;
         _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*MIN(5,[_options count])) style:UITableViewStylePlain];
@@ -172,7 +176,12 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.alignment = align;
-    [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    
+    if([text respondsToSelector:@selector(drawAtPoint:withAttributes:)])
+        [text drawAtPoint:CGPointMake(0,0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+    else
+        [text drawAtPoint:CGPointMake(0,0) withFont:font];
+    
     UIGraphicsPopContext();
 }
 

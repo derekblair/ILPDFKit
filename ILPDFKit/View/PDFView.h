@@ -10,6 +10,10 @@
  PDFView is typically not directly instantiated, but instead is used as the instance that comes with PDFViewController.
  */
 @interface PDFView : UIView<UIScrollViewDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
+{
+@public
+    BOOL keyboardClosed;
+}
 
 /** The array contains the PDFWidgetAnnotationView instances that are subviews of the pdfView's scrollView.
  */
