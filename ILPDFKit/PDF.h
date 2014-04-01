@@ -13,6 +13,7 @@
 #import "PDFViewController.h"
 
 extern BOOL debugForms;
+extern BOOL readOnly;
 
 // Set this flag to ensure that the Core Graphics functions are used to parse the PDF file.
 // Turning is flag off is experimental and not recommended.

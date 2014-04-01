@@ -48,6 +48,10 @@
     {
         self.opaque = NO;
         self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
+        if(readOnly) {
+            self.backgroundColor = [UIColor clearColor];
+            self.userInteractionEnabled = NO;
+        }
         self.layer.cornerRadius = self.frame.size.height/6;
         _options = opt;
         _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*MIN(5,[_options count])) style:UITableViewStylePlain];

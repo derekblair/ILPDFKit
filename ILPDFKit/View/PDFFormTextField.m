@@ -33,7 +33,7 @@
     if (self) {
         
         self.opaque = NO;
-        self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
+        self.backgroundColor = ro||readOnly?[UIColor clearColor]:PDFWidgetColor;
         
         //Configure these below
         _minFontSize = 12;
@@ -61,7 +61,7 @@
             ((UITextField*)_textFieldOrTextView).secureTextEntry = YES;
         }
         
-        if(ro)
+        if(ro||readOnly)
         {
             _textFieldOrTextView.userInteractionEnabled = NO;
         }

@@ -13,6 +13,7 @@
 - (id)initWithPDF:(id)file;
 - (void)setTitle:(NSString *)title;
 - (void)setValue:(NSString*)value forFormWithName:(NSString*)name;
+- (void)setReadOnly:(BOOL)value;
 
 /**---------------------------------------------------------------------------------------
  * @name Debugging
@@ -20,8 +21,8 @@
  */
 
 /** Sets the acroforms to display form names when entered.
- @param debug Set to TRUE to log the form name.
+ @param value Set to TRUE to log the form name.
  */
--(void)setDebugForms:(BOOL)debug;
+-(void)setDebugForms:(BOOL)value;
 
 @end

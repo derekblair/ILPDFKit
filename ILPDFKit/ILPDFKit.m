@@ -11,6 +11,7 @@
 #import "PDF.h"
 
 BOOL debugForms = FALSE;
+BOOL readOnly = FALSE;
 
 @interface ILPDFKit ()
 {
@@ -166,6 +167,12 @@ BOOL debugForms = FALSE;
 - (void)setValue:(NSString*)value forFormWithName:(NSString*)name
 {
     [_pdfViewController.document.forms setValue:value ForFormWithName:name];
+}
+
+- (void)setReadOnly:(BOOL)v
+{
+    NSLog(@"%s %d", __FUNCTION__, v);
+    readOnly = v;
 }
 
 - (void)setDebugForms:(BOOL)v
