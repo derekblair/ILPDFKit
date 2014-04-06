@@ -28,7 +28,7 @@
   -(void)initializeJS;
   -(void)loadJS;
   -(NSString*)delimeter;
--(void)executeJS:(NSString*)js;
+  -(void)executeJS:(NSString*)js;
   -(void)setDocumentValue:(NSString*)value ForKey:(NSString*)key;
   -(NSString*)getDocumentValueForKey:(NSString*)key;
   -(void)setEventValue:(id)value;

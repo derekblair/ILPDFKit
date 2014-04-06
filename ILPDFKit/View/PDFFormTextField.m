@@ -8,15 +8,17 @@
 
 @implementation PDFFormTextField
 {
+    BOOL _multiline;
+    
     UIView* _textFieldOrTextView;
+    
     CGFloat _baseFontSize;
     CGFloat _fontSize;
-    BOOL _multi;
     CGFloat _minFontSize;
     CGFloat _maxFontSize;
     CGFloat _fontScaleFactor;
     CGFloat _lineHeight;
-    CGFloat _iPhoneCorrection;
+    CGFloat _customTextMetricsScaleFactor;
 }
 
 
@@ -41,18 +43,18 @@
         
         _lineHeight = MIN(frame.size.height,_maxFontSize);
         
-        //The scale the font size with respect to the field height.
+        //The scale of the font size with respect to the field height.
         _fontScaleFactor = 0.75;
         
-        
-        _iPhoneCorrection = (iPad?1.2:0.6);
+        // Adjust this to tweak the size of the text with respect to it's bounding box.
+        _customTextMetricsScaleFactor = (iPad?1.2:0.6);
         
         if(multiline == NO)
         {
             self.layer.cornerRadius = self.frame.size.height/6;
         }
         
-        _multi = multiline;
+        _multiline = multiline;
         
         Class textCls = multiline?[UITextView class]:[UITextField class];
         _textFieldOrTextView = [[textCls alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -68,7 +70,7 @@
     
         if(multiline)
         {
-            ((UITextView*)_textFieldOrTextView).textAlignment = alignment;
+            ((UITextView*)_textFieldOrTextView).textAlignment = (NSTextAlignment)alignment;
             ((UITextView*)_textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             ((UITextView*)_textFieldOrTextView).delegate = self;
            
@@ -77,7 +79,7 @@
         }
         else 
         {
-            ((UITextField*)_textFieldOrTextView).textAlignment = alignment;
+            ((UITextField*)_textFieldOrTextView).textAlignment = (NSTextAlignment)alignment;
             ((UITextField*)_textFieldOrTextView).delegate = self;
            
             ((UITextField*)_textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -115,20 +117,20 @@
     }
     [_textFieldOrTextView performSelector:@selector(setText:) withObject:value];
     
-   if(_multi == NO)
+   if(_multiline == NO)
    {
        UITextField* textField = (UITextField*)_textFieldOrTextView;
        CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
      
        {
-           if(_multi == NO)
+           if(_multiline == NO)
            {
                _baseFontSize = MAX(MIN(_baseFontSize/factor,_maxFontSize),_minFontSize);
                if(_baseFontSize > _fontScaleFactor * _lineHeight)_baseFontSize = MAX(_fontScaleFactor*_lineHeight,_minFontSize);
            }
            
            
-           _fontSize = _baseFontSize*_zoomScale*_iPhoneCorrection;
+           _fontSize = _baseFontSize*_zoomScale*_customTextMetricsScaleFactor;
           
            textField.font = [UIFont systemFontOfSize:_fontSize];
        }
@@ -145,7 +147,7 @@
 -(void)updateWithZoom:(CGFloat)zoom
 {
     [super updateWithZoom:zoom];
-    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom*_iPhoneCorrection]];
+    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom*_customTextMetricsScaleFactor]];
     [_textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];
 }
@@ -164,7 +166,16 @@
 -(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect 
 {
     NSString* text = [(id)_textFieldOrTextView text];
-    UIFont* font = [UIFont systemFontOfSize:rect.size.height];
+    UIFont* font = nil;
+    
+    if(_multiline) {
+        
+        UITextView *textView = (UITextView *)_textFieldOrTextView;
+        CGFloat maxLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
+        font = [UIFont systemFontOfSize:rect.size.height/maxLines];
+        
+    } else font = [UIFont systemFontOfSize:rect.size.height];
+    
     NSTextAlignment align = (NSTextAlignment)[(id)_textFieldOrTextView textAlignment];
     UIGraphicsPushContext(ctx);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -248,7 +259,6 @@
 {
     self.parentView.activeWidgetAnnotationView = nil;
 }
-
 
 -(void)resign
 {
