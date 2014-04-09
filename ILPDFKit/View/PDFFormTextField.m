@@ -29,7 +29,7 @@
 }
 
 
--(id)initWithFrame:(CGRect)frame Multiline:(BOOL)multiline Alignment:(UITextAlignment)alignment SecureEntry:(BOOL)secureEntry ReadOnly:(BOOL)ro
+-(id)initWithFrame:(CGRect)frame Multiline:(BOOL)multiline Alignment:(NSTextAlignment)alignment SecureEntry:(BOOL)secureEntry ReadOnly:(BOOL)ro
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -163,27 +163,6 @@
     [self.delegate widgetAnnotationValueChanged:self];
 }
 
--(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect 
-{
-    NSString* text = [(id)_textFieldOrTextView text];
-    UIFont* font = nil;
-    
-    if(_multiline) {
-        
-        UITextView *textView = (UITextView *)_textFieldOrTextView;
-        CGFloat maxLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
-        font = [UIFont systemFontOfSize:rect.size.height/maxLines];
-        
-    } else font = [UIFont systemFontOfSize:rect.size.height];
-    
-    NSTextAlignment align = (NSTextAlignment)[(id)_textFieldOrTextView textAlignment];
-    UIGraphicsPushContext(ctx);
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraphStyle.alignment = align;
-    [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
-    UIGraphicsPopContext();
-}
 
 #pragma mark - UITextViewDelegate
 

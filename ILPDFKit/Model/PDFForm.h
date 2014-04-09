@@ -115,7 +115,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 
 /** The intended text alignemnt for text in the form.
  */
-@property(nonatomic) UITextAlignment textAlignment;
+@property(nonatomic) NSTextAlignment textAlignment;
 
 /** The frame of the form view on its parent UIScrollView
  */
@@ -188,9 +188,19 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 
 
 /**---------------------------------------------------------------------------------------
- * @name Displaying a Form
+ * @name Rendering
  *  ---------------------------------------------------------------------------------------
  */
+
+
+/** Renders the view in vector graphics within a PDF context.
+ @param ctx The PDF context to render into.
+ @param rect The rectangle to render on.
+ */
+-(void)vectorRenderInPDFContext:(CGContextRef)ctx forRect:(CGRect)rect;
+
+
+
 
 /** Returns a view to represent the form.
  

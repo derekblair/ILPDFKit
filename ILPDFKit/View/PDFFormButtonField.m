@@ -144,21 +144,19 @@
 
 -(void)setValue:(NSString*)value
 {
-    if([value isKindOfClass:[NSNull class]]==YES)
-    {
+    if([value isKindOfClass:[NSNull class]]==YES){
         self.value = nil;
         return;
     }
-    if(_val!=value)
-    {
+    
+    if(_val!=value){
         _val = value;
     }
-    if(_val)
-    {
+    
+    if(_val){
         _button.selected = [_val isEqualToString:_exportValue];
     }
-    else
-    {
+    else{
         _button.selected = NO;
     }
     [self refresh];
@@ -173,9 +171,7 @@
 -(void)updateWithZoom:(CGFloat)zoom
 {
     [super updateWithZoom:zoom];
-    
-    
-    
+
     CGFloat minDim = MIN(self.bounds.size.width,self.bounds.size.height)*0.85;
     CGPoint center = CGPointMake(self.bounds.size.width/2,self.bounds.size.height/2);
     _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, minDim*2, minDim*2);
@@ -192,43 +188,6 @@
     [self.delegate widgetAnnotationValueChanged:self];
 }
 
-
--(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect
-{
-    CGFloat minDim = MIN(rect.size.width,rect.size.height)*0.85;
-    CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
-    rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
-    
-    if(_button.selected)
-    {
-        CGContextSaveGState(ctx);
-        
-        CGFloat margin = minDim/3;
-        
-        if(_radio)
-        {
-            
-            CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
-            CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-            CGContextAddEllipseInRect(ctx, CGRectMake(margin, margin, rect.size.width-2*margin, rect.size.height-2*margin));
-            CGContextFillPath(ctx);
-            
-        }
-        else if(_pushButton == NO)
-        {
-            CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-            CGContextSetLineWidth(ctx, rect.size.width/8);
-            CGContextSetLineCap(ctx,kCGLineCapRound);
-            CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
-            CGContextMoveToPoint(ctx, margin*0.75, rect.size.height/2);
-            CGContextAddLineToPoint(ctx, rect.size.width/2-margin/4, rect.size.height-margin);
-            CGContextAddLineToPoint(ctx, rect.size.width-margin*0.75, margin/2);
-            CGContextStrokePath(ctx);
-        }
-        
-        CGContextRestoreGState(ctx);
-    }
-}
 
 #pragma mark - setter
 

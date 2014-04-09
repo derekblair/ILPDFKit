@@ -25,7 +25,7 @@
  @param ro YES if field is read only, otherwise NO.
  @return A new PDFFormTextField object.
  */
--(id)initWithFrame:(CGRect)frame Multiline:(BOOL)multiline Alignment:(UITextAlignment)alignment SecureEntry:(BOOL)secureEntry ReadOnly:(BOOL)ro;
+-(id)initWithFrame:(CGRect)frame Multiline:(BOOL)multiline Alignment:(NSTextAlignment)alignment SecureEntry:(BOOL)secureEntry ReadOnly:(BOOL)ro;
 
 
 @end

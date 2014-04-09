@@ -80,20 +80,6 @@
 -(void)refresh;
 
 
-
-/**---------------------------------------------------------------------------------------
- * @name Rendering
- *  ---------------------------------------------------------------------------------------
- */
-
-
-/** Renders the view in vector graphics within a PDF context.
-    @param ctx The PDF context to render into.
-    @param rect The rectangle to render on.
- */
--(void)vectorRenderInPDFContext:(CGContextRef)ctx ForRect:(CGRect)rect;
-
-
 /**---------------------------------------------------------------------------------------
  * @name Managing Focus
  *  ---------------------------------------------------------------------------------------

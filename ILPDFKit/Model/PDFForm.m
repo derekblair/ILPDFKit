@@ -296,8 +296,73 @@
 }
 
 
-#pragma mark - Form UI Representation
+#pragma mark - Rendering
 
+/**---------------------------------------------------------------------------------------
+ * @name Rendering
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+
+-(void)vectorRenderInPDFContext:(CGContextRef)ctx forRect:(CGRect)rect {
+    
+    if(self.formType == PDFFormTypeText || self.formType == PDFFormTypeChoice){
+        
+        NSString* text = self.value;
+        UIFont* font = nil;
+        
+        if(BIT(12, _flags) && self.formType == PDFFormTypeText) {
+            font = [UIFont systemFontOfSize:12];
+        } else font = [UIFont systemFontOfSize:rect.size.height];
+        
+      
+        UIGraphicsPushContext(ctx);
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        paragraphStyle.alignment = self.textAlignment;
+        [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
+        UIGraphicsPopContext();
+        
+    } else if(self.formType == PDFFormTypeButton){
+        
+        CGFloat minDim = MIN(rect.size.width,rect.size.height)*0.85;
+        CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
+        rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
+        
+        if([self.value isEqualToString:self.exportValue])
+        {
+            CGContextSaveGState(ctx);
+            
+            CGFloat margin = minDim/3;
+            
+            if(BIT(15, _flags))
+            {
+                
+                CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
+                CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
+                CGContextAddEllipseInRect(ctx, CGRectMake(margin, margin, rect.size.width-2*margin, rect.size.height-2*margin));
+                CGContextFillPath(ctx);
+                
+            }
+            else if(!BIT(16, _flags))
+            {
+                CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
+                CGContextSetLineWidth(ctx, rect.size.width/8);
+                CGContextSetLineCap(ctx,kCGLineCapRound);
+                CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
+                CGContextMoveToPoint(ctx, margin*0.75, rect.size.height/2);
+                CGContextAddLineToPoint(ctx, rect.size.width/2-margin/4, rect.size.height-margin);
+                CGContextAddLineToPoint(ctx, rect.size.width-margin*0.75, margin/2);
+                CGContextStrokePath(ctx);
+            }
+            
+            CGContextRestoreGState(ctx);
+        }
+
+    }
+    
+}
 
 -(PDFWidgetAnnotationView*)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin
 {
@@ -659,18 +724,6 @@
 
 @end
 
-@interface PDFForm (Private)
--(PDFWidgetAnnotationView*)annotationView;
-@end
-
-@implementation PDFForm(Private)
-
--(PDFWidgetAnnotationView*)annotationView
-{
-    return _formUIElement;
-}
-
-@end
 
 
 
