@@ -6,7 +6,7 @@
 #import "PDFWidgetAnnotationView.h"
 #import "PDFFormButtonField.h"
 #import "PDF.h"
-
+#import "PDFAnnotation.h"
 
 
 @interface PDFView()
@@ -65,6 +65,63 @@
 
         UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
             [self addGestureRecognizer:tapGestureRecognizer];
+        tapGestureRecognizer.delegate = self;
+    }
+    return self;
+}
+
+
+- (id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews Annotations:(NSArray *)annotations
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        CGRect contentFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        _pdfView = [[UIWebView alloc] initWithFrame:contentFrame];
+        _pdfView.scalesPageToFit = YES;
+        _pdfView.scrollView.delegate = self;
+        _pdfView.scrollView.bouncesZoom = NO;
+        _pdfView.delegate = self;
+        _pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+        self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+        
+        [self addSubview:_pdfView];
+        [_pdfView.scrollView setZoomScale:1];
+        [_pdfView.scrollView setContentOffset:CGPointZero];
+        
+        //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
+        [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
+        
+        _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:widgetAnnotationViews];
+        
+        for(PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews)
+        {
+            element.alpha = 0;
+            element.parentView = self;
+            [_pdfView.scrollView addSubview:element];
+            
+            if([element isKindOfClass:[PDFFormButtonField class]])
+            {
+                [(PDFFormButtonField*)element setButtonSuperview];
+            }
+        }
+        
+        //Adding annotations
+        for(PDFAnnotation *annotation in annotations){
+            [_pdfView.scrollView addSubview:annotation.annotationView];
+        }
+        
+        if([dataOrPath isKindOfClass:[NSString class]])
+        {
+            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:dataOrPath]]];
+        }
+        else if([dataOrPath isKindOfClass:[NSData class]])
+        {
+            [_pdfView loadData:dataOrPath MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:nil];
+        }
+        
+        UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
+        [self addGestureRecognizer:tapGestureRecognizer];
         tapGestureRecognizer.delegate = self;
     }
     return self;

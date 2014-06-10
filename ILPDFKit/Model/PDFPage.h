@@ -13,6 +13,7 @@
  PDFPage consists of the data representing the page info.
  */
 
+@class PDFDocument;
 @class PDFDictionary;
 
 @interface PDFPage : NSObject
@@ -88,5 +89,14 @@
  
  */
 @property(nonatomic,readonly) PDFDictionary* resources;
+
+/** The reference of the actual PDFDocument object
+ */
+@property(nonatomic, assign) PDFDocument *document;
+
+
+/** Show annotations for the page..
+ */
+-(NSMutableArray *)showAnnotationsForPageWithWidth:(CGFloat)vwidth XMargin:(CGFloat)xmargin YMargin:(CGFloat)ymargin;
 
 @end
