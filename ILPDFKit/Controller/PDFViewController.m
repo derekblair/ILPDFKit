@@ -137,7 +137,15 @@
     self.view.frame = CGRectMake(0,self.view.frame.origin.y,frm.size.width,frm.size.height-self.view.frame.origin.y);
     CGPoint margins = [self getMargins];
     NSArray* additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
-        _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
+    
+    //Fetch annotations for the page..
+    NSMutableArray *annotations=[[NSMutableArray alloc] init];
+    for(PDFPage *page in _document.pages){
+        [annotations addObjectsFromArray:[page showAnnotationsForPageWithWidth:frm.size.width XMargin:margins.x YMargin:margins.y]];
+    }
+    
+    _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews Annotations:annotations];
+    
     [self.view addSubview:_pdfView];
 }
 

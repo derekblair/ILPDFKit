@@ -35,6 +35,8 @@
 		67AB6D9418C52131005E8D36 /* PDFFormTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 67AB6D7F18C52131005E8D36 /* PDFFormTextField.m */; };
 		67AB6D9518C52131005E8D36 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67AB6D8118C52131005E8D36 /* PDFView.m */; };
 		67AB6D9618C52131005E8D36 /* PDFWidgetAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 67AB6D8318C52131005E8D36 /* PDFWidgetAnnotationView.m */; };
+		84A9C9741947105F00959F6B /* PDFAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A9C9731947105F00959F6B /* PDFAnnotation.m */; };
+		84A9C976194713B000959F6B /* testC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 84A9C975194713B000959F6B /* testC.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +92,9 @@
 		67AB6D8118C52131005E8D36 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFView.m; sourceTree = "<group>"; };
 		67AB6D8218C52131005E8D36 /* PDFWidgetAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFWidgetAnnotationView.h; sourceTree = "<group>"; };
 		67AB6D8318C52131005E8D36 /* PDFWidgetAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFWidgetAnnotationView.m; sourceTree = "<group>"; };
+		84A9C9721947105F00959F6B /* PDFAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFAnnotation.h; sourceTree = "<group>"; };
+		84A9C9731947105F00959F6B /* PDFAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFAnnotation.m; sourceTree = "<group>"; };
+		84A9C975194713B000959F6B /* testC.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testC.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +153,7 @@
 		67AB6D2218C5189F005E8D36 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84A9C975194713B000959F6B /* testC.pdf */,
 				67AB6D4A18C518FD005E8D36 /* testA.pdf */,
 				67AB6D4B18C518FD005E8D36 /* testB.pdf */,
 				67AB6D2318C5189F005E8D36 /* ILPDFKitSample-Info.plist */,
@@ -233,6 +239,8 @@
 				67AB6D8118C52131005E8D36 /* PDFView.m */,
 				67AB6D8218C52131005E8D36 /* PDFWidgetAnnotationView.h */,
 				67AB6D8318C52131005E8D36 /* PDFWidgetAnnotationView.m */,
+				84A9C9721947105F00959F6B /* PDFAnnotation.h */,
+				84A9C9731947105F00959F6B /* PDFAnnotation.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67AB6D2618C5189F005E8D36 /* InfoPlist.strings in Resources */,
+				84A9C976194713B000959F6B /* testC.pdf in Resources */,
 				67AB6D2E18C5189F005E8D36 /* Images.xcassets in Resources */,
 				67AB6D4C18C518FD005E8D36 /* testA.pdf in Resources */,
 				67AB6D4D18C518FD005E8D36 /* testB.pdf in Resources */,
@@ -308,6 +317,7 @@
 				67AB6D8A18C52131005E8D36 /* PDFFormAction.m in Sources */,
 				67AB6D8C18C52131005E8D36 /* PDFObject.m in Sources */,
 				67AB6D8918C52131005E8D36 /* PDFForm.m in Sources */,
+				84A9C9741947105F00959F6B /* PDFAnnotation.m in Sources */,
 				67AB6D9518C52131005E8D36 /* PDFView.m in Sources */,
 				67AB6D9018C52131005E8D36 /* PDFUtility.m in Sources */,
 				67AB6D8E18C52131005E8D36 /* PDFStream.m in Sources */,

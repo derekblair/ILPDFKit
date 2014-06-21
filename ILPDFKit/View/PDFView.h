@@ -41,6 +41,17 @@
 -(id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews;
 
 
+/** Creates a new instance of PDFView.
+ 
+ @param frame Frame of the view.
+ @param dataOrPath Either NSData for PDF data or NSString for a PDF file path.
+ @param widgetAnnotationViews NSArray of instances of PDFWidgetAnnotationalElementView to be added to the pdfView scrollView.
+ @param annotations NSArray instances of Text Annotations to be added to the pdfView scrollView
+ @return A new instance of PDFView.
+ */
+- (id)initWithFrame:(CGRect)frame DataOrPath:(id)dataOrPath AdditionViews:(NSArray*)widgetAnnotationViews Annotations:(NSArray *)annotations;
+
+
 /**---------------------------------------------------------------------------------------
  * @name Adding and Removing Additions
  *  ---------------------------------------------------------------------------------------
