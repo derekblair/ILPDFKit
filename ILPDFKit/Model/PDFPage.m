@@ -167,6 +167,14 @@
             
             NSString* type = [NSString stringWithUTF8String:annotationType];
             
+            BOOL freeTextCustomAnotToShow=YES;
+            CGPDFDictionaryRef apDict;
+            if(CGPDFDictionaryGetDictionary(annotDict, "AP", &apDict)){
+                int count = CGPDFDictionaryGetCount(apDict);
+                if(count>0 && [type isEqualToString:FREE_TEXT_ANNOTATION])
+                    freeTextCustomAnotToShow=NO;
+            }
+            
             CGPDFArrayRef rectArray;
             if(!CGPDFDictionaryGetArray(annotDict, "Rect", &rectArray)) {
                 break;
@@ -272,7 +280,7 @@
                 uiBaseRect.size.height+=50.0;
             
             // FreeText annotations are identified by FreeText name stored in Subtype key in annotation dictionary.
-            if ([type isEqualToString:FREE_TEXT_ANNOTATION]){
+            if ([type isEqualToString:FREE_TEXT_ANNOTATION] && freeTextCustomAnotToShow){
                 UITextView *annotationView = [[UITextView alloc] initWithFrame:uiBaseRect];
                 annotationView.font = annotation.font;
                 annotationView.text = annotation.textString;

@@ -30,10 +30,18 @@
             
             tempStr=[firstWords objectAtIndex:1];
             NSInteger fontSize = [tempStr intValue];
-            if ([firstWords count]>5) {
-                CGFloat red = [[firstWords objectAtIndex:3] floatValue];
-                CGFloat green = [[firstWords objectAtIndex:4] floatValue];
-                CGFloat blue = [[firstWords objectAtIndex:5] floatValue];
+            int rgIndex=0;//Color
+            for(NSString *val in firstWords){
+                if([[val lowercaseString] isEqualToString:@"rg"]){
+                    //Colors will be defined in 3 indexes less than rg index
+                    break;
+                }
+                rgIndex++;
+            }
+            if (rgIndex>0 && rgIndex>4) {
+                CGFloat red = [[firstWords objectAtIndex:rgIndex-3] floatValue];
+                CGFloat green = [[firstWords objectAtIndex:rgIndex-2] floatValue];
+                CGFloat blue = [[firstWords objectAtIndex:rgIndex-1] floatValue];
                 self.textColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
             }
             else{
