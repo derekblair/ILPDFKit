@@ -85,9 +85,12 @@ for(PDFForm* form in _pdfViewController.document.forms){
 
 ```objective-c
 [_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
-	/* At this point, _pdfViewController.documentData represents the updated PDF.
+	/* At this point, _pdfViewController.document represents the updated PDF.
    	   You can do as you wish with it. Upload, save to disk etc.
 	*/
+	NSString *filePath = [NSString stringWithFormat:@"%@updated.pdf",NSTemporaryDirectory()];
+	NSData *data = [_pdfViewController.document flattenedData];
+	[data writeToFile:filePath atomically:YES];
 }];
 ```
 	 
@@ -95,6 +98,12 @@ for(PDFForm* form in _pdfViewController.document.forms){
 ### Sending Form XML Data 
 ```objective-c
 NSString* documentFormsXML = [_pdfViewController.document formsXML];
+// Push to webservice
+```
+
+### Sending Form JSON Data 
+```objective-c
+NSString* documentFormsJSON = [_pdfViewController.document formsJSON];
 // Push to webservice
 ```
 	
