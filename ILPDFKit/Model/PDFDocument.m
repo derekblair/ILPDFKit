@@ -167,7 +167,10 @@
 }
 
 #pragma mark - PDF File Saving and Converting
-
+-(NSString*)formJSON
+{
+    return [self.forms formJSON];
+}
 
 -(NSString*)formXML
 {

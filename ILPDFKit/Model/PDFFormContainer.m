@@ -239,6 +239,48 @@
     }
 }
 
+#pragma mark - formJSON
+
+-(NSString*)formJSON
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self formSerializableDictionaryForFormsWithRootNode:_nameTree]
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+        return @"{}";
+    }
+    else {
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+}
+
+-(NSDictionary*)formSerializableDictionaryForFormsWithRootNode:(NSDictionary*)node
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    for(NSString* key in [node allKeys])
+    {
+        id obj = [node objectForKey:key];
+        if([obj isKindOfClass:[NSMutableArray class]])
+        {
+            PDFForm* form = (PDFForm*)[obj lastObject];
+            if([form.value length]){
+                [dict setObject:form.value forKey:key];
+            }
+        }
+        else
+        {
+            NSDictionary* val = [self formSerializableDictionaryForFormsWithRootNode:obj];
+            if([val count]){
+                [dict setObject:val forKey:key];
+            }
+        }
+    }
+    return dict;
+}
+
 #pragma mark - formXML
 
 -(NSString*)formXML

@@ -102,6 +102,16 @@
 -(void)setValue:(NSString*)val ForFormWithName:(NSString*)name;
 
 /**---------------------------------------------------------------------------------------
+ * @name JSON
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/** Returns an JSON representation of the form values in the document.
+ @return The json string defining the value and hierarchical structure of all forms in the document.
+ */
+-(NSString*)formJSON;
+
+/**---------------------------------------------------------------------------------------
  * @name XML 
  *  ---------------------------------------------------------------------------------------
  */
