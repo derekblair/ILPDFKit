@@ -1,5 +1,24 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFViewController.m
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import "PDFViewController.h"
 #import "PDFDocument.h"
@@ -8,153 +27,114 @@
 #import "PDFWidgetAnnotationView.h"
 #import "PDF.h"
 
-@interface PDFViewController()
-    -(void)loadPDFView;
-    -(CGRect)currentFrame:(UIInterfaceOrientation)o;
-    -(CGPoint)getMargins;
+@interface PDFViewController(Private)
+    - (void)loadPDFView;
+    - (CGRect)currentFrame:(UIInterfaceOrientation)o;
+    @property (nonatomic, getter=getMargins, readonly) CGPoint margins;
 @end
 
 @implementation PDFViewController
 
-#pragma mark - UIViewController
+#pragma mark - NSObject
 
--(void)dealloc
-{
+- (void)dealloc {
     [self removeFromParentViewController];
     [_pdfView removeFromSuperview];
     self.pdfView = nil;
     self.document = nil;
 }
 
+#pragma mark - UIViewController
 
--(void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-    {
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
-    
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.opaque = YES;
     [self loadPDFView];
 }
 
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
 
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     _pdfView.alpha = 0;
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    
-    for(PDFForm* form in self.document.forms)
-    {
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    for (PDFForm *form in self.document.forms) {
         [form removeObservers];
     }
-    
     [_pdfView removeFromSuperview];self.pdfView = nil;
     [self loadPDFView];
-    
 }
 
-#pragma mark - Initialization
+#pragma mark - PDFViewController
 
--(id)initWithData:(NSData*)data
-{
+- (instancetype)initWithData:(NSData *)data {
     self = [super init];
-    if(self != nil)
-    {
-        
+    if (self != nil) {
         _document = [[PDFDocument alloc] initWithData:data];
     }
     return self;
 }
 
--(id)initWithResource:(NSString*)name
-{
+- (instancetype)initWithResource:(NSString *)name {
     self = [super init];
-    if(self!=nil)
-    {
+    if (self != nil) {
         _document = [[PDFDocument alloc] initWithResource:name];
     }
     return self;
 }
 
--(id)initWithPath:(NSString*)path
-{
+- (instancetype)initWithPath:(NSString *)path {
     self = [super init];
-    if(self != nil)
-    {
+    if(self != nil) {
         _document = [[PDFDocument alloc] initWithPath:path];
     }
-    
     return self;
 }
 
-#pragma mark - Configuration
-
--(void)reload
-{
+- (void)reload {
     [_document refresh];
     [_pdfView removeFromSuperview];
     _pdfView = nil;
     [self loadPDFView];
 }
 
--(void)setBackColor:(UIColor*)color
-{
-    _pdfView.pdfView.backgroundColor = color;
-}
+#pragma mark - Private
 
-#pragma mark - Hidden
-
--(CGRect)currentFrame:(UIInterfaceOrientation)o
-{
-    if(UIInterfaceOrientationIsPortrait(o))
-    {
+- (CGRect)currentFrame:(UIInterfaceOrientation)o {
+    if(UIInterfaceOrientationIsPortrait(o)) {
         return CGRectMake(0, 0, PDFDeviceMinorDimension, PDFDeviceMajorDimension);
-    }
-    else
-    {
+    } else {
         return CGRectMake(0, 0, PDFDeviceMajorDimension, PDFDeviceMinorDimension);
     }
 }
 
--(void)loadPDFView
-{
+- (void)loadPDFView {
     id pass = (_document.documentPath?_document.documentPath:_document.documentData);
     CGRect frm = [self currentFrame:self.interfaceOrientation];
     self.view.frame = CGRectMake(0,self.view.frame.origin.y,frm.size.width,frm.size.height-self.view.frame.origin.y);
     CGPoint margins = [self getMargins];
-    NSArray* additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width Margin:margins.x HMargin:margins.y];
-        _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds DataOrPath:pass AdditionViews:additionViews];
+    NSArray *additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:frm.size.width margin:margins.x hMargin:margins.y];
+    _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds dataOrPath:pass additionViews:additionViews];
     [self.view addSubview:_pdfView];
 }
 
--(CGPoint)getMargins
-{
-    if(iPad)
-    {
+- (CGPoint)getMargins {
+    if(iPad) {
         if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPadWMargin,PDFPortraitPadHMargin);
         else return CGPointMake(PDFLandscapePadWMargin,PDFLandscapePadHMargin);
-    }
-    else
-    {
+    } else {
         if(UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPhoneWMargin,PDFPortraitPhoneHMargin);
         else return CGPointMake(PDFLandscapePhoneWMargin,PDFLandscapePhoneHMargin);
     }
 }
-
-
 
 @end

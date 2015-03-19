@@ -1,5 +1,24 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFWidgetAnnotationView.h
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
 
@@ -12,51 +31,44 @@
 /** Called when the value changes.
  @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView*)sender;
+- (void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView *)sender;
 /** Called when the the element is focused or expanded.
  @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)widgetAnnotationEntered:(PDFWidgetAnnotationView*)sender;
+- (void)widgetAnnotationEntered:(PDFWidgetAnnotationView *)sender;
 /** Called when the options changes for choice field views.
  @param sender The sending PDFWidgetAnnotationView.
  */
-    -(void)widgetAnnotationOptionsChanged:(PDFWidgetAnnotationView*)sender;
+- (void)widgetAnnotationOptionsChanged:(PDFWidgetAnnotationView *)sender;
 @end
 
 /** The PDFWidgetAnnotationView represents a subview of a PDFView that represents an interactive or accessory element. A PDFForm is an example.
  */
-@interface PDFWidgetAnnotationView : UIView
-{
+@interface PDFWidgetAnnotationView : UIView {
     CGFloat _zoomScale;
 }
-
 
 /** The value of the element.
  @discussion If there is an associated PDFForm to the view, then set of values are synced using key value observing.
  */
-@property(nonatomic,strong) NSString* value;
+@property (nonatomic, strong) NSString *value;
 
 /** The options of the element.
  @discussion If there is an associated PDFForm to the view, then set of options are synced using key value observing.
  */
-@property(nonatomic,strong) NSArray* options;
-
+@property (nonatomic, strong) NSArray *options;
 
 /** The initial frame of the view, without any transformations applied to its superview.
  */
-@property(nonatomic,readonly) CGRect baseFrame;
-
+@property (nonatomic, readonly) CGRect baseFrame;
 
 /** The delegate.
  */
-@property(nonatomic,weak) NSObject<PDFWidgetAnnotationViewDelegate>* delegate;
-
+@property (nonatomic, weak) NSObject<PDFWidgetAnnotationViewDelegate> *delegate;
 
 /** The parent view.
  */
-@property(nonatomic,weak) PDFView* parentView;
-
-
+@property (nonatomic, weak) PDFView *parentView;
 
 /**---------------------------------------------------------------------------------------
  * @name Updating Metrics
@@ -66,19 +78,16 @@
 /** Updates the view based on the zoom level of its UIScrollView superview.
  @param zoom The new zoom level.
  */
--(void)updateWithZoom:(CGFloat)zoom;
-
+- (void)updateWithZoom:(CGFloat)zoom;
 
 /**---------------------------------------------------------------------------------------
  * @name Updating Data
  *  ---------------------------------------------------------------------------------------
  */
 
-
 /** Refreshes the contents.
  */
--(void)refresh;
-
+- (void)refresh;
 
 /**---------------------------------------------------------------------------------------
  * @name Managing Focus
@@ -87,6 +96,6 @@
 
 /** Resigns th input focus.
  */
--(void)resign;
+- (void)resign;
 
 @end

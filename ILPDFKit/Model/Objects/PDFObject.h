@@ -1,4 +1,4 @@
-// PDFFormSignatureField.m
+// PDFObject.h
 //
 // Copyright (c) 2015 Iwe Labs
 //
@@ -20,20 +20,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFFormSignatureField.h"
+#import <Foundation/Foundation.h>
 
-@implementation PDFFormSignatureField
+typedef NS_OPTIONS(NSUInteger, PDFRepOptions) {
+    PDFRepOptionNone = 0,
+    PDFRepOptionUseUTF8 = 1 << 0
+};
 
-#pragma mark - UIView
+/** All basic PDF object classes implement this protocol. PDFArray, PDFDictionary, PDFString, PDFName etc.
+ */
+@protocol PDFObject <NSObject, NSCopying>
 
-// This class is incomplete.
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.1];
-    }
-    return self;
-}
+/**
+ @param rep A byte sequence respresention of the object as it appears in a PDF file.
+ @param flags Optional NS_OPTIONS based flags to specifiy how to interpret the byte sequence.
+ @return A PDF object based on the representation, or nil if the representation is invalid.
+ */
++ (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(PDFRepOptions)flags;
 
+/**
+ @return A non lossy ASCII string representation of the object.
+ */
+- (NSString *)pdfFileRepresentation;
+
+/**
+ @return The type of the PDF as described by the Core Graphics framework.
+ */
+- (CGPDFObjectType)type;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+

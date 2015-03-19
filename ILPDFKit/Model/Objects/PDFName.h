@@ -1,5 +1,5 @@
-// PDFFormSignatureField.m
-//
+// PDFName.h
+// 
 // Copyright (c) 2015 Iwe Labs
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,20 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFFormSignatureField.h"
+#import <Foundation/Foundation.h>
+#import "PDFObject.h"
 
-@implementation PDFFormSignatureField
+#define PDFName NSString
 
-#pragma mark - UIView
+/** PDFName is an alias for NSString. It represents Name PDF objects. Functionality is added via a category.
+ */
+@interface PDFName(PDFObject) <PDFObject>
 
-// This class is incomplete.
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.1];
-    }
-    return self;
-}
+/**
+@return A C string representation of the key.
+ */
+- (const char *)pdfCString;
+
+/**
+ @param cString A null terminated C string.
+ @return An initialized instance, based on the passed C string.
+ */
+- (instancetype)initWithPDFCString:(const char *)cString;
+
+/**
+ @return The UTF-8 string resulting when the bytes of the receiver are interpreted as UTF-8 text, after hash decoding any hash escaped bytes.
+ */
+- (NSString *)utf8DecodedString;
 
 
 @end
+
+

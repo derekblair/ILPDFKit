@@ -1,5 +1,24 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFDocument.h
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
 
@@ -12,43 +31,39 @@
 
 @interface PDFDocument : NSObject
 
-
 /** The PDF file data.
  */
-@property(nonatomic,strong) NSMutableData* documentData;
+@property (nonatomic, strong) NSMutableData *documentData;
 
 /** The form container holding the forms for the document.
  */
-@property(nonatomic,readonly) PDFFormContainer* forms;
-
+@property (nonatomic, readonly) PDFFormContainer *forms;
 
 /** The path for the PDF document if it was loaded from file.
  @discussion If the document was loaded from memory, documentPath is nil.
  */
-@property(nonatomic,readonly) NSString* documentPath;
-
+@property (nonatomic, readonly) NSString *documentPath;
 
 /** The document catalog for the PDF.
  @discussion See 3.6.1 in 'PDF Reference Second Edition version 1.3, Adobe Systems Incorporated'.
  */
-@property(nonatomic,readonly) PDFDictionary* catalog;
+@property (nonatomic, readonly) PDFDictionary *catalog;
 
 /** The document info dictionary
  */
-//@property(nonatomic,readonly) PDFDictionary* info;
+@property (nonatomic, readonly) PDFDictionary* info;
 
 /** An array containing PDFPage objects cooresponding in order and content to the pages of the document.
  */
-@property(nonatomic,readonly) NSArray* pages;
-
+@property (nonatomic, readonly) NSArray* pages;
 
 /** The name of the PDF.
  */
-@property(nonatomic,strong) NSString* pdfName;
+@property (nonatomic, strong) NSString *pdfName;
 
 /** The CGPDFDocument on top of which the class is built.
  */
-@property(nonatomic,readonly) CGPDFDocumentRef document;
+@property (nonatomic,readonly) CGPDFDocumentRef document;
 
 
 /**---------------------------------------------------------------------------------------
@@ -62,22 +77,21 @@
  @return A new instance of PDFDocument initialized with data.
  */
 
--(id)initWithData:(NSData*)data;
+- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 /** Creates a new instance of PDFDocument.
  
  @param name Resource to load.
  @return A new instance of PDFDocument initialized with a PDF resource named name.
  */
--(id)initWithResource:(NSString*)name;
+- (instancetype)initWithResource:(NSString *)name NS_DESIGNATED_INITIALIZER;
 
 /** Creates a new instance of PDFDocument.
  
  @param path Points to PDF file to load.
  @return A new instance of PDFDocument initialized with a PDF located at path.
  */
--(id)initWithPath:(NSString*)path;
-
+- (instancetype)initWithPath:(NSString *)path NS_DESIGNATED_INITIALIZER;
 
 /**---------------------------------------------------------------------------------------
  * @name Finding Document Structure
@@ -89,38 +103,19 @@
  */
 -(NSUInteger)numberOfPages;
 
-
-
 /**---------------------------------------------------------------------------------------
  * @name Saving and Refreshing
  *  ---------------------------------------------------------------------------------------
  */
 
-
-/** Saves any changes in the PDF forms to its data. Must be PDF 1.3 compliant.
- Call writeToFile to subsequently save the updated PDF to disk.
- @param completion Called after completion with a variable indicating success or failure.
- */
--(void)saveFormsToDocumentData:(void (^)(BOOL success))completion;
-
-
-
 /** Reloads everything based on documentData.
  */
--(void)refresh;
-
-
-
-/** Writes to file.
- @param name The path of the file to write to.
- */
--(void)writeToFile:(NSString*)name;
+- (void)refresh;
 
 /** Flattens the interactive elements, rendering the form values directly in the PDF. Useful for saving the PDF.
  @return The data for the static flattened PDF.
  */
--(NSData*)flattenedData;
-
+- (NSData *)savedStaticPDFData;
 
 /**
  Converts a PDF page to an image.
@@ -129,17 +124,11 @@
  @return A UIImage representing the page.
  */
 
--(UIImage*)imageFromPage:(NSUInteger)page width:(NSUInteger)width;
-
+- (UIImage *)imageFromPage:(NSUInteger)page width:(NSUInteger)width;
 
 /** Sets the background color for the PDF view.
  @return A string containing an xml representation of the forms of the document and their values. Used for submitting the form.
  */
--(NSString*)formXML;
-
-
-
-
-
+- (NSString *)formXML;
 
 @end

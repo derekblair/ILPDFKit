@@ -1,137 +1,123 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFPage.m
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import "PDFPage.h"
 #import "PDFDictionary.h"
 
-
-@interface PDFPage()
-
--(CGRect)rotateBox:(CGRect)box;
-
-
+@interface PDFPage(Private)
+- (CGRect)rotateBox:(CGRect)box;
 @end
 
-@implementation PDFPage
-{
+@implementation PDFPage {
     CGPDFPageRef _page;
-    PDFDictionary* _dictionary;
-    PDFDictionary* _resources;
+    PDFDictionary *_dictionary;
+    PDFDictionary *_resources;
 }
 
 #pragma mark - Initialization
 
--(id)initWithPage:(CGPDFPageRef)pg
-{
+- (instancetype)initWithPage:(CGPDFPageRef)pg {
     self = [super init];
-    if(self != nil)
-    {
+    if (self != nil) {
         _page = pg;
     }
-    
     return self;
 }
 
 #pragma mark - Getter
 
--(PDFDictionary*)dictionary
-{
-    if(_dictionary == nil)
-    {
-        _dictionary = [[PDFDictionary alloc] initWithDictionary: CGPDFPageGetDictionary(_page)];
+- (PDFDictionary *)dictionary {
+    if (_dictionary == nil) {
+        _dictionary = [[PDFDictionary alloc] initWithDictionary:CGPDFPageGetDictionary(_page)];
     }
-    
     return _dictionary;
 }
 
--(PDFDictionary*)resources
-{
-    if(_resources == nil)
-    {
-        PDFDictionary* iter = self.dictionary;
-        PDFDictionary* res = nil;
-        while((res = [iter objectForKey:@"Resources"]) == nil)
-        {
-            iter = [iter objectForKey:@"Parent"];
-            if(iter == nil)break;
+- (PDFDictionary *)resources {
+    if (_resources == nil) {
+        PDFDictionary *iter = self.dictionary;
+        PDFDictionary *res = nil;
+        while ((res = iter[@"Resources"]) == nil) {
+            iter = iter[@"Parent"];
+            if (iter == nil) break;
         }
         _resources = res;
     }
-    
     return _resources;
 }
 
--(UIImage*)thumbNailImage
-{
-    NSData* dat = [[self.dictionary objectForKey:@"Thumb"] data];
-    if(dat)
-    {
+- (UIImage *)thumbNailImage {
+    NSData *dat = [self.dictionary[@"Thumb"] data];
+    if (dat) {
         return [UIImage imageWithData:dat];
     }
     return nil;
 }
 
--(NSUInteger)pageNumber
-{
+- (NSUInteger)pageNumber {
     return CGPDFPageGetPageNumber(_page);
 }
 
--(NSInteger)rotationAngle
-{
+- (NSInteger)rotationAngle {
     return CGPDFPageGetRotationAngle(_page);
 }
 
--(CGRect)mediaBox
-{
+- (CGRect)mediaBox {
     return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFMediaBox)];
 }
 
--(CGRect)cropBox
-{
+- (CGRect)cropBox {
     return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFCropBox)];
 }
 
--(CGRect)bleedBox
-{
+- (CGRect)bleedBox {
     return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFBleedBox)];
 }
 
--(CGRect)trimBox
-{
+- (CGRect)trimBox {
     return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFTrimBox)];
 }
 
--(CGRect)artBox
-{
+- (CGRect)artBox {
     return [self rotateBox:CGPDFPageGetBoxRect(_page, kCGPDFArtBox)];
 }
 
+#pragma mark - Private
 
-#pragma mark - Hidden
-
-
--(CGRect)rotateBox:(CGRect)box
-{
-    
+- (CGRect)rotateBox:(CGRect)box {
     CGRect ret= box;
-    
-    switch([self rotationAngle]%360) {
+    switch ([self rotationAngle]%360) {
         case 0:
             break;
         case 90:
             ret = CGRectMake(ret.origin.x,ret.origin.y,ret.size.height,ret.size.width);
-            
             break;
         case 180:
-            
             break;
         case 270:
             ret = CGRectMake(ret.origin.x,ret.origin.y,ret.size.height,ret.size.width);
-            
         default:
             break;
     }
-    
     return ret;
 }
 

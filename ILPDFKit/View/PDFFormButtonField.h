@@ -1,5 +1,24 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFFormButtonField.h
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
 #import "PDFWidgetAnnotationView.h"
@@ -7,32 +26,30 @@
 
 /** The PDFFormButtonField represents a view for a PDF button field.
  */
-@interface PDFFormButtonField :PDFWidgetAnnotationView
-
+@interface PDFFormButtonField : PDFWidgetAnnotationView
 
 /** YES if a radio button, NO otherwise.
  */
-@property(nonatomic) BOOL radio;
+@property (nonatomic) BOOL radio;
 
 /** YES if button or another button in its field must be on, NO otherwise.
  */
-@property(nonatomic) BOOL noOff;
+@property (nonatomic) BOOL noOff;
 
 /** YES if button is a pushbutton.
  */
-@property(nonatomic) BOOL pushButton;
+@property (nonatomic) BOOL pushButton;
 
 /** The name of the button if a push button.
  */
-@property(nonatomic,strong) NSString* name;
-
+@property (nonatomic, strong) NSString *name;
 
 /** The export value for the button's on state.
  @discussion
  For a simple two button field to choose 'Female' of 'Male' for example, 
  the export values would be 'Female', 'Male'.
  */
-@property(nonatomic,strong) NSString* exportValue;
+@property (nonatomic, strong) NSString *exportValue;
 
 
 /**---------------------------------------------------------------------------------------
@@ -46,7 +63,7 @@
  @param rad YES if a radio button, otherwise NO.
  @return A new PDFFormButtonField object.
  */
--(id)initWithFrame:(CGRect)frame Radio:(BOOL)rad;
+- (instancetype)initWithFrame:(CGRect)frame radio:(BOOL)rad NS_DESIGNATED_INITIALIZER;
 
 /**---------------------------------------------------------------------------------------
  * @name Post Initialization
@@ -56,7 +73,7 @@
 /** Sets up the button to receive touch events. 
  @discussion Must be called after the button is added to a superview.
  */
--(void)setButtonSuperview;
+- (void)setButtonSuperview;
 
 
 

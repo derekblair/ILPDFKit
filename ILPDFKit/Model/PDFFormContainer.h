@@ -1,5 +1,24 @@
-//  Created by Derek Blair on 2/24/2014.
-//  Copyright (c) 2014 iwelabs. All rights reserved.
+// PDFFormContainer.h
+//
+// Copyright (c) 2015 Iwe Labs
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
 #import "PDFForm.h"
@@ -7,30 +26,23 @@
 @class PDFForm;
 @class PDFDocument;
 
-
-/** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument. It manages the Adobe AcroScript execution environment as well as the UIKit representation of a PDFForm.
+/** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument.
  */
-@interface PDFFormContainer : NSObject<NSFastEnumeration>
+@interface PDFFormContainer : NSObject <NSFastEnumeration>
 
 /** The parent PDFDocument.
  */
-@property(nonatomic,weak) PDFDocument* document;
+@property (nonatomic, weak) PDFDocument *document;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFFormContainer
  *  ---------------------------------------------------------------------------------------
  */
-
-
-
 /** Creates a new instance of PDFFormContainer
- 
  @param parent The PDFDocument that owns the PDFFormContainer.
  @return A new PDFFormContainer object.
  */
--(id)initWithParentDocument:(PDFDocument*)parent;
-
-
+- (instancetype)initWithParentDocument:(PDFDocument *)parent NS_DESIGNATED_INITIALIZER;
 
 /**---------------------------------------------------------------------------------------
  * @name Retrieving Forms
@@ -54,7 +66,7 @@
  to the exportValue for such a form, it is checked. In this way, it is easy to see as well why such
  groups are mutually exclusive. Buttons with distinct names are not mutually exclusive.
  */
--(NSArray*)formsWithName:(NSString*)name;
+- (NSArray *)formsWithName:(NSString *)name;
 
 
 /** Returns all forms with called by type
@@ -69,7 +81,7 @@
  PDFFormTypeChoice: A combo box.
  PDFFormTypeSignature: A signature form.
  */
--(NSArray*)formsWithType:(PDFFormType)type;
+- (NSArray *)formsWithType:(PDFFormType)type;
 
 
 
@@ -85,9 +97,7 @@
  @param hmargin The top margin of the superview with respect to the PDF canvas portion of the UIWebView.
  @return An NSArray containing the resulting views. You are responsible for releasing the array.
  */
--(NSArray*)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width Margin:(CGFloat)margin HMargin:(CGFloat)hmargin;
-
-
+- (NSArray *)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width margin:(CGFloat)margin hMargin:(CGFloat)hmargin;
 
 
 /**---------------------------------------------------------------------------------------
@@ -99,7 +109,7 @@
  @param val The value to set.
  @param name The name of the form(s) to set the value for. 
  */
--(void)setValue:(NSString*)val ForFormWithName:(NSString*)name;
+- (void)setValue:(NSString *)val forFormWithName:(NSString *)name;
 
 /**---------------------------------------------------------------------------------------
  * @name XML 
@@ -109,21 +119,7 @@
 /** Returns an XML representation of the form values in the document.
  @return The xml string defining the value and hierarchical structure of all forms in the document.
  */
--(NSString*)formXML;
-
-
-
-
-/**---------------------------------------------------------------------------------------
- * @name Scripting
- *  ---------------------------------------------------------------------------------------
- */
-
-/** Attemps to run a script that at most can mutate the state of the document forms.
- @param script The script to execute.
- */
--(void)executeScript:(NSString*)script;
-
+- (NSString *)formXML;
 
 
 @end
