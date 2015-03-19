@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
  
   s.name         = "ILPDFKit"
-  s.version      = "0.0.7"
+  s.version      = "0.0.8"
   s.summary      = "A toolkit for filling out and saving PDF forms, and extracting PDF data."
 
   s.description  = <<-DESC
@@ -25,7 +25,7 @@ s.license      = "MIT"
 s.author       = { "Derek Blair" => "derekjblair@gmail.com" }
 s.platform     = :ios
 s.ios.deployment_target = "7.0"
-s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.6" }
+s.source  = { :git => "https://github.com/iwelabs/ILPDFKit.git", :tag => "0.0.8" }
 s.source_files  = "ILPDFKit/**/*.{h,m}"
 s.frameworks = "QuartzCore", "UIKit"
 s.requires_arc = true
