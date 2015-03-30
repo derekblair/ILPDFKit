@@ -24,12 +24,9 @@
 #import "PDFWidgetAnnotationView.h"
 
 
-@class PDFFormChoiceFieldDropIndicator;
-
-
 /** The PDFFormChoiceField represents a view for a PDF choice field.
  */
-@interface PDFFormChoiceField : PDFWidgetAnnotationView<UITableViewDelegate,UITableViewDataSource>
+@interface PDFFormChoiceField : PDFWidgetAnnotationView 
 
 
 /**---------------------------------------------------------------------------------------

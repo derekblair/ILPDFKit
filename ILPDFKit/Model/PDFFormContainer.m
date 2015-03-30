@@ -88,7 +88,6 @@
 
 
 - (NSArray *)formsWithType:(PDFFormType)type {
-    
     NSMutableArray *temp = [NSMutableArray array];
     for (PDFForm *form in [self allForms]) {
         if (form.formType == type) {

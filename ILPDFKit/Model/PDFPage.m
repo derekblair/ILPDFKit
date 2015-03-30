@@ -54,13 +54,7 @@
 
 - (PDFDictionary *)resources {
     if (_resources == nil) {
-        PDFDictionary *iter = self.dictionary;
-        PDFDictionary *res = nil;
-        while ((res = iter[@"Resources"]) == nil) {
-            iter = iter[@"Parent"];
-            if (iter == nil) break;
-        }
-        _resources = res;
+        _resources = [self.dictionary inheritableValueForKey:@"Resources"];
     }
     return _resources;
 }

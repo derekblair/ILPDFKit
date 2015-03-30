@@ -25,16 +25,21 @@
 #import "PDFView.h"
 #import "PDF.h"
 
+//The scale of the font size with respect to the field height.
+#define FontScaleFactor 0.75
+#define MinFontSize 12
+#define MaxFontSize 22
+
+
+@interface PDFFormTextField(Delegates) <UITextViewDelegate,UITextFieldDelegate>
+@end
+
 @implementation PDFFormTextField {
     BOOL _multiline;
     UIView *_textFieldOrTextView;
     CGFloat _baseFontSize;
-    CGFloat _fontSize;
-    CGFloat _minFontSize;
-    CGFloat _maxFontSize;
-    CGFloat _fontScaleFactor;
+    CGFloat _currentFontSize;
     CGFloat _lineHeight;
-    CGFloat _customTextMetricsScaleFactor;
 }
 
 #pragma mark - NSObject
@@ -53,13 +58,11 @@
         self.opaque = NO;
         self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
         //Configure these below
-        _minFontSize = 12;
-        _maxFontSize = 22;
-        _lineHeight = MIN(frame.size.height,_maxFontSize);
-        //The scale of the font size with respect to the field height.
-        _fontScaleFactor = 0.75;
-        // Adjust this to tweak the size of the text with respect to it's bounding box.
-        _customTextMetricsScaleFactor = (iPad?1.2:0.6);
+      
+        _lineHeight = MIN(frame.size.height,MaxFontSize);
+       
+        
+       
         if (!multiline) {
             self.layer.cornerRadius = self.frame.size.height/6;
         }
@@ -86,9 +89,9 @@
         }
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        if (multiline) _baseFontSize = _minFontSize;
-        else _baseFontSize = MAX(MIN(_maxFontSize,_lineHeight*_fontScaleFactor),_minFontSize);
-        _fontSize = _baseFontSize;
+        if (multiline) _baseFontSize = MinFontSize;
+        else _baseFontSize = MAX(MIN(MaxFontSize,_lineHeight*FontScaleFactor),MinFontSize);
+        _currentFontSize = _baseFontSize;
         [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_baseFontSize]];
         [self addSubview:_textFieldOrTextView];
     }
@@ -107,11 +110,11 @@
        UITextField *textField = (UITextField *)_textFieldOrTextView;
        CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
        if (!_multiline) {
-           _baseFontSize = MAX(MIN(_baseFontSize/factor,_maxFontSize),_minFontSize);
-           if (_baseFontSize > _fontScaleFactor * _lineHeight)_baseFontSize = MAX(_fontScaleFactor*_lineHeight,_minFontSize);
+           _baseFontSize = MAX(MIN(_baseFontSize/factor,MaxFontSize),MinFontSize);
+           if (_baseFontSize > FontScaleFactor * _lineHeight)_baseFontSize = MAX(FontScaleFactor*_lineHeight,MinFontSize);
        }
-       _fontSize = _baseFontSize*_zoomScale*_customTextMetricsScaleFactor;
-       textField.font = [UIFont systemFontOfSize:_fontSize];
+       _currentFontSize = _baseFontSize*_zoomScale;
+       textField.font = [UIFont systemFontOfSize:_currentFontSize];
    }
    [self refresh];
 }
@@ -123,7 +126,7 @@
 
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
-    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_fontSize=_baseFontSize*zoom*_customTextMetricsScaleFactor]];
+    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_currentFontSize=_baseFontSize*zoom]];
     [_textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];
 }
@@ -167,7 +170,7 @@
                                       attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
                                         context:nil];
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
-    if(usedLines >= numLines && usedLines > 1)return NO;
+    if (usedLines >= numLines && usedLines > 1)return NO;
     return YES;
 }
 
@@ -178,10 +181,10 @@
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if ([newString length] <= [textField.text length]) return YES;
     if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) {
-        if (_baseFontSize > _minFontSize) {
-            _baseFontSize = _minFontSize;
-            _fontSize = _baseFontSize*_zoomScale;
-            textField.font = [UIFont systemFontOfSize:_fontSize];
+        if (_baseFontSize > MinFontSize) {
+            _baseFontSize = MinFontSize;
+            _currentFontSize = _baseFontSize*_zoomScale;
+            textField.font = [UIFont systemFontOfSize:_currentFontSize];
             if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) return NO;
         }
         else return NO;

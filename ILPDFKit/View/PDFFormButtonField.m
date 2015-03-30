@@ -24,20 +24,12 @@
 #import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define MinScaledDimensionScaleFactor 0.85
+#define MinScaledDimension MIN(self.bounds.size.width,self.bounds.size.height)*MinScaledDimensionScaleFactor
+
 @implementation PDFFormButtonField {
     NSString *_val;
-    NSUInteger _defFontSize;
     UIButton *_button;
-}
-
-#pragma mark - NSObject
-
-- (void)dealloc {
-    _val = nil;
-    self.name = nil;
-    self.exportValue = nil;
-    [_button removeFromSuperview];
-    _button = nil;
 }
 
 #pragma mark - UIView
@@ -48,7 +40,7 @@
         return;
     }
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGFloat minDim = MIN(rect.size.width,rect.size.height)*0.85;
+    CGFloat minDim = MIN(rect.size.width,rect.size.height)*MinScaledDimensionScaleFactor;
     CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
     rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
     CGContextSaveGState(ctx);
@@ -118,7 +110,7 @@
 
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
-    CGFloat minDim = MIN(self.bounds.size.width,self.bounds.size.height)*0.85;
+    CGFloat minDim = MinScaledDimension;
     CGPoint center = CGPointMake(self.bounds.size.width/2,self.bounds.size.height/2);
     _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, minDim*2, minDim*2);
     if (_radio) _button.layer.cornerRadius = _button.frame.size.width/2;
@@ -135,9 +127,8 @@
         _radio = rad;
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
-        _defFontSize = MIN(16, self.frame.size.height*0.75);
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGFloat minDim = MIN(frame.size.width,frame.size.height)*0.85;
+        CGFloat minDim = MinScaledDimension;
         CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
         _button.frame = CGRectMake(center.x-minDim, center.y-minDim, minDim*2, minDim*2);
         if (_radio) _button.layer.cornerRadius = _button.frame.size.width/2;
@@ -154,7 +145,7 @@
 - (void)setButtonSuperview {
     [_button removeFromSuperview];
     CGRect frame = self.bounds;
-    CGFloat minDim = MIN(frame.size.width,frame.size.height)*0.85;
+    CGFloat minDim = MinScaledDimension;
     CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
     _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, 2*minDim,2*minDim);
     [self.superview insertSubview:_button aboveSubview:self];
@@ -170,9 +161,6 @@
 
 - (void)setPushButton:(BOOL)pb {
     _pushButton = pb;
-    if (_pushButton) {
-        self.backgroundColor = [UIColor whiteColor];
-    }
 }
 
 - (void)setNoOff:(BOOL)no {

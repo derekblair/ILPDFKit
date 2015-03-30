@@ -31,25 +31,25 @@
 #import "PDFNull.h"
 
 @interface PDFArray(PrivateGetters)
-    @property (nonatomic, readonly, copy) NSArray *nsa;
+- (NSArray *)nsa;
 @end
 
 @interface PDFArray(PrivateInitializers)
-    - (instancetype)initWithNSArray:(NSArray *)arr representation:(NSString *)rep cgPDFArray:(CGPDFArrayRef)cgarr;
+- (instancetype)initWithNSArray:(NSArray *)arr representation:(NSString *)rep cgPDFArray:(CGPDFArrayRef)cgarr;
 @end
 
 @interface PDFArray(PrivateIndexedObjectQueries)
-    - (PDFStream *)streamAtIndex:(NSUInteger)index;
-    - (PDFDictionary *)dictionaryAtIndex:(NSUInteger)index;
-    - (PDFArray *)arrayAtIndex:(NSUInteger)index;
-    - (PDFString *)stringAtIndex:(NSUInteger)index;
-    - (PDFName *)nameAtIndex:(NSUInteger)index;
-    - (PDFNumber *)integerAtIndex:(NSUInteger)index;
-    - (PDFNumber *)realAtIndex:(NSUInteger)index;
-    - (PDFNumber *)booleanAtIndex:(NSUInteger)index;
-    - (PDFNull *)nullAtIndex:(NSUInteger)index;
-    - (id<PDFObject>)pdfObjectAtIndex:(NSUInteger)index;
-    - (CGPDFObjectType)typeAtIndex:(NSUInteger)index;
+- (PDFStream *)streamAtIndex:(NSUInteger)index;
+- (PDFDictionary *)dictionaryAtIndex:(NSUInteger)index;
+- (PDFArray *)arrayAtIndex:(NSUInteger)index;
+- (PDFString *)stringAtIndex:(NSUInteger)index;
+- (PDFName *)nameAtIndex:(NSUInteger)index;
+- (PDFNumber *)integerAtIndex:(NSUInteger)index;
+- (PDFNumber *)realAtIndex:(NSUInteger)index;
+- (PDFNumber *)booleanAtIndex:(NSUInteger)index;
+- (PDFNull *)nullAtIndex:(NSUInteger)index;
+- (id<PDFObject>)pdfObjectAtIndex:(NSUInteger)index;
+- (CGPDFObjectType)typeAtIndex:(NSUInteger)index;
 @end
 
 @implementation PDFArray {

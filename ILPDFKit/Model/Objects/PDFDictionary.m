@@ -31,7 +31,7 @@
 
 
 @interface PDFDictionary(PrivateGetters)
-@property (nonatomic, readonly, copy) NSDictionary *nsd;
+- (NSDictionary *)nsd;
 @end
 
 @interface PDFDictionary(PrivateInitializers)
@@ -105,6 +105,20 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
     return [self.nsd allValues];
 }
 
+- (id<PDFObject>)inheritableValueForKey:(PDFName *)key {
+    PDFDictionary *iter = nil;
+    for (iter = self; iter && iter[key] == nil; iter = iter.parent);
+    return iter[key];
+}
+
+- (NSArray *)parentValuesForKey:(PDFName *)key {
+    NSMutableArray *result = [NSMutableArray array];
+    for (PDFDictionary *iter = self; iter; iter = iter.parent) {
+        if (iter[key]) [result addObject:iter[key]];
+    }
+    return [NSArray arrayWithArray:result];;
+}
+
 - (BOOL)isEqualToDictionary:(PDFDictionary *)otherDictionary {
     return [self.nsd isEqualToDictionary:otherDictionary.nsd];
 }
@@ -115,7 +129,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
 
 - (PDFDictionary *)parent {
     if (!_parent) {
-        _parent = self.nsd[@"Parent"];
+        _parent = self[@"Parent"];
     }
     return _parent;
 }
@@ -313,7 +327,6 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
     NSString *copiedRep = [_representation copyWithZone:zone];
     return [[[self class] allocWithZone:zone] initWithNSDictionary:copiedDictionary representation:copiedRep cgPDFDictionary:_dict parent:_parent];
 }
-
 
 #pragma mark - Keyed Subscripting
 

@@ -32,7 +32,7 @@
 @implementation PDFStream {
     CGPDFStreamRef _strm;
     NSData *_data;
-    PDFDictionary* _dictionary;
+    PDFDictionary *_dictionary;
     CGPDFDataFormat _dataFormat;
     NSString *_representation;
 }

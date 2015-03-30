@@ -26,6 +26,9 @@
 #import "PDFFormButtonField.h"
 #import "PDF.h"
 
+@interface PDFView(Delegates) <UIScrollViewDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
+@end
+
 @interface PDFView(Private)
 - (void)fadeInWidgetAnnotations;
 @end

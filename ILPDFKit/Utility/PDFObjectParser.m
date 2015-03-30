@@ -61,7 +61,7 @@ typedef struct {
     self = [super init];
     if (self != nil) {
         NSString *strg = [PDFUtility trimmedStringFromPDFData:bytes];
-        if ([strg characterAtIndex:0]=='<') {
+        if ([strg characterAtIndex:0] == '<') {
             _str = [strg substringWithRange:NSMakeRange(1, strg.length-2)] ;
         } else _str = strg;
         
@@ -86,21 +86,21 @@ typedef struct {
         unichar cur = [_str characterAtIndex:index];
         BOOL found = NO;
         BOOL ws = isWS(cur);
-        BOOL od = isODelim(cur);
-        BOOL cd = isCDelim(cur);
+        BOOL odl = isODelim(cur);
+        BOOL cdl = isCDelim(cur);
         BOOL dl = isDelim(cur);
-        if (od) nestCount++;
-        if (cd) nestCount--;
+        if (odl) nestCount++;
+        if (cdl) nestCount--;
         if (startOfScanIndex == 0) {
-            if (!ws && (nestCount-od) == 1) startOfScanIndex = index;
+            if (!ws && (nestCount-odl) == 1) startOfScanIndex = index;
         } else {
             range.location = startOfScanIndex;
             range.length = index - startOfScanIndex;
             found = YES;
-            if (nestCount == 1 && (ws||cd)) {
+            if (nestCount == 1 && (ws||cdl)) {
                 startOfScanIndex = 0;
-                range.length += cd;
-            } else if (((nestCount <= 1) && dl)||(nestCount == 2 && od)) {
+                range.length += cdl;
+            } else if (((nestCount <= 1) && dl)||(nestCount == 2 && odl)) {
                 startOfScanIndex = index; 
             } else found = NO;
         }
@@ -116,7 +116,7 @@ typedef struct {
     return ret;
 }
 
-// the string passed musn't include an indirect object definition header. eg ' 7 0 obj '
+// The string passed musn't include an indirect object definition header. eg ' 7 0 obj '
 
 - (id<PDFObject>)pdfObjectFromString:(NSString *)st {
     id<PDFObject> obj = nil;

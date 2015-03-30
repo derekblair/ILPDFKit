@@ -27,7 +27,7 @@
 
 /** The PDFFormTextField represents a view for a PDF text field.
  */
-@interface PDFFormTextField : PDFWidgetAnnotationView <UITextViewDelegate,UITextFieldDelegate>
+@interface PDFFormTextField : PDFWidgetAnnotationView 
 
 
 /**---------------------------------------------------------------------------------------

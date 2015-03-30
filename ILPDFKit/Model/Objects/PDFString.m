@@ -24,7 +24,7 @@
 #import "PDFUtility.h"
 
 @interface NSData(HexString)
-@property (nonatomic, readonly, copy) NSString *hexadecimalString;
+-(NSString *)hexadecimalString;
 @end
 
 @implementation PDFString(PDFObject)
@@ -67,9 +67,6 @@
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(PDFRepOptions)flags {
     NSString *work = [PDFUtility trimmedStringFromPDFData:rep];
     if ([work characterAtIndex:0] == '(' && [work characterAtIndex:work.length-1] == ')') {
-        /*work = [work stringByReplacingOccurrencesOfString:@"\\(" withString:@"("];
-        work = [work stringByReplacingOccurrencesOfString:@"\\)" withString:@")"];
-        work = [work stringByReplacingOccurrencesOfString:@"\\\\" withString:@"\\"];*/
         return [PDFUtility dataFromPDFString:[work substringWithRange:NSMakeRange(1, work.length-2)]];
     }
     if ([work characterAtIndex:0] == '<' && [work characterAtIndex:work.length-1] == '>' && [work characterAtIndex:1] != '<') {

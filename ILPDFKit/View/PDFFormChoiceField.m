@@ -25,6 +25,10 @@
 #import "PDFView.h"
 #import "PDF.h"
 
+#define RowHeightDivisor MIN(5,[_options count])
+#define MinFontSize 8
+#define BaseFontSizeToFrameHeightScaleFactor 0.8
+
 @interface PDFFormChoiceFieldDropIndicator : UIView
 @end
 
@@ -43,6 +47,9 @@
 
 @end
 
+@interface PDFFormChoiceField(TableView) <UITableViewDelegate,UITableViewDataSource>
+@end
+
 @implementation PDFFormChoiceField {
     UITableView *_tv;
     NSArray *_options;
@@ -51,8 +58,6 @@
     BOOL _dropped;
     PDFFormChoiceFieldDropIndicator *_dropIndicator;
     CGFloat _baseFontHeight;
-    CGFloat _iPhoneCorrection;
-    CGFloat _iPhoneCellCorrection;
 }
 
 #pragma mark - PDFFormChoiceField
@@ -64,7 +69,7 @@
         self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
         self.layer.cornerRadius = self.frame.size.height/6;
         _options = opt;
-        _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*MIN(5,[_options count])) style:UITableViewStylePlain];
+        _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*RowHeightDivisor) style:UITableViewStylePlain];
         _tv.dataSource = self;
         _tv.delegate = self;
         _tv.opaque = NO;
@@ -75,15 +80,13 @@
         _tv.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tv.separatorColor = [UIColor clearColor];
         self.clipsToBounds = YES;
-        _baseFontHeight = MAX(floorf(frame.size.height)-2,12);
-        _iPhoneCorrection = (iPad?0.95:0.7);
-        _iPhoneCellCorrection = (iPad?0.8:0.7);
+        _baseFontHeight = MAX(floorf(frame.size.height*BaseFontSizeToFrameHeightScaleFactor),MinFontSize);
         _selection = [[UILabel alloc] initWithFrame:CGRectMake(1, 0, frame.size.width-frame.size.height, frame.size.height)];
         _selection.opaque = NO;
         _selection.adjustsFontSizeToFitWidth = YES;
         [_selection setBackgroundColor:[UIColor clearColor]];
         [_selection setTextColor:[UIColor blackColor]];
-        [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*_iPhoneCorrection]];
+        [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight]];
         [self addSubview:_selection];
         _dropIndicator = [[PDFFormChoiceFieldDropIndicator alloc] initWithFrame:CGRectMake(frame.size.width-frame.size.height*1.5, -frame.size.height*0.25, frame.size.height*1.5, frame.size.height*1.5)];
         [_dropIndicator setOpaque:NO];
@@ -130,7 +133,7 @@
         _options = opt;
     }
     CGFloat sf = _selection.frame.size.height;
-    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*MIN(5,[_options count]));
+    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*RowHeightDivisor);
 }
 
 - (NSArray *)options {
@@ -140,24 +143,25 @@
 - (void)refresh {
     [super refresh];
     CGFloat sf = _selection.frame.size.height;
-    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*MIN(5,[_options count]));
+    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*RowHeightDivisor);
     [_tv reloadData];
     [_tv selectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)resign {
-    if (_dropped)[self dropButtonPressed:_dropIndicator];
+    if (_dropped) [self dropButtonPressed:_dropIndicator];
 }
 
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
     _dropIndicator.frame = CGRectMake(self.frame.size.width-self.frame.size.height*1.5, -self.frame.size.height*0.25, self.frame.size.height*1.5, self.frame.size.height*1.5);
     _selection.frame  = CGRectMake(1, 0, self.frame.size.width, self.frame.size.height);
-    [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*zoom*_iPhoneCorrection]];
+    [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*zoom]];
+    _selection.minimumScaleFactor = zoom;
     _dropIndicator.transform = CGAffineTransformMakeRotation(0);
     [_dropIndicator setNeedsDisplay];
     _tv.alpha = 0;
-    _tv.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height*MIN(5,[_options count]));
+    _tv.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height*RowHeightDivisor);
     [self setNeedsDisplay];
 }
 
@@ -173,7 +177,7 @@
     cell.textLabel.opaque = NO;
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.opaque = NO;
-    [cell.textLabel setFont:[UIFont systemFontOfSize:MAX([self tableView:tableView heightForRowAtIndexPath:indexPath],_baseFontHeight)*_iPhoneCellCorrection]];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:_selection.font.pointSize ]];
     cell.textLabel.text = _options[indexPath.row];
     [cell.textLabel setTextColor:[UIColor blackColor]];
     return cell;
@@ -190,7 +194,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return tableView.bounds.size.height/MIN(5,[_options count]);
+    return tableView.bounds.size.height/RowHeightDivisor;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,7 +218,7 @@
             [_tv scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:NO];
         }
         [UIView animateWithDuration:0.3 animations:^{
-        self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*MIN(6,[_options count]+1));
+        self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(RowHeightDivisor+1));
         _tv.alpha = 1.0f;
             _dropIndicator.transform = CGAffineTransformMakeRotation(M_PI/2);
         } completion:^(BOOL d){}];
@@ -222,7 +226,7 @@
         self.parentView.activeWidgetAnnotationView = nil;
         [UIView animateWithDuration:0.3 animations:^{
             _tv.alpha = 0;
-            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/MIN(6,[_options count]+1));
+            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/(RowHeightDivisor+1));
             _dropIndicator.transform = CGAffineTransformMakeRotation(0);
         } completion:^(BOOL d){}];
     }

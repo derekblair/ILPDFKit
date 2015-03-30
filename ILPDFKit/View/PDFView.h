@@ -28,7 +28,7 @@
 /** The PDFView class allows for viewing a PDF file. The controller PDFViewController uses PDFView as its view and PDFDocument as its model.
  PDFView is typically not directly instantiated, but instead is used as the instance that comes with PDFViewController.
  */
-@interface PDFView : UIView <UIScrollViewDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
+@interface PDFView : UIView 
 
 /** The array contains the PDFWidgetAnnotationView instances that are subviews of the pdfView's scrollView.
  */

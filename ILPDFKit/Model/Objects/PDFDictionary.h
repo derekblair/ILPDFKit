@@ -82,11 +82,23 @@
 
 
 /** Returns a new array containing the dictionary’s values.
- 
  @return A new array containing the dictionary’s values, or an empty array if the dictionary has no entries.
  @discussion The order of the elements in the array is not defined.
  */
 - (NSArray *)allValues;
+
+
+/** Returns an inheritable attribute based on a key.
+ @param key The dictionary key
+ @return The pdf object if found by searching up the parent chain, or nil if not found.
+ */
+- (id)inheritableValueForKey:(PDFName *)key;
+
+/** Returns an array for all values for key found in parent dictionaries.
+ @param key The dictionary key
+ @return The array containing all values for key by successively searching up the parent chain.
+ */
+- (NSArray *)parentValuesForKey:(PDFName *)key;
 
 
 /**---------------------------------------------------------------------------------------

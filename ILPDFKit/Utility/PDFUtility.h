@@ -24,7 +24,7 @@
 
 
 // PDF uses ASCII for readable characters, but allows any 8 bit value unlike ASCII, so we use an extended ASCII set here.
-// The character mapped to encoded bytes over 127 have so significance, and are escaped if needed in the PDF file itself.
+// The character mapped to encoded bytes over 127 have no significance, and are octal escaped if needed to be read as text in the PDF file itself.
 #define PDFStringCharacterEncoding NSISOLatin1StringEncoding
 
 

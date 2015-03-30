@@ -37,8 +37,6 @@
 #import "PDF.h"
 
 @interface PDFForm(Private)
-- (id)getAttributeFromLeaf:(PDFDictionary *)leaf name:(NSString *)nme inheritable:(BOOL)inheritable;
-- (NSString *)getFormNameFromLeaf:(PDFDictionary *)leaf;
 - (NSMutableDictionary *)getActionsFromLeaf:(PDFDictionary *)leaf;
 - (NSString *)getExportValueFrom:(PDFDictionary *)leaf;
 - (NSString *)getSetAppearanceStreamFromLeaf:(PDFDictionary *)leaf;
@@ -75,17 +73,21 @@
     self = [super init];
     if (self != nil) {
         self.dictionary = leaf;
-        _value = [self getAttributeFromLeaf:leaf name:@"V" inheritable:YES];
-        self.name = [self getFormNameFromLeaf:leaf];
-        NSString* formTypeString = [self getAttributeFromLeaf:leaf name:@"FT"  inheritable:YES];
-        self.defaultValue = [self getAttributeFromLeaf:leaf name:@"DV"  inheritable:YES];
-        self.uname = [self getAttributeFromLeaf:leaf name:@"TU"  inheritable:YES];
-        _flags = [[self getAttributeFromLeaf:leaf name:@"Ff"  inheritable:YES] unsignedIntegerValue];
-        NSNumber *formTextAlignment = [self getAttributeFromLeaf:leaf name:@"Q" inheritable:YES];
+        id value = [leaf inheritableValueForKey:@"V"];
+        _value = [value isKindOfClass:PDFString.class] ? [value textString]:value;
+        id defaultValue = [leaf inheritableValueForKey:@"DV"];
+        self.defaultValue = ([defaultValue isKindOfClass:PDFString.class]) ? [defaultValue textString]:defaultValue;
+        NSMutableArray *nameComponents = [NSMutableArray array];
+        for (PDFString *obj in [leaf parentValuesForKey:@"T"]) [nameComponents addObject:[obj textString]];
+        self.name = [nameComponents componentsJoinedByString:@"."];
+        NSString *formTypeString = [leaf inheritableValueForKey:@"FT"];
+        self.uname = [[leaf inheritableValueForKey:@"TU"] textString];
+        _flags = [[leaf inheritableValueForKey:@"Ff"] unsignedIntegerValue];
+        NSNumber *formTextAlignment = [leaf  inheritableValueForKey:@"Q"];
         self.actions = [self getActionsFromLeaf:leaf];
         self.exportValue = [self getExportValueFrom:leaf];
         self.setAppearanceStream = [self getSetAppearanceStreamFromLeaf:leaf];
-        PDFArray *arr = [self getAttributeFromLeaf:leaf name:@"Opt" inheritable:YES];
+        PDFArray *arr = [leaf inheritableValueForKey:@"Opt"];
         NSMutableArray *temp = [NSMutableArray array];
         for (id obj in arr) {
             if ([obj isKindOfClass:[PDFArray class]]) {
@@ -382,7 +384,6 @@
 }
 
 - (void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView *)sender {
-    
     self.modified = YES;
     PDFWidgetAnnotationView *v = ((PDFWidgetAnnotationView *)sender);
     if ([v isKindOfClass:[PDFFormButtonField class]]) {
@@ -409,48 +410,6 @@
 
 #pragma mark - Private
 
-- (id)getAttributeFromLeaf:(PDFDictionary *)leaf name:(NSString *)nme  inheritable:(BOOL)inheritable {
-    PDFDictionary *iter = nil;
-    PDFDictionary *temp = nil;
-    id object;
-    temp = leaf[@"Parent"];
-    iter = ((temp == nil) ? leaf.parent : leaf);temp = nil;
-    if (iter == nil) iter = leaf;
-    BOOL objectIsValid;
-    while (!(objectIsValid = ((object = iter[nme]) != nil)) && inheritable) {
-        object = nil;
-        if (!(temp = iter[@"Parent"])) break;
-        iter = temp;
-    }
-    if ((!inheritable && !objectIsValid) || object == NULL) return nil;
-    if ([object isKindOfClass:PDFString.class]) object = [object textString];
-    return object;
-}
-
-
-- (NSString *)getFormNameFromLeaf:(PDFDictionary *)leaf {
-    PDFDictionary *iter = nil;
-    PDFDictionary *temp = nil;
-    temp = leaf[@"Parent"];
-    iter = ((temp == nil) ? leaf.parent : leaf);temp = nil;
-    if (iter == nil) iter = leaf;
-    PDFString *string = nil;
-    NSString *ret = @"";
-    do {
-        BOOL objectIsValid = [(string = iter[@"T"]) isKindOfClass:[PDFString class]];
-        if (objectIsValid) {
-            ret = [[NSString stringWithFormat:@"%@.",[string textString]] stringByAppendingString:ret];
-        }
-        temp = iter[@"Parent"];
-        if (temp == nil) break;
-        iter = temp;
-        
-    } while(YES);
-    
-    if ([ret length] > 0) ret = [ret substringToIndex:[ret length]-1];
-    return ret;
-}
-
 
 - (NSMutableDictionary *)getActionsFromLeaf:(PDFDictionary *)leaf {
     NSMutableDictionary *ret = [NSMutableDictionary dictionary];
@@ -459,9 +418,8 @@
         ret[@"A"] = actionsd;
     }
     PDFDictionary *iter = nil;
-    PDFDictionary *temp = nil;
-    temp = leaf[@"Parent"];
-    iter = ((temp == nil)?leaf.parent:leaf);temp = nil;
+  
+    iter = ((leaf[@"Parent"] == nil)?leaf.parent:leaf);
     if (iter == nil) iter = leaf;
     
     PDFDictionary *additionalActions = nil;
