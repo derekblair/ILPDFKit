@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 Iwe Labs. All rights reserved.
 //
 
-#import "ILAppDelegate.h"
-#import "PDFViewController.h"
 #import "PDF.h"
-#import "PDFDocument.h"
+#import "ILAppDelegate.h"
 
 @implementation ILAppDelegate {
     PDFViewController *_pdfViewController;
@@ -29,17 +27,10 @@
     [self.window setRootViewController:_navigationController];
     _navigationController.view.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
     _navigationController.navigationBar.translucent = NO;
-    
-    UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(save:)];
-    [_pdfViewController.navigationItem setRightBarButtonItems:@[saveBarButtonItem]];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-
--(void)save:(id)sender {
-    [[_pdfViewController.document savedStaticPDFData] writeToFile:@"testASaved.pdf" atomically:YES];
-}
 
 
 @end

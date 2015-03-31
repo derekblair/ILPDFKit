@@ -20,20 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "PDF.h"
 #import "PDFObjectParser.h"
-#import "PDFUtility.h"
-#import "PDFArray.h"
-#import "PDFDictionary.h"
-#import "PDFName.h"
-#import "PDFString.h"
-#import "PDFNumber.h"
-#import "PDFStream.h"
-#import "PDFNull.h"
-
-#define isDelim(c) ((c) == '(' || (c) == ')' || (c) == '<' || (c) == '>' || (c) == '[' || (c) == ']' || (c) == '{' || (c) == '}' || (c) == '/' ||  (c) == '%')
-#define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
-#define isODelim(c) ((c) == '(' ||  (c) == '<' ||  (c) == '[')
-#define isCDelim(c) ((c) == ')' ||  (c) == '>' ||  (c) == ']')
 
 typedef struct {
     NSUInteger index;
@@ -45,7 +33,6 @@ typedef struct {
 - (id<PDFObject>)pdfObjectFromString:(NSString *)st;
 - (id<PDFObject>)parseNextElement:(PDFObjectParserState *)state;
 @end
-
 
 @implementation PDFObjectParser {
     NSString *_str;

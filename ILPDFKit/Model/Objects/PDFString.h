@@ -39,12 +39,12 @@
 - (NSString *)hexStringRepresentation;
 
 /**
- @return The non-lossy ASCII string representation of the receivers bytes. Note that PDFString objects are NSData objects and not text strings.
+ @return The ASCII string representation of the receivers bytes. Note that PDFString objects are NSData objects and not text strings.
  */
 - (NSString *)textString;
 
 /**
- @param str A non-lossy ASCII string.
+ @param str An ASCII string.
  @return An initialized instance, based on the passed string.
  */
 - (instancetype)initWithTextString:(NSString *)str;

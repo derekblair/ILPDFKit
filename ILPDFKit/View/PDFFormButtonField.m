@@ -20,12 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFFormButtonField.h"
-#import "PDF.h"
 #import <QuartzCore/QuartzCore.h>
-
-#define MinScaledDimensionScaleFactor 0.85
-#define MinScaledDimension MIN(self.bounds.size.width,self.bounds.size.height)*MinScaledDimensionScaleFactor
+#import "PDF.h"
+#import "PDFFormButtonField.h"
 
 @implementation PDFFormButtonField {
     NSString *_val;
@@ -40,7 +37,7 @@
         return;
     }
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGFloat minDim = MIN(rect.size.width,rect.size.height)*MinScaledDimensionScaleFactor;
+    CGFloat minDim = PDFButtonMinScaledDimension(rect);
     CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
     rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
     CGContextSaveGState(ctx);
@@ -76,9 +73,9 @@
             CGContextSetLineWidth(ctx, rect.size.width/8);
             CGContextSetLineCap(ctx,kCGLineCapRound);
             CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
-            CGContextMoveToPoint(ctx, margin*0.75, rect.size.height/2);
+            CGContextMoveToPoint(ctx, margin*PDFButtonMarginScaleFactor, rect.size.height/2);
             CGContextAddLineToPoint(ctx, rect.size.width/2-margin/4, rect.size.height-margin);
-            CGContextAddLineToPoint(ctx, rect.size.width-margin*0.75, margin/2);
+            CGContextAddLineToPoint(ctx, rect.size.width-margin*PDFButtonMarginScaleFactor, margin/2);
             CGContextStrokePath(ctx);
         }
         CGContextRestoreGState(ctx);
@@ -110,7 +107,7 @@
 
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
-    CGFloat minDim = MinScaledDimension;
+    CGFloat minDim = PDFButtonMinScaledDimension(self.bounds);
     CGPoint center = CGPointMake(self.bounds.size.width/2,self.bounds.size.height/2);
     _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, minDim*2, minDim*2);
     if (_radio) _button.layer.cornerRadius = _button.frame.size.width/2;
@@ -128,7 +125,7 @@
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGFloat minDim = MinScaledDimension;
+        CGFloat minDim = PDFButtonMinScaledDimension(self.bounds);
         CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
         _button.frame = CGRectMake(center.x-minDim, center.y-minDim, minDim*2, minDim*2);
         if (_radio) _button.layer.cornerRadius = _button.frame.size.width/2;
@@ -145,7 +142,7 @@
 - (void)setButtonSuperview {
     [_button removeFromSuperview];
     CGRect frame = self.bounds;
-    CGFloat minDim = MinScaledDimension;
+    CGFloat minDim = PDFButtonMinScaledDimension(self.bounds);
     CGPoint center = CGPointMake(frame.size.width/2,frame.size.height/2);
     _button.frame = CGRectMake(center.x-minDim+self.frame.origin.x, center.y-minDim+self.frame.origin.y, 2*minDim,2*minDim);
     [self.superview insertSubview:_button aboveSubview:self];

@@ -20,24 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFForm.h"
+#import "PDF.h"
 #import "PDFFormButtonField.h"
 #import "PDFFormTextField.h"
 #import "PDFFormChoiceField.h"
-#import "PDFFormContainer.h"
 #import "PDFFormSignatureField.h"
-#import "PDFViewController.h"
-#import "PDFDictionary.h"
-#import "PDFPage.h"
-#import "PDFUtility.h"
-#import "PDFArray.h"
-#import "PDFString.h"
-#import "PDFStream.h"
-#import "PDFDocument.h"
-#import "PDF.h"
+#import "PDFFormContainer.h"
+
+@interface PDFForm(Delegates) <PDFWidgetAnnotationViewDelegate>
+@end
 
 @interface PDFForm(Private)
-- (NSMutableDictionary *)getActionsFromLeaf:(PDFDictionary *)leaf;
 - (NSString *)getExportValueFrom:(PDFDictionary *)leaf;
 - (NSString *)getSetAppearanceStreamFromLeaf:(PDFDictionary *)leaf;
 - (void)updateFlagsString;
@@ -53,17 +46,6 @@
 
 - (void)dealloc {
     [self removeObservers];
-    self.dictionary = nil;
-    self.value = nil;
-    self.options = nil;
-    self.name = nil;
-    self.uname = nil;
-    self.actions = nil;
-    self.exportValue = nil;
-    self.defaultValue = nil;
-    self.setAppearanceStream = nil;
-    self.rawRect = nil;
-    self.flagsString = nil;
 }
 
 #pragma mark - PDFForm
@@ -84,16 +66,15 @@
         self.uname = [[leaf inheritableValueForKey:@"TU"] textString];
         _flags = [[leaf inheritableValueForKey:@"Ff"] unsignedIntegerValue];
         NSNumber *formTextAlignment = [leaf  inheritableValueForKey:@"Q"];
-        self.actions = [self getActionsFromLeaf:leaf];
         self.exportValue = [self getExportValueFrom:leaf];
         self.setAppearanceStream = [self getSetAppearanceStreamFromLeaf:leaf];
         PDFArray *arr = [leaf inheritableValueForKey:@"Opt"];
         NSMutableArray *temp = [NSMutableArray array];
         for (id obj in arr) {
             if ([obj isKindOfClass:[PDFArray class]]) {
-                [temp addObject:[obj[0] textString]?:@""];
+                [temp addObject:[obj[0] textString] ?: @""];
             } else {
-                [temp addObject:[obj textString]?:@""];
+                [temp addObject:[obj textString] ?: @""];
             }
         }
         self.options = [NSArray arrayWithArray:temp];
@@ -188,60 +169,60 @@
 - (void)updateFlagsString {
     NSString *temp = @"";
     
-    if (BIT(0, _flags)) {
+    if ((_flags & PDFFormFlagReadOnly) > 0) {
         temp = [temp stringByAppendingString:@"-ReadOnly"];
     }
-    if (BIT(1, _flags)) {
+    if ((_flags & PDFFormFlagRequired) > 0) {
         temp = [temp stringByAppendingString:@"-Required"];
     }
-    if (BIT(2, _flags)) {
+    if ((_flags & PDFFormFlagNoExport) > 0) {
         temp = [temp stringByAppendingString:@"-NoExport"];
     }
     if (_formType == PDFFormTypeButton) {
     
-        if (BIT(14, _flags)) {
+        if ((_flags & PDFFormFlagButtonNoToggleToOff) > 0) {
             temp = [temp stringByAppendingString:@"-NoToggleToOff"];
         }
-        if (BIT(15, _flags)) {
+        if ((_flags & PDFFormFlagButtonRadio) > 0) {
             temp = [temp stringByAppendingString:@"-Radio"];
         }
-        if (BIT(16, _flags)) {
+        if ((_flags & PDFFormFlagButtonPushButton) > 0) {
             temp = [temp stringByAppendingString:@"-Pushbutton"];
         }
     } else if (_formType == PDFFormTypeChoice) {
-        if (BIT(17, _flags)) {
+        if ((_flags & PDFFormFlagChoiceFieldIsCombo) > 0) {
             temp = [temp stringByAppendingString:@"-Combo"];
         }
-        if (BIT(18, _flags)) {
+        if ((_flags & PDFFormFlagChoiceFieldEditable) > 0) {
             temp = [temp stringByAppendingString:@"-Edit"];
         }
-        if (BIT(19, _flags)) {
+        if ((_flags & PDFFormFlagChoiceFieldSorted) > 0) {
             temp = [temp stringByAppendingString:@"-Sort"];
         }             
     } else if(_formType == PDFFormTypeText) {
-        if (BIT(12, _flags)) {
+        if ((_flags & PDFFormFlagTextFieldMultiline) > 0) {
             temp = [temp stringByAppendingString:@"-Multiline"];
-        } if(BIT(13, _flags)) {
+        } if((_flags & PDFFormFlagTextFieldPassword) > 0) {
             temp = [temp stringByAppendingString:@"-Password"];
         }
     }
 
-    if (BIT(0, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagInvisible) > 0) {
         temp = [temp stringByAppendingString:@"-Invisible"];
     }
-    if (BIT(1, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagHidden) > 0) {
         temp = [temp stringByAppendingString:@"-Hidden"];
     }
-    if (BIT(2, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagPrint) > 0) {
         temp = [temp stringByAppendingString:@"-Print"];
     }
-    if (BIT(3, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagNoZoom) > 0) {
         temp = [temp stringByAppendingString:@"-NoZoom"];
     }
-    if (BIT(4, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagNoRotate) > 0) {
         temp = [temp stringByAppendingString:@"-NoRotate"];
     }
-    if (BIT(5, _annotFlags)) {
+    if ((_annotFlags & PDFAnnotationFlagNoView) > 0) {
         temp = [temp stringByAppendingString:@"-NoView"];
     }
     self.flagsString = temp;
@@ -261,7 +242,7 @@
     if (self.formType == PDFFormTypeText || self.formType == PDFFormTypeChoice) {
         NSString *text = self.value;
         UIFont *font = nil;
-        if (BIT(12, _flags) && self.formType == PDFFormTypeText) {
+        if ((_flags & PDFFormFlagTextFieldMultiline) > 0 && self.formType == PDFFormTypeText) {
             font = [UIFont systemFontOfSize:12];
         } else font = [UIFont systemFontOfSize:rect.size.height];
         UIGraphicsPushContext(ctx);
@@ -271,26 +252,25 @@
         [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height*2.0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
         UIGraphicsPopContext();
     } else if (self.formType == PDFFormTypeButton) {
-        CGFloat minDim = MIN(rect.size.width,rect.size.height)*0.85;
+        CGFloat minDim = MIN(rect.size.width,rect.size.height)*PDFButtonMinScaledDimensionScaleFactor;
         CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
         rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
-        
         if ([self.value isEqualToString:self.exportValue]) {
             CGContextSaveGState(ctx);
             CGFloat margin = minDim/3;
-            if (BIT(15, _flags)) {
+            if ((_flags & PDFFormFlagButtonRadio) > 0) {
                 CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
                 CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
                 CGContextAddEllipseInRect(ctx, CGRectMake(margin, margin, rect.size.width-2*margin, rect.size.height-2*margin));
                 CGContextFillPath(ctx);
-            } else if (!BIT(16, _flags)) {
+            } else if (!((_flags & PDFFormFlagButtonPushButton) > 0)) {
                 CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
                 CGContextSetLineWidth(ctx, rect.size.width/8);
                 CGContextSetLineCap(ctx,kCGLineCapRound);
                 CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
-                CGContextMoveToPoint(ctx, margin*0.75, rect.size.height/2);
+                CGContextMoveToPoint(ctx, margin*PDFButtonMarginScaleFactor, rect.size.height/2);
                 CGContextAddLineToPoint(ctx, rect.size.width/2-margin/4, rect.size.height-margin);
-                CGContextAddLineToPoint(ctx, rect.size.width-margin*0.75, margin/2);
+                CGContextAddLineToPoint(ctx, rect.size.width-margin*PDFButtonMarginScaleFactor, margin/2);
                 CGContextStrokePath(ctx);
             }
             CGContextRestoreGState(ctx);
@@ -344,7 +324,7 @@
         case PDFFormTypeButton: {
             BOOL radio = ([_flagsString rangeOfString:@"-Radio"].location != NSNotFound);
             if (_setAppearanceStream) {
-                if([_setAppearanceStream rangeOfString:@"ZaDb"].location!=NSNotFound && [_setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
+                if([_setAppearanceStream rangeOfString:@"ZaDb"].location != NSNotFound && [_setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
             }
             PDFFormButtonField *temp = [[PDFFormButtonField alloc] initWithFrame:_uiBaseFrame radio:radio];
             temp.noOff = ([_flagsString rangeOfString:@"-NoToggleToOff"].location != NSNotFound);
@@ -393,7 +373,7 @@
             if (button.noOff && set) {
                 return;
             } else {
-                [_parent setValue:set?nil:_exportValue forFormWithName:self.name];
+                [_parent setValue:(set ? nil:_exportValue) forFormWithName:self.name];
             }
         } else {
             self.modified = NO;
@@ -409,36 +389,6 @@
 }
 
 #pragma mark - Private
-
-
-- (NSMutableDictionary *)getActionsFromLeaf:(PDFDictionary *)leaf {
-    NSMutableDictionary *ret = [NSMutableDictionary dictionary];
-    PDFDictionary *actionsd = nil;
-    if ((actionsd = leaf[@"A"]) != nil) {
-        ret[@"A"] = actionsd;
-    }
-    PDFDictionary *iter = nil;
-  
-    iter = ((leaf[@"Parent"] == nil)?leaf.parent:leaf);
-    if (iter == nil) iter = leaf;
-    
-    PDFDictionary *additionalActions = nil;
-    BOOL active = ((additionalActions = iter[@"AA"]) != nil);
-    
-    if (!active && iter!= leaf) {
-        active = ((additionalActions = leaf[@"AA"]) != nil);
-    }
-    if (active) {
-        NSArray *keys = @[@"E",@"K",@"V"];
-        for (PDFName *key in keys) {
-            PDFDictionary* action = nil;
-            if ((action = additionalActions[key])) {
-                ret[key] = action;
-            }
-        }
-    }
-    return ret;
-}
 
 - (NSString *)getSetAppearanceStreamFromLeaf:(PDFDictionary *)leaf {
     PDFDictionary *ap = nil;

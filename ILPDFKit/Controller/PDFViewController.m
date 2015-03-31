@@ -20,17 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFViewController.h"
-#import "PDFDocument.h"
-#import "PDFView.h"
-#import "PDFFormContainer.h"
-#import "PDFWidgetAnnotationView.h"
 #import "PDF.h"
+#import "PDFFormContainer.h"
 
 @interface PDFViewController(Private)
-    - (void)loadPDFView;
-    - (CGRect)currentFrame:(UIInterfaceOrientation)o;
-    @property (nonatomic, getter=getMargins, readonly) CGPoint margins;
+- (void)loadPDFView;
+- (CGRect)currentFrame:(UIInterfaceOrientation)o;
+@property (nonatomic, getter=getMargins, readonly) CGPoint margins;
 @end
 
 @implementation PDFViewController
@@ -118,7 +114,7 @@
 }
 
 - (void)loadPDFView {
-    id pass = (_document.documentPath?_document.documentPath:_document.documentData);
+    id pass = (_document.documentPath ? _document.documentPath:_document.documentData);
     CGRect frm = [self currentFrame:self.interfaceOrientation];
     self.view.frame = CGRectMake(0,self.view.frame.origin.y,frm.size.width,frm.size.height-self.view.frame.origin.y);
     CGPoint margins = [self getMargins];

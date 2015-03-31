@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 
 #import "PDFName.h"
-#import "PDFUtility.h"
-#import "PDFString.h"
+#import "PDF.h"
 
 @interface PDFName(HashEncoding)
 - (PDFName *)hashEncodedName;

@@ -21,11 +21,30 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "PDFWidgetAnnotationView.h"
 
+typedef NS_OPTIONS(NSUInteger, PDFAnnotationFlags) {
+    PDFAnnotationFlagInvisible      = 1 << 0,
+    PDFAnnotationFlagHidden         = 1 << 1,
+    PDFAnnotationFlagPrint          = 1 << 2,
+    PDFAnnotationFlagNoZoom         = 1 << 3,
+    PDFAnnotationFlagNoRotate       = 1 << 4,
+    PDFAnnotationFlagNoView         = 1 << 5,
+    PDFAnnotationFlagReadOnly       = 1 << 6
+};
 
-#define BIT(n,i) (((i)>>(n))&1)
-
+typedef NS_OPTIONS(NSUInteger, PDFFormFlags) {
+    PDFFormFlagReadOnly             = 1 << 0,
+    PDFFormFlagRequired             = 1 << 1,
+    PDFFormFlagNoExport             = 1 << 2,
+    PDFFormFlagTextFieldMultiline   = 1 << 12,
+    PDFFormFlagTextFieldPassword    = 1 << 13,
+    PDFFormFlagButtonNoToggleToOff  = 1 << 14,
+    PDFFormFlagButtonRadio          = 1 << 15,
+    PDFFormFlagButtonPushButton     = 1 << 16,
+    PDFFormFlagChoiceFieldIsCombo   = 1 << 17,
+    PDFFormFlagChoiceFieldEditable  = 1 << 18,
+    PDFFormFlagChoiceFieldSorted    = 1 << 19,
+};
 
 typedef NS_ENUM(NSUInteger, PDFFormType) {
     PDFFormTypeNone = 0,
@@ -40,9 +59,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 @class PDFFormContainer;
 @class PDFPage;
 @class PDFDictionary;
-@class PDFUIElement;
 @class PDFWidgetAnnotationView;
-
 
 
 /** The PDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the 'Fields' array of the document's 'AcroForm' dictionary. Thus each instance of PDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A 'Field' is a collection of PDFForm with the same name. All forms in a field have the same value. A 'Field' represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named 'Sex' and marked 'Male' and 'Female' respectively to collect the information of a person's gender. A form can create a UIView representation of itself that can respond to user interaction.
@@ -51,7 +68,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  [webView.scrollView addSubview comboBox];
  [comboBox release];
  */
-@interface PDFForm : NSObject <PDFWidgetAnnotationViewDelegate>
+@interface PDFForm : NSObject 
 
 /** The value of the form.
  */
@@ -146,9 +163,6 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  */
 @property (nonatomic, weak) PDFFormContainer *parent;
 
-/** The dictionary containing all PDFFormAction actions. The keys match the corresponding key through which the action exists in it's parent PDFDictionary.
- */
-@property (nonatomic, strong) NSMutableDictionary *actions;
 
 /** The NSArray of NSNumber values representing the raw frame rectangle for the form.
  */

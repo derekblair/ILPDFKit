@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "PDFForm.h"
 
-@class PDFForm;
+
 @class PDFDocument;
 
 /** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument.
@@ -64,7 +64,8 @@
  involves mutually exclusive radio button/check box groups. Such groups are composed of multiple forms
  with the same name. Their common value is the exportValue of the selected button. If the value is equal 
  to the exportValue for such a form, it is checked. In this way, it is easy to see as well why such
- groups are mutually exclusive. Buttons with distinct names are not mutually exclusive.
+ groups are mutually exclusive. Buttons with distinct names are not mutually exclusive, 
+ that is they don't form a radio button group.
  */
 - (NSArray *)formsWithName:(NSString *)name;
 

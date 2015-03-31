@@ -13,18 +13,14 @@
 ## Quick Start
 
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following: 
-    
+ 
+ 
 ```objective-c
-#import "PDF.h"
-
-_pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
-    
+PDFDocument *document = [[PDFDocument alloc] initWithResource:@"test.pdf"];
 // Manually set a form value
-[_pdfViewController.document.forms setValue:@"Derek" ForFormWithName:@"Contacts.FirstName"];
-    
-// Save via a flat PDF.
-NSData* flatPDF = [_pdfViewController.document flattenedData]
-
+[document.forms setValue:@"Derek" forFormWithName:@"Contacts.FirstName"];
+// Save via a static PDF.
+NSData* flatPDF = [document savedStaticPDFData]
 ```
 
 ## PDF Support 
@@ -39,14 +35,10 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
 ## Features
 
-
-
-
   For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
   
   * View and interact with PDF forms (Button, Text, and Choice)
   * Extract and modify AcroForm values.
-  * Support for JavaScript PDF actions (A, E and K keys) (Limited)
   * Save form data to the original PDF file (See limitations above)
   * Created XML respresentation of all forms and data for form submission.
   * Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
@@ -55,55 +47,44 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
 ## Usage
 
+### Analyzing PDF Structure 
 
-### Filling out Forms
+```objective-c
+for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
+      // Inspect field properties here
+  }
+```
+
+### Filling Out Forms
 
 ```objective-c
 _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
-
 [self.window setRootViewController:_pdfViewController];
 // Have fun filling out the form.
 ```
 
-
 ### Getting/Setting Form Values Explicity
 
 ```objective-c
-for(PDFForm* form in _pdfViewController.document.forms){
+for (PDFForm *form in _pdfViewController.document.forms){
 	// Get
-	NSString* formValue = form.value;
-	NSString* formName = form.name; // Fully qualified field name.
-	
+	NSString *formValue = form.value;
+	NSString *formName = form.name; // Fully qualified field name.
 	// Set
 	form.value = @"foo";
 	// If the form is visible on screen it will updated automatically.
 }
 ```
-
-
-### Saving Forms
-
-```objective-c
-[_pdfViewController.document saveFormsToDocumentData^(BOOL success) {
-	/* At this point, _pdfViewController.documentData represents the updated PDF.
-   	   You can do as you wish with it. Upload, save to disk etc.
-	*/
-}];
-```
-	 
 	
 ### Sending Form XML Data 
 ```objective-c
-NSString* documentFormsXML = [_pdfViewController.document formsXML];
+NSString *documentFormsXML = [_pdfViewController.document formsXML];
 // Push to webservice
 ```
 	
-
-
 ## Documentation
 
 [ilpdfkit.com](http://ilpdfkit.com/index.html)
-
 
 
 ## Contact

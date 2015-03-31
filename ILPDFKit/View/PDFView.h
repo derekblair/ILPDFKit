@@ -22,7 +22,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @class PDFWidgetAnnotationView;
 
 /** The PDFView class allows for viewing a PDF file. The controller PDFViewController uses PDFView as its view and PDFDocument as its model.

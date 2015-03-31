@@ -21,15 +21,12 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import <MessageUI/MessageUI.h>
-
 
 /**The PDFViewController class allows for convienient viewing  of a PDF document using a UIViewController subclass. It represents the controller that renders a PDF using its view (PDFView) with data from its model (PDFDocument). Displaying a PDF file is very simple using PDFViewController.
  
         PDFViewController *pdfViewController = [[PDFViewController alloc] initWithResource:@"myPDF.pdf"];
         [self.navigationController pushDetailViewController:pdfViewController animated:YES];
  */
-
 
 @class PDFView;
 @class PDFDocument;
@@ -72,7 +69,6 @@
  */
 - (instancetype)initWithPath:(NSString *)path NS_DESIGNATED_INITIALIZER;
 
-
 /**---------------------------------------------------------------------------------------
  * @name Reloading Content
  *  ---------------------------------------------------------------------------------------
@@ -81,6 +77,5 @@
 /** Reloads the entire PDF.
  */
 - (void)reload;
-
 
 @end

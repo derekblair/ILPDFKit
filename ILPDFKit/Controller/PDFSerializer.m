@@ -20,12 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFSerializer.h"
 #import "PDF.h"
-#import "PDFUtility.h"
-#import "PDFString.h"
-#import "PDFName.h"
-
+#import "PDFSerializer.h"
 
 @interface PDFSerializer()
 + (NSString *)indirectObjectFrom:(NSString *)str withUniqueIdentifiers:(NSArray *)idents newValue:(NSString *)value objectNumber:(NSUInteger *)objectNumber generationNumber:(NSUInteger *)generationNumber type:(PDFFormType)type;

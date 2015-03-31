@@ -39,7 +39,7 @@ typedef NS_OPTIONS(NSUInteger, PDFRepOptions) {
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(PDFRepOptions)flags;
 
 /**
- @return A non lossy ASCII string representation of the object.
+ @return An ASCII string representation of the object.
  */
 - (NSString *)pdfFileRepresentation;
 

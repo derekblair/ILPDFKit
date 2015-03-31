@@ -23,17 +23,19 @@
 #import "PDFDictionary.h"
 #import "PDFArray.h"
 #import "PDFStream.h"
+#import "PDFString.h"
+#import "PDFName.h"
+#import "PDFNumber.h"
+#import "PDFNull.h"
+
 #import "PDFForm.h"
 #import "PDFPage.h"
 #import "PDFDocument.h"
 #import "PDFView.h"
+#import "PDFWidgetAnnotationView.h"
 #import "PDFViewController.h"
+#import "PDFUtility.h"
 
-
-// Set this flag to ensure that the Core Graphics functions are used to parse the PDF file.
-// Turning is flag off is experimental and not recommended.
-
-#define PDFUseCGParsing YES
 
 // Change the macros below to suit your own needs.
 
@@ -78,9 +80,22 @@
 
 #define PDFWidgetColor [UIColor colorWithRed:0.7 green:0.85 blue:1.0 alpha:0.7]
 
+#define PDFFormMinFontSize 8
+#define PDFFormMaxFontSize 22
 
+#define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
+#define isDelim(c) ((c) == '(' || (c) == ')' || (c) == '<' || (c) == '>' || (c) == '[' || (c) == ']' || (c) == '{' || (c) == '}' || (c) == '/' ||  (c) == '%')
+#define isODelim(c) ((c) == '(' ||  (c) == '<' ||  (c) == '[')
+#define isCDelim(c) ((c) == ')' ||  (c) == '>' ||  (c) == ']')
 
-
-
-
+#define PDFButtonMinScaledDimensionScaleFactor 0.85
+#define PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor 0.8
+#define PDFButtonMinScaledDimension(r) MIN((r).size.width,(r).size.height)*PDFButtonMinScaledDimensionScaleFactor
+#define PDFButtonMarginScaleFactor 0.75
+//The scale of the font size with respect to the field height.
+#define PDFTextFieldFontScaleFactor 0.75
+#define PDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
+// PDF uses ASCII for readable characters, but allows any 8 bit value unlike ASCII, so we use an extended ASCII set here.
+// The character mapped to encoded bytes over 127 have no significance, and are octal escaped if needed to be read as text in the PDF file itself.
+#define PDFStringCharacterEncoding NSISOLatin1StringEncoding
 

@@ -22,12 +22,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-// PDF uses ASCII for readable characters, but allows any 8 bit value unlike ASCII, so we use an extended ASCII set here.
-// The character mapped to encoded bytes over 127 have no significance, and are octal escaped if needed to be read as text in the PDF file itself.
-#define PDFStringCharacterEncoding NSISOLatin1StringEncoding
-
-
 /** The PDFUtility class represents a singleton that implements a range of PDF utility functions.
  */
 
@@ -110,30 +104,30 @@
 
 /**
  @param data A byte sequence.
- @return A PDF compliant , non lossy ASCII string representation of the byte sequence with whitespace trimmed.
+ @return A PDF compliant , ASCII string representation of the byte sequence with whitespace trimmed.
  */
 + (NSString *)trimmedStringFromPDFData:(NSData *)data;
 
 /**
  @param data A byte sequence.
- @return A PDF compliant , non lossy ASCII string representation of the byte sequence.
+ @return A PDF compliant , ASCII string representation of the byte sequence.
  */
 + (NSString *)stringFromPDFData:(NSData *)data;
 
 /**
- @param  str A non lossy ASCII string.
+ @param  str An ASCII string.
  @return A PDF compliant byte sequence representing the string.
  */
 + (NSData *)dataFromPDFString:(NSString *)str;
 
 /**
  @param str A C string.
- @return A PDF compliant , non lossy ASCII string representation of the C string.
+ @return A PDF compliant , ASCII string representation of the C string.
  */
 + (NSString *)stringFromPDFCString:(const char *)str;
 
 /**
- @param  str A non lossy ASCII string.
+ @param  str A ASCII string.
  @return A PDF compliant C string representing the string.
  */
 + (const char *)cStringFromPDFString:(NSString *)str;

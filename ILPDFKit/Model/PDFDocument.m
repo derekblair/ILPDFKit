@@ -32,7 +32,7 @@
 #import "PDFSerializer.h"
 #import "PDF.h"
 
-#define isWS(c) ((c) == 0 || (c) == 9 || (c) == 10 || (c) == 12 || (c) == 13 || (c) == 32)
+
 
 @implementation PDFDocument {
     NSString *_documentPath;

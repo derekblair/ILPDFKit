@@ -20,23 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "PDF.h"
 #import "PDFFormContainer.h"
-#import "PDFDocument.h"
-#import "PDFForm.h"
-#import "PDFDictionary.h"
-#import "PDFPage.h"
-#import "PDFFormAction.h"
-#import "PDFStream.h"
-#import "PDFWidgetAnnotationView.h"
-#import "PDFFormChoiceField.h"
-#import "PDFUtility.h"
 
 @interface PDFFormContainer(Private)
 - (void)populateNameTreeNode:(NSMutableDictionary *)node withComponents:(NSArray *)components final:(PDFForm *)final;
 - (NSArray *)formsDescendingFromTreeNode:(NSDictionary *)node;
 - (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap;
 - (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap;
-@property (nonatomic, readonly, copy) NSArray *allForms;
+- (NSArray *)allForms;
 - (NSString *)formXMLForFormsWithRootNode:(NSDictionary *)node;
 - (void)addForm:(PDFForm *)form;
 - (void)removeForm:(PDFForm *)form;
@@ -123,11 +115,11 @@
 
 - (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap {
     if (fieldDict[@"Subtype"]) {
-        PDFDictionary *parent = fieldDict[@"Parent"];
+        PDFDictionary *parent = fieldDict.parent;
         [self applyAnnotationTypeLeafToForms:fieldDict parent:parent pageMap:pmap];
     } else {
         for (PDFDictionary *innerFieldDictionary in fieldDict[@"Kids"]) {
-            PDFDictionary *parent = innerFieldDictionary[@"Parent"];
+            PDFDictionary *parent = innerFieldDictionary.parent;
             if (parent != nil) [self enumerateFields:innerFieldDictionary pageMap:pmap];
             else [self applyAnnotationTypeLeafToForms:innerFieldDictionary parent:fieldDict pageMap:pmap];
         }
@@ -137,7 +129,7 @@
 - (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap {
     NSUInteger targ = (NSUInteger)(((PDFDictionary *)(leaf[@"P"])).hash);
     leaf.parent = parent;
-    NSUInteger index = targ?([pmap[@(targ)] unsignedIntegerValue] - 1):0;
+    NSUInteger index = targ ? ([pmap[@(targ)] unsignedIntegerValue] - 1):0;
     PDFForm *form = [[PDFForm alloc] initWithFieldDictionary:leaf page:_document.pages[index] parent:self];
     [self addForm:form];
 }
@@ -180,7 +172,7 @@
 
 - (void)setValue:(NSString *)val forFormWithName:(NSString *)name {
     for (PDFForm *form in [self formsWithName:name]) {
-        if (((![form.value isEqualToString:val]) && (form.value!=nil || val!=nil))) {
+        if (((![form.value isEqualToString:val]) && (form.value != nil || val != nil))) {
             form.value = val;
         }
     }
@@ -233,7 +225,7 @@
         id add = [form createWidgetAnnotationViewForSuperviewWithWidth:width xMargin:margin yMargin:hmargin];
         if(add) [temp addObject:add];
     }
-    [temp sortUsingComparator:^NSComparisonResult(PDFFormChoiceField *obj1, PDFFormChoiceField *obj2) {
+    [temp sortUsingComparator:^NSComparisonResult(PDFWidgetAnnotationView *obj1, PDFWidgetAnnotationView *obj2) {
         if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
         return NSOrderedDescending;
     }];

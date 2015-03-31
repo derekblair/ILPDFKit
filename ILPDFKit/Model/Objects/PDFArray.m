@@ -263,7 +263,7 @@
 
 - (NSString *)pdfFileRepresentation {
     NSMutableString *ret = [NSMutableString stringWithString:@"["];
-    for (NSUInteger i = 0;i < [self count]; i++) {
+    for (NSUInteger i = 0; i < [self count]; i++) {
         [ret appendFormat:@" %@",[(id<PDFObject>)(self[i]) pdfFileRepresentation]];
     }
     [ret appendString:@"]"];

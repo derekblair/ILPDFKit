@@ -21,8 +21,6 @@
 // THE SOFTWARE.
 
 #import <QuartzCore/QuartzCore.h>
-#import "PDFView.h"
-#import "PDFWidgetAnnotationView.h"
 #import "PDFFormButtonField.h"
 #import "PDF.h"
 

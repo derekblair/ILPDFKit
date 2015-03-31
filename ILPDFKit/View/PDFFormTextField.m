@@ -20,16 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFFormTextField.h"
+
 #import <QuartzCore/QuartzCore.h>
-#import "PDFView.h"
 #import "PDF.h"
-
-//The scale of the font size with respect to the field height.
-#define FontScaleFactor 0.75
-#define MinFontSize 12
-#define MaxFontSize 22
-
+#import "PDFFormTextField.h"
 
 @interface PDFFormTextField(Delegates) <UITextViewDelegate,UITextFieldDelegate>
 @end
@@ -56,18 +50,13 @@
     self = [super initWithFrame:frame];
     if (self != nil) {
         self.opaque = NO;
-        self.backgroundColor = ro?[UIColor clearColor]:PDFWidgetColor;
-        //Configure these below
-      
-        _lineHeight = MIN(frame.size.height,MaxFontSize);
-       
-        
-       
+        self.backgroundColor = ro ? [UIColor clearColor]:PDFWidgetColor;
+        _lineHeight = MIN(frame.size.height, PDFFormMaxFontSize);
         if (!multiline) {
             self.layer.cornerRadius = self.frame.size.height/6;
         }
         _multiline = multiline;
-        Class textCls = multiline?[UITextView class]:[UITextField class];
+        Class textCls = multiline ? [UITextView class]:[UITextField class];
         _textFieldOrTextView = [[textCls alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         if (secureEntry) {
             ((UITextField *)_textFieldOrTextView).secureTextEntry = YES;
@@ -89,8 +78,8 @@
         }
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        if (multiline) _baseFontSize = MinFontSize;
-        else _baseFontSize = MAX(MIN(MaxFontSize,_lineHeight*FontScaleFactor),MinFontSize);
+        if (multiline) _baseFontSize = PDFFormMinFontSize;
+        else _baseFontSize = MAX(MIN(PDFFormMaxFontSize,_lineHeight*PDFTextFieldFontScaleFactor),PDFFormMinFontSize);
         _currentFontSize = _baseFontSize;
         [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_baseFontSize]];
         [self addSubview:_textFieldOrTextView];
@@ -110,8 +99,8 @@
        UITextField *textField = (UITextField *)_textFieldOrTextView;
        CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
        if (!_multiline) {
-           _baseFontSize = MAX(MIN(_baseFontSize/factor,MaxFontSize),MinFontSize);
-           if (_baseFontSize > FontScaleFactor * _lineHeight)_baseFontSize = MAX(FontScaleFactor*_lineHeight,MinFontSize);
+           _baseFontSize = MAX(MIN(_baseFontSize/factor,PDFFormMaxFontSize),PDFFormMinFontSize);
+           if (_baseFontSize > PDFTextFieldFontScaleFactor * _lineHeight)_baseFontSize = MAX(PDFTextFieldFontScaleFactor*_lineHeight,PDFFormMinFontSize);
        }
        _currentFontSize = _baseFontSize*_zoomScale;
        textField.font = [UIFont systemFontOfSize:_currentFontSize];
@@ -121,7 +110,7 @@
 
 - (NSString *)value {
     NSString *ret = [_textFieldOrTextView performSelector:@selector(text)];
-    return [ret length]?ret:nil;
+    return [ret length] ? ret:nil;
 }
 
 - (void)updateWithZoom:(CGFloat)zoom {
@@ -141,7 +130,6 @@
 - (void)textChanged:(id)sender {
     [self.delegate widgetAnnotationValueChanged:self];
 }
-
 
 #pragma mark - UITextViewDelegate
 
@@ -181,8 +169,8 @@
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if ([newString length] <= [textField.text length]) return YES;
     if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) {
-        if (_baseFontSize > MinFontSize) {
-            _baseFontSize = MinFontSize;
+        if (_baseFontSize > PDFFormMinFontSize) {
+            _baseFontSize = PDFFormMinFontSize;
             _currentFontSize = _baseFontSize*_zoomScale;
             textField.font = [UIFont systemFontOfSize:_currentFontSize];
             if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) return NO;

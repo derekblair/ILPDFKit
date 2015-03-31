@@ -20,14 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFFormChoiceField.h"
-#import <QuartzCore/QuartzCore.h>
-#import "PDFView.h"
-#import "PDF.h"
 
-#define RowHeightDivisor MIN(5,[_options count])
-#define MinFontSize 8
-#define BaseFontSizeToFrameHeightScaleFactor 0.8
+#import <QuartzCore/QuartzCore.h>
+#import "PDF.h"
+#import "PDFFormChoiceField.h"
 
 @interface PDFFormChoiceFieldDropIndicator : UIView
 @end
@@ -69,7 +65,7 @@
         self.backgroundColor = [PDFWidgetColor colorWithAlphaComponent:1];
         self.layer.cornerRadius = self.frame.size.height/6;
         _options = opt;
-        _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*RowHeightDivisor) style:UITableViewStylePlain];
+        _tv= [[UITableView alloc] initWithFrame:CGRectMake(0, frame.size.height, frame.size.width, frame.size.height*PDFChoiceFieldRowHeightDivisor) style:UITableViewStylePlain];
         _tv.dataSource = self;
         _tv.delegate = self;
         _tv.opaque = NO;
@@ -80,7 +76,7 @@
         _tv.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tv.separatorColor = [UIColor clearColor];
         self.clipsToBounds = YES;
-        _baseFontHeight = MAX(floorf(frame.size.height*BaseFontSizeToFrameHeightScaleFactor),MinFontSize);
+        _baseFontHeight = MIN(MAX(floorf(frame.size.height*PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor),PDFFormMinFontSize),PDFFormMaxFontSize);
         _selection = [[UILabel alloc] initWithFrame:CGRectMake(1, 0, frame.size.width-frame.size.height, frame.size.height)];
         _selection.opaque = NO;
         _selection.adjustsFontSizeToFitWidth = YES;
@@ -106,7 +102,7 @@
 #pragma mark - PDFWidgetAnnotationView
 
 - (NSString *)value {
-    return [_selection.text length]?_selection.text:nil;
+    return [_selection.text length] ? _selection.text:nil;
 }
 
 - (void)setValue:(NSString *)value {
@@ -133,7 +129,7 @@
         _options = opt;
     }
     CGFloat sf = _selection.frame.size.height;
-    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*RowHeightDivisor);
+    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*PDFChoiceFieldRowHeightDivisor);
 }
 
 - (NSArray *)options {
@@ -143,7 +139,7 @@
 - (void)refresh {
     [super refresh];
     CGFloat sf = _selection.frame.size.height;
-    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*RowHeightDivisor);
+    _tv.frame = CGRectMake(0, sf, self.frame.size.width, sf*PDFChoiceFieldRowHeightDivisor);
     [_tv reloadData];
     [_tv selectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
@@ -161,7 +157,7 @@
     _dropIndicator.transform = CGAffineTransformMakeRotation(0);
     [_dropIndicator setNeedsDisplay];
     _tv.alpha = 0;
-    _tv.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height*RowHeightDivisor);
+    _tv.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, self.frame.size.height*PDFChoiceFieldRowHeightDivisor);
     [self setNeedsDisplay];
 }
 
@@ -194,7 +190,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return tableView.bounds.size.height/RowHeightDivisor;
+    return tableView.bounds.size.height/PDFChoiceFieldRowHeightDivisor;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -218,7 +214,7 @@
             [_tv scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:NO];
         }
         [UIView animateWithDuration:0.3 animations:^{
-        self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(RowHeightDivisor+1));
+        self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(PDFChoiceFieldRowHeightDivisor+1));
         _tv.alpha = 1.0f;
             _dropIndicator.transform = CGAffineTransformMakeRotation(M_PI/2);
         } completion:^(BOOL d){}];
@@ -226,7 +222,7 @@
         self.parentView.activeWidgetAnnotationView = nil;
         [UIView animateWithDuration:0.3 animations:^{
             _tv.alpha = 0;
-            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/(RowHeightDivisor+1));
+            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/(PDFChoiceFieldRowHeightDivisor+1));
             _dropIndicator.transform = CGAffineTransformMakeRotation(0);
         } completion:^(BOOL d){}];
     }

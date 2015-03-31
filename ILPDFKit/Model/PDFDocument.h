@@ -63,7 +63,7 @@
 
 /** The CGPDFDocument on top of which the class is built.
  */
-@property (nonatomic,readonly) CGPDFDocumentRef document;
+@property (nonatomic, readonly) CGPDFDocumentRef document;
 
 
 /**---------------------------------------------------------------------------------------
@@ -112,7 +112,8 @@
  */
 - (void)refresh;
 
-/** Flattens the interactive elements, rendering the form values directly in the PDF. Useful for saving the PDF.
+/** Flattens the interactive elements, rendering the form values directly in the PDF. 
+ Useful for saving a PDF with forms that have been filled out.
  @return The data for the static flattened PDF.
  */
 - (NSData *)savedStaticPDFData;
