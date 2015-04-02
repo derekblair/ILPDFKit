@@ -26,7 +26,7 @@
 
 #pragma mark - UIView
 
-// This class is incomplete.
+// This class is incomplete. Signature fields are not implemented currently. We mark them red.
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

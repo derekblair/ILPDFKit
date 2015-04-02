@@ -54,7 +54,7 @@
         //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
         [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
         _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:widgetAnnotationViews];
-        for (PDFWidgetAnnotationView* element in _pdfWidgetAnnotationViews) {
+        for (PDFWidgetAnnotationView *element in _pdfWidgetAnnotationViews) {
             element.alpha = 0;
             element.parentView = self;
             [_pdfView.scrollView addSubview:element];

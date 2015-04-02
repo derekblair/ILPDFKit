@@ -33,8 +33,10 @@
  PDFDictionary provides a range of methods that mirror those of NSDictionary.
  */
 
-@interface PDFDictionary : NSObject <NSFastEnumeration, PDFObject>
-
+@interface PDFDictionary : NSObject <NSFastEnumeration, PDFObject> {
+@public
+    CGPDFDictionaryRef _dict;
+}
 
 /** The PDFDictionary that self is value of for some key, if it exists.
  @discussion If no such parent exists, parent is nil.

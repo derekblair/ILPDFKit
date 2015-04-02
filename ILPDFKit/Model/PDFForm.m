@@ -60,7 +60,7 @@
         id defaultValue = [leaf inheritableValueForKey:@"DV"];
         self.defaultValue = ([defaultValue isKindOfClass:PDFString.class]) ? [defaultValue textString]:defaultValue;
         NSMutableArray *nameComponents = [NSMutableArray array];
-        for (PDFString *obj in [leaf parentValuesForKey:@"T"]) [nameComponents addObject:[obj textString]];
+        for (PDFString *obj in [[leaf parentValuesForKey:@"T"] reverseObjectEnumerator]) [nameComponents addObject:[obj textString]];
         self.name = [nameComponents componentsJoinedByString:@"."];
         NSString *formTypeString = [leaf inheritableValueForKey:@"FT"];
         self.uname = [[leaf inheritableValueForKey:@"TU"] textString];

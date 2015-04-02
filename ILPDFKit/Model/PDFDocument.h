@@ -119,6 +119,12 @@
 - (NSData *)savedStaticPDFData;
 
 /**
+ @param docToAppend
+ @return The PDF data of the result when the passed document is appended to the receiver.
+ */
+- (NSData *)mergedDataWithDocument:(PDFDocument *)docToAppend;
+
+/**
  Converts a PDF page to an image.
  @param page The page number. 1 is the first page.
  @param width The desired width of the returned image. The image will match the aspect ratio of the page.

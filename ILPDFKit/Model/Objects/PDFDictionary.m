@@ -54,7 +54,6 @@
 
 @implementation PDFDictionary {
     NSDictionary *_nsd;
-    CGPDFDictionaryRef _dict;
     NSString *_representation;
 }
 
@@ -107,13 +106,22 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
 
 - (id<PDFObject>)inheritableValueForKey:(PDFName *)key {
     PDFDictionary *iter = nil;
-    for (iter = self; iter && iter[key] == nil; iter = iter.parent);
+    NSMutableArray *chain = [NSMutableArray array];
+    for (iter = self; iter && iter[key] == nil; iter = iter.parent) {
+        // If we have a cycle, break.
+        if ([chain containsObject:iter]) break;
+        [chain addObject:iter];
+    }
     return iter[key];
 }
 
 - (NSArray *)parentValuesForKey:(PDFName *)key {
     NSMutableArray *result = [NSMutableArray array];
+    NSMutableArray *chain = [NSMutableArray array];
     for (PDFDictionary *iter = self; iter; iter = iter.parent) {
+        // If we have a cycle, break.
+        if ([chain containsObject:iter]) break;
+        [chain addObject:iter];
         if (iter[key]) [result addObject:iter[key]];
     }
     return [NSArray arrayWithArray:result];;

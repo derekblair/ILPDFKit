@@ -32,7 +32,28 @@
 #import "PDFSerializer.h"
 #import "PDF.h"
 
-
+static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, PDFFormContainer *forms) {
+    CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFMediaBox);
+    CGRect cropRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFCropBox);
+    CGRect artRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFArtBox);
+    CGRect bleedRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFBleedBox);
+    UIGraphicsBeginPDFPageWithInfo(mediaRect, @{(NSString*)kCGPDFContextCropBox:[NSValue valueWithCGRect:cropRect],(NSString*)kCGPDFContextArtBox:[NSValue valueWithCGRect:artRect],(NSString*)kCGPDFContextBleedBox:[NSValue valueWithCGRect:bleedRect]});
+    CGContextSaveGState(ctx);
+    CGContextScaleCTM(ctx,1,-1);
+    CGContextTranslateCTM(ctx, 0, -mediaRect.size.height);
+    CGContextDrawPDFPage(ctx, CGPDFDocumentGetPage(doc,page));
+    CGContextRestoreGState(ctx);
+    for (PDFForm *form in forms) {
+        if (form.page == page) {
+            CGContextSaveGState(ctx);
+            CGRect frame = form.frame;
+            CGRect correctedFrame = CGRectMake(frame.origin.x-mediaRect.origin.x, mediaRect.size.height-frame.origin.y-frame.size.height-mediaRect.origin.y, frame.size.width, frame.size.height);
+            CGContextTranslateCTM(ctx, correctedFrame.origin.x, correctedFrame.origin.y);
+            [form vectorRenderInPDFContext:ctx forRect:correctedFrame];
+            CGContextRestoreGState(ctx);
+        }
+    }
+}
 
 @implementation PDFDocument {
     NSString *_documentPath;
@@ -141,33 +162,30 @@
 
 - (NSData *)savedStaticPDFData {
     NSUInteger numberOfPages = [self numberOfPages];
-    NSMutableData* pageData = [NSMutableData data];
+    NSMutableData *pageData = [NSMutableData data];
     UIGraphicsBeginPDFContextToData(pageData, CGRectZero , nil);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     for (NSUInteger page = 1; page <= numberOfPages;page++) {
-        CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document,page), kCGPDFMediaBox);
-        CGRect cropRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document,page), kCGPDFCropBox);
-        CGRect artRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document,page), kCGPDFArtBox);
-        CGRect bleedRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(_document,page), kCGPDFBleedBox);
-        UIGraphicsBeginPDFPageWithInfo(mediaRect, @{(NSString*)kCGPDFContextCropBox:[NSValue valueWithCGRect:cropRect],(NSString*)kCGPDFContextArtBox:[NSValue valueWithCGRect:artRect],(NSString*)kCGPDFContextBleedBox:[NSValue valueWithCGRect:bleedRect]});
-        CGContextSaveGState(ctx);
-        CGContextScaleCTM(ctx,1,-1);
-        CGContextTranslateCTM(ctx, 0, -mediaRect.size.height);
-        CGContextDrawPDFPage(ctx, CGPDFDocumentGetPage(_document,page));
-        CGContextRestoreGState(ctx);
-        for (PDFForm *form in self.forms) {
-            if (form.page == page) {
-                CGContextSaveGState(ctx);
-                CGRect frame = form.frame;
-                CGRect correctedFrame = CGRectMake(frame.origin.x-mediaRect.origin.x, mediaRect.size.height-frame.origin.y-frame.size.height-mediaRect.origin.y, frame.size.width, frame.size.height);
-                CGContextTranslateCTM(ctx, correctedFrame.origin.x, correctedFrame.origin.y);
-                [form vectorRenderInPDFContext:ctx forRect:correctedFrame];
-                CGContextRestoreGState(ctx);
-            }
-        }
+        renderPage(page, ctx, _document, self.forms);
     }
     UIGraphicsEndPDFContext();
     return pageData;
+}
+
+
+- (NSData *)mergedDataWithDocument:(PDFDocument *)docToAppend {
+    NSMutableData *pageData = [NSMutableData data];
+    UIGraphicsBeginPDFContextToData(pageData, CGRectZero , nil);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    for (NSUInteger page = 1; page <= [self numberOfPages]; page++) {
+        renderPage(page, ctx, _document, self.forms);
+    }
+    for (NSUInteger page = 1; page <= [docToAppend numberOfPages]; page++) {
+        renderPage(page, ctx, docToAppend.document, docToAppend.forms );
+    }
+    UIGraphicsEndPDFContext();
+    return pageData;
+    
 }
 
 - (UIImage *)imageFromPage:(NSUInteger)page width:(NSUInteger)width {
