@@ -338,7 +338,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
 
 #pragma mark - Keyed Subscripting
 
-- (id)objectForKeyedSubscript:(id <NSCopying>)key {
+- (id)objectForKeyedSubscript:(id<NSCopying>)key {
     return [self objectForKey:(PDFName *)key];
 }
 

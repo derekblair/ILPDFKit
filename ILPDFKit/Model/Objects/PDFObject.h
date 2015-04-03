@@ -33,7 +33,7 @@ typedef NS_OPTIONS(NSUInteger, PDFRepOptions) {
 
 /**
  @param rep A byte sequence respresention of the object as it appears in a PDF file.
- @param flags Optional NS_OPTIONS based flags to specifiy how to interpret the byte sequence.
+ @param flags Optional flags to specifiy how to interpret the byte sequence.
  @return A PDF object based on the representation, or nil if the representation is invalid.
  */
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(PDFRepOptions)flags;

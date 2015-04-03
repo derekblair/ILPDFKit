@@ -35,7 +35,10 @@
 
 @class PDFDictionary;
 
-@interface PDFStream : NSObject <PDFObject>
+@interface PDFStream : NSObject <PDFObject> {
+@public
+    CGPDFStreamRef _strm;
+}
 
 /** The data representing the stream content.
  @discussion It's important to reference dataFormat so that the data can be correctly interpreted.

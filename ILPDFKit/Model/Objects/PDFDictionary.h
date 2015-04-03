@@ -102,12 +102,10 @@
  */
 - (NSArray *)parentValuesForKey:(PDFName *)key;
 
-
 /**---------------------------------------------------------------------------------------
  * @name Counting Entries
  *  ---------------------------------------------------------------------------------------
  */
-
 
 /** Returns the number of entries in the dictionary.
  @return The number of entries in the dictionary.

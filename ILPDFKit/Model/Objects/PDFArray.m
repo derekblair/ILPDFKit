@@ -54,7 +54,6 @@
 
 @implementation PDFArray {
     NSArray *_nsa;
-    CGPDFArrayRef _arr;
     NSString *_representation;
 }
 
