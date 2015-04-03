@@ -115,7 +115,7 @@
 
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
-    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_currentFontSize=_baseFontSize*zoom]];
+    [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_currentFontSize = _baseFontSize*zoom]];
     [_textFieldOrTextView setNeedsDisplay];
     [self setNeedsDisplay];
 }

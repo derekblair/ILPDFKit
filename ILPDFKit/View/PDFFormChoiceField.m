@@ -151,9 +151,8 @@
 - (void)updateWithZoom:(CGFloat)zoom {
     [super updateWithZoom:zoom];
     _dropIndicator.frame = CGRectMake(self.frame.size.width-self.frame.size.height*1.5, -self.frame.size.height*0.25, self.frame.size.height*1.5, self.frame.size.height*1.5);
-    _selection.frame  = CGRectMake(1, 0, self.frame.size.width, self.frame.size.height);
+    _selection.frame  = CGRectMake(1, 0, self.frame.size.width-self.frame.size.height, self.frame.size.height);
     [_selection setFont:[UIFont systemFontOfSize:_baseFontHeight*zoom]];
-    _selection.minimumScaleFactor = zoom;
     _dropIndicator.transform = CGAffineTransformMakeRotation(0);
     [_dropIndicator setNeedsDisplay];
     _tv.alpha = 0;
@@ -173,7 +172,8 @@
     cell.textLabel.opaque = NO;
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.opaque = NO;
-    [cell.textLabel setFont:[UIFont systemFontOfSize:_selection.font.pointSize ]];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:_selection.font.pointSize]];
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.text = _options[indexPath.row];
     [cell.textLabel setTextColor:[UIColor blackColor]];
     return cell;
