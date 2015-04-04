@@ -273,7 +273,6 @@
     return [[PDFArray alloc] initWithNSArray:nil representation:[PDFUtility trimmedStringFromPDFData:rep] cgPDFArray:NULL];
 }
 
-
 #pragma mark - NSFastEnumeration
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {

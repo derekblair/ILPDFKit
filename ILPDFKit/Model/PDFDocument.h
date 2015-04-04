@@ -51,11 +51,11 @@
 
 /** The document info dictionary
  */
-@property (nonatomic, readonly) PDFDictionary* info;
+@property (nonatomic, readonly) PDFDictionary *info;
 
 /** An array containing PDFPage objects cooresponding in order and content to the pages of the document.
  */
-@property (nonatomic, readonly) NSArray* pages;
+@property (nonatomic, readonly) NSArray *pages;
 
 /** The name of the PDF.
  */
@@ -101,7 +101,7 @@
  
  @return The page count.
  */
--(NSUInteger)numberOfPages;
+- (NSUInteger)numberOfPages;
 
 /**---------------------------------------------------------------------------------------
  * @name Saving and Refreshing
