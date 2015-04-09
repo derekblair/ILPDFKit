@@ -165,7 +165,7 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
     NSMutableData *pageData = [NSMutableData data];
     UIGraphicsBeginPDFContextToData(pageData, CGRectZero , nil);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    for (NSUInteger page = 1; page <= numberOfPages;page++) {
+    for (NSUInteger page = 1; page <= numberOfPages; page++) {
         renderPage(page, ctx, _document, self.forms);
     }
     UIGraphicsEndPDFContext();

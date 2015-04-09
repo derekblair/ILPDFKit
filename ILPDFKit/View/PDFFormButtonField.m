@@ -67,7 +67,6 @@
             CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
             CGContextAddEllipseInRect(ctx, CGRectMake(margin, margin, rect.size.width-2*margin, rect.size.height-2*margin));
             CGContextFillPath(ctx);
-            
         } else if (!_pushButton) {
             CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
             CGContextSetLineWidth(ctx, rect.size.width/8);

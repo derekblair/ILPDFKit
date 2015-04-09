@@ -80,13 +80,13 @@
 }
 
 - (NSValue *)rect {
-    if ([self.nsa count] != 4 || [[self.nsa filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) { return [evaluatedObject respondsToSelector:@selector(floatValue)]; }]] count] != 4) return nil;
-    CGFloat x0,y0,x1,y1;
-    x0 = [self.nsa[0] floatValue];
-    y0 = [self.nsa[1] floatValue];
-    x1 = [self.nsa[2] floatValue];
-    y1 = [self.nsa[3] floatValue];
-    return [NSValue valueWithCGRect:CGRectMake(MIN(x0,x1),MIN(y0,y1),fabsf(x1-x0),fabsf(y1-y0))];
+    if ([self.nsa count] != 4 || [[self.nsa filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) { return [evaluatedObject respondsToSelector:@selector(doubleValue)]; }]] count] != 4) return nil;
+    double x0,y0,x1,y1;
+    x0 = [self.nsa[0] doubleValue];
+    y0 = [self.nsa[1] doubleValue];
+    x1 = [self.nsa[2] doubleValue];
+    y1 = [self.nsa[3] doubleValue];
+    return [NSValue valueWithCGRect:CGRectMake(MIN(x0,x1),MIN(y0,y1),fabs(x1-x0),fabs(y1-y0))];
 }
 
 - (id<PDFObject>)objectAtIndex:(NSUInteger)index {
