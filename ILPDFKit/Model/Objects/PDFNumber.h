@@ -27,5 +27,5 @@
 
 /** PDFNumber is an alias for NSNumber. It represents Integer, Real and Boolean PDF objects. Functionality is added via a category.
  */
-@interface PDFNumber(PDFObject)<PDFObject>
+@interface PDFNumber(PDFObject) <PDFObject>
 @end

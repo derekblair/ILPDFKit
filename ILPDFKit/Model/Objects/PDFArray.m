@@ -55,6 +55,7 @@
 @implementation PDFArray {
     NSArray *_nsa;
     NSString *_representation;
+    CGPDFArrayRef _arr;
 }
 
 #pragma mark - NSObject

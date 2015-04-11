@@ -32,10 +32,12 @@
  PDFArray provides a range of methods that mirror those of NSArray.
  */
 
-@interface PDFArray : NSObject <NSFastEnumeration, PDFObject> {
-@public
-    CGPDFArrayRef _arr;
-}
+@interface PDFArray : NSObject <NSFastEnumeration, PDFObject>
+
+/**
+ The Core Graphics array reference, if it exists.
+ */
+@property (nonatomic) CGPDFArrayRef arr;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFArray

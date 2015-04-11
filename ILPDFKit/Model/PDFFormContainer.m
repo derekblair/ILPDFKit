@@ -50,7 +50,7 @@
         _document = parent;
         NSMutableDictionary *pmap = [NSMutableDictionary dictionary];
         for (PDFPage *page in _document.pages) {
-            pmap[@((NSUInteger)(page.dictionary -> _dict))] = @(page.pageNumber);
+            pmap[@((NSUInteger)(page.dictionary.dict))] = @(page.pageNumber);
         }
         for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
             [self enumerateFields:field pageMap:pmap];
@@ -127,7 +127,7 @@
 }
 
 - (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap {
-    NSUInteger targ = (NSUInteger)(((PDFDictionary *)(leaf[@"P"])) -> _dict);
+    NSUInteger targ = (NSUInteger)(((PDFDictionary *)(leaf[@"P"])).dict);
     leaf.parent = parent;
     NSUInteger index = targ ? ([pmap[@(targ)] unsignedIntegerValue] - 1):0;
     PDFForm *form = [[PDFForm alloc] initWithFieldDictionary:leaf page:_document.pages[index] parent:self];

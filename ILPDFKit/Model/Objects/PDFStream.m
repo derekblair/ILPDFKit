@@ -34,6 +34,7 @@
     PDFDictionary *_dictionary;
     CGPDFDataFormat _dataFormat;
     NSString *_representation;
+    CGPDFStreamRef _strm;
 }
 
 #pragma mark - NSObject

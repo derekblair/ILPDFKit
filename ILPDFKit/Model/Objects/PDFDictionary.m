@@ -55,6 +55,7 @@
 @implementation PDFDictionary {
     NSDictionary *_nsd;
     NSString *_representation;
+    CGPDFDictionaryRef _dict;
 }
 
 void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
