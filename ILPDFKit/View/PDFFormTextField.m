@@ -33,7 +33,6 @@
     UIView *_textFieldOrTextView;
     CGFloat _baseFontSize;
     CGFloat _currentFontSize;
-    CGFloat _lineHeight;
 }
 
 #pragma mark - NSObject
@@ -50,7 +49,6 @@
     if (self != nil) {
         self.opaque = NO;
         self.backgroundColor = ro ? [UIColor clearColor]:PDFWidgetColor;
-        _lineHeight = MIN(frame.size.height, PDFFormMaxFontSize);
         if (!multiline) {
             self.layer.cornerRadius = self.frame.size.height/6;
         }
@@ -72,13 +70,14 @@
         } else {
             ((UITextField *)_textFieldOrTextView).textAlignment = (NSTextAlignment)alignment;
             ((UITextField *)_textFieldOrTextView).delegate = self;
+            ((UITextField *)_textFieldOrTextView).adjustsFontSizeToFitWidth = YES;
+            ((UITextField *)_textFieldOrTextView).minimumFontSize = PDFFormMinFontSize;
             ((UITextField *)_textFieldOrTextView).autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextFieldTextDidChangeNotification object:_textFieldOrTextView];
         }
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
-        if (multiline) _baseFontSize = PDFFormMinFontSize;
-        else _baseFontSize = MAX(MIN(PDFFormMaxFontSize,_lineHeight*PDFTextFieldFontScaleFactor),PDFFormMinFontSize);
+        _baseFontSize = [PDFWidgetAnnotationView fontSizeForRect:frame value:nil multiline:multiline choice:NO];
         _currentFontSize = _baseFontSize;
         [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_baseFontSize]];
         [self addSubview:_textFieldOrTextView];
@@ -94,17 +93,7 @@
         return;
     }
     [_textFieldOrTextView performSelector:@selector(setText:) withObject:value];
-    if (!_multiline) {
-       UITextField *textField = (UITextField *)_textFieldOrTextView;
-       CGFloat factor = [value sizeWithAttributes:@{NSFontAttributeName:textField.font}].width/(textField.bounds.size.width);
-       if (!_multiline) {
-           _baseFontSize = MAX(MIN(_baseFontSize/factor,PDFFormMaxFontSize),PDFFormMinFontSize);
-           if (_baseFontSize > PDFTextFieldFontScaleFactor * _lineHeight)_baseFontSize = MAX(PDFTextFieldFontScaleFactor*_lineHeight,PDFFormMinFontSize);
-       }
-       _currentFontSize = _baseFontSize*_zoomScale;
-       textField.font = [UIFont systemFontOfSize:_currentFontSize];
-   }
-   [self refresh];
+    [self refresh];
 }
 
 - (NSString *)value {
@@ -146,10 +135,10 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    CGSize contentSize = CGSizeMake(textView.bounds.size.width-12, CGFLOAT_MAX);
+    CGSize contentSize = CGSizeMake(textView.bounds.size.width-PDFFormMinFontSize, CGFLOAT_MAX);
     float numLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
     NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    if([newString length] < [textView.text length])return YES;
+    if ([newString length] < [textView.text length])return YES;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect textRect = [newString boundingRectWithSize:contentSize
@@ -157,7 +146,7 @@
                                       attributes:@{NSFontAttributeName:textView.font,NSParagraphStyleAttributeName:paragraphStyle}
                                         context:nil];
     float usedLines = ceilf(textRect.size.height/textView.font.lineHeight);
-    if (usedLines >= numLines && usedLines > 1)return NO;
+    if (usedLines >= numLines && usedLines > 1) return NO;
     return YES;
 }
 
@@ -167,14 +156,8 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if ([newString length] <= [textField.text length]) return YES;
-    if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) {
-        if (_baseFontSize > PDFFormMinFontSize) {
-            _baseFontSize = PDFFormMinFontSize;
-            _currentFontSize = _baseFontSize*_zoomScale;
-            textField.font = [UIFont systemFontOfSize:_currentFontSize];
-            if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width)) return NO;
-        }
-        else return NO;
+    if ([newString sizeWithAttributes:@{NSFontAttributeName:textField.font}].width > (textField.bounds.size.width + PDFFormMinFontSize)) {
+       return NO;
     }
     return YES;
 }

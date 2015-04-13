@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "PDF.h"
 #import "PDFWidgetAnnotationView.h"
-#import "PDFView.h"
 
 @implementation PDFWidgetAnnotationView
 
@@ -51,6 +51,19 @@
 - (void)updateWithZoom:(CGFloat)zoom {
     _zoomScale = zoom;
     self.frame = CGRectMake(_baseFrame.origin.x*zoom,_baseFrame.origin.y*zoom,_baseFrame.size.width*zoom,_baseFrame.size.height*zoom);
+}
+
++ (CGFloat)fontSizeForRect:(CGRect)rect value:(NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice {
+    if (multiline) return PDFFormMinFontSize;
+    CGFloat baseSize;
+    if (choice) baseSize = roundf(MIN(MAX(floorf(rect.size.height*PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor),PDFFormMinFontSize),PDFFormMaxFontSize));
+    else baseSize = roundf(MAX(MIN(PDFFormMaxFontSize,MIN(rect.size.height, PDFFormMaxFontSize)*PDFTextFieldFontScaleFactor),PDFFormMinFontSize));
+    if (value) {
+        while (baseSize >= PDFFormMinFontSize && [value sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:baseSize]}].width > rect.size.width-PDFFormMinFontSize) {
+            baseSize -= 1.0;
+        }
+        return baseSize;
+    } else return baseSize;
 }
 
 - (void)setValue:(NSString *)value {

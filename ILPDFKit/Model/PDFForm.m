@@ -135,7 +135,6 @@
     return self;
 }
 
-
 #pragma mark - Getters/Setters
 
 - (void)setOptions:(NSArray *)opt {
@@ -146,7 +145,6 @@
     _options = nil;
     _options = opt;
 }
-
 
 - (void)setValue:(NSString *)val {
     if ([val isKindOfClass:[NSNull class]]) {
@@ -241,10 +239,7 @@
 - (void)vectorRenderInPDFContext:(CGContextRef)ctx forRect:(CGRect)rect {
     if (self.formType == PDFFormTypeText || self.formType == PDFFormTypeChoice) {
         NSString *text = self.value;
-        UIFont *font = nil;
-        if ((_flags & PDFFormFlagTextFieldMultiline) > 0 && self.formType == PDFFormTypeText) {
-            font = [UIFont systemFontOfSize:12];
-        } else font = [UIFont systemFontOfSize:rect.size.height];
+        UIFont *font = [UIFont systemFontOfSize:[PDFWidgetAnnotationView fontSizeForRect:rect value:self.value multiline:((_flags & PDFFormFlagTextFieldMultiline) > 0 && self.formType == PDFFormTypeText) choice:self.formType == PDFFormTypeChoice]];
         UIGraphicsPushContext(ctx);
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;

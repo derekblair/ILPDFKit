@@ -80,6 +80,15 @@
  */
 - (void)updateWithZoom:(CGFloat)zoom;
 
+
+/** For widget annotations with text, this method returns how font size should be initially scaled with respect to the bounding rect.
+ @param rect The bounding frame of the widget in iOS screen space, not PDF canvas space.
+ @param value The text to render.
+ @param multiline YES if multiple lines of text are permitted.
+ @param choice YES if the field is a choice field.
+ */
++ (CGFloat)fontSizeForRect:(CGRect)rect value:(NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice;
+
 /**---------------------------------------------------------------------------------------
  * @name Updating Data
  *  ---------------------------------------------------------------------------------------
