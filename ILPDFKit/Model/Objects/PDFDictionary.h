@@ -30,7 +30,9 @@
         CGPDFDictionaryRef pdfDRef = CGPDFDocumentGetCatalog(document);
         PDFDictionary* pdfDictionary = [[PDFDictionary alloc] initWithDictionary:pdfDRef];
  
- PDFDictionary provides a range of methods that mirror those of NSDictionary.
+ PDFDictionary provides a range of methods that mirror those of NSDictionary. PDFDictionary may also
+ be instantiated based on a string representation of its contents without needing to be assoicated with
+ a parent document.
  */
 
 @interface PDFDictionary : NSObject <NSFastEnumeration, PDFObject>
@@ -38,7 +40,7 @@
 /**
  The Core Graphics dictionary reference, if it exists.
  */
-@property (nonatomic) CGPDFDictionaryRef dict;
+@property (nonatomic, readonly) CGPDFDictionaryRef dict;
 
 /** The PDFDictionary that self is value of for some key, if it exists.
  @discussion If no such parent exists, parent is nil.

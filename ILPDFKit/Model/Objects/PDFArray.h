@@ -29,7 +29,9 @@
      CGPDFArrayRef pdfARef = myCGPDFArrayRef;
      PDFArray* pdfArray = [[PDFArray alloc] initWithArray:pdfARef];
  
- PDFArray provides a range of methods that mirror those of NSArray.
+ PDFArray provides a range of methods that mirror those of NSArray. PDFArray may also
+ be instantiated based on a string representation of its contents without needing to be assoicated with
+ a parent document.
  */
 
 @interface PDFArray : NSObject <NSFastEnumeration, PDFObject>
@@ -37,7 +39,7 @@
 /**
  The Core Graphics array reference, if it exists.
  */
-@property (nonatomic) CGPDFArrayRef arr;
+@property (nonatomic, readonly) CGPDFArrayRef arr;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFArray

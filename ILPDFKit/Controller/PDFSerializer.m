@@ -40,19 +40,16 @@
            if (!form.modified) continue;
            if ([names containsObject:form.name]) continue;
            [names addObject:form.name];
-           form.modified = NO;
            NSUInteger objectNumber;
            NSUInteger generationNumber;
            NSArray *rawRect = form.rawRect;
-           NSString *uniqueSearchIdentifierA =
-           ({
+           NSString *uniqueSearchIdentifierA = ({
                NSNumberFormatter *ft = [[NSNumberFormatter alloc] init];
                [ft setNumberStyle:NSNumberFormatterDecimalStyle];
                [ft setMaximumFractionDigits:3];
                [[NSString stringWithFormat:@"/Rect[\\s]*\\[[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*%@[\\s]*\\]",[ft stringFromNumber:rawRect[0]],[ft stringFromNumber:rawRect[1]],[ft stringFromNumber:rawRect[2]],[ft stringFromNumber:rawRect[3]]] stringByReplacingOccurrencesOfString:@"." withString:@"\\."];
            });
-           NSString *uniqueSearchIdentifierB =
-           ({
+           NSString *uniqueSearchIdentifierB = ({
                NSNumberFormatter *ft = [[NSNumberFormatter alloc] init];
                [ft setNumberStyle:NSNumberFormatterDecimalStyle];
                [ft setMaximumFractionDigits:4];

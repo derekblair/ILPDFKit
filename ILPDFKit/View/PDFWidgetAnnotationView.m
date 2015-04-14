@@ -23,6 +23,9 @@
 #import "PDF.h"
 #import "PDFWidgetAnnotationView.h"
 
+#define PDFTextFieldFontScaleFactor 0.75
+#define PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor 0.8
+
 @implementation PDFWidgetAnnotationView
 
 #pragma mark - NSObject

@@ -54,20 +54,20 @@
 - (instancetype)initWithFieldDictionary:(PDFDictionary *)leaf page:(PDFPage *)pg parent:(PDFFormContainer *)p {
     self = [super init];
     if (self != nil) {
-        self.dictionary = leaf;
+        _dictionary = leaf;
         id value = [leaf inheritableValueForKey:@"V"];
         _value = [value isKindOfClass:PDFString.class] ? [value textString]:value;
         id defaultValue = [leaf inheritableValueForKey:@"DV"];
-        self.defaultValue = ([defaultValue isKindOfClass:PDFString.class]) ? [defaultValue textString]:defaultValue;
+        _defaultValue = ([defaultValue isKindOfClass:PDFString.class]) ? [defaultValue textString]:defaultValue;
         NSMutableArray *nameComponents = [NSMutableArray array];
         for (PDFString *obj in [[leaf parentValuesForKey:@"T"] reverseObjectEnumerator]) [nameComponents addObject:[obj textString]];
-        self.name = [nameComponents componentsJoinedByString:@"."];
+        _name = [nameComponents componentsJoinedByString:@"."];
         NSString *formTypeString = [leaf inheritableValueForKey:@"FT"];
-        self.uname = [[leaf inheritableValueForKey:@"TU"] textString];
+        _uname = [[leaf inheritableValueForKey:@"TU"] textString];
         _flags = [[leaf inheritableValueForKey:@"Ff"] unsignedIntegerValue];
         NSNumber *formTextAlignment = [leaf  inheritableValueForKey:@"Q"];
-        self.exportValue = [self getExportValueFrom:leaf];
-        self.setAppearanceStream = [self getSetAppearanceStreamFromLeaf:leaf];
+        _exportValue = [self getExportValueFrom:leaf];
+        _setAppearanceStream = [self getSetAppearanceStreamFromLeaf:leaf];
         PDFArray *arr = [leaf inheritableValueForKey:@"Opt"];
         NSMutableArray *temp = [NSMutableArray array];
         for (id obj in arr) {
@@ -80,32 +80,32 @@
         self.options = [NSArray arrayWithArray:temp];
         
         if ([formTypeString isEqualToString:@"Btn"]) {
-            self.formType = PDFFormTypeButton;
+            _formType = PDFFormTypeButton;
         } else if([formTypeString isEqualToString:@"Tx"]) {
-            self.formType = PDFFormTypeText;
+            _formType = PDFFormTypeText;
         } else if([formTypeString isEqualToString:@"Ch"]) {
-            self.formType = PDFFormTypeChoice;
+            _formType = PDFFormTypeChoice;
         } else if([formTypeString isEqualToString:@"Sig"]) {
-            self.formType = PDFFormTypeSignature;
+            _formType = PDFFormTypeSignature;
         }
         
         NSMutableArray *tempRect = [NSMutableArray array];
         for (NSNumber *num in leaf[@"Rect"]) [tempRect addObject:num];
-        self.rawRect = [NSArray arrayWithArray:tempRect];
-        self.frame = [[(PDFArray *)(leaf[@"Rect"]) rect] CGRectValue];
-        self.page = pg.pageNumber;
-        self.mediaBox = pg.mediaBox;
-        self.cropBox =  pg.cropBox;
+        _rawRect = [NSArray arrayWithArray:tempRect];
+        _frame = [[(PDFArray *)(leaf[@"Rect"]) rect] CGRectValue];
+        _page = pg.pageNumber;
+        _mediaBox = pg.mediaBox;
+        _cropBox =  pg.cropBox;
         if (leaf[@"F"]) {
             _annotFlags = [leaf[@"F"] unsignedIntegerValue];
         }
         if (formTextAlignment) {
-            self.textAlignment = [formTextAlignment unsignedIntegerValue];
+            _textAlignment = [formTextAlignment unsignedIntegerValue];
         }
         [self updateFlagsString];
-        self.parent = p;
+        _parent = p;
         {
-            BOOL noRotate = [_flagsString rangeOfString:@"NoRotate"].location!=NSNotFound;
+            BOOL noRotate = (_annotFlags & PDFAnnotationFlagNoRotate) > 0;
             NSUInteger rotation = [(PDFPage *)(self.parent.document.pages[_page-1]) rotationAngle];
             if (noRotate)rotation = 0;
             CGFloat a = self.frame.size.width;
@@ -119,13 +119,13 @@
                 case 0:
                     break;
                 case 90:
-                    self.frame = CGRectMake(fy,th-fx-a, b, a);
+                    _frame = CGRectMake(fy,th-fx-a, b, a);
                     break;
                 case 180:
-                    self.frame = CGRectMake(tw-fx-a, th-fy-b, a, b);
+                    _frame = CGRectMake(tw-fx-a, th-fy-b, a, b);
                     break;
                 case 270:
-                    self.frame = CGRectMake(tw-fy-b,fx, b, a);
+                    _frame = CGRectMake(tw-fy-b,fx, b, a);
                 default:
                     break;
             }
@@ -152,7 +152,7 @@
         return;
     }
     if (![val isEqualToString:_value] && (val||_value)) {
-        self.modified = YES;
+        _modified = YES;
     }
     if (_value != val) {
         _value = nil;;
@@ -223,7 +223,7 @@
     if ((_annotFlags & PDFAnnotationFlagNoView) > 0) {
         temp = [temp stringByAppendingString:@"-NoView"];
     }
-    self.flagsString = temp;
+    _flagsString = temp;
 }
 
 
@@ -232,7 +232,6 @@
 - (void)reset {
     self.value = self.defaultValue;
 }
-
 
 #pragma mark - Rendering
 
@@ -247,36 +246,14 @@
         [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height*2.0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
         UIGraphicsPopContext();
     } else if (self.formType == PDFFormTypeButton) {
-        CGFloat minDim = MIN(rect.size.width,rect.size.height)*PDFButtonMinScaledDimensionScaleFactor;
-        CGPoint center = CGPointMake(rect.size.width/2,rect.size.height/2);
-        rect = CGRectMake(center.x-minDim/2, center.y-minDim/2, minDim, minDim);
-        if ([self.value isEqualToString:self.exportValue]) {
-            CGContextSaveGState(ctx);
-            CGFloat margin = minDim/3;
-            if ((_flags & PDFFormFlagButtonRadio) > 0) {
-                CGContextSetFillColorWithColor(ctx, [UIColor blackColor].CGColor);
-                CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-                CGContextAddEllipseInRect(ctx, CGRectMake(margin, margin, rect.size.width-2*margin, rect.size.height-2*margin));
-                CGContextFillPath(ctx);
-            } else if (!((_flags & PDFFormFlagButtonPushButton) > 0)) {
-                CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
-                CGContextSetLineWidth(ctx, rect.size.width/8);
-                CGContextSetLineCap(ctx,kCGLineCapRound);
-                CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
-                CGContextMoveToPoint(ctx, margin*PDFButtonMarginScaleFactor, rect.size.height/2);
-                CGContextAddLineToPoint(ctx, rect.size.width/2-margin/4, rect.size.height-margin);
-                CGContextAddLineToPoint(ctx, rect.size.width-margin*PDFButtonMarginScaleFactor, margin/2);
-                CGContextStrokePath(ctx);
-            }
-            CGContextRestoreGState(ctx);
-        }
+        [PDFFormButtonField drawWithRect:rect context:ctx back:NO selected:[self.value isEqualToString:self.exportValue] && (_flags & PDFFormFlagButtonPushButton) == 0 radio:(_flags & PDFFormFlagButtonRadio) > 0];
     }
 }
 
 - (PDFWidgetAnnotationView *)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth xMargin:(CGFloat)xmargin yMargin:(CGFloat)ymargin {
-    if ([_flagsString rangeOfString:@"Hidden"].location != NSNotFound)return nil;
-    if ([_flagsString rangeOfString:@"Invisible"].location != NSNotFound)return nil;
-    if ([_flagsString rangeOfString:@"NoView"].location != NSNotFound)return nil;
+    if ((_annotFlags & PDFAnnotationFlagHidden) > 0) return nil;
+    if ((_annotFlags & PDFAnnotationFlagInvisible) > 0) return nil;
+    if ((_annotFlags & PDFAnnotationFlagNoView) > 0) return nil;
     CGFloat width = _cropBox.size.width;
     CGFloat maxWidth = width;
     for (PDFPage *pg in self.parent.document.pages) {
@@ -308,36 +285,29 @@
     if (_formUIElement) {
         _formUIElement = nil;
     }
-    
-     _uiBaseFrame = CGRectIntegral(CGRectMake(_pageFrame.origin.x, _pageFrame.origin.y+pageOffset, _pageFrame.size.width, _pageFrame.size.height));
+    _uiBaseFrame = CGRectIntegral(CGRectMake(_pageFrame.origin.x, _pageFrame.origin.y+pageOffset, _pageFrame.size.width, _pageFrame.size.height));
     switch (_formType) {
-        case PDFFormTypeText: {
-            PDFFormTextField *temp = [[PDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:([_flagsString rangeOfString:@"-Multiline"].location != NSNotFound) alignment:_textAlignment secureEntry:([_flagsString rangeOfString:@"-Password"].location != NSNotFound) readOnly:([_flagsString rangeOfString:@"-ReadOnly"].location != NSNotFound)];
-            _formUIElement = temp;
-        }
+        case PDFFormTypeText:
+            _formUIElement = [[PDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:((_flags & PDFFormFlagTextFieldMultiline) > 0) alignment:_textAlignment secureEntry:((_flags & PDFFormFlagTextFieldPassword) > 0) readOnly:((_flags & PDFFormFlagReadOnly) > 0)];
         break;
         case PDFFormTypeButton: {
-            BOOL radio = ([_flagsString rangeOfString:@"-Radio"].location != NSNotFound);
+            BOOL radio = ((_flags & PDFFormFlagButtonRadio) > 0);
             if (_setAppearanceStream) {
-                if([_setAppearanceStream rangeOfString:@"ZaDb"].location != NSNotFound && [_setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
+                if ([_setAppearanceStream rangeOfString:@"ZaDb"].location != NSNotFound && [_setAppearanceStream rangeOfString:@"(l)"].location!=NSNotFound)radio = YES;
             }
             PDFFormButtonField *temp = [[PDFFormButtonField alloc] initWithFrame:_uiBaseFrame radio:radio];
-            temp.noOff = ([_flagsString rangeOfString:@"-NoToggleToOff"].location != NSNotFound);
+            temp.noOff = ((_flags & PDFFormFlagButtonNoToggleToOff) > 0);
             temp.name = self.name;
-            temp.pushButton = ([_flagsString rangeOfString:@"Pushbutton"].location != NSNotFound);
+            temp.pushButton = ((_flags & PDFFormFlagButtonPushButton) > 0);
             temp.exportValue = self.exportValue;
             _formUIElement = temp;
         }
         break;
-        case PDFFormTypeChoice: {
-            PDFFormChoiceField *temp = [[PDFFormChoiceField alloc] initWithFrame:_uiBaseFrame options:_options];
-            _formUIElement = temp;
-        }
+        case PDFFormTypeChoice:
+            _formUIElement = [[PDFFormChoiceField alloc] initWithFrame:_uiBaseFrame options:_options];
         break;
-        case PDFFormTypeSignature: {
-            PDFFormSignatureField *temp = [[PDFFormSignatureField alloc] initWithFrame:_uiBaseFrame];
-            _formUIElement = temp;
-        }
+        case PDFFormTypeSignature:
+            _formUIElement = [[PDFFormSignatureField alloc] initWithFrame:_uiBaseFrame];
         break;
         case PDFFormTypeNone:
         default:
@@ -359,7 +329,7 @@
 }
 
 - (void)widgetAnnotationValueChanged:(PDFWidgetAnnotationView *)sender {
-    self.modified = YES;
+    _modified = YES;
     PDFWidgetAnnotationView *v = ((PDFWidgetAnnotationView *)sender);
     if ([v isKindOfClass:[PDFFormButtonField class]]) {
         PDFFormButtonField *button =  (PDFFormButtonField *)v;
@@ -371,7 +341,7 @@
                 [_parent setValue:(set ? nil:_exportValue) forFormWithName:self.name];
             }
         } else {
-            self.modified = NO;
+            _modified = NO;
             return;
         }
     } else {

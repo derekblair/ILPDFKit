@@ -74,11 +74,11 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 
 /** The page number on which the form appears. The first page has value 1.
  */
-@property (nonatomic) NSUInteger page;
+@property (nonatomic, readonly) NSUInteger page;
 
 /** The rect in points obtained from the 'Rect' rectangle array and applying -(CGRect)rect on the PDFArray
  */
-@property (nonatomic) CGRect frame;
+@property (nonatomic, readonly) CGRect frame;
 
 /** The form type.
  
@@ -89,32 +89,32 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  - PDFFormTypeSignature: A signature form.
  
  */
-@property (nonatomic) PDFFormType formType;
+@property (nonatomic, readonly) PDFFormType formType;
 
 
 /** The crop box for the parent PDF page.
  */
-@property (nonatomic) CGRect cropBox;
+@property (nonatomic, readonly) CGRect cropBox;
 
 
 /** The media box for the parent PDF page.
  */
-@property (nonatomic) CGRect mediaBox;
+@property (nonatomic, readonly) CGRect mediaBox;
 
 /** The full, period delimeted form name.
  e.g PersonalInfo.Address.PostalCode
  */
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong, readonly) NSString *name;
 
 
 /** The name of the field shown to the user
  */
-@property (nonatomic, strong) NSString *uname;
+@property (nonatomic, strong, readonly) NSString *uname;
 
 
 /** The default value for the form.
  */
-@property (nonatomic, strong) NSString *defaultValue;
+@property (nonatomic, strong, readonly) NSString *defaultValue;
 
 /** A string containing all flags.
  Current supported flags are:
@@ -138,7 +138,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  - NoView
  
  */
-@property (nonatomic, strong) NSString *flagsString;
+@property (nonatomic, strong, readonly) NSString *flagsString;
 
 
 /** For choice fields only, the options of the combo box.
@@ -147,46 +147,46 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 
 /** The intended text alignemnt for text in the form.
  */
-@property (nonatomic) NSTextAlignment textAlignment;
+@property (nonatomic, readonly) NSTextAlignment textAlignment;
 
 /** The frame of the form view on its parent UIScrollView
  */
-@property (nonatomic) CGRect uiBaseFrame;
+@property (nonatomic, readonly) CGRect uiBaseFrame;
 
 /** The frame of the form view on its parent UIScrollView if all forms were on the first page
  */
-@property (nonatomic) CGRect pageFrame;
+@property (nonatomic, readonly) CGRect pageFrame;
 
 /** The form container that owns the form
  */
-@property (nonatomic, weak) PDFFormContainer *parent;
+@property (nonatomic, weak, readonly) PDFFormContainer *parent;
 
 
 /** The NSArray of NSNumber values representing the raw frame rectangle for the form.
  */
-@property (nonatomic, strong) NSArray *rawRect;
+@property (nonatomic, strong, readonly) NSArray *rawRect;
 
 
 /** This is used with button forms only. Gives the name of the choice represented by that button.
  @discussion If a button is part of a group of buttons where only one may be selected at once, then it's value is the exportValue of the selected button. All buttons in such a group have the same name and represent a single form conceptually. Thus all forms in a radio button or check box group represent the field and always have the same value. A button is selected if and only if its exportValue is the same as its value. If no buttons are selected, or an unselected button is single and not part of a group, then the value is nil.
  */
-@property (nonatomic, strong) NSString *exportValue;
+@property (nonatomic, strong, readonly) NSString *exportValue;
 
 
 /** Indicates if the form has been modified by user input.
  */
-@property (nonatomic) BOOL modified;
+@property (nonatomic, readonly) BOOL modified;
 
 
 /** The appearance stream for the set state of button forms. Can be used to customize button appearance to better match the PDF.
  */
-@property (nonatomic, strong) NSString *setAppearanceStream;
+@property (nonatomic, strong, readonly) NSString *setAppearanceStream;
 
 
 /**
  The field dictionary that defines the form
  */
-@property (nonatomic, strong) PDFDictionary *dictionary;
+@property (nonatomic, strong, readonly) PDFDictionary *dictionary;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a PDFForm

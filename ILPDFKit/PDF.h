@@ -49,14 +49,8 @@
 #define isODelim(c) ((c) == '(' ||  (c) == '<' ||  (c) == '[')
 #define isCDelim(c) ((c) == ')' ||  (c) == '>' ||  (c) == ']')
 
-// UI/Text metric factors.
-#define PDFButtonMinScaledDimensionScaleFactor 0.85
-#define PDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor 0.8
-#define PDFButtonMinScaledDimension(r) MIN((r).size.width,(r).size.height)*PDFButtonMinScaledDimensionScaleFactor
-#define PDFButtonMarginScaleFactor 0.75
-#define PDFTextFieldFontScaleFactor 0.75
-#define PDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
 #define PDFFormMinFontSize 8
 #define PDFFormMaxFontSize 22
+
 
 

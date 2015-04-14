@@ -30,7 +30,9 @@
     CGPDFStreamRef pdfSRef = myCGPDFStreamRef;
     PDFStream *pdfStream = [[PDFStream alloc] initWithStream:pdfSRef];
  
- PDFStream consists of the data representing the stream content and a NSDictionary representing the content info.
+ PDFStream consists of the data representing the stream content and a NSDictionary representing the content info. PDFStream may also
+ be instantiated based on a string representation of its contents without needing to be assoicated with
+ a parent document.
  */
 
 @class PDFDictionary;
@@ -40,7 +42,7 @@
 /**
  The Core Graphics stream reference, if it exists.
  */
-@property (nonatomic) CGPDFStreamRef strm;
+@property (nonatomic, readonly) CGPDFStreamRef strm;
 
 /** The data representing the stream content.
  @discussion It's important to reference dataFormat so that the data can be correctly interpreted.

@@ -25,6 +25,8 @@
 #import "PDF.h"
 #import "PDFFormChoiceField.h"
 
+#define PDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
+
 @interface PDFFormChoiceFieldDropIndicator : UIView
 @end
 

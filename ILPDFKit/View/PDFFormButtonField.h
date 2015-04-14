@@ -76,5 +76,22 @@
 - (void)setButtonSuperview;
 
 
+/**---------------------------------------------------------------------------------------
+ * @name Rendering
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/** Renders the button.
+ @param frame The frame to render in
+ @param ctx The context to use for rendering
+ @param back YES if a background should be rendered
+ @param selected YES if the button is selected
+ @param radio YES is the button is a radio type button
+ */
++ (void)drawWithRect:(CGRect)frame context:(CGContextRef)ctx back:(BOOL)back selected:(BOOL)selected radio:(BOOL)radio;
+
+
+
+
 
 @end
