@@ -26,8 +26,11 @@
 @interface PDFFormContainer(Private)
 - (void)populateNameTreeNode:(NSMutableDictionary *)node withComponents:(NSArray *)components final:(PDFForm *)final;
 - (NSArray *)formsDescendingFromTreeNode:(NSDictionary *)node;
-- (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap;
-- (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap;
+
+- (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap annotationsMap:(NSDictionary *)amap;
+
+- (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap annotationsMap:(NSDictionary *)amap;
+
 - (NSArray *)allForms;
 - (NSString *)formXMLForFormsWithRootNode:(NSDictionary *)node;
 - (void)addForm:(PDFForm *)form;
@@ -49,11 +52,21 @@
         _nameTree = [[NSMutableDictionary alloc] init];
         _document = parent;
         NSMutableDictionary *pmap = [NSMutableDictionary dictionary];
-        for (PDFPage *page in _document.pages) {
+        NSMutableDictionary *amap = [NSMutableDictionary dictionary];
+        for (PDFPage *page in _document.pages)
+        {
+            PDFArray* annotations = page.dictionary[@"Annots"];
+            for (PDFDictionary* annotation in annotations)
+            {
+                amap[@((NSUInteger)(annotation.dict))] = @(page.pageNumber);
+            }
+            
             pmap[@((NSUInteger)(page.dictionary.dict))] = @(page.pageNumber);
         }
-        for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
-            [self enumerateFields:field pageMap:pmap];
+        
+        for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"])
+        {
+            [self enumerateFields:field pageMap:pmap annotationsMap:amap];
         }
     }
     return self;
@@ -113,23 +126,30 @@
 
 #pragma mark - Private
 
-- (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap {
+- (void)enumerateFields:(PDFDictionary *)fieldDict pageMap:(NSDictionary *)pmap annotationsMap:(NSDictionary *)amap{
     if (fieldDict[@"Subtype"]) {
         PDFDictionary *parent = fieldDict.parent;
-        [self applyAnnotationTypeLeafToForms:fieldDict parent:parent pageMap:pmap];
+        [self applyAnnotationTypeLeafToForms:fieldDict parent:parent pageMap:pmap annotationsMap:amap];
     } else {
         for (PDFDictionary *innerFieldDictionary in fieldDict[@"Kids"]) {
             PDFDictionary *parent = innerFieldDictionary.parent;
-            if (parent != nil) [self enumerateFields:innerFieldDictionary pageMap:pmap];
-            else [self applyAnnotationTypeLeafToForms:innerFieldDictionary parent:fieldDict pageMap:pmap];
+            if (parent != nil) [self enumerateFields:innerFieldDictionary pageMap:pmap annotationsMap:amap];
+            else [self applyAnnotationTypeLeafToForms:innerFieldDictionary parent:fieldDict pageMap:pmap annotationsMap:amap];
         }
     }
 }
 
-- (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf parent:(PDFDictionary *)parent pageMap:(NSDictionary *)pmap {
+- (void)applyAnnotationTypeLeafToForms:(PDFDictionary *)leaf
+                                parent:(PDFDictionary *)parent
+                               pageMap:(NSDictionary *)pmap
+                        annotationsMap:(NSDictionary *)amap
+{
     NSUInteger targ = (NSUInteger)(((PDFDictionary *)(leaf[@"P"])).dict);
+    NSUInteger aarg = (NSUInteger)(PDFDictionary *)leaf.dict;
     leaf.parent = parent;
-    NSUInteger index = targ ? ([pmap[@(targ)] unsignedIntegerValue] - 1):0;
+    
+
+    NSUInteger index = targ ? ([pmap[@(targ)] unsignedIntegerValue] - 1):([amap[@(aarg)] unsignedIntegerValue] - 1);
     PDFForm *form = [[PDFForm alloc] initWithFieldDictionary:leaf page:_document.pages[index] parent:self];
     [self addForm:form];
 }
