@@ -1,0 +1,764 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>PDFFormContainer Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">ILPDFKit </a></h1>
+				<a id="developerHome" href="../index.html">Iwe Labs</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">PDFFormContainer Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/document">&nbsp;&nbsp;&nbsp;&nbsp;document</option>
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:">&nbsp;&nbsp;&nbsp;&nbsp;- createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:</option>
+	
+	<option value="//api/name/formXML">&nbsp;&nbsp;&nbsp;&nbsp;- formXML</option>
+	
+	<option value="//api/name/formsWithName:">&nbsp;&nbsp;&nbsp;&nbsp;- formsWithName:</option>
+	
+	<option value="//api/name/formsWithType:">&nbsp;&nbsp;&nbsp;&nbsp;- formsWithType:</option>
+	
+	<option value="//api/name/initWithParentDocument:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithParentDocument:</option>
+	
+	<option value="//api/name/setValue:forFormWithName:">&nbsp;&nbsp;&nbsp;&nbsp;- setValue:forFormWithName:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating a PDFFormContainer">Creating a PDFFormContainer</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Retrieving Forms">Retrieving Forms</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Getting Visual Representations">Getting Visual Representations</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Setting Values">Setting Values</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_XML">XML</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/document">document</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:">createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formXML">formXML</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formsWithName:">formsWithName:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formsWithType:">formsWithType:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithParentDocument:">initWithParentDocument:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setValue:forFormWithName:">setValue:forFormWithName:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="PDFFormContainer Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">PDFFormContainer Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Conforms to</td>
+	<td class="specification-value">NSFastEnumeration</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">PDFFormContainer.h</td>
+</tr>
+						</tbody></table></div>
+					
+                    
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The PDFFormContainer class represents a container class for all the <a href="../Classes/PDFForm.html">PDFForm</a> objects attached to a <a href="../Classes/PDFDocument.html">PDFDocument</a>.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/document">&nbsp;&nbsp;document</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Creating a PDFFormContainer" name="task_Creating a PDFFormContainer"></a>
+						<h3 class="subsubtitle task-title">Creating a PDFFormContainer</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithParentDocument:">&ndash;&nbsp;initWithParentDocument:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Retrieving Forms" name="task_Retrieving Forms"></a>
+						<h3 class="subsubtitle task-title">Retrieving Forms</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formsWithName:">&ndash;&nbsp;formsWithName:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formsWithType:">&ndash;&nbsp;formsWithType:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Getting Visual Representations" name="task_Getting Visual Representations"></a>
+						<h3 class="subsubtitle task-title">Getting Visual Representations</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:">&ndash;&nbsp;createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Setting Values" name="task_Setting Values"></a>
+						<h3 class="subsubtitle task-title">Setting Values</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setValue:forFormWithName:">&ndash;&nbsp;setValue:forFormWithName:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="XML" name="task_XML"></a>
+						<h3 class="subsubtitle task-title">XML</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formXML">&ndash;&nbsp;formXML</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/document" title="document"></a>
+	<h3 class="subsubtitle method-title">document</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The parent <a href="../Classes/PDFDocument.html">PDFDocument</a>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) PDFDocument *document</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:" title="createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:"></a>
+	<h3 class="subsubtitle method-title">createWidgetAnnotationViewsForSuperviewWithWidth:margin:hMargin:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns an array of UIView based objects representing the forms.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)<em>width</em> margin:(CGFloat)<em>margin</em> hMargin:(CGFloat)<em>hmargin</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>width</em></dt>
+			<dd><p>The width of the superview to add the resulting views as subviews.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>margin</em></dt>
+			<dd><p>The left and right margin of the superview with respect to the PDF canvas portion of the UIWebView.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>hmargin</em></dt>
+			<dd><p>The top margin of the superview with respect to the PDF canvas portion of the UIWebView.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An NSArray containing the resulting views. You are responsible for releasing the array.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formXML" title="formXML"></a>
+	<h3 class="subsubtitle method-title">formXML</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns an XML representation of the form values in the <a href="#//api/name/document">document</a>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSString *)formXML</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The xml string defining the value and hierarchical structure of all forms in the <a href="#//api/name/document">document</a>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formsWithName:" title="formsWithName:"></a>
+	<h3 class="subsubtitle method-title">formsWithName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns all forms with called by name</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)formsWithName:(NSString *)<em>name</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>name</em></dt>
+			<dd><p>The name to filter by.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array of the filtered forms.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generally this will return an array with a single
+object. When multiple forms have the same name, their values are kept
+the same because they are treated as logically the same entity with respect
+to a name-value pair. For example, a choice form called
+&lsquo;City&rsquo; may be set as &lsquo;Lusaka&rsquo; by the user on page 1, and another choice form
+also called &lsquo;City&rsquo; on a summary page at the end will also be synced to have the
+value of &lsquo;Lusaka&rsquo;. This is in conformity with the PDF standard. Another common relevent scenario
+involves mutually exclusive radio button/check box groups. Such groups are composed of multiple forms
+with the same name. Their common value is the exportValue of the selected button. If the value is equal
+to the exportValue for such a form, it is checked. In this way, it is easy to see as well why such
+groups are mutually exclusive. Buttons with distinct names are not mutually exclusive,
+that is they don&rsquo;t form a radio button group.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formsWithType:" title="formsWithType:"></a>
+	<h3 class="subsubtitle method-title">formsWithType:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns all forms with called by type</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (NSArray *)formsWithType:(PDFFormType)<em>type</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>type</em></dt>
+			<dd><p>The type to filter by.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array of the filtered forms.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Here are the possible types:</p>
+
+<p>PDFFormTypeNone: An unknown form type.
+PDFFormTypeText: A text field, either multiline or singleline.
+PDFFormTypeButton: A radio button, combo box buttton, or push button.
+PDFFormTypeChoice: A combo box.
+PDFFormTypeSignature: A signature form.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithParentDocument:" title="initWithParentDocument:"></a>
+	<h3 class="subsubtitle method-title">initWithParentDocument:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a new instance of PDFFormContainer</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (instancetype)initWithParentDocument:(PDFDocument *)<em>parent</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>parent</em></dt>
+			<dd><p>The <a href="../Classes/PDFDocument.html">PDFDocument</a> that owns the PDFFormContainer.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new PDFFormContainer object.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setValue:forFormWithName:" title="setValue:forFormWithName:"></a>
+	<h3 class="subsubtitle method-title">setValue:forFormWithName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets a form value.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)setValue:(NSString *)<em>val</em> forFormWithName:(NSString *)<em>name</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>val</em></dt>
+			<dd><p>The value to set.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>name</em></dt>
+			<dd><p>The name of the form(s) to set the value for.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFFormContainer.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+                    
+                    
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2015 Iwe Labs. All rights reserved. (Last updated: 2015-04-14)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

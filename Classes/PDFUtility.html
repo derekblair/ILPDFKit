@@ -1,0 +1,1161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>PDFUtility Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">ILPDFKit </a></h1>
+				<a id="developerHome" href="../index.html">Iwe Labs</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">PDFUtility Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/cStringFromPDFString:">&nbsp;&nbsp;&nbsp;&nbsp;+ cStringFromPDFString:</option>
+	
+	<option value="//api/name/createPDFDocumentRefFromData:">&nbsp;&nbsp;&nbsp;&nbsp;+ createPDFDocumentRefFromData:</option>
+	
+	<option value="//api/name/createPDFDocumentRefFromPath:">&nbsp;&nbsp;&nbsp;&nbsp;+ createPDFDocumentRefFromPath:</option>
+	
+	<option value="//api/name/createPDFDocumentRefFromResource:">&nbsp;&nbsp;&nbsp;&nbsp;+ createPDFDocumentRefFromResource:</option>
+	
+	<option value="//api/name/dataFromPDFString:">&nbsp;&nbsp;&nbsp;&nbsp;+ dataFromPDFString:</option>
+	
+	<option value="//api/name/delimeterCharacterSet">&nbsp;&nbsp;&nbsp;&nbsp;+ delimeterCharacterSet</option>
+	
+	<option value="//api/name/delimiterCharacterCodes">&nbsp;&nbsp;&nbsp;&nbsp;+ delimiterCharacterCodes</option>
+	
+	<option value="//api/name/encodeStringForXML:">&nbsp;&nbsp;&nbsp;&nbsp;+ encodeStringForXML:</option>
+	
+	<option value="//api/name/outputPDFContextCreate:path:">&nbsp;&nbsp;&nbsp;&nbsp;+ outputPDFContextCreate:path:</option>
+	
+	<option value="//api/name/stringByRemovingWhiteSpaceFrom:">&nbsp;&nbsp;&nbsp;&nbsp;+ stringByRemovingWhiteSpaceFrom:</option>
+	
+	<option value="//api/name/stringFromPDFCString:">&nbsp;&nbsp;&nbsp;&nbsp;+ stringFromPDFCString:</option>
+	
+	<option value="//api/name/stringFromPDFData:">&nbsp;&nbsp;&nbsp;&nbsp;+ stringFromPDFData:</option>
+	
+	<option value="//api/name/trimmedStringFromPDFData:">&nbsp;&nbsp;&nbsp;&nbsp;+ trimmedStringFromPDFData:</option>
+	
+	<option value="//api/name/whiteSpaceCharacterCodes">&nbsp;&nbsp;&nbsp;&nbsp;+ whiteSpaceCharacterCodes</option>
+	
+	<option value="//api/name/whiteSpaceCharacterSet">&nbsp;&nbsp;&nbsp;&nbsp;+ whiteSpaceCharacterSet</option>
+	
+	
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating a PDF context">Creating a PDF context</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating a PDF Document">Creating a PDF Document</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Character Sets and Encodings">Character Sets and Encodings</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cStringFromPDFString:">cStringFromPDFString:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createPDFDocumentRefFromData:">createPDFDocumentRefFromData:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createPDFDocumentRefFromPath:">createPDFDocumentRefFromPath:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createPDFDocumentRefFromResource:">createPDFDocumentRefFromResource:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dataFromPDFString:">dataFromPDFString:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delimeterCharacterSet">delimeterCharacterSet</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delimiterCharacterCodes">delimiterCharacterCodes</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/encodeStringForXML:">encodeStringForXML:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/outputPDFContextCreate:path:">outputPDFContextCreate:path:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringByRemovingWhiteSpaceFrom:">stringByRemovingWhiteSpaceFrom:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringFromPDFCString:">stringFromPDFCString:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/stringFromPDFData:">stringFromPDFData:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/trimmedStringFromPDFData:">trimmedStringFromPDFData:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whiteSpaceCharacterCodes">whiteSpaceCharacterCodes</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whiteSpaceCharacterSet">whiteSpaceCharacterSet</a></span></li>
+	
+</ul></li>
+
+
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="PDFUtility Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">PDFUtility Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">PDFUtility.h</td>
+</tr>
+						</tbody></table></div>
+					
+                    
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The PDFUtility class represents a singleton that implements a range of PDF utility functions.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						<a title="Creating a PDF context" name="task_Creating a PDF context"></a>
+						<h3 class="subsubtitle task-title">Creating a PDF context</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/outputPDFContextCreate:path:">+&nbsp;outputPDFContextCreate:path:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Creating a PDF Document" name="task_Creating a PDF Document"></a>
+						<h3 class="subsubtitle task-title">Creating a PDF Document</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createPDFDocumentRefFromData:">+&nbsp;createPDFDocumentRefFromData:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createPDFDocumentRefFromResource:">+&nbsp;createPDFDocumentRefFromResource:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createPDFDocumentRefFromPath:">+&nbsp;createPDFDocumentRefFromPath:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Character Sets and Encodings" name="task_Character Sets and Encodings"></a>
+						<h3 class="subsubtitle task-title">Character Sets and Encodings</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whiteSpaceCharacterSet">+&nbsp;whiteSpaceCharacterSet</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delimeterCharacterSet">+&nbsp;delimeterCharacterSet</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/encodeStringForXML:">+&nbsp;encodeStringForXML:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringByRemovingWhiteSpaceFrom:">+&nbsp;stringByRemovingWhiteSpaceFrom:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delimiterCharacterCodes">+&nbsp;delimiterCharacterCodes</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whiteSpaceCharacterCodes">+&nbsp;whiteSpaceCharacterCodes</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/trimmedStringFromPDFData:">+&nbsp;trimmedStringFromPDFData:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringFromPDFData:">+&nbsp;stringFromPDFData:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dataFromPDFString:">+&nbsp;dataFromPDFString:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/stringFromPDFCString:">+&nbsp;stringFromPDFCString:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cStringFromPDFString:">+&nbsp;cStringFromPDFString:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/cStringFromPDFString:" title="cStringFromPDFString:"></a>
+	<h3 class="subsubtitle method-title">cStringFromPDFString:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A ASCII string.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (const char *)cStringFromPDFString:(NSString *)<em>str</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>str</em></dt>
+			<dd><p>A ASCII string.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A PDF compliant C string representing the string.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createPDFDocumentRefFromData:" title="createPDFDocumentRefFromData:"></a>
+	<h3 class="subsubtitle method-title">createPDFDocumentRefFromData:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a PDF Document.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (CGPDFDocumentRef)createPDFDocumentRefFromData:(NSData *)<em>data</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>data</em></dt>
+			<dd><p>The NSData object from which to define to the PDF.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new Quartz PDF document, or NULL if a document could not be created. You are responsible for releasing the object using CGPDFDocumentRelease.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createPDFDocumentRefFromPath:" title="createPDFDocumentRefFromPath:"></a>
+	<h3 class="subsubtitle method-title">createPDFDocumentRefFromPath:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a PDF Document.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (CGPDFDocumentRef)createPDFDocumentRefFromPath:(NSString *)<em>pathToPdfDoc</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>pathToPdfDoc</em></dt>
+			<dd><p>The file path defining the PDF file to create the document from.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new Quartz PDF document, or NULL if a document could not be created. You are responsible for releasing the object using CGPDFDocumentRelease.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/createPDFDocumentRefFromResource:" title="createPDFDocumentRefFromResource:"></a>
+	<h3 class="subsubtitle method-title">createPDFDocumentRefFromResource:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a PDF Document.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (CGPDFDocumentRef)createPDFDocumentRefFromResource:(NSString *)<em>name</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>name</em></dt>
+			<dd><p>The resource defining the PDF file to create the document from.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new Quartz PDF document, or NULL if a document could not be created. You are responsible for releasing the object using CGPDFDocumentRelease.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dataFromPDFString:" title="dataFromPDFString:"></a>
+	<h3 class="subsubtitle method-title">dataFromPDFString:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>An ASCII string.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSData *)dataFromPDFString:(NSString *)<em>str</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>str</em></dt>
+			<dd><p>An ASCII string.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A PDF compliant byte sequence representing the string.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delimeterCharacterSet" title="delimeterCharacterSet"></a>
+	<h3 class="subsubtitle method-title">delimeterCharacterSet</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The delimeter character set as defined by the PDF standard.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSCharacterSet *)delimeterCharacterSet</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The delimeter character set as defined by the PDF standard.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delimiterCharacterCodes" title="delimiterCharacterCodes"></a>
+	<h3 class="subsubtitle method-title">delimiterCharacterCodes</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>An array containing the ASCII character codes for all PDF delimiter characters.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSArray *)delimiterCharacterCodes</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array containing the ASCII character codes for all PDF delimiter characters.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/encodeStringForXML:" title="encodeStringForXML:"></a>
+	<h3 class="subsubtitle method-title">encodeStringForXML:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The string to encode.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)encodeStringForXML:(NSString *)<em>str</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>str</em></dt>
+			<dd><p>The string to encode.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The XML safe encoded string of str. Essentially escapes angle brackets.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/outputPDFContextCreate:path:" title="outputPDFContextCreate:path:"></a>
+	<h3 class="subsubtitle method-title">outputPDFContextCreate:path:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a PDF context.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (CGContextRef)outputPDFContextCreate:(const CGRect *)<em>inMediaBox</em> path:(CFStringRef)<em>path</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>inMediaBox</em></dt>
+			<dd><p>The media box defining the pages for the PDF context.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>path</em></dt>
+			<dd><p>Points to the file to attach to the context.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new PDF context, or NULL if a context could not be created. You are responsible for releasing this object using CGContextRelease.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/stringByRemovingWhiteSpaceFrom:" title="stringByRemovingWhiteSpaceFrom:"></a>
+	<h3 class="subsubtitle method-title">stringByRemovingWhiteSpaceFrom:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The string to remove PDF whitespace characters from.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)stringByRemovingWhiteSpaceFrom:(NSString *)<em>str</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>str</em></dt>
+			<dd><p>The string to remove PDF whitespace characters from.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The result after removing PDF whitespace characters from str.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/stringFromPDFCString:" title="stringFromPDFCString:"></a>
+	<h3 class="subsubtitle method-title">stringFromPDFCString:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A C string.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)stringFromPDFCString:(const char *)<em>str</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>str</em></dt>
+			<dd><p>A C string.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A PDF compliant , ASCII string representation of the C string.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/stringFromPDFData:" title="stringFromPDFData:"></a>
+	<h3 class="subsubtitle method-title">stringFromPDFData:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A byte sequence.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)stringFromPDFData:(NSData *)<em>data</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>data</em></dt>
+			<dd><p>A byte sequence.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A PDF compliant , ASCII string representation of the byte sequence.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/trimmedStringFromPDFData:" title="trimmedStringFromPDFData:"></a>
+	<h3 class="subsubtitle method-title">trimmedStringFromPDFData:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A byte sequence.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSString *)trimmedStringFromPDFData:(NSData *)<em>data</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>data</em></dt>
+			<dd><p>A byte sequence.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A PDF compliant , ASCII string representation of the byte sequence with whitespace trimmed.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whiteSpaceCharacterCodes" title="whiteSpaceCharacterCodes"></a>
+	<h3 class="subsubtitle method-title">whiteSpaceCharacterCodes</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>An array containing the ASCII character codes for all PDF white space characters.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSArray *)whiteSpaceCharacterCodes</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An array containing the ASCII character codes for all PDF white space characters.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whiteSpaceCharacterSet" title="whiteSpaceCharacterSet"></a>
+	<h3 class="subsubtitle method-title">whiteSpaceCharacterSet</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The whitespace character set as defined by the PDF standard.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>+ (NSCharacterSet *)whiteSpaceCharacterSet</code></div>
+
+    
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The whitespace character set as defined by the PDF standard.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFUtility.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+                    
+                    
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2015 Iwe Labs. All rights reserved. (Last updated: 2015-04-14)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>

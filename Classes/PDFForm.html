@@ -1,0 +1,1580 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>PDFForm Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">ILPDFKit </a></h1>
+				<a id="developerHome" href="../index.html">Iwe Labs</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">PDFForm Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/cropBox">&nbsp;&nbsp;&nbsp;&nbsp;cropBox</option>
+	
+	<option value="//api/name/defaultValue">&nbsp;&nbsp;&nbsp;&nbsp;defaultValue</option>
+	
+	<option value="//api/name/dictionary">&nbsp;&nbsp;&nbsp;&nbsp;dictionary</option>
+	
+	<option value="//api/name/exportValue">&nbsp;&nbsp;&nbsp;&nbsp;exportValue</option>
+	
+	<option value="//api/name/flagsString">&nbsp;&nbsp;&nbsp;&nbsp;flagsString</option>
+	
+	<option value="//api/name/formType">&nbsp;&nbsp;&nbsp;&nbsp;formType</option>
+	
+	<option value="//api/name/frame">&nbsp;&nbsp;&nbsp;&nbsp;frame</option>
+	
+	<option value="//api/name/mediaBox">&nbsp;&nbsp;&nbsp;&nbsp;mediaBox</option>
+	
+	<option value="//api/name/modified">&nbsp;&nbsp;&nbsp;&nbsp;modified</option>
+	
+	<option value="//api/name/name">&nbsp;&nbsp;&nbsp;&nbsp;name</option>
+	
+	<option value="//api/name/options">&nbsp;&nbsp;&nbsp;&nbsp;options</option>
+	
+	<option value="//api/name/page">&nbsp;&nbsp;&nbsp;&nbsp;page</option>
+	
+	<option value="//api/name/pageFrame">&nbsp;&nbsp;&nbsp;&nbsp;pageFrame</option>
+	
+	<option value="//api/name/parent">&nbsp;&nbsp;&nbsp;&nbsp;parent</option>
+	
+	<option value="//api/name/rawRect">&nbsp;&nbsp;&nbsp;&nbsp;rawRect</option>
+	
+	<option value="//api/name/setAppearanceStream">&nbsp;&nbsp;&nbsp;&nbsp;setAppearanceStream</option>
+	
+	<option value="//api/name/textAlignment">&nbsp;&nbsp;&nbsp;&nbsp;textAlignment</option>
+	
+	<option value="//api/name/uiBaseFrame">&nbsp;&nbsp;&nbsp;&nbsp;uiBaseFrame</option>
+	
+	<option value="//api/name/uname">&nbsp;&nbsp;&nbsp;&nbsp;uname</option>
+	
+	<option value="//api/name/value">&nbsp;&nbsp;&nbsp;&nbsp;value</option>
+	
+	
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:">&nbsp;&nbsp;&nbsp;&nbsp;- createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:</option>
+	
+	<option value="//api/name/initWithFieldDictionary:page:parent:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithFieldDictionary:page:parent:</option>
+	
+	<option value="//api/name/removeObservers">&nbsp;&nbsp;&nbsp;&nbsp;- removeObservers</option>
+	
+	<option value="//api/name/reset">&nbsp;&nbsp;&nbsp;&nbsp;- reset</option>
+	
+	<option value="//api/name/vectorRenderInPDFContext:forRect:">&nbsp;&nbsp;&nbsp;&nbsp;- vectorRenderInPDFContext:forRect:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating a PDFForm">Creating a PDFForm</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Updating Data">Updating Data</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Rendering">Rendering</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_KVO">KVO</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cropBox">cropBox</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/defaultValue">defaultValue</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/dictionary">dictionary</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/exportValue">exportValue</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/flagsString">flagsString</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/formType">formType</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/frame">frame</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/mediaBox">mediaBox</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/modified">modified</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/name">name</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/options">options</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/page">page</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pageFrame">pageFrame</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/parent">parent</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/rawRect">rawRect</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setAppearanceStream">setAppearanceStream</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/textAlignment">textAlignment</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/uiBaseFrame">uiBaseFrame</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/uname">uname</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/value">value</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:">createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithFieldDictionary:page:parent:">initWithFieldDictionary:page:parent:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeObservers">removeObservers</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/reset">reset</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/vectorRenderInPDFContext:forRect:">vectorRenderInPDFContext:forRect:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="PDFForm Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">PDFForm Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">PDFForm.h</td>
+</tr>
+						</tbody></table></div>
+					
+                    
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The PDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the &lsquo;Fields&rsquo; array of the document&rsquo;s &lsquo;AcroForm&rsquo; dictionary. Thus each instance of PDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A &lsquo;Field&rsquo; is a collection of PDFForm with the same name. All forms in a field have the same value. A &lsquo;Field&rsquo; represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named &lsquo;Sex&rsquo; and marked &lsquo;Male&rsquo; and &lsquo;Female&rsquo; respectively to collect the information of a person&rsquo;s gender. A form can create a UIView representation of itself that can respond to user interaction.</p>
+
+<p>PDFChoiceField* comboBox = [comboBoxTypeForm createWidgetAnnotationViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
+[webView.scrollView addSubview comboBox];
+[comboBox release];</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						
+						<h3 class="subsubtitle task-title">Other Methods</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/value">&nbsp;&nbsp;value</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/page">&nbsp;&nbsp;page</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/frame">&nbsp;&nbsp;frame</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/formType">&nbsp;&nbsp;formType</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cropBox">&nbsp;&nbsp;cropBox</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/mediaBox">&nbsp;&nbsp;mediaBox</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/name">&nbsp;&nbsp;name</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/uname">&nbsp;&nbsp;uname</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/defaultValue">&nbsp;&nbsp;defaultValue</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/flagsString">&nbsp;&nbsp;flagsString</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/options">&nbsp;&nbsp;options</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/textAlignment">&nbsp;&nbsp;textAlignment</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/uiBaseFrame">&nbsp;&nbsp;uiBaseFrame</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pageFrame">&nbsp;&nbsp;pageFrame</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/parent">&nbsp;&nbsp;parent</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/rawRect">&nbsp;&nbsp;rawRect</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/exportValue">&nbsp;&nbsp;exportValue</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/modified">&nbsp;&nbsp;modified</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setAppearanceStream">&nbsp;&nbsp;setAppearanceStream</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/dictionary">&nbsp;&nbsp;dictionary</a></code>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Creating a PDFForm" name="task_Creating a PDFForm"></a>
+						<h3 class="subsubtitle task-title">Creating a PDFForm</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithFieldDictionary:page:parent:">&ndash;&nbsp;initWithFieldDictionary:page:parent:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Updating Data" name="task_Updating Data"></a>
+						<h3 class="subsubtitle task-title">Updating Data</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/reset">&ndash;&nbsp;reset</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Rendering" name="task_Rendering"></a>
+						<h3 class="subsubtitle task-title">Rendering</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/vectorRenderInPDFContext:forRect:">&ndash;&nbsp;vectorRenderInPDFContext:forRect:</a></code>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:">&ndash;&nbsp;createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="KVO" name="task_KVO"></a>
+						<h3 class="subsubtitle task-title">KVO</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeObservers">&ndash;&nbsp;removeObservers</a></code>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/cropBox" title="cropBox"></a>
+	<h3 class="subsubtitle method-title">cropBox</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The crop box for the <a href="#//api/name/parent">parent</a> PDF <a href="#//api/name/page">page</a>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect cropBox</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/defaultValue" title="defaultValue"></a>
+	<h3 class="subsubtitle method-title">defaultValue</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The default <a href="#//api/name/value">value</a> for the form.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *defaultValue</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/dictionary" title="dictionary"></a>
+	<h3 class="subsubtitle method-title">dictionary</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The field dictionary that defines the form</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) PDFDictionary *dictionary</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/exportValue" title="exportValue"></a>
+	<h3 class="subsubtitle method-title">exportValue</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>This is used with button forms only. Gives the <a href="#//api/name/name">name</a> of the choice represented by that button.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *exportValue</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>If a button is part of a group of buttons where only one may be selected at once, then it&rsquo;s <a href="#//api/name/value">value</a> is the exportValue of the selected button. All buttons in such a group have the same <a href="#//api/name/name">name</a> and represent a single form conceptually. Thus all forms in a radio button or check box group represent the field and always have the same <a href="#//api/name/value">value</a>. A button is selected if and only if its exportValue is the same as its <a href="#//api/name/value">value</a>. If no buttons are selected, or an unselected button is single and not part of a group, then the <a href="#//api/name/value">value</a> is nil.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/flagsString" title="flagsString"></a>
+	<h3 class="subsubtitle method-title">flagsString</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>A string containing all flags.
+Current supported flags are:</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *flagsString</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>ReadOnly</li>
+<li>Required</li>
+<li>NoExport</li>
+<li>NoToggleToOff</li>
+<li>Radio</li>
+<li>Pushbutton</li>
+<li>Combo</li>
+<li>Edit</li>
+<li>Sort</li>
+<li>Multiline</li>
+<li>Password</li>
+<li>Invisible</li>
+<li>Hidden</li>
+<li>Print</li>
+<li>NoZoom</li>
+<li>NoRotate</li>
+<li>NoView</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/formType" title="formType"></a>
+	<h3 class="subsubtitle method-title">formType</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The form type.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) PDFFormType formType</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<ul>
+<li>PDFFormTypeNone: An unknown form type.</li>
+<li>PDFFormTypeText: A text field, either multiline or singleline.</li>
+<li>PDFFormTypeButton: A radio button, combo box buttton, or push button.</li>
+<li>PDFFormTypeChoice: A combo box.</li>
+<li>PDFFormTypeSignature: A signature form.</li>
+</ul>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/frame" title="frame"></a>
+	<h3 class="subsubtitle method-title">frame</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The rect in points obtained from the &lsquo;Rect&rsquo; rectangle array and applying -(CGRect)rect on the <a href="../Classes/PDFArray.html">PDFArray</a></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect frame</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/mediaBox" title="mediaBox"></a>
+	<h3 class="subsubtitle method-title">mediaBox</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The media box for the <a href="#//api/name/parent">parent</a> PDF <a href="#//api/name/page">page</a>.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect mediaBox</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/modified" title="modified"></a>
+	<h3 class="subsubtitle method-title">modified</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Indicates if the form has been modified by user input.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL modified</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/name" title="name"></a>
+	<h3 class="subsubtitle method-title">name</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The full, period delimeted form name.
+e.g PersonalInfo.Address.PostalCode</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *name</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/options" title="options"></a>
+	<h3 class="subsubtitle method-title">options</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>For choice fields only, the options of the combo box.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *options</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/page" title="page"></a>
+	<h3 class="subsubtitle method-title">page</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The page number on which the form appears. The first page has <a href="#//api/name/value">value</a> 1.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSUInteger page</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pageFrame" title="pageFrame"></a>
+	<h3 class="subsubtitle method-title">pageFrame</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The <a href="#//api/name/frame">frame</a> of the form view on its <a href="#//api/name/parent">parent</a> UIScrollView if all forms were on the first <a href="#//api/name/page">page</a></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect pageFrame</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/parent" title="parent"></a>
+	<h3 class="subsubtitle method-title">parent</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The form container that owns the form</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readonly) PDFFormContainer *parent</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/rawRect" title="rawRect"></a>
+	<h3 class="subsubtitle method-title">rawRect</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The NSArray of NSNumber values representing the raw <a href="#//api/name/frame">frame</a> rectangle for the form.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSArray *rawRect</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setAppearanceStream" title="setAppearanceStream"></a>
+	<h3 class="subsubtitle method-title">setAppearanceStream</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The appearance stream for the set state of button forms. Can be used to customize button appearance to better match the PDF.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *setAppearanceStream</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/textAlignment" title="textAlignment"></a>
+	<h3 class="subsubtitle method-title">textAlignment</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The intended text alignemnt for text in the form.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSTextAlignment textAlignment</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/uiBaseFrame" title="uiBaseFrame"></a>
+	<h3 class="subsubtitle method-title">uiBaseFrame</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The <a href="#//api/name/frame">frame</a> of the form view on its <a href="#//api/name/parent">parent</a> UIScrollView</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) CGRect uiBaseFrame</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/uname" title="uname"></a>
+	<h3 class="subsubtitle method-title">uname</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The <a href="#//api/name/name">name</a> of the field shown to the user</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *uname</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/value" title="value"></a>
+	<h3 class="subsubtitle method-title">value</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The value of the form.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *value</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:" title="createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:"></a>
+	<h3 class="subsubtitle method-title">createWidgetAnnotationViewForSuperviewWithWidth:xMargin:yMargin:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a view to represent the form.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (PDFWidgetAnnotationView *)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)<em>vwidth</em> xMargin:(CGFloat)<em>xmargin</em> yMargin:(CGFloat)<em>ymargin</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>vwidth</em></dt>
+			<dd><p>The width of the superview bounds.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>xmargin</em></dt>
+			<dd><p>The horizonal margin width for the actual content <a href="#//api/name/frame">frame</a> in the superview.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>ymargin</em></dt>
+			<dd><p>The vertical margin height for the actual content <a href="#//api/name/frame">frame</a> in the superview.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new view representing the form. The caller is responsible for releasing the new form view.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The superview must be a UIScrollView or a subclass of UIScrollView.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithFieldDictionary:page:parent:" title="initWithFieldDictionary:page:parent:"></a>
+	<h3 class="subsubtitle method-title">initWithFieldDictionary:page:parent:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a new instance of PDFForm based on a leaf AcroForm field <a href="#//api/name/dictionary">dictionary</a> and a PDF <a href="#//api/name/page">page</a></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (instancetype)initWithFieldDictionary:(PDFDictionary *)<em>leaf</em> page:(PDFPage *)<em>pg</em> parent:(PDFFormContainer *)<em>p</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>leaf</em></dt>
+			<dd><p>Either a terminal Acroform field <a href="#//api/name/dictionary">dictionary</a> (i.e. with no children), a terminal widget annotation <a href="#//api/name/dictionary">dictionary</a>, or a union of both.
+If leaf is a widget annotation, the <a href="#//api/name/parent">parent</a> element of the <a href="#//api/name/dictionary">dictionary</a> is used to traverse up the field tree to read inherited values from its <a href="#//api/name/parent">parent</a> field <a href="#//api/name/dictionary">dictionary</a>.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>pg</em></dt>
+			<dd><p>The <a href="#//api/name/page">page</a> that contains the form.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>p</em></dt>
+			<dd><p>The <a href="#//api/name/parent">parent</a>.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>A new PDFForm object.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeObservers" title="removeObservers"></a>
+	<h3 class="subsubtitle method-title">removeObservers</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes any UI elements observing the form <a href="#//api/name/value">value</a></p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)removeObservers</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/reset" title="reset"></a>
+	<h3 class="subsubtitle method-title">reset</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resets the form to <a href="#//api/name/defaultValue">defaultValue</a> if it exists, otherwise sets <a href="#//api/name/value">value</a> to nil.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)reset</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/vectorRenderInPDFContext:forRect:" title="vectorRenderInPDFContext:forRect:"></a>
+	<h3 class="subsubtitle method-title">vectorRenderInPDFContext:forRect:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Renders the view in vector graphics within a PDF context.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)vectorRenderInPDFContext:(CGContextRef)<em>ctx</em> forRect:(CGRect)<em>rect</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>ctx</em></dt>
+			<dd><p>The PDF context to render into.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>rect</em></dt>
+			<dd><p>The rectangle to render on.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">PDFForm.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+                    
+                    
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2015 Iwe Labs. All rights reserved. (Last updated: 2015-04-14)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+			
+			// If showing in Xcode, hide the TOC and Header
+			if (navigator.userAgent.match(/xcode/i)) {
+				document.getElementById("contents").className = "hideInXcode"
+				document.getElementById("tocContainer").className = "hideInXcode"
+				document.getElementById("top_header").className = "hideInXcode"
+			}
+			
+		</script>
+	</body>
+</html>
