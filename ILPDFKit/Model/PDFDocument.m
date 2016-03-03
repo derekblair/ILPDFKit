@@ -37,11 +37,22 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
     CGRect cropRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFCropBox);
     CGRect artRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFArtBox);
     CGRect bleedRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFBleedBox);
-    UIGraphicsBeginPDFPageWithInfo(mediaRect, @{(NSString*)kCGPDFContextCropBox:[NSValue valueWithCGRect:cropRect],(NSString*)kCGPDFContextArtBox:[NSValue valueWithCGRect:artRect],(NSString*)kCGPDFContextBleedBox:[NSValue valueWithCGRect:bleedRect]});
+
+    CGPDFPageRef pageRef = CGPDFDocumentGetPage(doc, page);
+    NSInteger rotationAngle = CGPDFPageGetRotationAngle(pageRef);
+
+    NSDictionary *pageInfo = @{
+                               (NSString*)kCGPDFContextCropBox: [NSValue valueWithCGRect:cropRect],
+                               (NSString*)kCGPDFContextArtBox: [NSValue valueWithCGRect:artRect],
+                               (NSString*)kCGPDFContextBleedBox:[NSValue valueWithCGRect:bleedRect],
+                               @"Rotate": @(rotationAngle)
+                               };
+
+    UIGraphicsBeginPDFPageWithInfo(mediaRect, pageInfo);
     CGContextSaveGState(ctx);
     CGContextScaleCTM(ctx,1,-1);
     CGContextTranslateCTM(ctx, 0, -mediaRect.size.height);
-    CGContextDrawPDFPage(ctx, CGPDFDocumentGetPage(doc,page));
+    CGContextDrawPDFPage(ctx, pageRef);
     CGContextRestoreGState(ctx);
     for (PDFForm *form in forms) {
         if (form.page == page) {
