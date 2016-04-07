@@ -35,6 +35,7 @@
 #import "PDFWidgetAnnotationView.h"
 #import "PDFViewController.h"
 #import "PDFUtility.h"
+#import "PDFFormContainer.h"
 
 // This is the color for all PDF forms.
 #define PDFWidgetColor [UIColor colorWithRed:0.7 green:0.85 blue:1.0 alpha:0.7]

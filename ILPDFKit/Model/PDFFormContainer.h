@@ -84,7 +84,7 @@
  */
 - (NSArray *)formsWithType:(PDFFormType)type;
 
-
+- (NSInteger)numberOfForms;
 
 /**---------------------------------------------------------------------------------------
  * @name Getting Visual Representations

@@ -61,6 +61,9 @@
 
 
 #pragma mark - Getting Forms
+- (NSInteger)numberOfForms {
+    return [self.allForms count];
+}
 
 - (NSArray *)formsWithName:(NSString *)name {
     id current = _nameTree;
