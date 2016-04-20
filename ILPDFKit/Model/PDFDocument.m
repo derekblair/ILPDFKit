@@ -161,9 +161,13 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
 }
 
 - (NSData *)savedStaticPDFData {
+    return [self savedStaticPDFDataWithInfo:nil];
+}
+
+- (NSData *)savedStaticPDFDataWithInfo:(NSDictionary *) documentInfo {
     NSUInteger numberOfPages = [self numberOfPages];
     NSMutableData *pageData = [NSMutableData data];
-    UIGraphicsBeginPDFContextToData(pageData, CGRectZero , nil);
+    UIGraphicsBeginPDFContextToData(pageData, CGRectZero , documentInfo);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     for (NSUInteger page = 1; page <= numberOfPages; page++) {
         renderPage(page, ctx, _document, self.forms);

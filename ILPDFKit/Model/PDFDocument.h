@@ -118,6 +118,13 @@
  */
 - (NSData *)savedStaticPDFData;
 
+/** Flattens the interactive elements, rendering the form values directly in the PDF.
+ Useful for saving a PDF with forms that have been filled out.
+ @return The data for the static flattened PDF with the document info dictionary.
+ */
+
+- (NSData *)savedStaticPDFDataWithInfo:(NSDictionary *) documentInfo ;
+
 /**
  @param docToAppend
  @return The PDF data of the result when the passed document is appended to the receiver.
