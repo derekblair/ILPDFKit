@@ -70,6 +70,10 @@
  */
 @property (nonatomic, weak) PDFView *parentView;
 
+/** The page.
+ */
+@property (nonatomic) NSUInteger page;
+
 /**---------------------------------------------------------------------------------------
  * @name Updating Metrics
  *  ---------------------------------------------------------------------------------------

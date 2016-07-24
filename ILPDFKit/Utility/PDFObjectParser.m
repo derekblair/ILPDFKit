@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFObjectParser.h"
 
 typedef struct {
@@ -44,7 +44,14 @@ typedef struct {
     return [[PDFObjectParser alloc] initWithBytes:bytes];
 }
 
+- (id)init {
+    NSData *bytes = nil;
+    self = [self initWithBytes:bytes];
+    return self;
+}
+
 - (instancetype)initWithBytes:(NSData *)bytes {
+    NSParameterAssert(bytes);
     self = [super init];
     if (self != nil) {
         NSString *strg = [PDFUtility trimmedStringFromPDFData:bytes];

@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 typedef NS_OPTIONS(NSUInteger, PDFRepOptions) {
     PDFRepOptionNone = 0,

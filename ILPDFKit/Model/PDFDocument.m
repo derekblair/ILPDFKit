@@ -20,17 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDFDocument.h"
-#import "PDFForm.h"
-#import "PDFDictionary.h"
-#import "PDFArray.h"
-#import "PDFStream.h"
-#import "PDFPage.h"
-#import "PDFUtility.h"
 #import "PDFFormButtonField.h"
 #import "PDFFormContainer.h"
 #import "PDFSerializer.h"
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 
 static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, PDFFormContainer *forms) {
     CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFMediaBox);
@@ -69,9 +62,16 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
     CGPDFDocumentRelease(_document);
 }
 
+- (id)init {
+    NSString *path = nil;
+    self = [self initWithPath:path];
+    return self;
+}
+
 #pragma mark - PDFDocument
 
 - (instancetype)initWithData:(NSData *)data {
+    NSParameterAssert(data);
     self = [super init];
     if (self != nil) {
         _document = [PDFUtility createPDFDocumentRefFromData:data];
@@ -81,6 +81,7 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
 }
 
 - (instancetype)initWithResource:(NSString *)name {
+    NSParameterAssert(name);
     self = [super init];
     if (self != nil) {
         if ([[[name componentsSeparatedByString:@"."] lastObject] isEqualToString:@"pdf"])
@@ -92,6 +93,7 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
 }
 
 - (instancetype)initWithPath:(NSString *)path {
+    NSParameterAssert(path);
     self = [super init];
     if (self != nil) {
         _document = [PDFUtility createPDFDocumentRefFromPath:path];

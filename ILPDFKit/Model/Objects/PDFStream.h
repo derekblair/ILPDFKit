@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "PDFObject.h"
 
-
+NS_ASSUME_NONNULL_BEGIN
 /** The PDFStream class encapsulates a PDF stream object contained in a PDFDocument.
  Essentially, is is a wrapper class for a CGPDFStreamRef.
  
@@ -35,7 +35,10 @@
  a parent document.
  */
 
+
 @class PDFDictionary;
+
+
 
 @interface PDFStream : NSObject <PDFObject>
 
@@ -82,5 +85,7 @@
 - (BOOL)isEqualToStream:(PDFStream *)otherStream;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 

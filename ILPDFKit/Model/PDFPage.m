@@ -33,9 +33,20 @@
     PDFDictionary *_resources;
 }
 
+#pragma mark - NSObject
+
+
+- (id)init {
+    void *page = NULL;
+    self = [self initWithPage:page];
+    return self;
+}
+
+
 #pragma mark - Initialization
 
 - (instancetype)initWithPage:(CGPDFPageRef)pg {
+    NSParameterAssert(pg);
     self = [super init];
     if (self != nil) {
         _page = pg;

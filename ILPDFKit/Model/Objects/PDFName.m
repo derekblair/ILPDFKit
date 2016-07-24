@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "PDFName.h"
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 
 @interface PDFName(HashEncoding)
 - (PDFName *)hashEncodedName;

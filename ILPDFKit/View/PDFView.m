@@ -22,7 +22,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "PDFFormButtonField.h"
-#import "PDF.h"
+#import "PDFFormContainer.h"
+#import <ILPDFKit/ILPDFKit.h>
 
 @interface PDFView(Delegates) <UIScrollViewDelegate,UIGestureRecognizerDelegate,UIWebViewDelegate>
 @end
@@ -33,79 +34,98 @@
 
 @implementation PDFView {
     BOOL _canvasLoaded;
+    __weak PDFDocument *_pdfDocument;
+    UITapGestureRecognizer *_tapGestureRecognizer;
+    UIView *_uiWebPDFView;
+    NSMapTable *_pdfPages;
+    NSMutableArray *_pageYValues;
+}
+
+#pragma mark - UIView
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [_pdfView setFrame:self.bounds];
+    [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, self.bounds.size.height/2, 0)];
 }
 
 #pragma mark - PDFView
 
-- (instancetype)initWithFrame:(CGRect)frame dataOrPath:(id)dataOrPath additionViews:(NSArray*)widgetAnnotationViews {
-    self = [super initWithFrame:frame];
-    if (self) {
-        CGRect contentFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-        _pdfView = [[UIWebView alloc] initWithFrame:contentFrame];
+- (void)setupWithDocument:(PDFDocument *)document {
+
+        _pageYValues = [NSMutableArray array];
+        _pdfPages = [NSMapTable strongToWeakObjectsMapTable];
+        _pdfWidgetAnnotationViews = [NSMutableArray array];
+        [_pdfView removeFromSuperview];
+        [_pdfView stopLoading];
+        _pdfView = nil;
+        _pdfView = [[UIWebView alloc] init];
         _pdfView.scalesPageToFit = YES;
         _pdfView.scrollView.delegate = self;
         _pdfView.scrollView.bouncesZoom = NO;
         _pdfView.delegate = self;
-        _pdfView.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
-         self.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
         [self addSubview:_pdfView];
         [_pdfView.scrollView setZoomScale:1];
         [_pdfView.scrollView setContentOffset:CGPointZero];
         //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
-        [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, frame.size.height/2, 0)];
-        _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:widgetAnnotationViews];
-        for (PDFWidgetAnnotationView *element in _pdfWidgetAnnotationViews) {
-            element.alpha = 0;
-            element.parentView = self;
-            [_pdfView.scrollView addSubview:element];
-            if ([element isKindOfClass:[PDFFormButtonField class]]) {
-                [(PDFFormButtonField*)element setButtonSuperview];
+        _pdfDocument = document;
+        if ([document.documentPath isKindOfClass:[NSString class]]) {
+            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:document.documentPath]]];
+        } else  {
+            [_pdfView loadData:document.documentData MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:[NSURL URLWithString:@"/"]];
+        }
+        [self removeGestureRecognizer:_tapGestureRecognizer];
+        _tapGestureRecognizer = nil;
+        _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
+        [self addGestureRecognizer:_tapGestureRecognizer];
+        _tapGestureRecognizer.delegate = self;
+
+}
+
+
+
+#pragma mark - PDF Page Views
+
+- (void)updatePDFPageViews {
+    for (UIView *sv in _uiWebPDFView.subviews) {
+        if ([NSStringFromClass(sv.class) isEqualToString:@"UIPDFPageView"]) {
+
+            if ([[[_pdfPages objectEnumerator] allObjects] containsObject:sv]) continue;
+
+            NSUInteger yVal = (NSUInteger)floor(sv.frame.origin.y);
+
+            if (![_pageYValues containsObject:@(yVal)]) {
+                [_pageYValues addObject:@(yVal)];
             }
-        }
-        
-        if ([dataOrPath isKindOfClass:[NSString class]]) {
-            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:dataOrPath]]];
-        } else if([dataOrPath isKindOfClass:[NSData class]]) {
-            [_pdfView loadData:dataOrPath MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:nil];
-        }
 
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
-        [self addGestureRecognizer:tapGestureRecognizer];
-        tapGestureRecognizer.delegate = self;
-    }
-    return self;
-}
-
-
-- (void)addPDFWidgetAnnotationView:(PDFWidgetAnnotationView *)viewToAdd {
-    [_pdfWidgetAnnotationViews addObject:viewToAdd];
-    [_pdfView.scrollView addSubview:viewToAdd];
-}
-
-- (void)removePDFWidgetAnnotationView:(PDFWidgetAnnotationView *)viewToRemove {
-    [viewToRemove removeFromSuperview];
-    [_pdfWidgetAnnotationViews removeObject:viewToRemove];
-}
-
-- (void)setWidgetAnnotationViews:(NSArray *)additionViews {
-    for (UIView *v in _pdfWidgetAnnotationViews) [v removeFromSuperview];
-    _pdfWidgetAnnotationViews = nil;
-    _pdfWidgetAnnotationViews = [[NSMutableArray alloc] initWithArray:additionViews];
-    for (PDFWidgetAnnotationView *element in _pdfWidgetAnnotationViews) {
-        element.alpha = 0;
-        element.parentView = self;
-        [_pdfView.scrollView addSubview:element];
-        if ([element isKindOfClass:[PDFFormButtonField class]]) {
-            [(PDFFormButtonField*)element setButtonSuperview];
+            [_pageYValues sortUsingSelector:@selector(compare:)];
+            [_pdfPages setObject:sv forKey:@([_pageYValues indexOfObject:@(yVal)]+1)];
         }
     }
-    if (_canvasLoaded) [self fadeInWidgetAnnotations];
+
+    [_pdfDocument.forms updateWidgetAnnotationViews:_pdfPages views:_pdfWidgetAnnotationViews pdfView:self];
+
+
+
+
 }
+
 
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     _canvasLoaded = YES;
+    for (UIView *sv in webView.scrollView.subviews) {
+        if ([NSStringFromClass(sv.class) isEqualToString:@"UIWebPDFView"]) {
+            _uiWebPDFView = sv;
+            break;
+        }
+    }
+
+    [self updatePDFPageViews];
+    for (PDFWidgetAnnotationView *element in _pdfWidgetAnnotationViews) {
+        element.alpha = 0;
+    }
     if (_pdfWidgetAnnotationViews) {
         [self fadeInWidgetAnnotations];
     }
@@ -122,6 +142,11 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    static NSUInteger times = 0;
+    times++;
+    if (times % 4 == 0) {
+        [self updatePDFPageViews];
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate

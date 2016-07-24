@@ -20,100 +20,68 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormContainer.h"
 
 @interface PDFViewController(Private)
 - (void)loadPDFView;
-- (CGPoint)margins;
 @end
 
-@implementation PDFViewController
 
-#pragma mark - UIViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self loadPDFView];
+@implementation PDFViewController {
+    PDFView *_pdfView;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
+#pragma mark - UIViewController 
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    _pdfView.alpha = 0;
-}
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    for (PDFForm *form in self.document.forms) {
-        [form removeObservers];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.pdfName && _document == nil) {
+        PDFDocument *doc = [[PDFDocument alloc] initWithResource:self.pdfName];
+        [self setDocument:doc];
     }
-    [_pdfView removeFromSuperview];self.pdfView = nil;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _pdfView.frame = CGRectMake(0,self.topLayoutGuide.length,self.view.bounds.size.width,self.view.bounds.size.height-self.topLayoutGuide.length);
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self loadPDFView];
 }
 
 #pragma mark - PDFViewController
 
-- (instancetype)initWithData:(NSData *)data {
-    self = [super init];
-    if (self != nil) {
-        _document = [[PDFDocument alloc] initWithData:data];
-    }
-    return self;
-}
-
-- (instancetype)initWithResource:(NSString *)name {
-    self = [super init];
-    if (self != nil) {
-        _document = [[PDFDocument alloc] initWithResource:name];
-    }
-    return self;
-}
-
-- (instancetype)initWithPath:(NSString *)path {
-    self = [super init];
-    if(self != nil) {
-        _document = [[PDFDocument alloc] initWithPath:path];
-    }
-    return self;
+- (void)setDocument:(PDFDocument *)document {
+    _document = document;
+    [self loadPDFView];
 }
 
 - (void)reload {
     [_document refresh];
-    [_pdfView removeFromSuperview];
-    _pdfView = nil;
     [self loadPDFView];
 }
 
 #pragma mark - Private
 
 - (void)loadPDFView {
-    id pass = (_document.documentPath ? _document.documentPath:_document.documentData);
-    CGPoint margins = [self getMargins];
-    NSArray *additionViews = [_document.forms createWidgetAnnotationViewsForSuperviewWithWidth:self.view.bounds.size.width margin:margins.x hMargin:margins.y];
-    _pdfView = [[PDFView alloc] initWithFrame:self.view.bounds dataOrPath:pass additionViews:additionViews];
-    [self.view addSubview:_pdfView];
+    for (PDFForm *form in self.document.forms) {
+        [form removeObservers];
+    }
+    [_pdfView removeFromSuperview];
+    _pdfView = nil;
+    
+    if (self.document) {
+        _pdfView = [[PDFView alloc] initWithFrame:CGRectZero];
+        [_pdfView setupWithDocument:self.document];
+        [self.view addSubview:_pdfView];
+    }
+    [self.view setNeedsLayout];
 }
 
-- (CGPoint)getMargins {
-    
-    static const float PDFLandscapePadWMargin = 13.0f;
-    static const float PDFLandscapePadHMargin = 7.25f;
-    static const float PDFPortraitPadWMargin = 9.0f;
-    static const float PDFPortraitPadHMargin = 6.10f;
-    static const float PDFPortraitPhoneWMargin = 3.5f;
-    static const float PDFPortraitPhoneHMargin = 6.7f;
-    static const float PDFLandscapePhoneWMargin = 6.8f;
-    static const float PDFLandscapePhoneHMargin = 6.5f;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPadWMargin,PDFPortraitPadHMargin);
-        else return CGPointMake(PDFLandscapePadWMargin,PDFLandscapePadHMargin);
-    } else {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))return CGPointMake(PDFPortraitPhoneWMargin,PDFPortraitPhoneHMargin);
-        else return CGPointMake(PDFLandscapePhoneWMargin,PDFLandscapePhoneHMargin);
-    }
-}
+
 
 @end

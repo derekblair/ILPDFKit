@@ -43,18 +43,13 @@
 
 
 /**---------------------------------------------------------------------------------------
- * @name Creating a PDFView
+ * @name Initializing a PDFView
  *  ---------------------------------------------------------------------------------------
  */
-/** Creates a new instance of PDFView.
- 
- @param frame Frame of the view.
- @param dataOrPath Either NSData for PDF data or NSString for a PDF file path.
- @param widgetAnnotationViews NSArray of instances of PDFWidgetAnnotationalElementView to be added to the pdfView scrollView.
- @return A new instance of PDFView.
+/**
  */
 
-- (instancetype)initWithFrame:(CGRect)frame dataOrPath:(id)dataOrPath additionViews:(NSArray *)widgetAnnotationViews NS_DESIGNATED_INITIALIZER;
+- (void)setupWithDocument:(PDFDocument *)document;
 
 /**---------------------------------------------------------------------------------------
  * @name Adding and Removing Additions

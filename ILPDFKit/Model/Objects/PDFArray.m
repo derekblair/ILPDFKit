@@ -29,6 +29,9 @@
 #import "PDFString.h"
 #import "PDFNumber.h"
 #import "PDFNull.h"
+#import <QuartzCore/QuartzCore.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface PDFArray(PrivateGetters)
 - (NSArray *)nsa;
@@ -60,6 +63,13 @@
 
 #pragma mark - NSObject
 
+- (id)init {
+    void  *arr = NULL;
+    self = [self initWithArray:arr];
+    return self;
+}
+
+
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
     if (![object isKindOfClass:[PDFArray class]]) return NO;
@@ -73,6 +83,7 @@
 #pragma mark - PDFArray
 
 - (instancetype)initWithArray:(CGPDFArrayRef)parr {
+    NSParameterAssert(parr);
     self = [super init];
     if (self != nil) {
         _arr = parr;

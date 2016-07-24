@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 /** The PDFUtility class represents a singleton that implements a range of PDF utility functions.
  */

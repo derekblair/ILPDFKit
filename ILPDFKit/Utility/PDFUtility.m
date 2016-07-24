@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 
 @implementation PDFUtility
 

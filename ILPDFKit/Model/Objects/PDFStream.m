@@ -49,9 +49,19 @@
     return [self.dictionary hash] ^ [self.data hash];
 }
 
+- (id)init {
+    void *stream = NULL;
+    self = [self initWithStream:stream];
+    if (self != nil) {
+    }
+    return self;
+}
+
 #pragma mark - PDFStream
 
+
 - (instancetype)initWithStream:(CGPDFStreamRef)pstrm {
+    NSParameterAssert(pstrm);
     self = [super init];
     if (self != nil) {
         _strm = pstrm;

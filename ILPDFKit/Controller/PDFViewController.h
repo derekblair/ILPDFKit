@@ -14,7 +14,7 @@
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// FITNESS FOR A PARTICULAR PURPOSE AND ;. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -31,43 +31,24 @@
 @class PDFView;
 @class PDFDocument;
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PDFViewController : UIViewController
 
 /** The PDFDocument that represents the model for the PDFViewController
  */
-@property (nonatomic, strong) PDFDocument *document;
+@property (nonatomic, strong, nullable) PDFDocument *document;
 
 /** The PDFView that represents the view for the PDFViewController
  */
-@property (nonatomic, strong) PDFView *pdfView;
+@property (nonatomic, strong, readonly, nullable) PDFView *pdfView;
 
-
-/**---------------------------------------------------------------------------------------
- * @name Creating a PDFViewController
- *  ---------------------------------------------------------------------------------------
+/**
+ Set to automatically set the document to a pdf with the given name in the main bundle.
  */
+@property (nonatomic, strong, nullable) IBInspectable NSString *pdfName;
 
-/** Creates a new instance of PDFViewController.
- 
- @param data Content of the document.
- @return A new instance of PDFViewController initialized with data.
- */
-
-- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
-
-/** Creates a new instance of PDFViewController.
- 
- @param name Resource to load.
- @return A new instance of PDFViewController initialized with a PDF resource named name.
- */
-- (instancetype)initWithResource:(NSString *)name NS_DESIGNATED_INITIALIZER;
-
-/** Creates a new instance of PDFViewController.
- 
- @param path Points to PDF file to load.
- @return A new instance of PDFViewController initialized with a PDF located at path.
- */
-- (instancetype)initWithPath:(NSString *)path NS_DESIGNATED_INITIALIZER;
 
 /**---------------------------------------------------------------------------------------
  * @name Reloading Content
@@ -79,3 +60,5 @@
 - (void)reload;
 
 @end
+
+NS_ASSUME_NONNULL_END

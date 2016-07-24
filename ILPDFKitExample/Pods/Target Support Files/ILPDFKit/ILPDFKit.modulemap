@@ -1,0 +1,6 @@
+framework module ILPDFKit {
+  umbrella header "ILPDFKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

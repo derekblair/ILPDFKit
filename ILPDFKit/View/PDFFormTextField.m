@@ -22,7 +22,7 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormTextField.h"
 
 @interface PDFFormTextField(Delegates) <UITextViewDelegate,UITextFieldDelegate>
@@ -42,9 +42,25 @@
     removeObserver:self];
 }
 
+#pragma mark - UIView
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
+    NSAssert(NO,@"Non-Supported Initializer");
+    return self;
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [self initWithFrame:frame multiline:NO alignment:NSTextAlignmentLeft secureEntry:NO readOnly:NO];
+    return self;
+}
+
 #pragma mark - PDFFormTextField
 
+
 - (instancetype)initWithFrame:(CGRect)frame multiline:(BOOL)multiline alignment:(NSTextAlignment)alignment secureEntry:(BOOL)secureEntry readOnly:(BOOL)ro {
+
     self = [super initWithFrame:frame];
     if (self != nil) {
         self.opaque = NO;

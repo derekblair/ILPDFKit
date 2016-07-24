@@ -22,7 +22,7 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormChoiceField.h"
 
 #define PDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
@@ -57,6 +57,22 @@
     PDFFormChoiceFieldDropIndicator *_dropIndicator;
     CGFloat _baseFontHeight;
 }
+
+
+#pragma mark - UIView
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
+    NSAssert(NO,@"Non-Supported Initializer");
+    return self;
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [self initWithFrame:frame options:@[]];
+    return self;
+}
+
 
 #pragma mark - PDFFormChoiceField
 
@@ -203,6 +219,7 @@
 #pragma mark - Responder
 
 - (void)dropButtonPressed:(id)sender {
+    [self.superview bringSubviewToFront:self];
     if (!_dropped) {
         [self.delegate widgetAnnotationEntered:self];
     }
@@ -216,8 +233,8 @@
             [_tv scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:NO];
         }
         [UIView animateWithDuration:0.3 animations:^{
-        self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(PDFChoiceFieldRowHeightDivisor+1));
-        _tv.alpha = 1.0f;
+            self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(PDFChoiceFieldRowHeightDivisor+1));
+            _tv.alpha = 1.0f;
             _dropIndicator.transform = CGAffineTransformMakeRotation(M_PI/2);
         } completion:^(BOOL d){}];
     } else {

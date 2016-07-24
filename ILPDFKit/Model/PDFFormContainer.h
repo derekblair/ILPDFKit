@@ -25,6 +25,7 @@
 
 
 @class PDFDocument;
+@class PDFView;
 
 /** The PDFFormContainer class represents a container class for all the PDFForm objects attached to a PDFDocument.
  */
@@ -91,14 +92,10 @@
  *  ---------------------------------------------------------------------------------------
  */
 
-/** Returns an array of UIView based objects representing the forms.
- 
- @param width The width of the superview to add the resulting views as subviews.
- @param margin The left and right margin of the superview with respect to the PDF canvas portion of the UIWebView.
- @param hmargin The top margin of the superview with respect to the PDF canvas portion of the UIWebView.
- @return An NSArray containing the resulting views. You are responsible for releasing the array.
+/** 
+
  */
-- (NSArray *)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width margin:(CGFloat)margin hMargin:(CGFloat)hmargin;
+- (void)updateWidgetAnnotationViews:(NSMapTable *)pageViews views:(NSMutableArray *)views  pdfView:(PDFView *)pdfView;
 
 
 /**---------------------------------------------------------------------------------------

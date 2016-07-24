@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormButtonField.h"
 #import "PDFFormTextField.h"
 #import "PDFFormChoiceField.h"
@@ -48,10 +48,23 @@
     [self removeObservers];
 }
 
+#pragma mark - NSObject
+
+
+- (id)init {
+    PDFDictionary *dict  = nil;
+    self = [self initWithFieldDictionary:dict page:nil parent:nil];
+    return self;
+}
+
+
 #pragma mark - PDFForm
 #pragma mark - Initialization
 
 - (instancetype)initWithFieldDictionary:(PDFDictionary *)leaf page:(PDFPage *)pg parent:(PDFFormContainer *)p {
+    NSParameterAssert(leaf);
+    NSParameterAssert(pg);
+    NSParameterAssert(p);
     self = [super init];
     if (self != nil) {
         _dictionary = leaf;
@@ -246,46 +259,32 @@
         [text drawInRect:CGRectMake(0, 0, rect.size.width, rect.size.height*2.0) withAttributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle}];
         UIGraphicsPopContext();
     } else if (self.formType == PDFFormTypeButton) {
-        [PDFFormButtonField drawWithRect:rect context:ctx back:NO selected:[self.value isEqualToString:self.exportValue] && (_flags & PDFFormFlagButtonPushButton) == 0 radio:(_flags & PDFFormFlagButtonRadio) > 0];
+       [PDFFormButtonField drawWithRect:rect context:ctx back:NO selected:[self.value isEqualToString:self.exportValue] && (_flags & PDFFormFlagButtonPushButton) == 0 radio:(_flags & PDFFormFlagButtonRadio) > 0];
     }
 }
 
-- (PDFWidgetAnnotationView *)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth xMargin:(CGFloat)xmargin yMargin:(CGFloat)ymargin {
+
+
+- (UIView *)associtedWidget {
+    return _formUIElement;
+}
+
+- (PDFWidgetAnnotationView *)createWidgetAnnotationViewForPageView:(UIView *)pageView {
+
+    CGFloat vwidth = pageView.bounds.size.width;
+
     if ((_annotFlags & PDFAnnotationFlagHidden) > 0) return nil;
     if ((_annotFlags & PDFAnnotationFlagInvisible) > 0) return nil;
     if ((_annotFlags & PDFAnnotationFlagNoView) > 0) return nil;
-    CGFloat width = _cropBox.size.width;
-    CGFloat maxWidth = width;
-    for (PDFPage *pg in self.parent.document.pages) {
-        if([pg cropBox].size.width > maxWidth) maxWidth = [pg cropBox].size.width;
-    }
-    /*
-     vwidth-2*xmargin = pixel width of canvas on screen for full screen scaled page
-     xmargin = pixel width of grey border between canvas and edge of UIWebView for full scaled page.
-     maxWidth = PDF canvas points of widest page;
-     ((vwidth-2*xmargin)/maxWidth) = converstion factor from canvas space to device space.
-     Thus hmargin is the horizonal pixel margin from the border of the screen to the beginning of the page canvas.
-     */
-    CGFloat hmargin = ((maxWidth-width)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
-    CGFloat height = _cropBox.size.height;
-    CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
-    CGFloat realWidth = vwidth-2*hmargin;
-    CGFloat factor = realWidth/width;
-    CGFloat pageOffset = 0;
-    for (NSUInteger c = 0; c < self.page-1; c++) {
-        PDFPage *pg = self.parent.document.pages[c];
-        CGFloat iwidth = [pg cropBox].size.width;
-        CGFloat ihmargin = ((maxWidth-iwidth)/2)*((vwidth-2*xmargin)/maxWidth)+xmargin;
-        CGFloat iheight = [pg cropBox].size.height;
-        CGFloat irealWidth = vwidth-2*ihmargin;
-        CGFloat ifactor = irealWidth/iwidth;
-        pageOffset+= iheight*ifactor+ymargin;
-    }
-    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor+hmargin, correctedFrame.origin.y*factor+ymargin, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
+
+    CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, _cropBox.size.height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
+    CGFloat factor = vwidth/_cropBox.size.width;
+
+    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor, correctedFrame.origin.y*factor, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
     if (_formUIElement) {
         _formUIElement = nil;
     }
-    _uiBaseFrame = CGRectIntegral(CGRectMake(_pageFrame.origin.x, _pageFrame.origin.y+pageOffset, _pageFrame.size.width, _pageFrame.size.height));
+    _uiBaseFrame = [pageView convertRect:_pageFrame toView:pageView.superview.superview];
     switch (_formType) {
         case PDFFormTypeText:
             _formUIElement = [[PDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:((_flags & PDFFormFlagTextFieldMultiline) > 0) alignment:_textAlignment secureEntry:((_flags & PDFFormFlagTextFieldPassword) > 0) readOnly:((_flags & PDFFormFlagReadOnly) > 0)];

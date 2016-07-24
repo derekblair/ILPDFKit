@@ -20,8 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormContainer.h"
+#import "PDFFormChoiceField.h"
+#import "PDFFormButtonField.h"
+#import "PDFView.h"
 
 @interface PDFFormContainer(Private)
 - (void)populateNameTreeNode:(NSMutableDictionary *)node withComponents:(NSArray *)components final:(PDFForm *)final;
@@ -39,10 +42,19 @@
     NSMutableDictionary *_nameTree;
 }
 
+#pragma mark - NSObject.
+
+
+- (id)init {
+    PDFDocument *doc = nil;
+    self = [self initWithParentDocument:doc];
+    return self;
+}
 
 #pragma mark - Initialization
 
 - (instancetype)initWithParentDocument:(PDFDocument *)parent {
+    NSParameterAssert(parent);
     self = [super init];
     if (self != nil) {
         _allForms = [[NSMutableArray alloc] init];
@@ -55,6 +67,8 @@
         for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
             [self enumerateFields:field pageMap:pmap];
         }
+
+        
     }
     return self;
 }
@@ -212,25 +226,53 @@
 }
 
 
-- (NSArray *)createWidgetAnnotationViewsForSuperviewWithWidth:(CGFloat)width margin:(CGFloat)margin hMargin:(CGFloat)hmargin {
-    NSMutableArray *ret = [[NSMutableArray alloc] init];
+- (void)updateWidgetAnnotationViews:(NSMapTable *)pageViews views:(NSMutableArray *)views pdfView:(PDFView *)pdfView  {
+
+    BOOL wasAdded = NO;
+
     for (PDFForm *form in self) {
-        if (form.formType == PDFFormTypeChoice) continue;
-        id add = [form createWidgetAnnotationViewForSuperviewWithWidth:width xMargin:margin yMargin:hmargin];
-        if (add) [ret addObject:add];
+
+        UIView *pageView = (UIView *)[pageViews objectForKey: @(form.page)];
+        if (pageView == nil) continue;
+
+        PDFWidgetAnnotationView *add = nil;
+        if ([form associtedWidget] == nil) {
+            add = [form createWidgetAnnotationViewForPageView:pageView ];
+            add.page = form.page;
+            wasAdded = YES;
+            [views addObject:add];
+        } else {
+            add = [form associtedWidget];
+        }
+
+        if (add.superview == nil && ![add isKindOfClass:[PDFFormChoiceField class]]) {
+            [pdfView.pdfView.scrollView addSubview:add];
+            add.parentView = pdfView;
+            if ([add isKindOfClass:[PDFFormButtonField class]]) {
+                [(PDFFormButtonField *)add setButtonSuperview];
+            }
+        }
+
     }
-    NSMutableArray *temp = [[NSMutableArray alloc] init];
-    //We keep choice fileds on top.
-    for (PDFForm *form in [self formsWithType:PDFFormTypeChoice]) {
-        id add = [form createWidgetAnnotationViewForSuperviewWithWidth:width xMargin:margin yMargin:hmargin];
-        if(add) [temp addObject:add];
+
+    if (wasAdded) {
+        [views sortUsingComparator:^NSComparisonResult(PDFWidgetAnnotationView *obj1, PDFWidgetAnnotationView *obj2) {
+            if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
+            return NSOrderedDescending;
+        }];
+
+
+        for (UIView *v in views) {
+            if ([v isKindOfClass:[PDFFormChoiceField class]]) {
+                [pdfView.pdfView.scrollView addSubview:v];
+                ((PDFFormChoiceField *)v).parentView = pdfView;
+            }
+        }
     }
-    [temp sortUsingComparator:^NSComparisonResult(PDFWidgetAnnotationView *obj1, PDFWidgetAnnotationView *obj2) {
-        if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
-        return NSOrderedDescending;
-    }];
-    [ret addObjectsFromArray:temp];
-    return ret;
+
+
+
+
 }
 
 @end

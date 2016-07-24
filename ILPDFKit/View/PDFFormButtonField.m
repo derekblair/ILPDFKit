@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import <QuartzCore/QuartzCore.h>
-#import "PDF.h"
+#import <ILPDFKit/ILPDFKit.h>
 #import "PDFFormButtonField.h"
 
 #define PDFButtonMinScaledDimensionScaleFactor 0.85
@@ -34,6 +34,19 @@
 }
 
 #pragma mark - UIView
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
+    NSAssert(NO,@"Non-Supported Initializer");
+    return self;
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [self initWithFrame:frame radio:NO];
+    return self;
+}
+
 
 - (void)drawRect:(CGRect)rect {
     if (_pushButton) {

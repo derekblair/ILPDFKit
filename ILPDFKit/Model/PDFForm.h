@@ -153,7 +153,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  */
 @property (nonatomic, readonly) CGRect uiBaseFrame;
 
-/** The frame of the form view on its parent UIScrollView if all forms were on the first page
+/** The frame of the form view on its UIPDFPageView if it was a subview
  */
 @property (nonatomic, readonly) CGRect pageFrame;
 
@@ -226,12 +226,9 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 /** Returns a view to represent the form.
  
  @param vwidth The width of the superview bounds.
- @param xmargin The horizonal margin width for the actual content frame in the superview.
- @param ymargin The vertical margin height for the actual content frame in the superview.
- @return A new view representing the form. The caller is responsible for releasing the new form view.
- @discussion The superview must be a UIScrollView or a subclass of UIScrollView.
+ @return A new view representing the form.
  */
-- (PDFWidgetAnnotationView *)createWidgetAnnotationViewForSuperviewWithWidth:(CGFloat)vwidth xMargin:(CGFloat)xmargin yMargin:(CGFloat)ymargin;
+- (PDFWidgetAnnotationView *)createWidgetAnnotationViewForPageView:(UIView *)pageView;
 
 /**---------------------------------------------------------------------------------------
  * @name KVO
@@ -243,6 +240,9 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
  */
 
 - (void)removeObservers;
+
+
+- (UIView *)associtedWidget;
 
 @end
 
