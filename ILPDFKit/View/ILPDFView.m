@@ -88,6 +88,18 @@
 }
 
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [self init];
+     NSAssert(NO,@"Non-Supported Initializer");
+    return nil;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [self init];
+    NSAssert(NO,@"Non-Supported Initializer");
+    return nil;
+}
+
 
 #pragma mark - PDF Page Views
 

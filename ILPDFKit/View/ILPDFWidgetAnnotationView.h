@@ -54,12 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** The value of the element.
  @discussion If there is an associated ILPDFForm to the view, then set of values are synced using key value observing.
  */
-@property (nonatomic, strong) NSString *value;
+@property (nonatomic, strong, nullable) NSString *value;
 
 /** The options of the element.
  @discussion If there is an associated ILPDFForm to the view, then set of options are synced using key value observing.
  */
-@property (nonatomic, strong) NSArray *options;
+@property (nonatomic, strong, nullable) NSArray *options;
 
 /** The initial frame of the view, without any transformations applied to its superview.
  */
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param multiline YES if multiple lines of text are permitted.
  @param choice YES if the field is a choice field.
  */
-+ (CGFloat)fontSizeForRect:(CGRect)rect value:(NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice;
++ (CGFloat)fontSizeForRect:(CGRect)rect value:(nullable NSString *)value multiline:(BOOL)multiline choice:(BOOL)choice;
 
 /**---------------------------------------------------------------------------------------
  * @name Updating Data

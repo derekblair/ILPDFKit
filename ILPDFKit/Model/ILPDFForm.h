@@ -203,7 +203,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param p The parent.
  @return A new ILPDFForm object. 
  */
-- (instancetype)initWithFieldDictionary:(ILPDFDictionary *)leaf page:(ILPDFPage *)pg parent:(ILPDFFormContainer *)p NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFieldDictionary:(ILPDFDictionary *)leaf page:(nullable ILPDFPage *)pg parent:(nullable ILPDFFormContainer *)p NS_DESIGNATED_INITIALIZER;
 
 /**---------------------------------------------------------------------------------------
  * @name Updating Data

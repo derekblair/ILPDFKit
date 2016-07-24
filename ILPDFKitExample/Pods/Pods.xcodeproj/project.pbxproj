@@ -544,6 +544,35 @@
 			};
 			name = Debug;
 		};
+		228012454CB74D2E012AF145E9D8F055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DE7E3E9C0F65F2ED867F57790482639 /* ILPDFKit.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ILPDFKit/ILPDFKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ILPDFKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ILPDFKit/ILPDFKit.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = ILPDFKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		26F3ABCD3C32F8C4B9F6CCA5FC07A988 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98EC13A68823DD79DB47A070B227DAD9 /* Pods-ILPDFKitExample.release.xcconfig */;
@@ -577,35 +606,6 @@
 			};
 			name = Release;
 		};
-		64F33E748BC32142B21412F3307AE7BD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DE7E3E9C0F65F2ED867F57790482639 /* ILPDFKit.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ILPDFKit/ILPDFKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ILPDFKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ILPDFKit/ILPDFKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = ILPDFKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		AF12E328718520A3BAF1D5C79F118AF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1401485664B445B15C3FB6FD0158EE2D /* Pods-ILPDFKitExample.debug.xcconfig */;
@@ -638,35 +638,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		B971F1DAB5890FDB22F4D1B0A81FE47F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DE7E3E9C0F65F2ED867F57790482639 /* ILPDFKit.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ILPDFKit/ILPDFKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ILPDFKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ILPDFKit/ILPDFKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = ILPDFKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		C7E474A03CAE21F1CB6046E7344C59BD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -706,6 +677,35 @@
 			};
 			name = Release;
 		};
+		CC675C9E700B044114F9B024CC507140 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DE7E3E9C0F65F2ED867F57790482639 /* ILPDFKit.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ILPDFKit/ILPDFKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ILPDFKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ILPDFKit/ILPDFKit.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = ILPDFKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -730,8 +730,8 @@
 		C0250DCFE1D4FA3E26A80E165CE8725E /* Build configuration list for PBXNativeTarget "ILPDFKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				64F33E748BC32142B21412F3307AE7BD /* Debug */,
-				B971F1DAB5890FDB22F4D1B0A81FE47F /* Release */,
+				CC675C9E700B044114F9B024CC507140 /* Debug */,
+				228012454CB74D2E012AF145E9D8F055 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

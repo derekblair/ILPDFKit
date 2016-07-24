@@ -4,7 +4,7 @@
   "summary": "A PDF toolset for iOS with an emphasis on form filling.",
   "description": "A simple toolkit for filling out and saving PDF forms, and extracting PDF data.",
   "platforms": {
-    "ios": "9.0"
+    "ios": "8.0"
   },
   "homepage": "https://github.com/derekblair/ILPDFKit",
   "license": "MIT",
