@@ -13,13 +13,13 @@ import ILPDFKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var pdfVC : PDFViewController? = nil
+    var pdfVC : ILPDFViewController? = nil
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        pdfVC = (self.window?.rootViewController as? UINavigationController)?.viewControllers.first as? PDFViewController
-        let document = PDFDocument(resource:"testA")
+        pdfVC = (self.window?.rootViewController as? UINavigationController)?.viewControllers.first as? ILPDFViewController
+        let document = ILPDFDocument(resource:"testA")
         pdfVC?.document = document
         let printButton = UIBarButtonItem(title: "Save Static PDF", style: .Plain, target: self, action: #selector(print))
         pdfVC?.navigationItem.setRightBarButtonItem(printButton, animated: false)
@@ -54,9 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func print(sender:AnyObject?) {
         let data = pdfVC?.document?.savedStaticPDFData()
 
-        let savedVCDocument = PDFDocument(data: data)
+        let savedVCDocument = ILPDFDocument(data: data)
 
-        let alert : UIAlertController = UIAlertController(title: "Will Save PDF", message: "The PDF file displayed next is a static version of the previous file, but with the form values added. The starting PDF has not been modified and this static PDF no longer contains forms.", preferredStyle: .Alert)
+        let alert : UIAlertController = UIAlertController(title: "Will Save PDF", message: "The PDF file displayed next is a static version of the previous file, but with the form values added. The starting PDF has not been modified and this static pdf no longer contains forms.", preferredStyle: .Alert)
 
         let action = UIAlertAction(title: "Show Saved Static PDF", style: .Default) { (_ : UIAlertAction) in
             alert.dismissViewControllerAnimated(true, completion: nil)
