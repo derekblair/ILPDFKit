@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
   spec.version = "1.0.4"
   spec.summary = "A PDF toolset for iOS with an emphasis on form filling."
   spec.description = "A simple toolkit for filling out and saving PDF forms, and extracting PDF data."
-  spec.platform = :ios, "9.0"
+  spec.platform = :ios, "8.0"
   spec.homepage         = "https://github.com/derekblair/ILPDFKit"
   spec.license          = "MIT"
   spec.author           = { "Derek Blair" => "derekjblair@gmail.com" }
