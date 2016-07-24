@@ -9,7 +9,6 @@ Pod::Spec.new do |spec|
   spec.author           = { "Derek Blair" => "derekjblair@gmail.com" }
   spec.source           =  { :git => "https://github.com/derekblair/ILPDFKit.git", :tag => "1.0.4" }
   spec.requires_arc = true
-  spec.documentation_url = 'http://ilpdfkit.com/index.html'
   spec.source_files = "ILPDFKit/**/*.{h,m}"
   spec.frameworks = "CoreGraphics"
   spec.public_header_files = "ILPDFKit/**/*.h"

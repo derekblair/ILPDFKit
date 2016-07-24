@@ -67,8 +67,6 @@
         for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
             [self enumerateFields:field pageMap:pmap];
         }
-
-        
     }
     return self;
 }
@@ -220,18 +218,15 @@
 
 #pragma mark - NSFastEnumeration
 
-
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {
     return [[self allForms] countByEnumeratingWithState:state objects:buffer count:len];
 }
-
 
 - (void)updateWidgetAnnotationViews:(NSMapTable *)pageViews views:(NSMutableArray *)views pdfView:(PDFView *)pdfView  {
 
     BOOL wasAdded = NO;
 
     for (PDFForm *form in self) {
-
         UIView *pageView = (UIView *)[pageViews objectForKey: @(form.page)];
         if (pageView == nil) continue;
 
@@ -252,7 +247,6 @@
                 [(PDFFormButtonField *)add setButtonSuperview];
             }
         }
-
     }
 
     if (wasAdded) {
@@ -261,7 +255,6 @@
             return NSOrderedDescending;
         }];
 
-
         for (UIView *v in views) {
             if ([v isKindOfClass:[PDFFormChoiceField class]]) {
                 [pdfView.pdfView.scrollView addSubview:v];
@@ -269,10 +262,6 @@
             }
         }
     }
-
-
-
-
 }
 
 @end

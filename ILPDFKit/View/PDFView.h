@@ -51,24 +51,5 @@
 
 - (void)setupWithDocument:(PDFDocument *)document;
 
-/**---------------------------------------------------------------------------------------
- * @name Adding and Removing Additions
- *  ---------------------------------------------------------------------------------------
- */
-
-/** Adds an addition view.
- @param viewToAdd PDFWidgetAnnotationalElementView to be added to the pdfView scrollView.
- */
-- (void)addPDFWidgetAnnotationView:(PDFWidgetAnnotationView *)viewToAdd;
-
-/** Removes an addition view.
- @param viewToRemove PDFWidgetAnnotationalElementView to be removed from the pdfView scrollView.
- */
-- (void)removePDFWidgetAnnotationView:(PDFWidgetAnnotationView *)viewToRemove;
-
-/** Sets the UI addition views
- @param additionViews The views to add.
- */
-- (void)setWidgetAnnotationViews:(NSArray *)additionViews;
 
 @end

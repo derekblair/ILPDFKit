@@ -242,7 +242,7 @@ typedef NS_ENUM(NSUInteger, PDFFormType) {
 - (void)removeObservers;
 
 
-- (UIView *)associtedWidget;
+- (PDFWidgetAnnotationView *)associtedWidget;
 
 @end
 

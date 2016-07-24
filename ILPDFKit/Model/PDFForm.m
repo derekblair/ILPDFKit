@@ -265,7 +265,7 @@
 
 
 
-- (UIView *)associtedWidget {
+- (PDFWidgetAnnotationView *)associtedWidget {
     return _formUIElement;
 }
 
