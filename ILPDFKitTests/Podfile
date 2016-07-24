@@ -1,0 +1,10 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+
+target 'ILPDFKitTests' do
+  inherit! :search_paths
+  pod 'ILPDFKit', :path => '../'
+  pod "Quick", "~> 0.9.2"
+  pod "Nimble", "~> 4.0.1"
+end
