@@ -25,6 +25,8 @@
 #import "ILPDFWidgetAnnotationView.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFFormTextField represents a view for a PDF text field.
  */
 @interface ILPDFFormTextField : ILPDFWidgetAnnotationView 
@@ -48,3 +50,6 @@
 
 
 @end
+
+
+NS_ASSUME_NONNULL_END

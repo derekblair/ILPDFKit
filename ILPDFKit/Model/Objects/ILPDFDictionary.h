@@ -24,6 +24,8 @@
 #import "ILPDFObject.h"
 #import "ILPDFName.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFDictionary class encapsulates a PDF dictionary object contained in a ILPDFDocument. 
  Essentially, is is a wrapper class for a CGPDFDictionaryRef.
  
@@ -40,12 +42,12 @@
 /**
  The Core Graphics dictionary reference, if it exists.
  */
-@property (nonatomic, readonly) CGPDFDictionaryRef dict;
+@property (nonatomic, readonly, nullable) CGPDFDictionaryRef dict;
 
 /** The ILPDFDictionary that self is value of for some key, if it exists.
  @discussion If no such parent exists, parent is nil.
  */
-@property (nonatomic, weak) ILPDFDictionary *parent;
+@property (nonatomic, weak, nullable) ILPDFDictionary *parent;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a ILPDFDictionary
@@ -76,7 +78,7 @@
  @param key The key for which to return the corresponding value
  @return The value associated with key, or nil if no value is associated with key.
  */
-- (id)objectForKey:(ILPDFName *)key;
+- (nullable id)objectForKey:(ILPDFName *)key;
 
 
 /** Returns a new array containing the dictionary’s keys.
@@ -98,7 +100,7 @@
  @param key The dictionary key
  @return The pdf object if found by searching up the parent chain, or nil if not found.
  */
-- (id)inheritableValueForKey:(ILPDFName *)key;
+- (nullable id)inheritableValueForKey:(ILPDFName *)key;
 
 /** Returns an array for all values for key found in parent dictionaries.
  @param key The dictionary key
@@ -130,6 +132,8 @@
 
 ////// This class supports keyed subscripting as in id<ILPDFObject> obj = pdfDictionary[@"key"];
 
-- (id)objectForKeyedSubscript:(id <NSCopying>)key;
+- (nullable id)objectForKeyedSubscript:(id <NSCopying>)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

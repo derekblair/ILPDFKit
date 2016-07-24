@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func print(sender:AnyObject?) {
         let data = pdfVC?.document?.savedStaticPDFData()
 
-        let savedVCDocument = ILPDFDocument(data: data)
+        let savedVCDocument = ILPDFDocument(data: data!)
 
         let alert : UIAlertController = UIAlertController(title: "Will Save PDF", message: "The PDF file displayed next is a static version of the previous file, but with the form values added. The starting PDF has not been modified and this static pdf no longer contains forms.", preferredStyle: .Alert)
 

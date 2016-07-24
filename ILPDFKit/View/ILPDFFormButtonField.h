@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import "ILPDFWidgetAnnotationView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 
 /** The ILPDFFormButtonField represents a view for a PDF button field.
  */
@@ -91,7 +93,7 @@
 + (void)drawWithRect:(CGRect)frame context:(CGContextRef)ctx back:(BOOL)back selected:(BOOL)selected radio:(BOOL)radio;
 
 
-
-
-
 @end
+
+
+NS_ASSUME_NONNULL_END

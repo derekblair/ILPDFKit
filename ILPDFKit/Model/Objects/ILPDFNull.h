@@ -25,7 +25,11 @@
 
 #define ILPDFNull NSNull
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** ILPDFNull is an alias for NSNull. It represents the Null PDF object. Functionality is added via a category.
  */
 @interface ILPDFNull(ILPDFObject) <ILPDFObject>
 @end
+
+NS_ASSUME_NONNULL_END

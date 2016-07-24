@@ -28,6 +28,9 @@ typedef NS_OPTIONS(NSUInteger, ILPDFRepOptions) {
     ILPDFRepOptionUseUTF8 = 1 << 0
 };
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** All basic PDF object classes implement this protocol. ILPDFArray, ILPDFDictionary, ILPDFString, ILPDFName etc.
  */
 @protocol ILPDFObject <NSObject, NSCopying>
@@ -51,6 +54,7 @@ typedef NS_OPTIONS(NSUInteger, ILPDFRepOptions) {
 
 @end
 
+NS_ASSUME_NONNULL_END
 
 
 

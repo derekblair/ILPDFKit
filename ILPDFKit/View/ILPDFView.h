@@ -24,18 +24,21 @@
 
 @class ILPDFWidgetAnnotationView;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFView class allows for viewing a PDF file. The controller ILPDFViewController uses ILPDFView as its view and ILPDFDocument as its model.
  ILPDFView is typically not directly instantiated, but instead is used as the instance that comes with ILPDFViewController.
  */
 @interface ILPDFView : UIView 
 
 /** The array contains the ILPDFWidgetAnnotationView instances that are subviews of the pdfView's scrollView.
+    These represent the forms of the PDF.
  */
 @property (nonatomic, readonly) NSMutableArray *pdfWidgetAnnotationViews;
 
-/** The view in pdfWidgetAnnotationViews has holds the input focus.
+/** The view in pdfWidgetAnnotationViews has holds the input focus. ie. The `active form` .
  */
-@property (nonatomic, weak) ILPDFWidgetAnnotationView *activeWidgetAnnotationView;
+@property (nonatomic, weak, nullable) ILPDFWidgetAnnotationView *activeWidgetAnnotationView;
 
 /** The webview used to render the PDF.
  */
@@ -43,13 +46,16 @@
 
 
 /**---------------------------------------------------------------------------------------
- * @name Initializing a ILPDFView
- *  ---------------------------------------------------------------------------------------
- */
-/**
+  @name Creating an ILPDFView
+   ---------------------------------------------------------------------------------------
  */
 
-- (void)setupWithDocument:(ILPDFDocument *)document;
+/**
+ The designated way to create a ILPDFView. You must set the frame or apply your own layout constraints manually.
+ */
+- (instancetype)initWithDocument:(ILPDFDocument *)document NS_DESIGNATED_INITIALIZER;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

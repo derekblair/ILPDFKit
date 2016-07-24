@@ -31,33 +31,35 @@
 @class ILPDFDictionary;
 @class ILPDFFormContainer;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILPDFDocument : NSObject
 
 /** The PDF file data.
  */
-@property (nonatomic, strong) NSMutableData *documentData;
+@property (nonatomic, strong, null_resettable) NSMutableData *documentData;
 
 /** The form container holding the forms for the document.
  */
-@property (nonatomic, readonly) ILPDFFormContainer *forms;
+@property (nonatomic, readonly, null_resettable) ILPDFFormContainer *forms;
 
 /** The path for the PDF document if it was loaded from file.
  @discussion If the document was loaded from memory, documentPath is nil.
  */
-@property (nonatomic, readonly) NSString *documentPath;
+@property (nonatomic, readonly, nullable) NSString *documentPath;
 
 /** The document catalog for the PDF.
  @discussion See 3.6.1 in 'PDF Reference Second Edition version 1.3, Adobe Systems Incorporated'.
  */
-@property (nonatomic, readonly) ILPDFDictionary *catalog;
+@property (nonatomic, readonly, null_resettable) ILPDFDictionary *catalog;
 
 /** The document info dictionary
  */
-@property (nonatomic, readonly) ILPDFDictionary *info;
+@property (nonatomic, readonly, null_resettable) ILPDFDictionary *info;
 
 /** An array containing ILPDFPage objects cooresponding in order and content to the pages of the document.
  */
-@property (nonatomic, readonly) NSArray *pages;
+@property (nonatomic, readonly, null_resettable) NSArray *pages;
 
 /** The name of the PDF.
  */
@@ -141,3 +143,5 @@
 - (NSString *)formXML;
 
 @end
+
+NS_ASSUME_NONNULL_END

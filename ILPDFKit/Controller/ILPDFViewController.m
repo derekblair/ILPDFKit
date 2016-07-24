@@ -32,20 +32,12 @@
     ILPDFView *_pdfView;
 }
 
-#pragma mark - UIViewController 
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (self.pdfName && _document == nil) {
-        ILPDFDocument *doc = [[ILPDFDocument alloc] initWithResource:self.pdfName];
-        [self setDocument:doc];
-    }
-}
+#pragma mark - UIViewController
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    _pdfView.frame = CGRectMake(0,self.topLayoutGuide.length,self.view.bounds.size.width,self.view.bounds.size.height-self.topLayoutGuide.length);
+    // Alter or remove to define your own layout logic for the ILPDFView.
+    _pdfView.frame = CGRectMake(0,self.topLayoutGuide.length,self.view.bounds.size.width,self.view.bounds.size.height-self.topLayoutGuide.length - self.bottomLayoutGuide.length);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
@@ -55,11 +47,13 @@
 
 #pragma mark - ILPDFViewController
 
+#pragma mark - Setting the Document
 - (void)setDocument:(ILPDFDocument *)document {
     _document = document;
     [self loadPDFView];
 }
 
+#pragma mark - Relaoding the Document
 - (void)reload {
     [_document refresh];
     [self loadPDFView];
@@ -68,18 +62,9 @@
 #pragma mark - Private
 
 - (void)loadPDFView {
-    for (ILPDFForm *form in self.document.forms) {
-        [form removeObservers];
-    }
     [_pdfView removeFromSuperview];
-    _pdfView = nil;
-    
-    if (self.document) {
-        _pdfView = [[ILPDFView alloc] initWithFrame:CGRectZero];
-        [_pdfView setupWithDocument:self.document];
-        [self.view addSubview:_pdfView];
-    }
-    [self.view setNeedsLayout];
+    _pdfView = [[ILPDFView alloc] initWithDocument:_document];
+    [self.view addSubview:_pdfView];
 }
 
 

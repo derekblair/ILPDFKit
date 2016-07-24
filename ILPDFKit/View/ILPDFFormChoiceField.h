@@ -24,6 +24,9 @@
 #import "ILPDFWidgetAnnotationView.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 /** The ILPDFFormChoiceField represents a view for a PDF choice field.
  */
 @interface ILPDFFormChoiceField : ILPDFWidgetAnnotationView 
@@ -43,3 +46,5 @@
 - (instancetype)initWithFrame:(CGRect)frame options:(NSArray *)opt NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

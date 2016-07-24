@@ -36,7 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ILPDFViewController : UIViewController
 
-/** The ILPDFDocument that represents the model for the ILPDFViewController
+/** The ILPDFDocument that represents the model for the ILPDFViewController.
+    You must set this property so a document is displayed.
  */
 @property (nonatomic, strong, nullable) ILPDFDocument *document;
 
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) ILPDFView *pdfView;
 
 /**
- Set to automatically set the document to a pdf with the given name in the main bundle.
+ Set to automatically set the document to a pdf with the given resource name in the main bundle.
  */
 @property (nonatomic, strong, nullable) IBInspectable NSString *pdfName;
 

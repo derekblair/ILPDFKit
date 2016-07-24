@@ -36,6 +36,8 @@
 
 @class ILPDFDictionary;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ILPDFPage : NSObject
 
 
@@ -56,11 +58,11 @@
 /** Returns the thumbnail image.
  @return The thumbnail image as a UIImage or nil if no such image exists.
  */
-- (UIImage *)thumbNailImage;
+- (nullable UIImage *)thumbNailImage;
 
 /** The page dictionary.
  */
-@property (nonatomic, readonly) ILPDFDictionary *dictionary;
+@property (nonatomic, readonly, null_resettable) ILPDFDictionary *dictionary;
 
 /** The page number beginning with 1.
  */
@@ -96,6 +98,9 @@
 
 /** The resource dictionary for the page.
  */
-@property (nonatomic, readonly) ILPDFDictionary *resources;
+@property (nonatomic, readonly, null_resettable) ILPDFDictionary *resources;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

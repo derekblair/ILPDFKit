@@ -23,8 +23,11 @@
 #import <UIKit/UIKit.h>
 #import "ILPDFWidgetAnnotationView.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 /** The ILPDFFormSignatureField represents a view for a PDF signature field. Not currently implemented.
  */
 @interface ILPDFFormSignatureField : ILPDFWidgetAnnotationView
 @end
+
+NS_ASSUME_NONNULL_END

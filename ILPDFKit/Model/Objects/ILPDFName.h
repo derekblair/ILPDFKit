@@ -25,6 +25,8 @@
 
 #define ILPDFName NSString
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** ILPDFName is an alias for NSString. It represents Name PDF objects. Functionality is added via a category.
  */
 @interface ILPDFName(ILPDFObject) <ILPDFObject>
@@ -47,5 +49,7 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 

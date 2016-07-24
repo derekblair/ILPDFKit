@@ -25,7 +25,11 @@
 
 #define ILPDFNumber NSNumber
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** ILPDFNumber is an alias for NSNumber. It represents Integer, Real and Boolean PDF objects. Functionality is added via a category.
  */
 @interface ILPDFNumber(ILPDFObject) <ILPDFObject>
 @end
+
+NS_ASSUME_NONNULL_END

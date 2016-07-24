@@ -60,6 +60,8 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 @class ILPDFDictionary;
 @class ILPDFWidgetAnnotationView;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFForm class represents a Widget Annotation owned by an interactive PDF form corresponding to a Field Dictionary contained in the 'Fields' array of the document's 'AcroForm' dictionary. Thus each instance of ILPDFForm represents a unique rectangle on the PDF document where user interaction is permitted, whether through pressing or typing text. A 'Field' is a collection of ILPDFForm with the same name. All forms in a field have the same value. A 'Field' represents a coherent group of forms that work together to present and collect a common unified piece of information. For example a field may consist of the two button forms named 'Sex' and marked 'Male' and 'Female' respectively to collect the information of a person's gender. A form can create a UIView representation of itself that can respond to user interaction.
  
  ILPDFChoiceField* comboBox = [comboBoxTypeForm createWidgetAnnotationViewForSuperviewWithWidth:webView.bounds.size.width  Margin:9.5];
@@ -70,7 +72,7 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 
 /** The value of the form.
  */
-@property (nonatomic, strong) NSString *value;
+@property (nonatomic, strong, nullable) NSString *value;
 
 /** The page number on which the form appears. The first page has value 1.
  */
@@ -109,12 +111,12 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 
 /** The name of the field shown to the user
  */
-@property (nonatomic, strong, readonly) NSString *uname;
+@property (nonatomic, strong, readonly, nullable) NSString *uname;
 
 
 /** The default value for the form.
  */
-@property (nonatomic, strong, readonly) NSString *defaultValue;
+@property (nonatomic, strong, readonly, nullable) NSString *defaultValue;
 
 /** A string containing all flags.
  Current supported flags are:
@@ -138,12 +140,12 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
  - NoView
  
  */
-@property (nonatomic, strong, readonly) NSString *flagsString;
+@property (nonatomic, strong, readonly, nullable) NSString *flagsString;
 
 
 /** For choice fields only, the options of the combo box.
  */
-@property (nonatomic, strong) NSArray *options;
+@property (nonatomic, strong, nullable) NSArray *options;
 
 /** The intended text alignemnt for text in the form.
  */
@@ -159,18 +161,18 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 
 /** The form container that owns the form
  */
-@property (nonatomic, weak, readonly) ILPDFFormContainer *parent;
+@property (nonatomic, weak, readonly, nullable) ILPDFFormContainer *parent;
 
 
 /** The NSArray of NSNumber values representing the raw frame rectangle for the form.
  */
-@property (nonatomic, strong, readonly) NSArray *rawRect;
+@property (nonatomic, strong, readonly, nullable) NSArray *rawRect;
 
 
 /** This is used with button forms only. Gives the name of the choice represented by that button.
  @discussion If a button is part of a group of buttons where only one may be selected at once, then it's value is the exportValue of the selected button. All buttons in such a group have the same name and represent a single form conceptually. Thus all forms in a radio button or check box group represent the field and always have the same value. A button is selected if and only if its exportValue is the same as its value. If no buttons are selected, or an unselected button is single and not part of a group, then the value is nil.
  */
-@property (nonatomic, strong, readonly) NSString *exportValue;
+@property (nonatomic, strong, readonly, nullable) NSString *exportValue;
 
 
 /** Indicates if the form has been modified by user input.
@@ -180,13 +182,13 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 
 /** The appearance stream for the set state of button forms. Can be used to customize button appearance to better match the PDF.
  */
-@property (nonatomic, strong, readonly) NSString *setAppearanceStream;
+@property (nonatomic, strong, readonly, nullable) NSString *setAppearanceStream;
 
 
 /**
  The field dictionary that defines the form
  */
-@property (nonatomic, strong, readonly) ILPDFDictionary *dictionary;
+@property (nonatomic, strong, readonly, nullable) ILPDFDictionary *dictionary;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a ILPDFForm
@@ -242,8 +244,19 @@ typedef NS_ENUM(NSUInteger, ILPDFFormType) {
 - (void)removeObservers;
 
 
-- (ILPDFWidgetAnnotationView *)associtedWidget;
+/**---------------------------------------------------------------------------------------
+ * @name Associated Widget
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/**
+ The widget associated with the form , if it exists.
+ */
+
+- (nullable ILPDFWidgetAnnotationView *)associtedWidget;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 

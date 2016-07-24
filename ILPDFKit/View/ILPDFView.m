@@ -51,8 +51,12 @@
 
 #pragma mark - ILPDFView
 
-- (void)setupWithDocument:(ILPDFDocument *)document {
-
+- (instancetype)initWithDocument:(ILPDFDocument *)document {
+    self = [super initWithFrame:CGRectZero];
+    if (self != nil) {
+        for (ILPDFForm *form in document.forms) {
+            [form removeObservers];
+        }
         _pageYValues = [NSMutableArray array];
         _pdfPages = [NSMapTable strongToWeakObjectsMapTable];
         _pdfWidgetAnnotationViews = [NSMutableArray array];
@@ -79,7 +83,8 @@
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
         [self addGestureRecognizer:_tapGestureRecognizer];
         _tapGestureRecognizer.delegate = self;
-
+    }
+    return self;
 }
 
 

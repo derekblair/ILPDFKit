@@ -25,6 +25,9 @@
 @class ILPDFWidgetAnnotationView;
 @class ILPDFView;
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFWidgetAnnotationViewDelegate responds to user interaction with a ILPDFWidgetAnnotationView.
  */
 @protocol ILPDFWidgetAnnotationViewDelegate <NSObject>
@@ -112,3 +115,6 @@
 - (void)resign;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

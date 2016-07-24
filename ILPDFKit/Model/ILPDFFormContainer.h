@@ -27,6 +27,8 @@
 @class ILPDFDocument;
 @class ILPDFView;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFFormContainer class represents a container class for all the ILPDFForm objects attached to a ILPDFDocument.
  */
 @interface ILPDFFormContainer : NSObject <NSFastEnumeration>
@@ -93,7 +95,7 @@
  */
 
 /** 
-
+ Updates the widget views.
  */
 - (void)updateWidgetAnnotationViews:(NSMapTable *)pageViews views:(NSMutableArray *)views  pdfView:(ILPDFView *)pdfView;
 
@@ -107,7 +109,7 @@
  @param val The value to set.
  @param name The name of the form(s) to set the value for. 
  */
-- (void)setValue:(NSString *)val forFormWithName:(NSString *)name;
+- (void)setValue:(nullable NSString *)val forFormWithName:(NSString *)name;
 
 /**---------------------------------------------------------------------------------------
  * @name XML 
@@ -121,3 +123,6 @@
 
 
 @end
+
+
+NS_ASSUME_NONNULL_END

@@ -25,6 +25,9 @@
 
 #define ILPDFString NSData
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** ILPDFString is an alias for NSData. It represents regular and hexadecimal string PDF objects. A string object consists of a series of bytes — unsigned integer values in the range 0 to 255. Strings are interpreted according to the 7-bit ASCII encoding in the case of literal strings, however, any 8-bit value may appear in a string. Characters outside the 7-bit ASCII character set may be represented using ASCII characters via the \ddd escape sequence. eg \245
  */
 @interface ILPDFString(ILPDFObject) <ILPDFObject>
@@ -51,3 +54,6 @@
 
 
 @end
+
+
+NS_ASSUME_NONNULL_END

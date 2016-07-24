@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "ILPDFObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFArray class encapsulates a PDF array object contained in a ILPDFDocument.
  Essentially, is is a wrapper class for a CGPDFArrayRef.
  
@@ -39,7 +41,7 @@
 /**
  The Core Graphics array reference, if it exists.
  */
-@property (nonatomic, readonly) CGPDFArrayRef arr;
+@property (nonatomic, readonly, nullable) CGPDFArrayRef arr;
 
 /**---------------------------------------------------------------------------------------
  * @name Creating a ILPDFArray
@@ -63,7 +65,7 @@
  The CGRect returned specifies the same rectangle in user space units only it has its origin at top left like a rectangle on a UIView. The 'Rect' ILPDFArray has a format [left, bottom, right, top] and the return rect is obtained as
     CGRectMake(MIN(left,right),MIN(bottom,top),fabsf(right-left),fabsf(top-bottom))
  */
-- (NSValue *)rect;
+- (nullable NSValue *)rect;
 
 /**---------------------------------------------------------------------------------------
  * @name Accessing Values
@@ -74,17 +76,17 @@
  @param index The index for which to return the corresponding value
  @return The value associated with index, or nil if no value is associated with index.
  */
-- (id)objectAtIndex:(NSUInteger)index;
+- (nullable id)objectAtIndex:(NSUInteger)index;
 
 /** Returns the first object.
  @return The first object or nil if the array is empty.
  */
--(id)firstObject;
+-(nullable id)firstObject;
 
 /** Returns the last object.
  @return The last object or nil if the array is empty.
  */
--(id)lastObject;
+-(nullable id)lastObject;
 
 /**---------------------------------------------------------------------------------------
  * @name Counting Entries
@@ -110,6 +112,9 @@
 
 ////// This class supports indexed subscripting as in id<ILPDFObject> obj = pdfArray[index];
 
-- (id)objectAtIndexedSubscript:(NSUInteger)idx;
+- (nullable id)objectAtIndexedSubscript:(NSUInteger)idx;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

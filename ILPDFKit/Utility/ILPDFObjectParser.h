@@ -22,6 +22,11 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class ILPDFDocument;
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFObjectParser class converts a string representation of a PDF object into
 a series of tokens representing object components of the represented object. The tokens may be 
 keys and values in the case of a dictionary or elements of an array, for example. ILPDFObjectParser makes no assumptions
@@ -40,7 +45,7 @@ As an example:
  ILPDFObjectParser is not meant to replace the Core Graphics PDF functions but rather provide of means of extracting more data related to the PDF file structure such as specific object and generation numbers.
  */
 
-@class ILPDFDocument;
+
 
 @interface ILPDFObjectParser : NSObject <NSFastEnumeration>
 
@@ -64,3 +69,6 @@ As an example:
 + (ILPDFObjectParser *)parserWithBytes:(NSData *)bytes;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

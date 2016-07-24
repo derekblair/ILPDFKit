@@ -23,6 +23,9 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /** The ILPDFUtility class represents a singleton that implements a range of PDF utility functions.
  */
 
@@ -135,3 +138,6 @@
 
 
 @end
+
+
+NS_ASSUME_NONNULL_END
