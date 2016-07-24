@@ -82,10 +82,6 @@ NSString *documentFormsXML = [_pdfViewController.document formsXML];
 // Push to webservice
 ```
 	
-## Documentation
-
-[ilpdfkit.com](http://ilpdfkit.com/index.html)
-
 
 ## Contact
 
