@@ -50,23 +50,23 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
 ### Analyzing PDF Structure 
 
 ```objective-c
-for (ILPDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
+for (ILPDFDictionary *field in self.document.catalog[@"AcroForm"][@"Fields"]) {
       // Inspect field properties here
-  }
+}
 ```
 
 ### Filling Out Forms
 
 ```objective-c
-_pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pdf"];
-[self.window setRootViewController:_pdfViewController];
+self.pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pdf"];
+[self.window setRootViewController:self.pdfViewController];
 // Have fun filling out the form.
 ```
 
 ### Getting/Setting Form Values Explicity
 
 ```objective-c
-for (ILPDFForm *form in _pdfViewController.document.forms){
+for (ILPDFForm *form in self.pdfViewController.document.forms){
 	// Get
 	NSString *formValue = form.value;
 	NSString *formName = form.name; // Fully qualified field name.
@@ -78,7 +78,7 @@ for (ILPDFForm *form in _pdfViewController.document.forms){
 	
 ### Sending Form XML Data 
 ```objective-c
-NSString *documentFormsXML = [_pdfViewController.document formsXML];
+NSString *documentFormsXML = [self.pdfViewController.document formsXML];
 // Push to webservice
 ```
 	
