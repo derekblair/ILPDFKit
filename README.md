@@ -16,7 +16,7 @@
  
  
 ```objective-c
-PDFDocument *document = [[PDFDocument alloc] initWithResource:@"test.pdf"];
+ILPDFDocument *document = [[ILPDFDocument alloc] initWithResource:@"test.pdf"];
 // Manually set a form value
 [document.forms setValue:@"Derek" forFormWithName:@"Contacts.FirstName"];
 // Save via a static PDF.
@@ -50,7 +50,7 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
 ### Analyzing PDF Structure 
 
 ```objective-c
-for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
+for (ILPDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
       // Inspect field properties here
   }
 ```
@@ -58,7 +58,7 @@ for (PDFDictionary *field in _document.catalog[@"AcroForm"][@"Fields"]) {
 ### Filling Out Forms
 
 ```objective-c
-_pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
+_pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pdf"];
 [self.window setRootViewController:_pdfViewController];
 // Have fun filling out the form.
 ```
@@ -66,7 +66,7 @@ _pdfViewController = [[PDFViewController alloc] initWithResource:@"test.pdf"];
 ### Getting/Setting Form Values Explicity
 
 ```objective-c
-for (PDFForm *form in _pdfViewController.document.forms){
+for (ILPDFForm *form in _pdfViewController.document.forms){
 	// Get
 	NSString *formValue = form.value;
 	NSString *formName = form.name; // Fully qualified field name.
