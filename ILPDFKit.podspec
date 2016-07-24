@@ -7,8 +7,7 @@ Pod::Spec.new do |spec|
   spec.homepage         = "https://github.com/derekblair/ILPDFKit"
   spec.license          = "MIT"
   spec.author           = { "Derek Blair" => "derekjblair@gmail.com" }
-    spec.source           = { :path => "./ILPDFKit"}
-  #spec.source           =  { :git => "https://github.com/derekblair/ILPDFKit.git", :tag => "1.0.4" }
+  spec.source           =  { :git => "https://github.com/derekblair/ILPDFKit.git", :tag => "1.0.4" }
   spec.requires_arc = true
   spec.documentation_url = 'http://ilpdfkit.com/index.html'
   spec.source_files = "ILPDFKit/**/*.{h,m}"
