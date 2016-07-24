@@ -1,6 +1,6 @@
 #ILPDFKit
 
-> A simple toolkit for filling out PDF forms, and extracting PDF data in iOS.
+> A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *UIWebView* and the *CoreGraphics PDF C API*.
 
 
 ![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
