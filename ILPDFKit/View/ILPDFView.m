@@ -54,13 +54,14 @@
 
 
         _pdfView = [[UIWebView alloc] initWithFrame:self.bounds];
+        [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, self.bounds.size.height/2, 0)];
         _pdfView.scalesPageToFit = YES;
         _pdfView.scrollView.delegate = self;
         _pdfView.scrollView.bouncesZoom = NO;
         _pdfView.delegate = self;
         [self addSubview:_pdfView];
         [_pdfView.scrollView setZoomScale:1];
-        [_pdfView.scrollView setContentOffset:CGPointZero];
+
 
 
         if ([_pdfDocument.documentPath isKindOfClass:[NSString class]]) {
@@ -68,6 +69,10 @@
         } else  {
             [_pdfView loadData:_pdfDocument.documentData MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:[NSURL URLWithString:@"/"]];
         }
+    }
+
+    if (_canvasLoaded) {
+        [self updatePDFPageViews];
     }
 }
 
@@ -109,25 +114,16 @@
 - (void)updatePDFPageViews {
     for (UIView *sv in _uiWebPDFView.subviews) {
         if ([NSStringFromClass(sv.class) isEqualToString:@"UIPDFPageView"]) {
-
             if ([[[_pdfPages objectEnumerator] allObjects] containsObject:sv]) continue;
-
             NSUInteger yVal = (NSUInteger)floor(sv.frame.origin.y);
-
             if (![_pageYValues containsObject:@(yVal)]) {
                 [_pageYValues addObject:@(yVal)];
             }
-
             [_pageYValues sortUsingSelector:@selector(compare:)];
             [_pdfPages setObject:sv forKey:@([_pageYValues indexOfObject:@(yVal)]+1)];
         }
     }
-
     [_pdfDocument.forms updateWidgetAnnotationViews:_pdfPages views:_pdfWidgetAnnotationViews pdfView:self];
-
-
-
-
 }
 
 

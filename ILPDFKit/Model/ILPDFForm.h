@@ -253,7 +253,13 @@ NS_ASSUME_NONNULL_BEGIN
  The widget associated with the form , if it exists.
  */
 
-- (nullable ILPDFWidgetAnnotationView *)associtedWidget;
+- (nullable ILPDFWidgetAnnotationView *)associatedWidget;
+
+
+/**
+ Update frames.
+ */
+- (void)updateFrameForPDFPageView:(UIView *)pdfPage;
 
 @end
 

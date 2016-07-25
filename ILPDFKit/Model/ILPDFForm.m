@@ -265,26 +265,39 @@
 
 
 
-- (ILPDFWidgetAnnotationView *)associtedWidget {
+- (ILPDFWidgetAnnotationView *)associatedWidget {
     return _formUIElement;
+}
+
+
+- (void)updateFrameForPDFPageView:(UIView *)pdfPage {
+
+
+    CGFloat vwidth = pdfPage.bounds.size.width;
+    CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, _cropBox.size.height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
+    CGFloat factor = vwidth/_cropBox.size.width;
+    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor, correctedFrame.origin.y*factor, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
+    _uiBaseFrame = [pdfPage convertRect:_pageFrame toView:pdfPage.superview];
+
+    _formUIElement.frame = _uiBaseFrame;
+    [_formUIElement updateWithZoom:_formUIElement.zoomScale];
+
 }
 
 - (ILPDFWidgetAnnotationView *)createWidgetAnnotationViewForPageView:(UIView *)pageView {
 
-    CGFloat vwidth = pageView.bounds.size.width;
+
 
     if ((_annotFlags & ILPDFAnnotationFlagHidden) > 0) return nil;
     if ((_annotFlags & ILPDFAnnotationFlagInvisible) > 0) return nil;
     if ((_annotFlags & ILPDFAnnotationFlagNoView) > 0) return nil;
 
-    CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, _cropBox.size.height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
-    CGFloat factor = vwidth/_cropBox.size.width;
 
-    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor, correctedFrame.origin.y*factor, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
     if (_formUIElement) {
         _formUIElement = nil;
     }
-    _uiBaseFrame = [pageView convertRect:_pageFrame toView:pageView.superview.superview];
+    [self updateFrameForPDFPageView:pageView];
+
     switch (_formType) {
         case ILPDFFormTypeText:
             _formUIElement = [[ILPDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:((_flags & ILPDFFormFlagTextFieldMultiline) > 0) alignment:_textAlignment secureEntry:((_flags & ILPDFFormFlagTextFieldPassword) > 0) readOnly:((_flags & ILPDFFormFlagReadOnly) > 0)];

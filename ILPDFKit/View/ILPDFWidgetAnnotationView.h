@@ -65,6 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) CGRect baseFrame;
 
+/**
+ Current zoom scale;
+ */
+@property (nonatomic, readonly) CGFloat zoomScale;
+
 /** The delegate.
  */
 @property (nonatomic, weak) NSObject<ILPDFWidgetAnnotationViewDelegate> *delegate;

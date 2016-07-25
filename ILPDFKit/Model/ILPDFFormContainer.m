@@ -231,13 +231,13 @@
         if (pageView == nil) continue;
 
         ILPDFWidgetAnnotationView *add = nil;
-        if ([form associtedWidget] == nil) {
+        if ([form associatedWidget] == nil) {
             add = [form createWidgetAnnotationViewForPageView:pageView ];
             add.page = form.page;
             wasAdded = YES;
             [views addObject:add];
         } else {
-            add = [form associtedWidget];
+            add = [form associatedWidget];
         }
 
         if (add.superview == nil && ![add isKindOfClass:[ILPDFFormChoiceField class]]) {
@@ -262,6 +262,12 @@
             }
         }
     }
+
+     for (ILPDFForm *form in self) {
+         UIView *pageView = (UIView *)[pageViews objectForKey: @(form.page)];
+         if (pageView == nil) continue;
+         [form updateFrameForPDFPageView:pageView];
+     }
 }
 
 @end

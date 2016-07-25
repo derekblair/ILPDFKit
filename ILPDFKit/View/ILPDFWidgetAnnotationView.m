@@ -76,6 +76,9 @@
     return nil;
 }
 
+- (CGFloat)zoomScale {
+    return _zoomScale;
+}
 - (void)setOptions:(NSArray *)options {
 }
 
