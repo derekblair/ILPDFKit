@@ -251,8 +251,8 @@
 
     if (wasAdded) {
         [views sortUsingComparator:^NSComparisonResult(ILPDFWidgetAnnotationView *obj1, ILPDFWidgetAnnotationView *obj2) {
-            if( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y)return NSOrderedAscending;
-            return NSOrderedDescending;
+            if ( obj1.baseFrame.origin.y > obj2.baseFrame.origin.y) return NSOrderedAscending;
+            else return NSOrderedDescending;
         }];
 
         for (UIView *v in views) {
