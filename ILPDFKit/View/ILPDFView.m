@@ -39,6 +39,7 @@
     UIView *_uiWebPDFView;
     NSMapTable *_pdfPages;
     NSMutableArray *_pageYValues;
+    BOOL _layoutHasOccured;
 }
 
 #pragma mark - UIView
@@ -47,6 +48,27 @@
     [super layoutSubviews];
     [_pdfView setFrame:self.bounds];
     [_pdfView.scrollView setContentInset:UIEdgeInsetsMake(0, 0, self.bounds.size.height/2, 0)];
+
+    if (!CGRectEqualToRect(self.bounds, CGRectZero) && self.window && !_layoutHasOccured) {
+        _layoutHasOccured = YES;
+
+
+        _pdfView = [[UIWebView alloc] initWithFrame:self.bounds];
+        _pdfView.scalesPageToFit = YES;
+        _pdfView.scrollView.delegate = self;
+        _pdfView.scrollView.bouncesZoom = NO;
+        _pdfView.delegate = self;
+        [self addSubview:_pdfView];
+        [_pdfView.scrollView setZoomScale:1];
+        [_pdfView.scrollView setContentOffset:CGPointZero];
+
+
+        if ([_pdfDocument.documentPath isKindOfClass:[NSString class]]) {
+            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pdfDocument.documentPath]]];
+        } else  {
+            [_pdfView loadData:_pdfDocument.documentData MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:[NSURL URLWithString:@"/"]];
+        }
+    }
 }
 
 #pragma mark - ILPDFView
@@ -60,26 +82,7 @@
         _pageYValues = [NSMutableArray array];
         _pdfPages = [NSMapTable strongToWeakObjectsMapTable];
         _pdfWidgetAnnotationViews = [NSMutableArray array];
-        [_pdfView removeFromSuperview];
-        [_pdfView stopLoading];
-        _pdfView = nil;
-        _pdfView = [[UIWebView alloc] init];
-        _pdfView.scalesPageToFit = YES;
-        _pdfView.scrollView.delegate = self;
-        _pdfView.scrollView.bouncesZoom = NO;
-        _pdfView.delegate = self;
-        [self addSubview:_pdfView];
-        [_pdfView.scrollView setZoomScale:1];
-        [_pdfView.scrollView setContentOffset:CGPointZero];
-        //This allows us to prevent the keyboard from obscuring text fields near the botton of the document.
         _pdfDocument = document;
-        if ([document.documentPath isKindOfClass:[NSString class]]) {
-            [_pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:document.documentPath]]];
-        } else  {
-            [_pdfView loadData:document.documentData MIMEType:@"application/pdf" textEncodingName:@"NSASCIIStringEncoding" baseURL:[NSURL URLWithString:@"/"]];
-        }
-        [self removeGestureRecognizer:_tapGestureRecognizer];
-        _tapGestureRecognizer = nil;
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:nil action:NULL];
         [self addGestureRecognizer:_tapGestureRecognizer];
         _tapGestureRecognizer.delegate = self;
