@@ -30,7 +30,7 @@
 
 @class ILPDFView;
 @class ILPDFDocument;
-
+@class ILPDFSignatureControllerDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 

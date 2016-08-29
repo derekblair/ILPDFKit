@@ -22,17 +22,38 @@
 
 #import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormContainer.h"
+#import "ILPDFSignatureController.h"
+#import "ILPDFFormSignatureField.h"
 
-@interface ILPDFViewController(Private)
+@interface ILPDFViewController(Private) <ILPDFSignatureControllerDelegate>
 - (void)loadPDFView;
 @end
 
 
 @implementation ILPDFViewController {
     ILPDFView *_pdfView;
+    ILPDFSignatureController *signatureController;
+    ILPDFFormSignatureField *signatureField;
 }
 
 #pragma mark - UIViewController
+
+- (void) viewDidLoad {
+    
+    [super viewDidLoad];
+
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showSignatureViewController:)
+                                                 name:@"SignatureNotification"
+                                               object:nil];
+    
+    
+}
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -43,6 +64,14 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self loadPDFView];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 #pragma mark - ILPDFViewController
@@ -65,6 +94,32 @@
     [_pdfView removeFromSuperview];
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
+}
+
+#pragma mark - KVO
+
+- (void) showSignatureViewController:(NSNotification *) notification {
+    
+    if ([notification.object isKindOfClass:[ILPDFFormSignatureField class]]) {
+        signatureField = notification.object;
+    }
+    signatureController = [[ILPDFSignatureController alloc] initWithNibName:@"ILPDFSignatureController" bundle:nil];
+    signatureController.expectedSignSize = signatureField.frame.size;
+    signatureController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    signatureController.delegate = self;
+    [self presentViewController:signatureController animated:YES completion:nil];
+    
+}
+
+#pragma mark - Signature Controller Delegate
+
+- (void) signedWithImage:(UIImage*) signatureImage {
+    
+    [signatureField removeButtonTitle];
+    signatureField.signatureImage.image = signatureImage;
+    [signatureField informDelegateAboutNewImage];
+    signatureField = nil;
+    
 }
 
 

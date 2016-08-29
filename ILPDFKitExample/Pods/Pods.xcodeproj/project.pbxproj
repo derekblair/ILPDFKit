@@ -29,6 +29,11 @@
 		542BEABCB4FAAFAE73CB8FF6A6F92F48 /* ILPDFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 05731E49FB6FAF3E921AEBFAB6E1A65F /* ILPDFStream.m */; };
 		55A823AD69F7E2A09EED9188214F6501 /* ILPDFDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 844567B9AC3BEAB5967EC6AB140CBE94 /* ILPDFDictionary.m */; };
 		5880B35AC6965546C400A621795B7881 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4A76B6AFC1ABC19A242A503DEE13E /* CoreGraphics.framework */; };
+		5B2E33061D73685900C3AA81 /* ILPDFSignatureController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BFA8D8B1D7334580063C313 /* ILPDFSignatureController.xib */; };
+		5BFA8D851D7330B90063C313 /* ILPDFSignatureController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BFA8D831D7330B90063C313 /* ILPDFSignatureController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5BFA8D861D7330B90063C313 /* ILPDFSignatureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFA8D841D7330B90063C313 /* ILPDFSignatureController.m */; };
+		5BFA8D891D73337A0063C313 /* ILPDFSignatureEditingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BFA8D871D73337A0063C313 /* ILPDFSignatureEditingView.h */; };
+		5BFA8D8A1D73337A0063C313 /* ILPDFSignatureEditingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFA8D881D73337A0063C313 /* ILPDFSignatureEditingView.m */; };
 		5D5F21550CD749217BF9B09B815D10AA /* Pods-ILPDFKitExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB33BAD9C1DDA20AA29165B41E182A2 /* Pods-ILPDFKitExample-dummy.m */; };
 		658AB862C247984995E2149E6E70D1B5 /* ILPDFStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 746A477F7CC09AF03386BB82349A3D54 /* ILPDFStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8558B6575E505A416A8701E608FCD839 /* ILPDFUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = F397B644588428E2408E5CC554BA573F /* ILPDFUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,6 +99,11 @@
 		48B7E2A84D104E5898CE158226C8748C /* ILPDFFormContainer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFFormContainer.h; sourceTree = "<group>"; };
 		4BA8E916E3BE7998CCAF6FC9205174FC /* ILPDFNull.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFNull.m; sourceTree = "<group>"; };
 		4ECF4EADBC6E14E65D3ADC2A787B902C /* ILPDFObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFObject.h; sourceTree = "<group>"; };
+		5BFA8D831D7330B90063C313 /* ILPDFSignatureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPDFSignatureController.h; sourceTree = "<group>"; };
+		5BFA8D841D7330B90063C313 /* ILPDFSignatureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILPDFSignatureController.m; sourceTree = "<group>"; };
+		5BFA8D871D73337A0063C313 /* ILPDFSignatureEditingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILPDFSignatureEditingView.h; sourceTree = "<group>"; };
+		5BFA8D881D73337A0063C313 /* ILPDFSignatureEditingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILPDFSignatureEditingView.m; sourceTree = "<group>"; };
+		5BFA8D8B1D7334580063C313 /* ILPDFSignatureController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILPDFSignatureController.xib; sourceTree = "<group>"; };
 		5DE7E3E9C0F65F2ED867F57790482639 /* ILPDFKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ILPDFKit.xcconfig; sourceTree = "<group>"; };
 		62CEEA6C42459ED1D2D49755532BE623 /* ILPDFForm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFForm.h; sourceTree = "<group>"; };
 		6BBDB709239123260B1B8C92BD8B291B /* ILPDFString.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFString.m; sourceTree = "<group>"; };
@@ -193,6 +203,9 @@
 				011BA22531B36240096EBB037BBE681F /* ILPDFSerializer.m */,
 				EB2D009C97336C0CEC5A8419F1AA80D8 /* ILPDFViewController.h */,
 				ED1A0F4285977CB41356CE68EAA205A0 /* ILPDFViewController.m */,
+				5BFA8D831D7330B90063C313 /* ILPDFSignatureController.h */,
+				5BFA8D841D7330B90063C313 /* ILPDFSignatureController.m */,
+				5BFA8D8B1D7334580063C313 /* ILPDFSignatureController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -327,6 +340,8 @@
 				DBB93D58C3EE3A300D3F5AC2FEED1378 /* ILPDFView.m */,
 				3CF3F7016E8D1F06BD690CEDDDF1E3C9 /* ILPDFWidgetAnnotationView.h */,
 				9D28C07546039531868C258BC94B2566 /* ILPDFWidgetAnnotationView.m */,
+				5BFA8D871D73337A0063C313 /* ILPDFSignatureEditingView.h */,
+				5BFA8D881D73337A0063C313 /* ILPDFSignatureEditingView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -360,12 +375,14 @@
 				06E473D6EFF33E16BB6AF019155180B8 /* ILPDFFormChoiceField.h in Headers */,
 				F987BD8D43004A62AD8AEE622656B980 /* ILPDFFormContainer.h in Headers */,
 				200CAF296DC6A55F40113598BA9A5DF4 /* ILPDFFormSignatureField.h in Headers */,
+				5BFA8D851D7330B90063C313 /* ILPDFSignatureController.h in Headers */,
 				C408720BB6B08FE02A932FE17CBC360E /* ILPDFFormTextField.h in Headers */,
 				8ED02EA7DE981D7E59F3864152E537DB /* ILPDFKit-umbrella.h in Headers */,
 				EDF9DF201B8C07AA26E9075850E04444 /* ILPDFKit.h in Headers */,
 				A0A81B91E748DF2C2B4836A0E6ED1236 /* ILPDFName.h in Headers */,
 				F9B9A490877F42EA63A96B946FBAD8E8 /* ILPDFNull.h in Headers */,
 				28470DAD54185583294720B3E80D4E54 /* ILPDFNumber.h in Headers */,
+				5BFA8D891D73337A0063C313 /* ILPDFSignatureEditingView.h in Headers */,
 				20D7715EBE7B31533EDDDEF41901D561 /* ILPDFObject.h in Headers */,
 				CD0A223D08333804EF6F7688E7647865 /* ILPDFObjectParser.h in Headers */,
 				0745C84D10608E264EA52A95C2B560F6 /* ILPDFPage.h in Headers */,
@@ -397,6 +414,7 @@
 				F83FF7F5D1B8D586DB3C82099BC4D36A /* Sources */,
 				D6D85903BCBF2B16548F7DEAC31A9131 /* Frameworks */,
 				0B0A91D18172EDAD00E577F7921EF4E0 /* Headers */,
+				5B2E33041D73683E00C3AA81 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -452,6 +470,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		5B2E33041D73683E00C3AA81 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B2E33061D73685900C3AA81 /* ILPDFSignatureController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		90898E5E8224BC5D776A23A2442464BB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -468,6 +497,7 @@
 				33D19637D50C41A5C281C37FEDA3B6F8 /* ILPDFArray.m in Sources */,
 				55A823AD69F7E2A09EED9188214F6501 /* ILPDFDictionary.m in Sources */,
 				F34C65223B1DC5CCA098CE9B86A7116E /* ILPDFDocument.m in Sources */,
+				5BFA8D861D7330B90063C313 /* ILPDFSignatureController.m in Sources */,
 				42EC157FADA7AEFAFFDBF7C3CF4A8E13 /* ILPDFForm.m in Sources */,
 				FB9BF6408039CA7709E7FD3D1E730E3C /* ILPDFFormButtonField.m in Sources */,
 				1E9D88F9794D07FD9E1820509BC2CD51 /* ILPDFFormChoiceField.m in Sources */,
@@ -478,6 +508,7 @@
 				10FAE55497F7B0C2AF5C24AF5018C7D0 /* ILPDFName.m in Sources */,
 				430FC3DBD709CF85E6155AF5AAAC2F9F /* ILPDFNull.m in Sources */,
 				C67FBAC9D984B9F22E704FA19D235212 /* ILPDFNumber.m in Sources */,
+				5BFA8D8A1D73337A0063C313 /* ILPDFSignatureEditingView.m in Sources */,
 				886F99F284CB55F2FDFE3525CDE13A14 /* ILPDFObjectParser.m in Sources */,
 				ECB47553604048A0BD906631CC7F5572 /* ILPDFPage.m in Sources */,
 				8A818A070A725BC8A5655A80B42D24AF /* ILPDFSerializer.m in Sources */,

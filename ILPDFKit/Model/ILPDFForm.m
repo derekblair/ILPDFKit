@@ -40,6 +40,8 @@
     NSUInteger _flags;
     NSUInteger _annotFlags;
     ILPDFWidgetAnnotationView *_formUIElement;
+    UIImage *signatureImage;
+
 }
 
 #pragma mark - NSObject
@@ -249,6 +251,7 @@
 #pragma mark - Rendering
 
 - (void)vectorRenderInPDFContext:(CGContextRef)ctx forRect:(CGRect)rect {
+    
     if (self.formType == ILPDFFormTypeText || self.formType == ILPDFFormTypeChoice) {
         NSString *text = self.value;
         UIFont *font = [UIFont systemFontOfSize:[ILPDFWidgetAnnotationView fontSizeForRect:rect value:self.value multiline:((_flags & ILPDFFormFlagTextFieldMultiline) > 0 && self.formType == ILPDFFormTypeText) choice:self.formType == ILPDFFormTypeChoice]];
@@ -260,7 +263,10 @@
         UIGraphicsPopContext();
     } else if (self.formType == ILPDFFormTypeButton) {
        [ILPDFFormButtonField drawWithRect:rect context:ctx back:NO selected:[self.value isEqualToString:self.exportValue] && (_flags & ILPDFFormFlagButtonPushButton) == 0 radio:(_flags & ILPDFFormFlagButtonRadio) > 0];
+    } else if (self.formType == ILPDFFormTypeSignature) {
+        [ILPDFFormSignatureField drawWithRect:rect context:ctx withImage:signatureImage];
     }
+    
 }
 
 
@@ -356,6 +362,11 @@
             _modified = NO;
             return;
         }
+    } else if ([v isKindOfClass:[ILPDFFormSignatureField class]]) {
+        
+        ILPDFFormSignatureField *signatureField =  (ILPDFFormSignatureField *)v;
+        signatureImage = signatureField.signatureImage.image;
+        
     } else {
         [_parent setValue:[v value] forFormWithName:self.name];
     }

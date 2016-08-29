@@ -17,6 +17,7 @@
   },
   "requires_arc": true,
   "source_files": "ILPDFKit/**/*.{h,m}",
+  "resources": "ILPDFKit/**/*.{xib}",
   "frameworks": "CoreGraphics",
   "public_header_files": "ILPDFKit/**/*.h"
 }
