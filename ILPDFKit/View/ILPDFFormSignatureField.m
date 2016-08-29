@@ -82,9 +82,11 @@
 
 + (void)drawWithRect:(CGRect)frame context:(CGContextRef)ctx withImage:(UIImage*) image {
     //draw image in the context
-    
+    CGContextTranslateCTM(ctx, 0, frame.size.height);
+    CGContextScaleCTM(ctx, 1.0, -1.0);
     CGContextDrawImage(ctx, CGRectMake(0, 0, frame.size.width,frame.size.height), (image).CGImage);
-    
+    CGContextScaleCTM(ctx, 1.0, -1.0);
+    CGContextTranslateCTM(ctx, 0, -frame.size.height);
 
     }
 #pragma mark - DelegateInform
