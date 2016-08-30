@@ -12,7 +12,7 @@
 		06EE779D1D3CBD84002E05F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EE779B1D3CBD84002E05F2 /* Main.storyboard */; };
 		06EE779F1D3CBD84002E05F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06EE779E1D3CBD84002E05F2 /* Assets.xcassets */; };
 		06EE77A21D3CBD84002E05F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06EE77A01D3CBD84002E05F2 /* LaunchScreen.storyboard */; };
-		5B2E330A1D736F1B00C3AA81 /* ILPDFSignatureController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2E33091D736F1B00C3AA81 /* ILPDFSignatureController.xib */; };
+		5B2FD0871D762C2A00F0877D /* ILPDFSignatureController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2FD0861D762C2A00F0877D /* ILPDFSignatureController.xib */; };
 		B045ADC08D532B1348C1B990 /* Pods_ILPDFKitExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7C19166A7C5BB64A0FF269 /* Pods_ILPDFKitExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +24,7 @@
 		06EE779E1D3CBD84002E05F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06EE77A11D3CBD84002E05F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06EE77A31D3CBD84002E05F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B2E33091D736F1B00C3AA81 /* ILPDFSignatureController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILPDFSignatureController.xib; sourceTree = "<group>"; };
+		5B2FD0861D762C2A00F0877D /* ILPDFSignatureController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILPDFSignatureController.xib; sourceTree = "<group>"; };
 		6C3BA1489FE59B1646CC335F /* Pods-ILPDFKitExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ILPDFKitExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ILPDFKitExample/Pods-ILPDFKitExample.release.xcconfig"; sourceTree = "<group>"; };
 		D866F6995ED2126F74728A6B /* Pods-ILPDFKitExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ILPDFKitExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ILPDFKitExample/Pods-ILPDFKitExample.debug.xcconfig"; sourceTree = "<group>"; };
 		DB7C19166A7C5BB64A0FF269 /* Pods_ILPDFKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ILPDFKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,8 +65,8 @@
 			children = (
 				0644B8201D44619900F0C43D /* testA.pdf */,
 				06EE77971D3CBD84002E05F2 /* AppDelegate.swift */,
+				5B2FD0861D762C2A00F0877D /* ILPDFSignatureController.xib */,
 				06EE779B1D3CBD84002E05F2 /* Main.storyboard */,
-				5B2E33091D736F1B00C3AA81 /* ILPDFSignatureController.xib */,
 				06EE779E1D3CBD84002E05F2 /* Assets.xcassets */,
 				06EE77A01D3CBD84002E05F2 /* LaunchScreen.storyboard */,
 				06EE77A31D3CBD84002E05F2 /* Info.plist */,
@@ -154,7 +154,7 @@
 			files = (
 				06EE77A21D3CBD84002E05F2 /* LaunchScreen.storyboard in Resources */,
 				06EE779F1D3CBD84002E05F2 /* Assets.xcassets in Resources */,
-				5B2E330A1D736F1B00C3AA81 /* ILPDFSignatureController.xib in Resources */,
+				5B2FD0871D762C2A00F0877D /* ILPDFSignatureController.xib in Resources */,
 				0644B8211D44619900F0C43D /* testA.pdf in Resources */,
 				06EE779D1D3CBD84002E05F2 /* Main.storyboard in Resources */,
 			);
