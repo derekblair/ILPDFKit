@@ -164,7 +164,7 @@
     NSString *base = components[0];
     if ([components count] == 1) {
         NSMutableArray *arr = node[base];
-        if (arr == nil) {
+        if (arr == nil || ![arr isKindOfClass:NSMutableArray.class]) {
             arr = [NSMutableArray arrayWithObject:final];
             node[base] = arr;
         } else {
