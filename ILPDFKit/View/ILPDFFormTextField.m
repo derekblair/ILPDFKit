@@ -101,6 +101,11 @@
     return self;
 }
 
+
+- (UIView *)textFieldOrTextView {
+    return _textFieldOrTextView;
+}
+
 #pragma mark - ILPDFWidgetAnnotationView
 
 - (void)setValue:(NSString *)value {

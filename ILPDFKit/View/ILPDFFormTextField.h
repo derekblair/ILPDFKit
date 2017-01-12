@@ -49,6 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFrame:(CGRect)frame multiline:(BOOL)multiline alignment:(NSTextAlignment)alignment secureEntry:(BOOL)secureEntry readOnly:(BOOL)ro NS_DESIGNATED_INITIALIZER;
 
 
+@property (nonatomic, readonly, strong) UIView *textFieldOrTextView;
+
+
 @end
 
 
