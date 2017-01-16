@@ -254,6 +254,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44BE919F34FDE735BEDD27EE /* Pods-ILPDFKitTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -305,6 +306,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7EF1268283C8A3D9E4E08913 /* Pods-ILPDFKitTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

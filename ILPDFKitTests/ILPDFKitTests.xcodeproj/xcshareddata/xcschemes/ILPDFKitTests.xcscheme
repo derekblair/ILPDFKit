@@ -14,7 +14,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "665E2A3B777A58B7E2FA4BA7EC7769EA"
+               BlueprintIdentifier = "0FD5B749751EAE29FAE355FB9DBD3FBA"
                BuildableName = "ILPDFKit.framework"
                BlueprintName = "ILPDFKit"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
