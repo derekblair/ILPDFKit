@@ -363,7 +363,7 @@
         return;
     }
 
-    UITextField *textField = v.textFieldOrTextView;
+    UITextField *textField = (UITextField *)(v.textFieldOrTextView);
 
     NSString *formatScript = self.formatScript;
 

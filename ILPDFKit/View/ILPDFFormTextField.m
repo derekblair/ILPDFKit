@@ -323,7 +323,7 @@
 
 static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
 
-+ (void)addTextWidgetAnnotationViewsToArray:(NSMutableArray *)arr view:(UIView *)view {
++ (void)addTextWidgetAnnotationViewsToArray:(NSMutableArray<ILPDFFormTextField *> *)arr view:(UIView *)view {
     for (UIView *v in view.subviews) {
         if (([v isKindOfClass:ILPDFFormTextField.class]) && !v.hidden && ((ILPDFFormTextField *)v).textFieldOrTextView.userInteractionEnabled) {
             [arr addObject:v];
@@ -346,7 +346,7 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
     };
 
     NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
-    for (UIView *v in possibleFields) {
+    for (ILPDFFormTextField *v in possibleFields) {
         if (v != textField) {
             if (wp(v).y >= wp(textField).y + ILTextFieldTabbingSortVariance || wp(v).y >= wp(textField).y - ILTextFieldTabbingSortVariance/2 && wp(v).x > wp(textField).x) [array addObject:(ILPDFFormTextField *)v];
         }
@@ -387,7 +387,7 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
     };
 
     NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
-    for (UIView *v in possibleFields) {
+    for (ILPDFFormTextField *v in possibleFields) {
         if (v != textField) {
             if (wp(v).y <= wp(textField).y - ILTextFieldTabbingSortVariance || wp(v).y <= wp(textField).y + ILTextFieldTabbingSortVariance/2 && wp(v).x < wp(textField).x) [array addObject:(ILPDFFormTextField *)v];
         }
