@@ -214,6 +214,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)reset;
 
+
+/**---------------------------------------------------------------------------------------
+ * @name Associated Actions
+ *  ---------------------------------------------------------------------------------------
+ */
+
+/** The AA dictionary for the annotation. */
+@property (nonatomic, strong, readonly, nullable) ILPDFDictionary *additionalActions;
+
+/** The 'F' format Javascipt action code if set. */
+@property (nonatomic, strong, readonly, nullable) NSString *formatScript;
+
 /**---------------------------------------------------------------------------------------
  * @name Rendering
  *  ---------------------------------------------------------------------------------------

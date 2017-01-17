@@ -148,6 +148,24 @@
     return self;
 }
 
+
+#pragma mark - Additional Actions
+
+
+- (ILPDFDictionary *)additionalActions {
+    return self.dictionary[@"AA"];
+}
+
+- (NSString *)formatScript {
+    ILPDFDictionary *formatAction = self.additionalActions[@"F"];
+    if ([formatAction[@"S"] isEqualToString:@"JavaScript"]) {
+        return [(ILPDFString *)(formatAction[@"JS"]) textString];
+    } else {
+        return nil;
+    }
+}
+
+
 #pragma mark - Getters/Setters
 
 - (void)setOptions:(NSArray *)opt {
@@ -301,6 +319,8 @@
     switch (_formType) {
         case ILPDFFormTypeText:
             _formUIElement = [[ILPDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:((_flags & ILPDFFormFlagTextFieldMultiline) > 0) alignment:_textAlignment secureEntry:((_flags & ILPDFFormFlagTextFieldPassword) > 0) readOnly:((_flags & ILPDFFormFlagReadOnly) > 0)];
+
+
         break;
         case ILPDFFormTypeButton: {
             BOOL radio = ((_flags & ILPDFFormFlagButtonRadio) > 0);
@@ -331,7 +351,57 @@
         [self addObserver:_formUIElement forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:NULL];
         [self addObserver:_formUIElement forKeyPath:@"options" options:NSKeyValueObservingOptionNew context:NULL];
     }
+    if (_formType == ILPDFFormTypeText) {
+         [self configureFormat:((ILPDFFormTextField *)_formUIElement)];
+    }
     return _formUIElement;
+}
+
+
+- (void)configureFormat:(ILPDFFormTextField *)v {
+    if (![v.textFieldOrTextView isKindOfClass:UITextField.class]) {
+        return;
+    }
+
+    UITextField *textField = v.textFieldOrTextView;
+
+    NSString *formatScript = self.formatScript;
+
+    if ([formatScript containsString:@"AFNumber_Format(0"]) {
+        [textField setKeyboardType:UIKeyboardTypeNumberPad];
+    } else if ([formatScript containsString:@"AFNumber_Format"]) {
+        [textField setKeyboardType:UIKeyboardTypeDecimalPad];
+    }
+
+
+    if ([formatScript hasPrefix:@"AFDate_FormatEx"]) {
+
+        NSArray *comps = [formatScript componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"()"]];
+        if (comps.count > 1) {
+            NSString *body = comps[1];
+            [v configureAsDateFieldWithFormat:body];
+        }
+    }
+
+    if ([formatScript hasPrefix:@"AFTime_Format"]) {
+        NSArray *comps = [formatScript componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"()"]];
+        if (comps.count > 1) {
+            NSInteger i = [comps[1] integerValue];
+            [v configureAsDateFieldWithFormat:@[@"HH:MM", @"h:MM tt", @"HH:MM:ss", @"h:MM:ss tt"][i]];
+        }
+    }
+
+    if ([formatScript hasPrefix:@"AFPercent_Format"]) {
+        NSArray *comps = [formatScript componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"()"]];
+        if (comps.count > 1) {
+            NSArray *inner_comps = [comps[1] componentsSeparatedByString:@","];
+            if (inner_comps.count == 2) {
+                NSInteger first = [inner_comps[0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].integerValue;
+                NSInteger second = [inner_comps[1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].integerValue;
+                [v configureAsPercentField:first seperatorStyle:second];
+            }
+        }
+    }
 }
 
 

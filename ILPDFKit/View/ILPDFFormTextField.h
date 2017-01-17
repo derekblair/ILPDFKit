@@ -52,7 +52,40 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) UIView *textFieldOrTextView;
 
 
+
+/**---------------------------------------------------------------------------------------
+ * @name Custom Formatting
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/**
+ Called by the parent form to set as a date field for a given format. Can be called manualy.
+ */
+- (void)configureAsDateFieldWithFormat:(NSString *)format;
+
+/**
+ Called by the parent form to set as a percent field for a given format. Can be called manualy.
+ */
+- (void)configureAsPercentField:(NSInteger)nDec seperatorStyle:(NSInteger)seperatorStyle;
+
+
 @end
+
+
+@interface ILPDFFormTextField(NextField)
+/**
+ Returns the next field in the window based on left to right, top to bottom ordering, or nil if no such field was found.
+ */
+- (nullable ILPDFFormTextField *)nextField;
+
+
+/**
+ Returns the previous field in the window based on left to right, top to bottom ordering, or nil if no such field was found.
+ */
+- (nullable ILPDFFormTextField *)previousField;
+@end
+
 
 
 NS_ASSUME_NONNULL_END

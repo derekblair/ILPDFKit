@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  groups are mutually exclusive. Buttons with distinct names are not mutually exclusive, 
  that is they don't form a radio button group.
  */
-- (NSArray *)formsWithName:(NSString *)name;
+- (NSArray<ILPDFForm *> *)formsWithName:(NSString *)name;
 
 
 /** Returns all forms with called by type
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  ILPDFFormTypeChoice: A combo box.
  ILPDFFormTypeSignature: A signature form.
  */
-- (NSArray *)formsWithType:(ILPDFFormType)type;
+- (NSArray<ILPDFForm *> *)formsWithType:(ILPDFFormType)type;
 
 
 
