@@ -326,7 +326,7 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
 + (void)addTextWidgetAnnotationViewsToArray:(NSMutableArray<ILPDFFormTextField *> *)arr view:(UIView *)view {
     for (UIView *v in view.subviews) {
         if (([v isKindOfClass:ILPDFFormTextField.class]) && !v.hidden && ((ILPDFFormTextField *)v).textFieldOrTextView.userInteractionEnabled) {
-            [arr addObject:v];
+            [arr addObject:(ILPDFFormTextField *)v];
         } else {
              [self addTextWidgetAnnotationViewsToArray:arr view:v];
         }
@@ -348,13 +348,13 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
     NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
     for (ILPDFFormTextField *v in possibleFields) {
         if (v != textField) {
-            if (wp(v).y >= wp(textField).y + ILTextFieldTabbingSortVariance || wp(v).y >= wp(textField).y - ILTextFieldTabbingSortVariance/2 && wp(v).x > wp(textField).x) [array addObject:(ILPDFFormTextField *)v];
+            if ((wp(v).y >= wp(textField).y + ILTextFieldTabbingSortVariance) || (wp(v).y >= wp(textField).y - ILTextFieldTabbingSortVariance/2 && wp(v).x > wp(textField).x)) [array addObject:(ILPDFFormTextField *)v];
         }
     }
     if (array.count) {
         [array sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
-            UIView *tx1 = (UIView *)obj1;
-            UIView *tx2 = (UIView *)obj2;
+            ILPDFFormTextField *tx1 = (ILPDFFormTextField *)obj1;
+            ILPDFFormTextField *tx2 = (ILPDFFormTextField *)obj2;
             if (wp(tx1).y >= wp(tx2).y + ILTextFieldTabbingSortVariance) {
                 return NSOrderedAscending;
             } else if (wp(tx1).y <= wp(tx2).y - ILTextFieldTabbingSortVariance) {
@@ -369,8 +369,7 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
                 }
             }
         }];
-        UIView *targ = (UIView *)[array lastObject];
-        return (ILPDFFormTextField *)targ;
+        return [array lastObject];
     } else {
         return nil;
     }
@@ -389,13 +388,13 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
     NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
     for (ILPDFFormTextField *v in possibleFields) {
         if (v != textField) {
-            if (wp(v).y <= wp(textField).y - ILTextFieldTabbingSortVariance || wp(v).y <= wp(textField).y + ILTextFieldTabbingSortVariance/2 && wp(v).x < wp(textField).x) [array addObject:(ILPDFFormTextField *)v];
+            if ((wp(v).y <= wp(textField).y - ILTextFieldTabbingSortVariance) || (wp(v).y <= wp(textField).y + ILTextFieldTabbingSortVariance/2 && wp(v).x < wp(textField).x)) [array addObject:(ILPDFFormTextField *)v];
         }
     }
     if (array.count) {
         [array sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
-            UIView *tx1 = (UIView *)obj1;
-            UIView *tx2 = (UIView *)obj2;
+            ILPDFFormTextField *tx1 = (ILPDFFormTextField *)obj1;
+            ILPDFFormTextField *tx2 = (ILPDFFormTextField *)obj2;
             if (wp(tx1).y >= wp(tx2).y + ILTextFieldTabbingSortVariance) {
                 return NSOrderedAscending;
             } else if (wp(tx1).y <= wp(tx2).y - ILTextFieldTabbingSortVariance) {
@@ -410,8 +409,7 @@ static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
                 }
             }
         }];
-        UIView *targ = (UIView *)[array firstObject];
-        return (ILPDFFormTextField *)targ;
+        return [array firstObject];
     } else {
         return nil;
     }
