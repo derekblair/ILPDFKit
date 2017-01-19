@@ -42,7 +42,9 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self loadPDFView];
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        [self loadPDFView];
+    }
 }
 
 #pragma mark - ILPDFViewController
