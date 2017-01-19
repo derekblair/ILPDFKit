@@ -1,4 +1,10 @@
-#ILPDFKit
+![ILPDFKit Logo](	
+https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
+
+
+[![Version](https://img.shields.io/cocoapods/v/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
+[![License](https://img.shields.io/cocoapods/l/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
+[![Platform](https://img.shields.io/cocoapods/p/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
 
 > A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *UIWebView* and the *CoreGraphics PDF C API*.
 
