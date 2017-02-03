@@ -2,4 +2,6 @@ language: objective-c
 osx_image: xcode8.2
 
 script:
-- xcodebuild test -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme "ILPDFKitTests"
+- xcodebuild test -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests \
+-sdk iphonesimulator \
+-destination 'platform=iOS Simulator,name=iPhone 6'
