@@ -8,7 +8,7 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 [![Platform](https://img.shields.io/cocoapods/p/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
 
 
-> A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *UIWebView* and the *CoreGraphics PDF C API*.
+> A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *WKWebView* and the *CoreGraphics PDF C API*.
 
 
 ![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
@@ -37,7 +37,7 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
  PDF features that cause issues with saving include:
   
-  1. Linearized PDF files (Linearization is broken after save. File will open correctly using UIWebView, Preview, and Chrome but Adobe reader fails)
+  1. Linearized PDF files (Linearization is broken after save. File will open correctly using WKWebView, Preview, and Chrome but Adobe reader fails)
   
   2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes refered to as compressed files as object streams can compress PDF objects in the file).
   
