@@ -1,3 +1,6 @@
 language: objective-c
-xcode_workspace: ILPDFKitTests/ILPDFKitTests.xcworkspace
-xcode_scheme: ILPDFKitTests
+osx_image: xcode8.2
+
+
+script:
+- xcodebuild -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.2' test
