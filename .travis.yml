@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode8.2
 
 script:
-- xcodebuild test -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace
+- xcodebuild test -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme "ILPDFKitTests"
