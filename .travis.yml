@@ -1,5 +1,3 @@
 language: objective-c
-
-
-script:
-- xcodebuild test -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6'
+xcode_workspace: ILPDFKitTests/ILPDFKitTests.xcworkspace
+xcode_scheme: ILPDFKitTests
