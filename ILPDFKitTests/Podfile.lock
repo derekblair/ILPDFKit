@@ -1,5 +1,5 @@
 PODS:
-  - ILPDFKit (1.0.6)
+  - ILPDFKit (1.1.2)
   - Nimble (5.1.1)
   - Quick (0.10.0)
 
@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ILPDFKit: dd0f62ddc1987a239f8e57ce6e4f0ddd27742c7e
+  ILPDFKit: f1b232bb8bee4b9aa4054c44c3017ee8a0d1c7d8
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 

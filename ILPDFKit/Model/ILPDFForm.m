@@ -1,6 +1,6 @@
 // ILPDFForm.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2017 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -289,14 +289,14 @@
 
 
 - (void)updateFrameForPDFPageView:(UIView *)pdfPage {
-
-
     CGFloat vwidth = pdfPage.bounds.size.width;
+    CGFloat vheight = pdfPage.bounds.size.height;
     CGRect correctedFrame = CGRectMake(_frame.origin.x-_cropBox.origin.x, _cropBox.size.height-_frame.origin.y-_frame.size.height-_cropBox.origin.y, _frame.size.width, _frame.size.height);
-    CGFloat factor = vwidth/_cropBox.size.width;
-    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*factor, correctedFrame.origin.y*factor, correctedFrame.size.width*factor, correctedFrame.size.height*factor));
-    _uiBaseFrame = [pdfPage convertRect:_pageFrame toView:pdfPage.superview];
-
+    CGFloat xfactor = vwidth/_cropBox.size.width;
+    CGFloat yfactor = vheight/_cropBox.size.height;
+    _pageFrame =  CGRectIntegral(CGRectMake(correctedFrame.origin.x*xfactor, correctedFrame.origin.y*yfactor, correctedFrame.size.width*xfactor, correctedFrame.size.height*yfactor));
+    UIView *sv = pdfPage.superview.superview;
+    _uiBaseFrame = [pdfPage convertRect:_pageFrame toView:sv];
     _formUIElement.frame = _uiBaseFrame;
     [_formUIElement updateWithZoom:_formUIElement.zoomScale];
 

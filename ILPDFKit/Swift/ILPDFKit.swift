@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 public extension UIView {
@@ -22,4 +23,32 @@ public extension UIView {
         }
         return nil
     }
+
+    public func pinToSuperview(_ insets : UIEdgeInsets) {
+        if let sv = superview {
+            translatesAutoresizingMaskIntoConstraints = false
+            let guide = UILayoutGuide()
+            sv.addLayoutGuide(guide)
+            NSLayoutConstraint.activate([
+                guide.topAnchor.constraint(equalTo: sv.topAnchor),
+                guide.bottomAnchor.constraint(equalTo: sv.bottomAnchor),
+                guide.leadingAnchor.constraint(equalTo: sv.leadingAnchor),
+                guide.trailingAnchor.constraint(equalTo: sv.trailingAnchor)
+                ])
+            pinToSuperview(insets,guide:guide)
+        }
+    }
+
+    public func pinToSuperview(_ insets : UIEdgeInsets, guide:UILayoutGuide) {
+        if superview != nil {
+            translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                topAnchor.constraint(equalTo: guide.topAnchor,constant:insets.top),
+                bottomAnchor.constraint(equalTo: guide.bottomAnchor,constant:-insets.bottom),
+                leadingAnchor.constraint(equalTo: guide.leadingAnchor,constant:insets.left),
+                trailingAnchor.constraint(equalTo: guide.trailingAnchor,constant:-insets.right)
+                ])
+        }
+    }
+
 }

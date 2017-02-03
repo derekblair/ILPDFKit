@@ -1,5 +1,5 @@
 PODS:
-  - ILPDFKit (1.0.6)
+  - ILPDFKit (1.1.2)
 
 DEPENDENCIES:
   - ILPDFKit (from `..`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ".."
 
 SPEC CHECKSUMS:
-  ILPDFKit: dd0f62ddc1987a239f8e57ce6e4f0ddd27742c7e
+  ILPDFKit: f1b232bb8bee4b9aa4054c44c3017ee8a0d1c7d8
 
 PODFILE CHECKSUM: 1a708b78815a10be319faad1bba4abe1ee216340
 

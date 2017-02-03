@@ -1,6 +1,6 @@
 // ILPDFFormContainer.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2017 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -257,7 +257,8 @@
 
         for (UIView *v in views) {
             if ([v isKindOfClass:[ILPDFFormChoiceField class]]) {
-                [pdfView.pdfView.scrollView addSubview:v];
+                UIView *scrollV = pdfView.pdfView.scrollView;
+                [scrollV addSubview:v];
                 ((ILPDFFormChoiceField *)v).parentView = pdfView;
             }
         }

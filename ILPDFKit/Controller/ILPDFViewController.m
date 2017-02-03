@@ -1,6 +1,6 @@
 // ILPDFViewController.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2017 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,16 @@
 
 #import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormContainer.h"
+#import <ILPDFKit/ILPDFKit-Swift.h>
 
 @interface ILPDFViewController(Private)
 - (void)loadPDFView;
+@property (nonatomic, strong) ILPDFView *pdfView;
 @end
 
 
-@implementation ILPDFViewController {
-    ILPDFView *_pdfView;
-}
-
+@implementation ILPDFViewController
 #pragma mark - UIViewController
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    // Alter or remove to define your own layout logic for the ILPDFView.
-    _pdfView.frame = CGRectMake(0,self.topLayoutGuide.length,self.view.bounds.size.width,self.view.bounds.size.height-self.topLayoutGuide.length - self.bottomLayoutGuide.length);
-}
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -64,9 +57,12 @@
 #pragma mark - Private
 
 - (void)loadPDFView {
-    [_pdfView removeFromSuperview];
+    if (self.pdfView.superview != nil) {
+        [self.pdfView removeFromSuperview];
+    }
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
+    [_pdfView pinToSuperview:UIEdgeInsetsZero guide:self.view.layoutMarginsGuide];
 }
 
 
