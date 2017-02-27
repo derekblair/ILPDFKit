@@ -333,6 +333,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D866F6995ED2126F74728A6B /* Pods-ILPDFKitExample.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ILPDFKitExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -345,6 +346,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C3BA1489FE59B1646CC335F /* Pods-ILPDFKitExample.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ILPDFKitExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
