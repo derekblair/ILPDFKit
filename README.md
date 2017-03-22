@@ -10,8 +10,7 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 
 > A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *WKWebView* and the *CoreGraphics PDF C API*.
 
-
-![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
+![screenshot](http://imgur.com/oo5HLUg.png)
 
 ## Installation
 
