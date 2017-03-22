@@ -124,7 +124,8 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
                 [_pageYValues addObject:@(yVal)];
             }
             [_pageYValues sortUsingSelector:@selector(compare:)];
-            [_pdfPages setObject:sv forKey:@([_pageYValues indexOfObject:@(yVal)]+1)];
+            NSUInteger page = MAX((NSUInteger)floor(sv.frame.origin.y/sv.frame.size.height) + 1,[_pageYValues indexOfObject:@(yVal)]+1);
+            [_pdfPages setObject:sv forKey:@(page)];
         }
     }
     if (pagesHaveChanged) {

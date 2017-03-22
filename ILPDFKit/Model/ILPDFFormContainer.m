@@ -232,10 +232,12 @@
 
         ILPDFWidgetAnnotationView *add = nil;
         if ([form associatedWidget] == nil) {
-            add = [form createWidgetAnnotationViewForPageView:pageView ];
-            add.page = form.page;
-            wasAdded = YES;
-            [views addObject:add];
+            add = [form createWidgetAnnotationViewForPageView:pageView];
+            if (add) {
+                add.page = form.page;
+                wasAdded = YES;
+                [views addObject:add];
+            }
         } else {
             add = [form associatedWidget];
         }
