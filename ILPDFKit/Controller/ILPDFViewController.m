@@ -40,6 +40,11 @@
     }
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+}
+
 #pragma mark - ILPDFViewController
 
 #pragma mark - Setting the Document
@@ -57,8 +62,8 @@
 #pragma mark - Private
 
 - (void)loadPDFView {
-    if (self.pdfView.superview != nil) {
-        [self.pdfView removeFromSuperview];
+    if (_pdfView.superview != nil) {
+        [_pdfView removeFromSuperview];
     }
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];

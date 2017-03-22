@@ -56,12 +56,14 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
         [_pdfView removeFromSuperview];
         _pdfView = nil;
         _uiWebPDFView = nil;
+        return;
     }
     if ([_pdfDocument.documentPath isKindOfClass:[NSString class]]) {
         [self.pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pdfDocument.documentPath]]];
-    } else  {
-        [self.pdfView loadData:_pdfDocument.documentData MIMEType:ILPDFMIMEType characterEncodingName:ILPDFCharEncoding baseURL:[NSURL URLWithString:@"/"]];
+    } else if (_pdfDocument)  {
+        [self.pdfView loadData:_pdfDocument.documentData MIMEType:ILPDFMIMEType characterEncodingName:ILPDFCharEncoding baseURL:nil];
     }
+
 }
 
 - (void)layoutSubviews {
@@ -86,7 +88,6 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
         _tapGestureRecognizer.delegate = self;
         [self addSubview:self.pdfView];
         [self.pdfView pinToSuperview:UIEdgeInsetsZero];
-
     }
     return self;
 }

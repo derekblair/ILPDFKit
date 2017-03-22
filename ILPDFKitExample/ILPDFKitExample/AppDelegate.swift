@@ -56,9 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let savedVCDocument = ILPDFDocument(data: data!)
 
-        let alert : UIAlertController = UIAlertController(title: "Will Save PDF", message: "The PDF file displayed next is a static version of the previous file, but with the form values added. The starting PDF has not been modified and this static pdf no longer contains forms.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Will Save PDF", message: "The PDF file displayed next is a static version of the previous file, but with the form values added. The starting PDF has not been modified and this static pdf no longer contains forms.", preferredStyle: .alert)
 
-        let action = UIAlertAction(title: "Show Saved Static PDF", style: .default) { (_ : UIAlertAction) in
+        let action = UIAlertAction(title: "Show Saved Static PDF", style: .default) { _ in
             alert.dismiss(animated: true, completion: nil)
             self.pdfVC?.document = savedVCDocument
             self.pdfVC?.navigationItem.setRightBarButton(nil, animated: false)
