@@ -61,7 +61,7 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
     if ([_pdfDocument.documentPath isKindOfClass:[NSString class]]) {
         [self.pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pdfDocument.documentPath]]];
     } else if (_pdfDocument)  {
-        [self.pdfView loadData:_pdfDocument.documentData MIMEType:ILPDFMIMEType characterEncodingName:ILPDFCharEncoding baseURL:nil];
+        [self.pdfView loadData:_pdfDocument.documentData MIMEType:ILPDFMIMEType characterEncodingName:ILPDFCharEncoding baseURL:[NSURL URLWithString:@""]];
     }
 
 }
