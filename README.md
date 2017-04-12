@@ -14,8 +14,33 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 
 ## Installation
 
-   You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the UIKit and QuartzCore frameworks. Alternatively, you may use CocoaPods, with the pod, 'ILPDFKit' . 
+ ### Manually 
+ You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the `UIKit` and `QuartzCore` frameworks. 
+ 
+ ### Cocoapod
+ Alternatively, you may use CocoaPods, with the pod:
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
 
+target '<Your Target Name>' do
+    pod ILPDFKit, '~> 4.4'
+end  
+```
+
+Then, run the following command:
+`pod install`
+ 
+ ### Carthage
+
+To integrate ILPDFKit into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "derekblair/ILPDFKit"
+```
+
+Run `carthage update` to build the framework and drag the built `ILPDFKit.framework` into your Xcode project.
 
 ## Quick Start
 
