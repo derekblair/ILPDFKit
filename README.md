@@ -3,6 +3,7 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 
 [![CI Status](http://img.shields.io/travis/derekblair/ILPDFKit.svg?style=flat)](https://travis-ci.org/derekblair/ILPDFKit)
 [![Version](https://img.shields.io/cocoapods/v/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![Swift](https://img.shields.io/badge/%20in-swift%203.0-orange.svg)
 [![License](https://img.shields.io/cocoapods/l/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
 [![Platform](https://img.shields.io/cocoapods/p/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
@@ -12,13 +13,32 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 
 ![screenshot](http://imgur.com/oo5HLUg.png)
 
+## Features
+
+- [x] Parse and analyze PDF documents with easy API.
+- [x] Fill out and save PDF AcroForms to a flat non-editable PDF.
+- [x] Handle text, button and combo fields.
+- [x] Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
+- [x] Rapidly, parse, extract and analyze PDF document structure, data and properties.
+- [ ] Handle signature fields.
+- [ ] Save AcroForm values to the original, editable PDF.
+- [ ] Comprehensive Unit and Integration Test Coverage
+- [ ] [Swift Documentation](http://cocoadocs.org/docsets/ILPDFKit)
+
+## Requirements
+
+- iOS 9.0+
+- Xcode 8.1+
+- Swift 3.0+
+
 ## Installation
 
- ### Manually 
+### Manually 
  You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the `UIKit` and `QuartzCore` frameworks. 
  
- ### Cocoapod
+### Cocoapods
  Alternatively, you may use CocoaPods, with the pod:
+ 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
@@ -32,7 +52,7 @@ end
 Then, run the following command:
 `pod install`
  
- ### Carthage
+### Carthage
 
 To integrate ILPDFKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
@@ -63,18 +83,7 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
   1. Linearized PDF files (Linearization is broken after save. File will open correctly using WKWebView, Preview, and Chrome but Adobe reader fails)
   
-  2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes refered to as compressed files as object streams can compress PDF objects in the file).
-  
-## Features
-
-  For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
-  
-  * View and interact with PDF forms (Button, Text, and Choice)
-  * Extract and modify AcroForm values.
-  * Save form data to the original PDF file (See limitations above)
-  * Created XML respresentation of all forms and data for form submission.
-  * Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
-  * Rapidly, parse, extract and analyze PDF document structure, data and properties.
+  2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes referred to as compressed files as object streams can compress PDF objects in the file).
   
   
 ## Usage
@@ -95,7 +104,7 @@ self.pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pd
 // Have fun filling out the form.
 ```
 
-### Getting/Setting Form Values Explicity
+### Getting/Setting Form Values Explicitly
 
 ```objective-c
 for (ILPDFForm *form in self.pdfViewController.document.forms){
@@ -117,15 +126,13 @@ NSString *documentFormsXML = [self.pdfViewController.document formsXML];
 
 ## Contact
 
-
-[Derek Blair](http://github.com/derekblair)
-[@derekblr](https://twitter.com/derekblr)
+[derekjblair@gmail.com](mailto:derekjblair@gmail.com)
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2016 Derek Blair &lt;derekjblair@gmail.com&gt;
+Copyright (c) 2017 Derek Blair &lt;derekjblair@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
