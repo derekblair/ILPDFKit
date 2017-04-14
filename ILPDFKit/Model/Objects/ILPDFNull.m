@@ -43,5 +43,10 @@
     return nil;
 }
 
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    return @"null";
+}
+
+
 
 @end

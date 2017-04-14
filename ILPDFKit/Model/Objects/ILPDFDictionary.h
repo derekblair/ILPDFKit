@@ -61,6 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(CGPDFDictionaryRef)pdict NS_DESIGNATED_INITIALIZER;
 
 
+/** Creates a new instance of ILPDFDictionary based on its source code.
+ @param representation The string representing the dictionary.
+ @return A new ILPDFDictionary object. Initialization in memory occurs when the instance receives a key or value based query.
+ */
+- (instancetype)initWithRepresentation:(NSString *)representation;
+
+
 /** Merges the receiver's elements with the elements of changes.
  @param changes The keys and values are merged with and take precedence over the receiver.
  @return The merged dictionary.

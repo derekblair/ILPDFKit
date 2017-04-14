@@ -7,7 +7,9 @@ use_frameworks!
 
 target "ILPDFKitExample" do
     pod "ILPDFKit", :path => '..'
+
+    target "ILPDFKitUITests" do 
+        inherit! :search_paths
+    end
 end
-
-
 

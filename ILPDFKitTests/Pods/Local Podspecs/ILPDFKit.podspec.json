@@ -1,6 +1,6 @@
 {
   "name": "ILPDFKit",
-  "version": "1.1.2",
+  "version": "1.1.7",
   "summary": "A PDF toolset for iOS with an emphasis on form filling.",
   "description": "A simple toolkit for filling out and saving PDF forms, and extracting PDF data.",
   "platforms": {
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/derekblair/ILPDFKit.git",
-    "tag": "1.1.2"
+    "tag": "1.1.7"
   },
   "requires_arc": true,
   "source_files": "ILPDFKit/**/*.{h,m,swift}",

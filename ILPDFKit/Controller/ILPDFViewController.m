@@ -60,6 +60,11 @@
     [self loadPDFView];
 }
 
+// Override to customize constraints.
+- (void)applyConstraintsToPDFView {
+    [_pdfView pinToSuperview:UIEdgeInsetsZero guide:self.view.layoutMarginsGuide];
+}
+
 #pragma mark - Private
 
 - (void)loadPDFView {
@@ -68,7 +73,7 @@
     }
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
-    [_pdfView pinToSuperview:UIEdgeInsetsZero guide:self.view.layoutMarginsGuide];
+    [self applyConstraintsToPDFView];
 }
 
 

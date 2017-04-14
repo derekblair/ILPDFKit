@@ -57,6 +57,12 @@
     return self;
 }
 
+- (NSString *)description {
+    NSMutableSet *set = [NSMutableSet set];
+    return [self customDescription:set];
+}
+
+
 #pragma mark - ILPDFStream
 
 
@@ -136,6 +142,17 @@
     NSString *dataString = [work substringWithRange:NSMakeRange(start, length)];
     return [[ILPDFStream alloc] initWithStreamRef:NULL data:[ILPDFUtility dataFromPDFString:dataString] dictionary:header format:CGPDFDataFormatRaw representation:work];
 }
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    NSMutableString *result = [@"stream_start" mutableCopy];
+
+        [result appendFormat:@"\n%@,\n%@", [[self dictionary] customDescription:referenceTracker ],[[self data] customDescription:referenceTracker]];
+
+    NSString *indent = @"  ";
+    return [[result stringByReplacingOccurrencesOfString:@"\n" withString:[NSString stringWithFormat:@"\n%@"
+                                                                           ,indent]] stringByAppendingString:@"\nstream_end"];
+}
+
 
 #pragma mark - NSCopying
 

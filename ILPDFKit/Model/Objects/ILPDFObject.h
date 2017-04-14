@@ -52,6 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGPDFObjectType)type;
 
+/** The custom description.*/
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

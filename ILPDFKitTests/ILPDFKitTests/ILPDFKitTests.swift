@@ -16,7 +16,10 @@ class ILPDFKitTests: QuickSpec {
         describe("PDF Parsing") {
             context("dictionaries") {
                 it("parses dictionaries") {
-                    expect(true).to(beTruthy())
+                    let source : String = "<< /A 42.5\n/B 77 >>"
+                    let dict = ILPDFDictionary(representation: source)
+                    expect(dict["A" as NSString] as? Float) == 42.5
+                    expect(dict["B" as NSString] as? Int) == 77
                 }
             }
         }

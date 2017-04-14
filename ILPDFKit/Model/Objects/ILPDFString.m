@@ -86,6 +86,12 @@
     return nil;
 }
 
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    return [NSString stringWithFormat:@"PDFString(%@)",self.textString];
+}
+
+
 @end
 
 @implementation NSData(HexString)

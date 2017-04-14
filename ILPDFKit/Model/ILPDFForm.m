@@ -319,7 +319,7 @@
     switch (_formType) {
         case ILPDFFormTypeText:
             _formUIElement = [[ILPDFFormTextField alloc] initWithFrame:_uiBaseFrame multiline:((_flags & ILPDFFormFlagTextFieldMultiline) > 0) alignment:_textAlignment secureEntry:((_flags & ILPDFFormFlagTextFieldPassword) > 0) readOnly:((_flags & ILPDFFormFlagReadOnly) > 0)];
-
+            ((ILPDFFormTextField *)_formUIElement).textFieldOrTextView.accessibilityLabel = self.name;
 
         break;
         case ILPDFFormTypeButton: {

@@ -2,3 +2,4 @@ language: objective-c
 osx_image: xcode8.1
 script:
 - xcodebuild -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' test
+- xcodebuild -workspace ILPDFKitExample/ILPDFKitExample.xcworkspace -scheme ILPDFKitExample -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' test

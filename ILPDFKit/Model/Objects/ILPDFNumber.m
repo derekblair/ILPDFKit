@@ -62,4 +62,10 @@
 }
 
 
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    return [NSString stringWithFormat:@"%@",self];
+}
+
+
+
 @end

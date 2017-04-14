@@ -80,6 +80,15 @@
     return [self.nsa hash];
 }
 
+- (NSString *)description {
+    NSMutableSet *set = [NSMutableSet set];
+    return [self customDescription:set];
+}
+
+
+
+
+
 #pragma mark - ILPDFArray
 
 - (instancetype)initWithArray:(CGPDFArrayRef)parr {
@@ -283,6 +292,22 @@
 
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(ILPDFRepOptions)flags {
     return [[ILPDFArray alloc] initWithNSArray:nil representation:[ILPDFUtility trimmedStringFromPDFData:rep] cgPDFArray:NULL];
+}
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker {
+    if ([referenceTracker containsObject:@((NSUInteger)_arr)]) {
+        return [super description];
+    } else {
+        [referenceTracker addObject:@((NSUInteger)_arr)];
+        NSMutableString *result = [@"[" mutableCopy];
+        for (id<ILPDFObject> val in self.nsa) {
+            [result appendFormat:(val == self.nsa.lastObject ? @"\n%@" : @"\n%@, "), [val customDescription:referenceTracker ]];
+        }
+        NSString *indent = @"  ";
+        return [[result stringByReplacingOccurrencesOfString:@"\n" withString:[NSString stringWithFormat:@"\n%@"
+                                                                               ,indent]] stringByAppendingString:@"\n]"];
+
+    }
 }
 
 #pragma mark - NSFastEnumeration
