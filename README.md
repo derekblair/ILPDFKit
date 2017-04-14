@@ -67,12 +67,12 @@ Run `carthage update` to build the framework and drag the built `ILPDFKit.framew
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following: 
  
  
-```objective-c
-ILPDFDocument *document = [[ILPDFDocument alloc] initWithResource:@"test.pdf"];
+```swift
+let document = ILPDFDocument(resource:"myPDF")
 // Manually set a form value
-[document.forms setValue:@"Derek" forFormWithName:@"Contacts.FirstName"];
+document.forms.setValue("Derek", forFormWithName: "Contacts.FirstName")
 // Save via a static PDF.
-NSData* flatPDF = [document savedStaticPDFData]
+let flatPDF = document.savedStaticPDFData()
 ```
 
 ## PDF Support 
@@ -88,39 +88,28 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
 ## Usage
 
-### Analyzing PDF Structure 
-
-```objective-c
-for (ILPDFDictionary *field in self.document.catalog[@"AcroForm"][@"Fields"]) {
-      // Inspect field properties here
-}
-```
-
 ### Filling Out Forms
 
-```objective-c
-self.pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pdf"];
-[self.window setRootViewController:self.pdfViewController];
+```swift
+pdfViewController = ILPDFViewController(resource:"test.pdf")
+window.rootViewController = pdfViewController
 // Have fun filling out the form.
 ```
 
 ### Getting/Setting Form Values Explicitly
 
-```objective-c
-for (ILPDFForm *form in self.pdfViewController.document.forms){
+```swift
+for form in pdfViewController.document.forms {
 	// Get
-	NSString *formValue = form.value;
-	NSString *formName = form.name; // Fully qualified field name.
+	let formValue = form.value;
+	let formName = form.name; // Fully qualified field name.
 	// Set
-	form.value = @"foo";
-	// If the form is visible on screen it will updated automatically.
-}
-```
+	form.value = "foo";
 	
-### Sending Form XML Data 
-```objective-c
-NSString *documentFormsXML = [self.pdfViewController.document formsXML];
-// Push to webservice
+	// If the form is visible on screen it will updated automatically.
+	// You can access the actual associated widget annotation view as below.
+	// let widgetView = form.associatedWidget()
+}
 ```
 	
 
