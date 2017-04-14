@@ -34,7 +34,9 @@ class ILPDFKitUITests: XCTestCase {
     
     func testBasicFormAppearance() {
         let field = app.textFields["PersonalInformation[0].Surname[0]"]
-        XCTAssert(field.exists)
+        let fieldExists = NSPredicate(format: "exists == true")
+        expectation(for: fieldExists, evaluatedWith: field, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
 }
