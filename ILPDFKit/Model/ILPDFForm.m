@@ -26,6 +26,7 @@
 #import "ILPDFFormChoiceField.h"
 #import "ILPDFFormSignatureField.h"
 #import "ILPDFFormContainer.h"
+#import <ILPDFKit/ILPDFKit-Swift.h>
 
 @interface ILPDFForm(Delegates) <ILPDFWidgetAnnotationViewDelegate>
 @end
@@ -339,7 +340,7 @@
             _formUIElement = [[ILPDFFormChoiceField alloc] initWithFrame:_uiBaseFrame options:_options];
         break;
         case ILPDFFormTypeSignature:
-            _formUIElement = [[ILPDFFormSignatureField alloc] initWithFrame:_uiBaseFrame];
+            _formUIElement = [[FormSignatureField alloc] initWithFrame:_uiBaseFrame];
         break;
         case ILPDFFormTypeNone:
         default:
