@@ -114,11 +114,11 @@ for form in pdfViewController.document.forms {
 	
 ## Donate
 
-Donations are greatly appreciated and assist with the development of `ILPDFKit`
+Donations are greatly appreciated and assist with the development of _ILPDFKit_.
 
-Bitcoin: 18wEAUMic8aJnu8BRuBVSbT8Y8n1SpBW7S
-Ether: 0x579086a85E674A93055a4dF7C4055fcad841191F
-Paypay: http://paypal.me/derekblr
+- Bitcoin: `18wEAUMic8aJnu8BRuBVSbT8Y8n1SpBW7S`
+- Ether: `0x579086a85E674A93055a4dF7C4055fcad841191F`
+- Paypay: http://paypal.me/derekblr
 
 ## Contact
 
