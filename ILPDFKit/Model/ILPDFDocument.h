@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)savedStaticPDFData;
 
 /**
- @param docToAppend
+ @param docToAppend The document to merge.
  @return The PDF data of the result when the passed document is appended to the receiver.
  */
 - (NSData *)mergedDataWithDocument:(ILPDFDocument *)docToAppend;

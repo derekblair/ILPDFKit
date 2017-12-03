@@ -240,7 +240,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Returns a view to represent the form.
  
- @param vwidth The width of the superview bounds.
  @return A new view representing the form.
  */
 - (nullable ILPDFWidgetAnnotationView *)createWidgetAnnotationViewForPageView:(UIView *)pageView;

@@ -24,5 +24,4 @@ class ILPDFKitTests: QuickSpec {
             }
         }
     }
-    
 }

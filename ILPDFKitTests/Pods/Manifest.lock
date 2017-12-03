@@ -1,22 +1,22 @@
 PODS:
-  - ILPDFKit (1.1.7)
-  - Nimble (6.1.0)
-  - Quick (1.1.0)
+  - ILPDFKit (1.2.5)
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
 
 DEPENDENCIES:
   - ILPDFKit (from `../`)
-  - Nimble (~> 6.1.0)
-  - Quick (~> 1.1.0)
+  - Nimble
+  - Quick
 
 EXTERNAL SOURCES:
   ILPDFKit:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  ILPDFKit: de4299536744e8feb104c55e136ea1ba20675f31
-  Nimble: c53e6903fee94041b90ded74f135820437d8bf59
-  Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
+  ILPDFKit: f5f14ccb820838830739ae8041690eb36023718e
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
 
-PODFILE CHECKSUM: e3635da86e1abf4c4869f2f02fc50fd4fd157d34
+PODFILE CHECKSUM: dca42a12a84cf79c5b98079c512aeafd64c96485
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

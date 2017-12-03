@@ -1,8 +1,8 @@
 import Foundation
 
-public func containElementSatisfying<S: Sequence, T>(_ predicate: @escaping ((T) -> Bool), _ predicateDescription: String = "") -> NonNilMatcherFunc<S> where S.Iterator.Element == T {
+public func containElementSatisfying<S: Sequence, T>(_ predicate: @escaping ((T) -> Bool), _ predicateDescription: String = "") -> Predicate<S> where S.Iterator.Element == T {
 
-    return NonNilMatcherFunc { actualExpression, failureMessage in
+    return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
         failureMessage.actualValue = nil
 
         if predicateDescription == "" {
@@ -22,15 +22,16 @@ public func containElementSatisfying<S: Sequence, T>(_ predicate: @escaping ((T)
         }
 
         return false
-    }
+    }.requireNonNil
 }
 
-#if _runtime(_ObjC)
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
     extension NMBObjCMatcher {
-        public class func containElementSatisfyingMatcher(_ predicate: @escaping ((NSObject) -> Bool)) -> NMBObjCMatcher {
+        @objc public class func containElementSatisfyingMatcher(_ predicate: @escaping ((NSObject) -> Bool)) -> NMBObjCMatcher {
             return NMBObjCMatcher(canMatchNil: false) { actualExpression, failureMessage in
                 let value = try! actualExpression.evaluate()
                 guard let enumeration = value as? NSFastEnumeration else {
+                    // swiftlint:disable:next line_length
                     failureMessage.postfixMessage = "containElementSatisfying must be provided an NSFastEnumeration object"
                     failureMessage.actualValue = nil
                     failureMessage.expected = ""
@@ -38,7 +39,7 @@ public func containElementSatisfying<S: Sequence, T>(_ predicate: @escaping ((T)
                     return false
                 }
 
-                let iterator = NSFastEnumerationIterator(enumeration)
+                var iterator = NSFastEnumerationIterator(enumeration)
                 while let item = iterator.next() {
                     guard let object = item as? NSObject else {
                         continue

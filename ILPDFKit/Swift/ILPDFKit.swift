@@ -11,7 +11,7 @@ import UIKit
 
 
 public extension UIView {
-    func activePDFTextField() -> ILPDFFormTextField? {
+    @objc public func activePDFTextField() -> ILPDFFormTextField? {
         if let t = self as? ILPDFFormTextField , t.textFieldOrTextView.isFirstResponder {
             return t
         }
@@ -24,7 +24,7 @@ public extension UIView {
         return nil
     }
 
-    public func pinToSuperview(_ insets : UIEdgeInsets) {
+    @objc public func pinToSuperview(_ insets : UIEdgeInsets) {
         if let sv = superview {
             translatesAutoresizingMaskIntoConstraints = false
             let guide = UILayoutGuide()
@@ -39,7 +39,7 @@ public extension UIView {
         }
     }
 
-    public func pinToSuperview(_ insets : UIEdgeInsets, guide:UILayoutGuide) {
+    @objc public func pinToSuperview(_ insets : UIEdgeInsets, guide:UILayoutGuide) {
         if superview != nil {
             translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -47,7 +47,7 @@ public extension UIView {
                 bottomAnchor.constraint(equalTo: guide.bottomAnchor,constant:-insets.bottom),
                 leadingAnchor.constraint(equalTo: guide.leadingAnchor,constant:insets.left),
                 trailingAnchor.constraint(equalTo: guide.trailingAnchor,constant:-insets.right)
-                ])
+            ])
         }
     }
 

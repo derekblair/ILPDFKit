@@ -28,16 +28,12 @@ https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 ## Requirements
 
 - iOS 9.0+
-- Xcode 8.1+
-- Swift 3.0+
+- Xcode 9.1+
+- Swift 4.0+
 
 ## Installation
 
-### Manually 
- You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the `UIKit` and `QuartzCore` frameworks. 
- 
 ### Cocoapods
- Alternatively, you may use CocoaPods, with the pod:
  
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
@@ -111,6 +107,12 @@ for form in pdfViewController.document.forms {
 	// let widgetView = form.associatedWidget()
 }
 ```
+
+
+### Custom Styling of Form Fields 
+
+
+All fields are easily custom styled.
 	
 ## Donate
 
