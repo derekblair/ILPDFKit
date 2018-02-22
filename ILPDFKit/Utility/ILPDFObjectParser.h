@@ -1,6 +1,6 @@
 // ILPDFObjectParser.h
 //
-// Copyright (c) 2017 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal

@@ -129,7 +129,7 @@ Donations are greatly appreciated and assist with the development of _ILPDFKit_.
 
 (The MIT License)
 
-Copyright (c) 2017 Derek Blair &lt;derekjblair@gmail.com&gt;
+Copyright (c) 2018 Derek Blair &lt;derekjblair@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
