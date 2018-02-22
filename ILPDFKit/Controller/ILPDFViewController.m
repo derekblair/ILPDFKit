@@ -22,7 +22,6 @@
 
 #import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormContainer.h"
-#import <ILPDFKit/ILPDFKit-Swift.h>
 
 @interface ILPDFViewController(Private)
 - (void)loadPDFView;
@@ -62,7 +61,13 @@
 
 // Override to customize constraints.
 - (void)applyConstraintsToPDFView {
-    [_pdfView pinToSuperview:UIEdgeInsetsZero guide:self.view.layoutMarginsGuide];
+    _pdfView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [_pdfView.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
+        [_pdfView.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
+        [_pdfView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [_pdfView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor]
+    ]];
 }
 
 #pragma mark - Private

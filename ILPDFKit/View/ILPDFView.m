@@ -24,7 +24,6 @@
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormContainer.h"
 #import <ILPDFKit/ILPDFKit.h>
-#import <ILPDFKit/ILPDFKit-Swift.h>
 
 static NSString *const ILPDFPageViewWebKitIdentifier = @"UIPDFPageView";
 static NSString *const ILPDFContainerViewWebKitIdentifier = @"WKPDFView";
@@ -88,7 +87,16 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
         [self addGestureRecognizer:_tapGestureRecognizer];
         _tapGestureRecognizer.delegate = self;
         [self addSubview:self.pdfView];
-        [self.pdfView pinToSuperview:UIEdgeInsetsZero];
+
+        self.pdfView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[
+                [self.pdfView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+                [self.pdfView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+                [self.pdfView.topAnchor constraintEqualToAnchor:self.topAnchor],
+                [self.pdfView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
+        ]];
+
     }
     return self;
 }
