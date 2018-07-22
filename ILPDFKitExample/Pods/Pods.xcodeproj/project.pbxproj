@@ -79,14 +79,14 @@
 		01C7D58A01FB17206186476A49F92F58 /* ILPDFViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFViewController.m; sourceTree = "<group>"; };
 		05ABBF6AD8B1366D276EE9F213505A0A /* ILPDFFormSignatureField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFFormSignatureField.h; sourceTree = "<group>"; };
 		0D674EDEBCC3E1EB1B9AA53AA06B2F2E /* ILPDFFormTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFFormTextField.m; sourceTree = "<group>"; };
-		0F9168D6BED755E3A20B3D14B5165C96 /* ILPDFKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = ILPDFKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0F9168D6BED755E3A20B3D14B5165C96 /* ILPDFKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = ILPDFKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0FC79BDB3199DFE652EAF24DD3B4CDD7 /* ILPDFName.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFName.m; sourceTree = "<group>"; };
 		18FE77DF629BDFD787A0F739FEC06F34 /* ILPDFForm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFForm.h; sourceTree = "<group>"; };
 		198D2A0B65FBFDAA2E9402520514FE25 /* ILPDFSerializer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFSerializer.h; sourceTree = "<group>"; };
 		19C9CF43FE55AC303CF84273F733EF5D /* ILPDFObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFObject.h; sourceTree = "<group>"; };
 		1BF6129F011EDF039C8E88807190780F /* ILPDFStream.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFStream.m; sourceTree = "<group>"; };
 		1CEADEDD029D3FE3E1A4DB05DBBD1AC9 /* ILPDFSerializer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFSerializer.m; sourceTree = "<group>"; };
-		22E0B0D6BF186B4D6ECA2804169CC504 /* ILPDFKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ILPDFKit.modulemap; sourceTree = "<group>"; };
+		22E0B0D6BF186B4D6ECA2804169CC504 /* ILPDFKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ILPDFKit.modulemap; sourceTree = "<group>"; };
 		280F45FF95AADD396DECCA1FA14424E5 /* Pods-ILPDFKitExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ILPDFKitExample-acknowledgements.markdown"; sourceTree = "<group>"; };
 		2C2A9648FE955205D709D033BF0B5C06 /* Pods-ILPDFKitUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ILPDFKitUITests-dummy.m"; sourceTree = "<group>"; };
 		2CABCE062DE580F284BE096E9280C46F /* ILPDFString.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFString.m; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 		39ACCC1373DC223BDC35DE674C29A721 /* ILPDFDictionary.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFDictionary.m; sourceTree = "<group>"; };
 		40B2AA6B3DA634229227D9D0071BC5E0 /* Pods-ILPDFKitUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ILPDFKitUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		44523F97FABD3ED458C193ACEC0F4374 /* ILPDFView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFView.h; sourceTree = "<group>"; };
-		450A007DB2995C836B2020C45C55FAF0 /* Pods-ILPDFKitExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ILPDFKitExample.modulemap"; sourceTree = "<group>"; };
+		450A007DB2995C836B2020C45C55FAF0 /* Pods-ILPDFKitExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ILPDFKitExample.modulemap"; sourceTree = "<group>"; };
 		468C2D8F9BA30581175855A983585BBA /* ILPDFNumber.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFNumber.m; sourceTree = "<group>"; };
 		49E3AF6AF49FC54FE2949415AEB5C5F7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F9D70CC054B78AD29DA158B5E0A6F61 /* Pods-ILPDFKitExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ILPDFKitExample-frameworks.sh"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		63C7A752BFA3C9B48BCFF21672F113BA /* ILPDFFormChoiceField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFFormChoiceField.m; sourceTree = "<group>"; };
 		658BB5446CB113D70C7FAE5D0ECC874B /* ILPDFKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ILPDFKit-dummy.m"; sourceTree = "<group>"; };
 		66D2BC15A7692C1DFCAE9DE1707E082F /* ILPDFFormTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFFormTextField.h; sourceTree = "<group>"; };
-		67AB922E3DDFD5679A53158BB9B125B0 /* Pods_ILPDFKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ILPDFKitExample.framework; path = "Pods-ILPDFKitExample.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67AB922E3DDFD5679A53158BB9B125B0 /* Pods_ILPDFKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ILPDFKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6881399EFA9E33B27BD1459CFD2A34F6 /* ILPDFKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ILPDFKit-umbrella.h"; sourceTree = "<group>"; };
 		6A8E781CE97B6468185A5AD96306A151 /* ILPDFWidgetAnnotationView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFWidgetAnnotationView.m; sourceTree = "<group>"; };
 		6F057A7E60F67B0B0C782091F9D5D276 /* Pods-ILPDFKitUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ILPDFKitUITests-frameworks.sh"; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		8BFCF6DCF2B9A811DCC97FC7982B780E /* ILPDFDocument.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFDocument.m; sourceTree = "<group>"; };
 		9128368C20F74025DA26A76810978C00 /* ILPDFString.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFString.h; sourceTree = "<group>"; };
 		9200CC638C03E62D42552572647AF5E7 /* Pods-ILPDFKitExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ILPDFKitExample-umbrella.h"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		94AACA0884B43A128B015C093C2AD4E3 /* ILPDFNumber.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFNumber.h; sourceTree = "<group>"; };
 		967AC041F69511C5ECF497F6E824C238 /* ILPDFFormChoiceField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFFormChoiceField.h; sourceTree = "<group>"; };
 		97F202A85BC6666BBEDE16EA6D0DE195 /* ILPDFView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFView.m; sourceTree = "<group>"; };
@@ -134,10 +134,10 @@
 		A9E427EE2311EA387F929E6689691FA9 /* ILPDFFormContainer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFFormContainer.m; sourceTree = "<group>"; };
 		AB20A1A1531C3F27801FFA085FDE85A1 /* ILPDFNull.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFNull.h; sourceTree = "<group>"; };
 		B0FBADDDDCCDC12B2AEF9027DD671EA0 /* ILPDFArray.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFArray.m; sourceTree = "<group>"; };
-		B2916A306EF15802AE63FFDDB3386EF9 /* ILPDFKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ILPDFKit.framework; path = ILPDFKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3550BC21D3D1D009EA10A676C7D3966 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		B2916A306EF15802AE63FFDDB3386EF9 /* ILPDFKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ILPDFKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3550BC21D3D1D009EA10A676C7D3966 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B9B0104A126345334C93D2A20EF82B9A /* ILPDFUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFUtility.m; sourceTree = "<group>"; };
-		C200F7EC63B429FDB665C88562FD4DFC /* Pods_ILPDFKitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ILPDFKitUITests.framework; path = "Pods-ILPDFKitUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C200F7EC63B429FDB665C88562FD4DFC /* Pods_ILPDFKitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ILPDFKitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3B091BEA4450816B11F6AA6448E4D42 /* ILPDFFormSignatureField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFFormSignatureField.m; sourceTree = "<group>"; };
 		C3D5DFD8DD8D171E4DAEA2DD1A4587EC /* Pods-ILPDFKitExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ILPDFKitExample-resources.sh"; sourceTree = "<group>"; };
 		CBD34547CB3806B11C0C51C8ACB77D10 /* ILPDFKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ILPDFKit.xcconfig; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		D455114D910262CAB8C0DD5AC2052B6F /* Pods-ILPDFKitExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ILPDFKitExample-dummy.m"; sourceTree = "<group>"; };
 		DE918C35C49E138572EDA9D2AB24FE8D /* ILPDFWidgetAnnotationView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFWidgetAnnotationView.h; sourceTree = "<group>"; };
 		E615C8116DD4EEE6E6F245E59250F199 /* ILPDFFormButtonField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFFormButtonField.m; sourceTree = "<group>"; };
-		E793610FD18B4F802808FB1B00813C79 /* Pods-ILPDFKitUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ILPDFKitUITests.modulemap"; sourceTree = "<group>"; };
+		E793610FD18B4F802808FB1B00813C79 /* Pods-ILPDFKitUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ILPDFKitUITests.modulemap"; sourceTree = "<group>"; };
 		EE71D821897FB5383A3F30C4B24DBF23 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF4D5145DFFD5317A3C5DF123E11883C /* ILPDFKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ILPDFKit.h; path = ILPDFKit/ILPDFKit.h; sourceTree = "<group>"; };
 		F09F5A3B160297F4EC477A5302083CB4 /* ILPDFArray.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFArray.h; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		F68A9B0998AA7F0869927FA694DC43D0 /* ILPDFObjectParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFObjectParser.h; sourceTree = "<group>"; };
 		F9B04258696F36F6268C42B264000193 /* ILPDFObjectParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ILPDFObjectParser.m; sourceTree = "<group>"; };
 		FB7751D4D791D1183FB66D3CCA52CD8E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		FDF4D2DDB76876D6CA601E7ECE6616ED /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		FDF4D2DDB76876D6CA601E7ECE6616ED /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		FF64DA083ECFE665EEC83797D2C4C207 /* ILPDFDictionary.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ILPDFDictionary.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -275,7 +275,6 @@
 				9128368C20F74025DA26A76810978C00 /* ILPDFString.h */,
 				2CABCE062DE580F284BE096E9280C46F /* ILPDFString.m */,
 			);
-			name = Objects;
 			path = Objects;
 			sourceTree = "<group>";
 		};
@@ -514,7 +513,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0940;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -640,6 +639,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -647,6 +647,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -725,6 +726,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -732,6 +734,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
