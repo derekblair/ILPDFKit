@@ -20,8 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFSerializer.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFString.h"
+#import "ILPDFArray.h"
+#import "ILPDFForm.h"
+#import "ILPDFUtility.h"
 
 @interface ILPDFSerializer()
 + (NSString *)indirectObjectFrom:(NSString *)str withUniqueIdentifiers:(NSArray *)idents newValue:(NSString *)value objectNumber:(NSUInteger *)objectNumber generationNumber:(NSUInteger *)generationNumber type:(ILPDFFormType)type;

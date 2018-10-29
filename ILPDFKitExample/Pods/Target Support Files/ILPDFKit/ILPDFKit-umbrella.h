@@ -12,7 +12,6 @@
 
 #import "ILPDFSerializer.h"
 #import "ILPDFViewController.h"
-#import "ILPDFKit.h"
 #import "ILPDFDocument.h"
 #import "ILPDFForm.h"
 #import "ILPDFFormContainer.h"

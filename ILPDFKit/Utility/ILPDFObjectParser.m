@@ -20,8 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFObjectParser.h"
+#import "ILPDFObject.h"
+#import "ILPDFUtility.h"
+#import "ILPDFString.h"
+#import "ILPDFName.h"
+#import "ILPDFNumber.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFArray.h"
+#import "ILPDFObjectParser.h"
+#import "ILPDFStream.h"
+#import "ILPDFNull.h"
 
 typedef struct {
     NSUInteger index;

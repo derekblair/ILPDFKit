@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormButtonField.h"
+#import "ILPDFObjectParser.h"
 
 #define ILPDFButtonMinScaledDimensionScaleFactor 0.85
 #define ILPDFButtonMinScaledDimension(r) MIN((r).size.width,(r).size.height)*ILPDFButtonMinScaledDimensionScaleFactor

@@ -23,7 +23,10 @@
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormContainer.h"
 #import "ILPDFSerializer.h"
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFDocument.h"
+#import "ILPDFUtility.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFPage.h"
 
 static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, ILPDFFormContainer *forms) {
     CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFMediaBox);

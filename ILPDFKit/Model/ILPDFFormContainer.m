@@ -20,11 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormContainer.h"
 #import "ILPDFFormChoiceField.h"
 #import "ILPDFFormButtonField.h"
 #import "ILPDFView.h"
+#import "ILPDFDocument.h"
+#import "ILPDFPage.h"
+#import "ILPDFUtility.h"
+#import "ILPDFDictionary.h"
 
 @interface ILPDFFormContainer(Private)
 - (void)populateNameTreeNode:(NSMutableDictionary *)node withComponents:(NSArray *)components final:(ILPDFForm *)final;

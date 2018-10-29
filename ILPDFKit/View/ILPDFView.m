@@ -23,7 +23,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormContainer.h"
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFView.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFString.h"
+#import "ILPDFArray.h"
+#import "ILPDFDocument.h"
 
 static NSString *const ILPDFPageViewWebKitIdentifier = @"UIPDFPageView";
 static NSString *const ILPDFContainerViewWebKitIdentifier = @"WKPDFView";

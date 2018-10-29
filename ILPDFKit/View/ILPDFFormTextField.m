@@ -22,8 +22,14 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFDictionary.h"
+#import "ILPDFString.h"
+#import "ILPDFArray.h"
+#import "ILPDFForm.h"
+#import "ILPDFUtility.h"
+#import "ILPDFObjectParser.h"
 #import "ILPDFFormTextField.h"
+#import "ILPDFView.h"
 
 @interface ILPDFFormTextField(Delegates) <UITextViewDelegate,UITextFieldDelegate>
 @end

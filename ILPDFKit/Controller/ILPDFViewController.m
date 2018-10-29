@@ -20,8 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFFormContainer.h"
+#import "ILPDFViewController.h"
+#import "ILPDFDocument.h"
+#import "ILPDFView.h"
 
 @interface ILPDFViewController(Private)
 - (void)loadPDFView;

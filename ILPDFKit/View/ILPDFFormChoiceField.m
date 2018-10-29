@@ -22,9 +22,9 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormChoiceField.h"
-
+#import "ILPDFObjectParser.h"
+#import "ILPDFView.h"
 #define ILPDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
 
 @interface ILPDFFormChoiceFieldDropIndicator : UIView

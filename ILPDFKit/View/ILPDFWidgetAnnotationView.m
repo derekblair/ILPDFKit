@@ -20,8 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFWidgetAnnotationView.h"
+#import "ILPDFObjectParser.h"
+#import "ILPDFView.h"
 
 #define ILPDFTextFieldFontScaleFactor 0.75
 #define ILPDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor 0.8

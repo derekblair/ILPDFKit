@@ -20,12 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormTextField.h"
 #import "ILPDFFormChoiceField.h"
 #import "ILPDFFormSignatureField.h"
 #import "ILPDFFormContainer.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFString.h"
+#import "ILPDFArray.h"
+#import "ILPDFPage.h"
+#import "ILPDFStream.h"
+#import "ILPDFDocument.h"
+#import "ILPDFUtility.h"
 
 @interface ILPDFForm(Delegates) <ILPDFWidgetAnnotationViewDelegate>
 @end
