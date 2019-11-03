@@ -124,9 +124,12 @@
     if ([notification.object isKindOfClass:[ILPDFFormSignatureField class]]) {
         signatureField = notification.object;
     }
-    signatureController = [[ILPDFSignatureController alloc] initWithNibName:@"ILPDFSignatureController" bundle:nil];
+    NSBundle *bundle = [NSBundle bundleForClass:ILPDFSignatureController.classForCoder];
+
+    signatureController = [[ILPDFSignatureController alloc] initWithNibName:@"ILPDFSignatureController" bundle:bundle];
     signatureController.expectedSignSize = signatureField.frame.size;
     signatureController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    signatureController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     signatureController.delegate = self;
     [self presentViewController:signatureController animated:YES completion:nil];
     

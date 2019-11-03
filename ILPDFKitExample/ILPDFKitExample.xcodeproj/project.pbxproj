@@ -102,7 +102,6 @@
 			children = (
 				06F94F4D1EA0FE4B008F9628 /* PDFs */,
 				06EE77971D3CBD84002E05F2 /* AppDelegate.swift */,
-				5B2FD0861D762C2A00F0877D /* ILPDFSignatureController.xib */,
 				06EE779B1D3CBD84002E05F2 /* Main.storyboard */,
 				06EE779E1D3CBD84002E05F2 /* Assets.xcassets */,
 				06EE77A01D3CBD84002E05F2 /* LaunchScreen.storyboard */,
@@ -208,6 +207,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -236,7 +236,6 @@
 			files = (
 				06EE77A21D3CBD84002E05F2 /* LaunchScreen.storyboard in Resources */,
 				06EE779F1D3CBD84002E05F2 /* Assets.xcassets in Resources */,
-				5B2FD0871D762C2A00F0877D /* ILPDFSignatureController.xib in Resources */,
 				0644B8211D44619900F0C43D /* testA.pdf in Resources */,
 				06EE779D1D3CBD84002E05F2 /* Main.storyboard in Resources */,
 				06F94F511EA0FE4B008F9628 /* testA.pdf in Resources */,
@@ -502,7 +501,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.derekb.ILPDFKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -516,7 +515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.derekb.ILPDFKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
