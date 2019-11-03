@@ -1,6 +1,6 @@
 // ILPDFString.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -85,6 +85,12 @@
     }
     return nil;
 }
+
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    return [NSString stringWithFormat:@"PDFString(%@)",self.textString];
+}
+
 
 @end
 

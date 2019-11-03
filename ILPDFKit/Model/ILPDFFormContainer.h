@@ -1,6 +1,6 @@
 // ILPDFFormContainer.h
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  groups are mutually exclusive. Buttons with distinct names are not mutually exclusive, 
  that is they don't form a radio button group.
  */
-- (NSArray *)formsWithName:(NSString *)name;
+- (NSArray<ILPDFForm *> *)formsWithName:(NSString *)name;
 
 
 /** Returns all forms with called by type
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  ILPDFFormTypeChoice: A combo box.
  ILPDFFormTypeSignature: A signature form.
  */
-- (NSArray *)formsWithType:(ILPDFFormType)type;
+- (NSArray<ILPDFForm *> *)formsWithType:(ILPDFFormType)type;
 
 
 
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 /** Sets a form value.
- @param val The value to set.
+ @param val The explicit contents of the field to set.
  @param name The name of the form(s) to set the value for. 
  */
 - (void)setValue:(nullable NSString *)val forFormWithName:(NSString *)name;

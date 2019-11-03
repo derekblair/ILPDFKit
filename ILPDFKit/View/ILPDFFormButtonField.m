@@ -1,6 +1,6 @@
 // ILPDFFormButtonField.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,8 @@
 // THE SOFTWARE.
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormButtonField.h"
+#import "ILPDFObjectParser.h"
 
 #define ILPDFButtonMinScaledDimensionScaleFactor 0.85
 #define ILPDFButtonMinScaledDimension(r) MIN((r).size.width,(r).size.height)*ILPDFButtonMinScaledDimensionScaleFactor

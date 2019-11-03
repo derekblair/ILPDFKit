@@ -1,6 +1,6 @@
 // ILPDFDocument.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,10 @@
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormContainer.h"
 #import "ILPDFSerializer.h"
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFDocument.h"
+#import "ILPDFUtility.h"
+#import "ILPDFDictionary.h"
+#import "ILPDFPage.h"
 
 static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, ILPDFFormContainer *forms) {
     CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFMediaBox);

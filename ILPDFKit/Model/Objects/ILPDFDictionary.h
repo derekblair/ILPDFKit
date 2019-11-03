@@ -1,6 +1,6 @@
 // ILPDFDictionary.h
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -59,6 +59,13 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new ILPDFDictionary object. Initialization in memory occurs when the instance receives a key or value based query.
  */
 - (instancetype)initWithDictionary:(CGPDFDictionaryRef)pdict NS_DESIGNATED_INITIALIZER;
+
+
+/** Creates a new instance of ILPDFDictionary based on its source code.
+ @param representation The string representing the dictionary.
+ @return A new ILPDFDictionary object. Initialization in memory occurs when the instance receives a key or value based query.
+ */
+- (instancetype)initWithRepresentation:(NSString *)representation;
 
 
 /** Merges the receiver's elements with the elements of changes.

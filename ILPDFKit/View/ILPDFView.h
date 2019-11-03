@@ -1,6 +1,6 @@
 // ILPDFView.h
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,10 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
+
+
+
 
 @class ILPDFWidgetAnnotationView;
 
@@ -34,15 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** The array contains the ILPDFWidgetAnnotationView instances that are subviews of the pdfView's scrollView.
     These represent the forms of the PDF.
  */
-@property (nonatomic, readonly) NSMutableArray *pdfWidgetAnnotationViews;
+@property (nonatomic, readonly, strong) NSMutableArray *pdfWidgetAnnotationViews;
 
 /** The view in pdfWidgetAnnotationViews has holds the input focus. ie. The `active form` .
  */
 @property (nonatomic, weak, nullable) ILPDFWidgetAnnotationView *activeWidgetAnnotationView;
 
-/** The webview used to render the PDF.
+/** The underlying webview used to render the PDF.
  */
-@property (nonatomic, readonly) UIWebView *pdfView;
+@property (nonatomic, readonly, strong) WKWebView *pdfView;
 
 
 /**---------------------------------------------------------------------------------------

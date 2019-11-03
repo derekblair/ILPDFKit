@@ -1,6 +1,6 @@
 // ILPDFFormChoiceField.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,9 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
 #import "ILPDFFormChoiceField.h"
-
+#import "ILPDFObjectParser.h"
+#import "ILPDFView.h"
 #define ILPDFChoiceFieldRowHeightDivisor MIN(5,[self.options count])
 
 @interface ILPDFFormChoiceFieldDropIndicator : UIView
@@ -234,15 +234,15 @@
         }
         [UIView animateWithDuration:0.3 animations:^{
             self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height*(ILPDFChoiceFieldRowHeightDivisor+1));
-            _tv.alpha = 1.0f;
-            _dropIndicator.transform = CGAffineTransformMakeRotation(M_PI/2);
+            self->_tv.alpha = 1.0f;
+            self->_dropIndicator.transform = CGAffineTransformMakeRotation(M_PI/2);
         } completion:^(BOOL d){}];
     } else {
         self.parentView.activeWidgetAnnotationView = nil;
         [UIView animateWithDuration:0.3 animations:^{
-            _tv.alpha = 0;
+            self->_tv.alpha = 0;
             self.frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height/(ILPDFChoiceFieldRowHeightDivisor+1));
-            _dropIndicator.transform = CGAffineTransformMakeRotation(0);
+            self->_dropIndicator.transform = CGAffineTransformMakeRotation(0);
         } completion:^(BOOL d){}];
     }
     [self setNeedsDisplay];

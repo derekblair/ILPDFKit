@@ -1,6 +1,6 @@
 // ILPDFViewController.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFFormContainer.h"
 #import "ILPDFSignatureController.h"
 #import "ILPDFFormSignatureField.h"
+#import "ILPDFViewController.h"
+#import "ILPDFDocument.h"
+#import "ILPDFView.h"
 
 @interface ILPDFViewController(Private) <ILPDFSignatureControllerDelegate>
 - (void)loadPDFView;
+@property (nonatomic, strong) ILPDFView *pdfView;
 @end
 
 
@@ -41,7 +45,8 @@
 - (void) viewDidLoad {
     
     [super viewDidLoad];
-
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -63,7 +68,9 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self loadPDFView];
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        [self loadPDFView];
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -88,12 +95,26 @@
     [self loadPDFView];
 }
 
+// Override to customize constraints.
+- (void)applyConstraintsToPDFView {
+    _pdfView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[
+        [_pdfView.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
+        [_pdfView.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
+        [_pdfView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [_pdfView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor]
+    ]];
+}
+
 #pragma mark - Private
 
 - (void)loadPDFView {
-    [_pdfView removeFromSuperview];
+    if (_pdfView.superview != nil) {
+        [_pdfView removeFromSuperview];
+    }
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
+    [self applyConstraintsToPDFView];
 }
 
 #pragma mark - KVO

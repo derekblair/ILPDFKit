@@ -1,6 +1,6 @@
 // ILPDFWidgetAnnotationView.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <ILPDFKit/ILPDFKit.h>
+
 #import "ILPDFWidgetAnnotationView.h"
+#import "ILPDFObjectParser.h"
+#import "ILPDFView.h"
 
 #define ILPDFTextFieldFontScaleFactor 0.75
 #define ILPDFChoiceFieldBaseFontSizeToFrameHeightScaleFactor 0.8

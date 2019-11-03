@@ -1,6 +1,6 @@
 // ILPDFName.m
 // 
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,8 @@
 // THE SOFTWARE.
 
 #import "ILPDFName.h"
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFUtility.h"
+#import "ILPDFObjectParser.h"
 
 @interface ILPDFName(HashEncoding)
 - (ILPDFName *)hashEncodedName;
@@ -95,6 +96,11 @@
         return [ILPDFUtility stringFromPDFData:[[work substringWithRange:NSMakeRange(1, work.length-1)] hashDecodedData]];
     }
     return nil;
+}
+
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker  {
+    return [NSString stringWithFormat:@"%@",self];
 }
 
 @end

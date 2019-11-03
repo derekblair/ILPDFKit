@@ -1,26 +1,74 @@
-#ILPDFKit
+![ILPDFKit Logo](	
+https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
 
-> A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *UIWebView* and the *CoreGraphics PDF C API*.
+[![CI Status](http://img.shields.io/travis/derekblair/ILPDFKit.svg?style=flat)](https://travis-ci.org/derekblair/ILPDFKit)
+[![Version](https://img.shields.io/cocoapods/v/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Swift](https://img.shields.io/badge/%20in-swift%203.0-orange.svg)
+[![License](https://img.shields.io/cocoapods/l/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
+[![Platform](https://img.shields.io/cocoapods/p/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
 
 
-![screenshot](http://imgur.com/oo5HLUg.png "Screenshot" =250x)
+> A simple, minimalist toolkit for filling out PDF forms, and extracting PDF data in iOS, that extends *WKWebView* and the *CoreGraphics PDF C API*.
+
+![screenshot](http://imgur.com/oo5HLUg.png)
+
+## Features
+
+- [x] Parse and analyze PDF documents with easy API.
+- [x] Fill out and save PDF AcroForms to a flat non-editable PDF.
+- [x] Handle text, button and combo fields.
+- [x] Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
+- [x] Rapidly, parse, extract and analyze PDF document structure, data and properties.
+- [ ] Handle signature fields.
+- [ ] Save AcroForm values to the original, editable PDF.
+- [ ] Comprehensive Unit and Integration Test Coverage
+- [ ] [Swift Documentation](http://cocoadocs.org/docsets/ILPDFKit)
+
+## Requirements
+
+- iOS 9.0+
+- Xcode 9.1+
+- Swift 4.0+
 
 ## Installation
 
-   You may simply add all the source files in the ILPDFKit folder to your project. Using this method, you must use ARC and link against the UIKit and QuartzCore frameworks. Alternatively, you may use Cocoa Pods, with the pod, 'ILPDFKit' . 
+### Cocoapods
+ 
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
 
+target '<Your Target Name>' do
+    pod ILPDFKit
+end  
+```
+
+Then, run the following command:
+`pod install`
+ 
+### Carthage
+
+To integrate ILPDFKit into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "derekblair/ILPDFKit"
+```
+
+Run `carthage update` to build the framework and drag the built `ILPDFKit.framework` into your Xcode project.
 
 ## Quick Start
 
  The quickest way to get started with ILPDFKit is to take a look at the included sample app. For example, to view a PDF form resource named 'test.pdf' you can do the following: 
  
  
-```objective-c
-ILPDFDocument *document = [[ILPDFDocument alloc] initWithResource:@"test.pdf"];
+```swift
+let document = ILPDFDocument(resource:"myPDF")
 // Manually set a form value
-[document.forms setValue:@"Derek" forFormWithName:@"Contacts.FirstName"];
+document.forms.setValue("Derek", forFormWithName: "Contacts.FirstName")
 // Save via a static PDF.
-NSData* flatPDF = [document savedStaticPDFData]
+let flatPDF = document.savedStaticPDFData()
 ```
 
 ## PDF Support 
@@ -29,71 +77,59 @@ ILPDFKit currently supports a narrow range of PDF versions and is not suitable f
   
  PDF features that cause issues with saving include:
   
-  1. Linearized PDF files (Linearization is broken after save. File will open correctly using UIWebView, Preview, and Chrome but Adobe reader fails)
+  1. Linearized PDF files (Linearization is broken after save. File will open correctly using WKWebView, Preview, and Chrome but Adobe reader fails)
   
-  2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes refered to as compressed files as object streams can compress PDF objects in the file).
-  
-## Features
-
-  For this version, all features are considered experimental. Expanded features and documentation will be released in subsequent versions.
-  
-  * View and interact with PDF forms (Button, Text, and Choice)
-  * Extract and modify AcroForm values.
-  * Save form data to the original PDF file (See limitations above)
-  * Created XML respresentation of all forms and data for form submission.
-  * Easy introspection using PDFDocument, PDFPage, PDFDictionary and PDFArray.
-  * Rapidly, parse, extract and analyze PDF document structure, data and properties.
+  2. Object Streams (This library can not currently save fields stored in object streams, introduced in PDF 1.5 , files that use object streams are sometimes referred to as compressed files as object streams can compress PDF objects in the file).
   
   
 ## Usage
 
-### Analyzing PDF Structure 
-
-```objective-c
-for (ILPDFDictionary *field in self.document.catalog[@"AcroForm"][@"Fields"]) {
-      // Inspect field properties here
-}
-```
-
 ### Filling Out Forms
 
-```objective-c
-self.pdfViewController = [[ILPDFViewController alloc] initWithResource:@"test.pdf"];
-[self.window setRootViewController:self.pdfViewController];
+```swift
+pdfViewController = ILPDFViewController(resource:"test.pdf")
+window.rootViewController = pdfViewController
 // Have fun filling out the form.
 ```
 
-### Getting/Setting Form Values Explicity
+### Getting/Setting Form Values Explicitly
 
-```objective-c
-for (ILPDFForm *form in self.pdfViewController.document.forms){
+```swift
+for form in pdfViewController.document.forms {
 	// Get
-	NSString *formValue = form.value;
-	NSString *formName = form.name; // Fully qualified field name.
+	let formValue = form.value;
+	let formName = form.name; // Fully qualified field name.
 	// Set
-	form.value = @"foo";
+	form.value = "foo";
+	
 	// If the form is visible on screen it will updated automatically.
+	// You can access the actual associated widget annotation view as below.
+	// let widgetView = form.associatedWidget()
 }
 ```
+
+
+### Custom Styling of Form Fields 
+
+
+All fields are easily custom styled.
 	
-### Sending Form XML Data 
-```objective-c
-NSString *documentFormsXML = [self.pdfViewController.document formsXML];
-// Push to webservice
-```
-	
+## Donate
+
+Donations are greatly appreciated and assist with the development of _ILPDFKit_.
+
+- Ether: `0x579086a85E674A93055a4dF7C4055fcad841191F`
+- Paypal: http://paypal.me/derekblr
 
 ## Contact
 
-
-[Derek Blair](http://github.com/derekblair)
-[@derekblr](https://twitter.com/derekblr)
+[derekjblair@gmail.com](mailto:derekjblair@gmail.com)
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2016 Derek Blair &lt;derekjblair@gmail.com&gt;
+Copyright (c) 2018 Derek Blair &lt;derekjblair@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

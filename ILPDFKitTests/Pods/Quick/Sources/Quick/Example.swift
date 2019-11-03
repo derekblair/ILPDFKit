@@ -1,12 +1,26 @@
 import Foundation
 
 private var numberOfExamplesRun = 0
+private var numberOfIncludedExamples = 0
+
+// `#if swift(>=3.2) && (os(macOS) || os(iOS) || os(tvOS) || os(watchOS)) && !SWIFT_PACKAGE`
+// does not work as expected.
+#if swift(>=3.2)
+    #if (os(macOS) || os(iOS) || os(tvOS) || os(watchOS)) && !SWIFT_PACKAGE
+    @objcMembers
+    public class _ExampleBase: NSObject {}
+    #else
+    public class _ExampleBase: NSObject {}
+    #endif
+#else
+public class _ExampleBase: NSObject {}
+#endif
 
 /**
     Examples, defined with the `it` function, use assertions to
     demonstrate how code should behave. These are like "tests" in XCTest.
 */
-final public class Example: NSObject {
+final public class Example: _ExampleBase {
     /**
         A boolean indicating whether the example is a shared example;
         i.e.: whether it is an example defined with `itBehavesLike`.
@@ -23,16 +37,16 @@ final public class Example: NSObject {
     weak internal var group: ExampleGroup?
 
     private let internalDescription: String
-    private let closure: () -> ()
+    private let closure: () -> Void
     private let flags: FilterFlags
 
-    internal init(description: String, callsite: Callsite, flags: FilterFlags, closure: () -> ()) {
+    internal init(description: String, callsite: Callsite, flags: FilterFlags, closure: @escaping () -> Void) {
         self.internalDescription = description
         self.closure = closure
         self.callsite = callsite
         self.flags = flags
     }
-    
+
     public override var description: String {
         return internalDescription
     }
@@ -46,10 +60,8 @@ final public class Example: NSObject {
         to be displayed in Xcode's test navigator.
     */
     public var name: String {
-        switch group!.name {
-        case .Some(let groupName): return "\(groupName), \(description)"
-        case .None: return description
-        }
+        guard let groupName = group?.name else { return description }
+        return "\(groupName), \(description)"
     }
 
     /**
@@ -59,6 +71,10 @@ final public class Example: NSObject {
     public func run() {
         let world = World.sharedWorld
 
+        if numberOfIncludedExamples == 0 {
+            numberOfIncludedExamples = world.includedExampleCount
+        }
+
         if numberOfExamplesRun == 0 {
             world.suiteHooks.executeBefores()
         }
@@ -67,24 +83,24 @@ final public class Example: NSObject {
         world.currentExampleMetadata = exampleMetadata
 
         world.exampleHooks.executeBefores(exampleMetadata)
-        group!.phase = .BeforesExecuting
+        group!.phase = .beforesExecuting
         for before in group!.befores {
-            before(exampleMetadata: exampleMetadata)
+            before(exampleMetadata)
         }
-        group!.phase = .BeforesFinished
+        group!.phase = .beforesFinished
 
         closure()
 
-        group!.phase = .AftersExecuting
+        group!.phase = .aftersExecuting
         for after in group!.afters {
-            after(exampleMetadata: exampleMetadata)
+            after(exampleMetadata)
         }
-        group!.phase = .AftersFinished
+        group!.phase = .aftersFinished
         world.exampleHooks.executeAfters(exampleMetadata)
 
         numberOfExamplesRun += 1
 
-        if !world.isRunningAdditionalSuites && numberOfExamplesRun >= world.includedExampleCount {
+        if !world.isRunningAdditionalSuites && numberOfExamplesRun >= numberOfIncludedExamples {
             world.suiteHooks.executeAfters()
         }
     }
@@ -104,10 +120,12 @@ final public class Example: NSObject {
     }
 }
 
-/**
-    Returns a boolean indicating whether two Example objects are equal.
-    If two examples are defined at the exact same callsite, they must be equal.
-*/
-public func ==(lhs: Example, rhs: Example) -> Bool {
-    return lhs.callsite == rhs.callsite
+extension Example {
+    /**
+        Returns a boolean indicating whether two Example objects are equal.
+        If two examples are defined at the exact same callsite, they must be equal.
+    */
+    @nonobjc public static func == (lhs: Example, rhs: Example) -> Bool {
+        return lhs.callsite == rhs.callsite
+    }
 }

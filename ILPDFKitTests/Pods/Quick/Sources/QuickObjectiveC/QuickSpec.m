@@ -1,12 +1,9 @@
 #import "QuickSpec.h"
 #import "QuickConfiguration.h"
-#import "NSString+QCKSelectorName.h"
 #import "World.h"
-#import <objc/runtime.h>
+#import <Quick/Quick-Swift.h>
 
 static QuickSpec *currentSpec = nil;
-
-const void * const QCKExampleKey = &QCKExampleKey;
 
 @interface QuickSpec ()
 @property (nonatomic, strong) Example *example;
@@ -28,25 +25,25 @@ const void * const QCKExampleKey = &QCKExampleKey;
     [QuickConfiguration initialize];
 
     World *world = [World sharedWorld];
-    world.currentExampleGroup = [world rootExampleGroupForSpecClass:[self class]];
-    QuickSpec *spec = [self new];
+    [world performWithCurrentExampleGroup:[world rootExampleGroupForSpecClass:self] closure:^{
+        QuickSpec *spec = [self new];
 
-    @try {
-        [spec spec];
-    }
-    @catch (NSException *exception) {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"An exception occurred when building Quick's example groups.\n"
-                           @"Some possible reasons this might happen include:\n\n"
-                           @"- An 'expect(...).to' expectation was evaluated outside of "
-                           @"an 'it', 'context', or 'describe' block\n"
-                           @"- 'sharedExamples' was called twice with the same name\n"
-                           @"- 'itBehavesLike' was called with a name that is not registered as a shared example\n\n"
-                           @"Here's the original exception: '%@', reason: '%@', userInfo: '%@'",
-                           exception.name, exception.reason, exception.userInfo];
-    }
-    [self testInvocations];
-    world.currentExampleGroup = nil;
+        @try {
+            [spec spec];
+        }
+        @catch (NSException *exception) {
+            [NSException raise:NSInternalInconsistencyException
+                        format:@"An exception occurred when building Quick's example groups.\n"
+             @"Some possible reasons this might happen include:\n\n"
+             @"- An 'expect(...).to' expectation was evaluated outside of "
+             @"an 'it', 'context', or 'describe' block\n"
+             @"- 'sharedExamples' was called twice with the same name\n"
+             @"- 'itBehavesLike' was called with a name that is not registered as a shared example\n\n"
+             @"Here's the original exception: '%@', reason: '%@', userInfo: '%@'",
+             exception.name, exception.reason, exception.userInfo];
+        }
+        [self testInvocations];
+    }];
 }
 
 /**
@@ -63,22 +60,15 @@ const void * const QCKExampleKey = &QCKExampleKey;
     
     for (Example *example in examples) {
         SEL selector = [self addInstanceMethodForExample:example classSelectorNames:selectorNames];
-        NSInvocation *invocation = [self invocationForInstanceMethodWithSelector:selector
-                                                                         example:example];
+
+        NSMethodSignature *signature = [self instanceMethodSignatureForSelector:selector];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        invocation.selector = selector;
+
         [invocations addObject:invocation];
     }
 
     return invocations;
-}
-
-/**
- XCTest sets the invocation for the current test case instance using this setter.
- QuickSpec hooks into this event to give the test case a reference to the current example.
- It will need this reference to correctly report its name to XCTest.
- */
-- (void)setInvocation:(NSInvocation *)invocation {
-    self.example = objc_getAssociatedObject(invocation, QCKExampleKey);
-    [super setInvocation:invocation];
 }
 
 #pragma mark - Public Interface
@@ -105,21 +95,14 @@ const void * const QCKExampleKey = &QCKExampleKey;
  */
 + (SEL)addInstanceMethodForExample:(Example *)example classSelectorNames:(NSMutableSet<NSString*> *)selectorNames {
     IMP implementation = imp_implementationWithBlock(^(QuickSpec *self){
+        self.example = example;
         currentSpec = self;
         [example run];
     });
-    NSCharacterSet *characterSet = [NSCharacterSet alphanumericCharacterSet];
-    NSMutableString *sanitizedFileName = [NSMutableString string];
-    for (NSUInteger i = 0; i < example.callsite.file.length; i++) {
-        unichar ch = [example.callsite.file characterAtIndex:i];
-        if ([characterSet characterIsMember:ch]) {
-            [sanitizedFileName appendFormat:@"%c", ch];
-        }
-    }
 
-    const char *types = [[NSString stringWithFormat:@"%s%s%s", @encode(id), @encode(id), @encode(SEL)] UTF8String];
+    const char *types = [[NSString stringWithFormat:@"%s%s%s", @encode(void), @encode(id), @encode(SEL)] UTF8String];
     
-    NSString *originalName = example.name.qck_selectorName;
+    NSString *originalName = example.name.qck_c99ExtendedIdentifier;
     NSString *selectorName = originalName;
     NSUInteger i = 2;
     
@@ -133,18 +116,6 @@ const void * const QCKExampleKey = &QCKExampleKey;
     class_addMethod(self, selector, implementation, types);
 
     return selector;
-}
-
-+ (NSInvocation *)invocationForInstanceMethodWithSelector:(SEL)selector
-                                                  example:(Example *)example {
-    NSMethodSignature *signature = [self instanceMethodSignatureForSelector:selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = selector;
-    objc_setAssociatedObject(invocation,
-                             QCKExampleKey,
-                             example,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return invocation;
 }
 
 /**

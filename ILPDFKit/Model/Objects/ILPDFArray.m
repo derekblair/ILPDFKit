@@ -1,6 +1,6 @@
 // ILPDFArray.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -79,6 +79,15 @@
 - (NSUInteger)hash {
     return [self.nsa hash];
 }
+
+- (NSString *)description {
+    NSMutableSet *set = [NSMutableSet set];
+    return [self customDescription:set];
+}
+
+
+
+
 
 #pragma mark - ILPDFArray
 
@@ -283,6 +292,22 @@
 
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(ILPDFRepOptions)flags {
     return [[ILPDFArray alloc] initWithNSArray:nil representation:[ILPDFUtility trimmedStringFromPDFData:rep] cgPDFArray:NULL];
+}
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker {
+    if ([referenceTracker containsObject:@((NSUInteger)_arr)]) {
+        return [super description];
+    } else {
+        [referenceTracker addObject:@((NSUInteger)_arr)];
+        NSMutableString *result = [@"[" mutableCopy];
+        for (id<ILPDFObject> val in self.nsa) {
+            [result appendFormat:(val == self.nsa.lastObject ? @"\n%@" : @"\n%@, "), [val customDescription:referenceTracker ]];
+        }
+        NSString *indent = @"  ";
+        return [[result stringByReplacingOccurrencesOfString:@"\n" withString:[NSString stringWithFormat:@"\n%@"
+                                                                               ,indent]] stringByAppendingString:@"\n]"];
+
+    }
 }
 
 #pragma mark - NSFastEnumeration

@@ -1,6 +1,6 @@
 // ILPDFFormTextField.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,24 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import <ILPDFKit/ILPDFKit.h>
+#import "ILPDFDictionary.h"
+#import "ILPDFString.h"
+#import "ILPDFArray.h"
+#import "ILPDFForm.h"
+#import "ILPDFUtility.h"
+#import "ILPDFObjectParser.h"
 #import "ILPDFFormTextField.h"
+#import "ILPDFView.h"
 
 @interface ILPDFFormTextField(Delegates) <UITextViewDelegate,UITextFieldDelegate>
+@end
+
+@interface ILPDFFormTextFieldPercentFormat : NSObject
+@property (nonatomic) NSInteger nDec;
+@property (nonatomic) NSInteger sepStyle;
+@end
+
+@implementation ILPDFFormTextFieldPercentFormat
 @end
 
 @implementation ILPDFFormTextField {
@@ -33,6 +47,8 @@
     UIView *_textFieldOrTextView;
     CGFloat _baseFontSize;
     CGFloat _currentFontSize;
+    NSString *_dateFormat;
+    ILPDFFormTextFieldPercentFormat *_percentFormat;
 }
 
 #pragma mark - NSObject
@@ -93,12 +109,32 @@
         }
         _textFieldOrTextView.opaque = NO;
         _textFieldOrTextView.backgroundColor = [UIColor clearColor];
+        [(id)_textFieldOrTextView setInputAccessoryView:[self makeInputAccessoryToolbar]];
         _baseFontSize = [ILPDFWidgetAnnotationView fontSizeForRect:frame value:nil multiline:multiline choice:NO];
         _currentFontSize = _baseFontSize;
         [_textFieldOrTextView performSelector:@selector(setFont:) withObject:[UIFont systemFontOfSize:_baseFontSize]];
         [self addSubview:_textFieldOrTextView];
     }
     return self;
+}
+
+
+- (UIToolbar *)makeInputAccessoryToolbar {
+    static CGFloat const ILTextFieldInputAccessoryToolbarHeight = 44.0;
+
+    UIToolbar *nextAndPreviousToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, ILTextFieldInputAccessoryToolbarHeight)];
+    nextAndPreviousToolbar.userInteractionEnabled = YES;
+    nextAndPreviousToolbar.opaque = YES;
+    UIBarButtonItem *nextField = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(next:)];
+    UIBarButtonItem *prevField = [[UIBarButtonItem alloc] initWithTitle:@"Previous" style:UIBarButtonItemStyleDone target:self action:@selector(previous:)];
+    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    nextAndPreviousToolbar.items = @[prevField,flexSpace,nextField];
+    return nextAndPreviousToolbar;
+}
+
+
+- (UIView *)textFieldOrTextView {
+    return _textFieldOrTextView;
 }
 
 #pragma mark - ILPDFWidgetAnnotationView
@@ -135,6 +171,79 @@
     [self.delegate widgetAnnotationValueChanged:self];
 }
 
+#pragma mark - Toolbar Responders
+
+- (void)next:(id)sender {
+    [self.textFieldOrTextView resignFirstResponder];
+    [[self nextField].textFieldOrTextView becomeFirstResponder];
+}
+
+- (void)previous:(id)sender {
+    [self.textFieldOrTextView resignFirstResponder];
+    [[self previousField].textFieldOrTextView becomeFirstResponder];
+}
+
+#pragma mark - Custom Formatting
+
+
+- (void)configureAsPercentField:(NSInteger)nDec seperatorStyle:(NSInteger)seperatorStyle {
+    ILPDFFormTextFieldPercentFormat *format = [ILPDFFormTextFieldPercentFormat new];
+    format.nDec = nDec;
+    format.sepStyle = seperatorStyle;
+    _percentFormat = format;
+    ((UITextField *)(self.textFieldOrTextView)).keyboardType = UIKeyboardTypeDecimalPad;
+
+    [self updateFormattedText:((UITextField *)(self.textFieldOrTextView))];
+}
+
+- (void)configureAsDateFieldWithFormat:(NSString *)format {
+
+    UIDatePicker * picker = [[UIDatePicker alloc] init];
+    _dateFormat = format;
+    _dateFormat = [_dateFormat stringByReplacingOccurrencesOfString:@"m" withString:@"M"];
+    _dateFormat = [_dateFormat stringByReplacingOccurrencesOfString:@":MM" withString:@":mm"];
+    _dateFormat = [_dateFormat stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    _dateFormat = [_dateFormat stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    _dateFormat = [_dateFormat stringByReplacingOccurrencesOfString:@"`" withString:@""];
+
+    if ([format containsString:@":"]) {
+        picker.datePickerMode = UIDatePickerModeDateAndTime;
+    } else {
+        picker.datePickerMode = UIDatePickerModeDate;
+    }
+
+    [picker addTarget:self action:@selector(datePickerSelectionChanged:) forControlEvents:UIControlEventValueChanged];
+
+
+    if ([_textFieldOrTextView isKindOfClass:UITextField.class]) {
+        ((UITextField *)_textFieldOrTextView).inputView = picker;
+    }
+
+}
+
+- (void)updateFormattedText:(UITextField *)textField {
+    if (_dateFormat) {
+        [self datePickerSelectionChanged:(UIDatePicker *)(((UITextField *)_textFieldOrTextView).inputView)];
+    } else if (_percentFormat) {
+
+        NSNumberFormatter *formatter = [NSNumberFormatter new];
+        formatter.usesGroupingSeparator = YES;
+        formatter.groupingSeparator = @",";
+        formatter.maximumFractionDigits = _percentFormat.nDec;
+        formatter.minimumFractionDigits = _percentFormat.nDec;
+        textField.text = [[NSString stringWithFormat:@"%@",[formatter stringFromNumber:@([textField.text floatValue]*100)]] stringByAppendingString:@"%"];
+         [self.delegate widgetAnnotationValueChanged:self];
+        
+    }
+}
+
+- (void)datePickerSelectionChanged:(UIDatePicker *)sender {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.dateFormat = _dateFormat;
+    ((UITextField *)(self.textFieldOrTextView)).text = [formatter stringFromDate:sender.date];
+     [self.delegate widgetAnnotationValueChanged:self];
+}
+
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
@@ -154,7 +263,7 @@
     CGSize contentSize = CGSizeMake(textView.bounds.size.width-ILPDFFormMinFontSize, CGFLOAT_MAX);
     float numLines = ceilf((textView.bounds.size.height / textView.font.lineHeight));
     NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    if ([newString length] < [textView.text length])return YES;
+    if ([newString length] < [textView.text length]) return YES;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect textRect = [newString boundingRectWithSize:contentSize
@@ -165,6 +274,7 @@
     if (usedLines >= numLines && usedLines > 1) return NO;
     return YES;
 }
+
 
 #pragma mark - UITextFieldDelegate
 
@@ -178,17 +288,138 @@
     return YES;
 }
 
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    if (textField.returnKeyType == UIReturnKeyNext) {
+        [[self nextField].textFieldOrTextView becomeFirstResponder];
+    }
+    return YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [self.delegate widgetAnnotationEntered:self];
      self.parentView.activeWidgetAnnotationView = self;
+
+    if (_percentFormat) {
+        float f = [[[textField.text stringByReplacingOccurrencesOfString:@"%" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] floatValue]/100;
+        NSString *format = [[@"%." stringByAppendingString:[NSString stringWithFormat:@"%@",@(_percentFormat.nDec)]] stringByAppendingString:@"f"];
+        textField.text = [NSString stringWithFormat:format,f];
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self updateFormattedText:textField];
     self.parentView.activeWidgetAnnotationView = nil;
 }
 
 - (void)resign {
     [_textFieldOrTextView resignFirstResponder];
 }
+
+@end
+
+
+
+
+
+@implementation ILPDFFormTextField(NextField)
+
+
+static CGFloat const ILTextFieldTabbingSortVariance = 8.0;
+
++ (void)addTextWidgetAnnotationViewsToArray:(NSMutableArray<ILPDFFormTextField *> *)arr view:(UIView *)view {
+    for (UIView *v in view.subviews) {
+        if (([v isKindOfClass:ILPDFFormTextField.class]) && !v.hidden && ((ILPDFFormTextField *)v).textFieldOrTextView.userInteractionEnabled) {
+            [arr addObject:(ILPDFFormTextField *)v];
+        } else {
+             [self addTextWidgetAnnotationViewsToArray:arr view:v];
+        }
+    }
+}
+
+
+
+- (ILPDFFormTextField *)nextField {
+    ILPDFFormTextField *textField = self;
+    UIView *sv = textField.window;
+    NSMutableArray *possibleFields = [NSMutableArray array];
+    [ILPDFFormTextField addTextWidgetAnnotationViewsToArray:possibleFields view:sv];
+
+    CGPoint (^wp)(ILPDFFormTextField *) = ^CGPoint(ILPDFFormTextField *v) {
+        return [v convertPoint:v.textFieldOrTextView.frame.origin toView:sv];
+    };
+
+    NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
+    for (ILPDFFormTextField *v in possibleFields) {
+        if (v != textField) {
+            if ((wp(v).y >= wp(textField).y + ILTextFieldTabbingSortVariance) || (wp(v).y >= wp(textField).y - ILTextFieldTabbingSortVariance/2 && wp(v).x > wp(textField).x)) [array addObject:(ILPDFFormTextField *)v];
+        }
+    }
+    if (array.count) {
+        [array sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
+            ILPDFFormTextField *tx1 = (ILPDFFormTextField *)obj1;
+            ILPDFFormTextField *tx2 = (ILPDFFormTextField *)obj2;
+            if (wp(tx1).y >= wp(tx2).y + ILTextFieldTabbingSortVariance) {
+                return NSOrderedAscending;
+            } else if (wp(tx1).y <= wp(tx2).y - ILTextFieldTabbingSortVariance) {
+                return NSOrderedDescending;
+            } else {
+                if (wp(tx1).x > wp(tx2).x) {
+                    return NSOrderedAscending;
+                } else if (wp(tx1).x < wp(tx2).x) {
+                    return NSOrderedDescending;
+                } else {
+                    return NSOrderedSame;
+                }
+            }
+        }];
+        return [array lastObject];
+    } else {
+        return nil;
+    }
+}
+
+- (ILPDFFormTextField *)previousField {
+    ILPDFFormTextField *textField = self;
+    UIView *sv = textField.window;
+    NSMutableArray *possibleFields = [NSMutableArray array];
+    [ILPDFFormTextField addTextWidgetAnnotationViewsToArray:possibleFields view:sv];
+
+    CGPoint (^wp)(ILPDFFormTextField *) = ^CGPoint(ILPDFFormTextField *v) {
+        return [v convertPoint:v.textFieldOrTextView.frame.origin toView:sv];
+    };
+
+    NSMutableArray<ILPDFFormTextField *> *array = [NSMutableArray array];
+    for (ILPDFFormTextField *v in possibleFields) {
+        if (v != textField) {
+            if ((wp(v).y <= wp(textField).y - ILTextFieldTabbingSortVariance) || (wp(v).y <= wp(textField).y + ILTextFieldTabbingSortVariance/2 && wp(v).x < wp(textField).x)) [array addObject:(ILPDFFormTextField *)v];
+        }
+    }
+    if (array.count) {
+        [array sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
+            ILPDFFormTextField *tx1 = (ILPDFFormTextField *)obj1;
+            ILPDFFormTextField *tx2 = (ILPDFFormTextField *)obj2;
+            if (wp(tx1).y >= wp(tx2).y + ILTextFieldTabbingSortVariance) {
+                return NSOrderedAscending;
+            } else if (wp(tx1).y <= wp(tx2).y - ILTextFieldTabbingSortVariance) {
+                return NSOrderedDescending;
+            } else {
+                if (wp(tx1).x > wp(tx2).x) {
+                    return NSOrderedAscending;
+                } else if (wp(tx1).x < wp(tx2).x) {
+                    return NSOrderedDescending;
+                } else {
+                    return NSOrderedSame;
+                }
+            }
+        }];
+        return [array firstObject];
+    } else {
+        return nil;
+    }
+}
+
 
 @end

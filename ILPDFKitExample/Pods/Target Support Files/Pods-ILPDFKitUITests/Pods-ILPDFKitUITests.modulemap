@@ -1,0 +1,6 @@
+framework module Pods_ILPDFKitUITests {
+  umbrella header "Pods-ILPDFKitUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

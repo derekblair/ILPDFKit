@@ -1,6 +1,6 @@
 // ILPDFDictionary.m
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@
 - (NSDictionary *)nsd;
 @end
 
-@interface ILPDFDictionary(PrivateInitializers)
-- (instancetype)initWithNSDictionary:(NSDictionary *)dict representation:(NSString *)rep cgPDFDictionary:(CGPDFDictionaryRef)cgdict parent:(ILPDFDictionary *)parent;
+@interface ILPDFDictionary()
+- (instancetype)initWithNSDictionary:(NSDictionary *)dict representation:(NSString *)rep cgPDFDictionary:(CGPDFDictionaryRef)cgdict parent:(ILPDFDictionary *)parent NS_DESIGNATED_INITIALIZER;
 @end
 
 @interface ILPDFDictionary(PrivateIndexedObjectQueries)
@@ -81,6 +81,12 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
     return self;
 }
 
+
+- (NSString *)description {
+    NSMutableSet *set = [NSMutableSet set];
+    return [self customDescription:set];
+}
+
 #pragma mark - ILPDFDictionary
 
 - (instancetype)initWithDictionary:(CGPDFDictionaryRef)pdict {
@@ -89,6 +95,12 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
     if (self != nil) {
         _dict = pdict;
     }
+    return self;
+}
+
+- (instancetype)initWithRepresentation:(NSString *)representation {
+    NSParameterAssert(representation);
+    self = [self initWithNSDictionary:nil representation:representation cgPDFDictionary:NULL parent:nil];
     return self;
 }
 
@@ -192,7 +204,7 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
 #pragma mark - Private Initializers
 
 - (instancetype)initWithNSDictionary:(NSDictionary *)dict representation:(NSString *)rep cgPDFDictionary:(CGPDFDictionaryRef)cgdict parent:(ILPDFDictionary *)parent {
-    self = [self init];
+    self = [super init];
     if (self != nil) {
         _nsd = dict;
         _representation = rep;
@@ -329,6 +341,22 @@ void checkKeys(const char *key,CGPDFObjectRef value,void *info) {
 + (instancetype)pdfObjectWithRepresentation:(NSData *)rep flags:(ILPDFRepOptions)flags {
     return [[ILPDFDictionary alloc] initWithNSDictionary:nil representation:[ILPDFUtility trimmedStringFromPDFData:rep] cgPDFDictionary:NULL parent:nil];
 }
+
+- (NSString *)customDescription:(NSMutableSet *)referenceTracker {
+    if ([referenceTracker containsObject:@((NSUInteger)_dict)]) {
+        return [super description];
+    } else {
+        [referenceTracker addObject:@((NSUInteger)_dict)];
+        NSMutableString *result = [@"{" mutableCopy];
+        for (NSString *key in [self.nsd allKeys]) {
+            [result appendFormat:@"\n%@ : %@",key, [self.nsd[key] customDescription:referenceTracker]];
+        }
+        NSString *indent = @"  ";
+        return [[result stringByReplacingOccurrencesOfString:@"\n" withString:[NSString stringWithFormat:@"\n%@"
+                                                                               ,indent]] stringByAppendingString:@"\n}"];
+    }
+}
+
 
 #pragma mark - NSFastEnumeration
 

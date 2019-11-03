@@ -1,6 +1,6 @@
 // ILPDFFormTextField.h
 //
-// Copyright (c) 2016 Derek Blair
+// Copyright (c) 2018 Derek Blair
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -49,7 +49,43 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFrame:(CGRect)frame multiline:(BOOL)multiline alignment:(NSTextAlignment)alignment secureEntry:(BOOL)secureEntry readOnly:(BOOL)ro NS_DESIGNATED_INITIALIZER;
 
 
+@property (nonatomic, readonly, strong) UIView *textFieldOrTextView;
+
+
+
+/**---------------------------------------------------------------------------------------
+ * @name Custom Formatting
+ *  ---------------------------------------------------------------------------------------
+ */
+
+
+/**
+ Called by the parent form to set as a date field for a given format. Can be called manualy.
+ */
+- (void)configureAsDateFieldWithFormat:(NSString *)format;
+
+/**
+ Called by the parent form to set as a percent field for a given format. Can be called manualy.
+ */
+- (void)configureAsPercentField:(NSInteger)nDec seperatorStyle:(NSInteger)seperatorStyle;
+
+
 @end
+
+
+@interface ILPDFFormTextField(NextField)
+/**
+ Returns the next field in the window based on left to right, top to bottom ordering, or nil if no such field was found.
+ */
+- (nullable ILPDFFormTextField *)nextField;
+
+
+/**
+ Returns the previous field in the window based on left to right, top to bottom ordering, or nil if no such field was found.
+ */
+- (nullable ILPDFFormTextField *)previousField;
+@end
+
 
 
 NS_ASSUME_NONNULL_END
