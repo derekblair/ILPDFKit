@@ -165,6 +165,17 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
     return [self.forms formXML];
 }
 
+- (NSString *)formJSON {
+    NSArray <ILPDFForm*>*forms = [self.forms allForms];
+    NSMutableDictionary *formValues = [NSMutableDictionary new];
+    for (ILPDFForm *form in forms) {
+        formValues[form.name] = form.value ? form.value : @"";
+    }
+    NSError *err;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:formValues options:NSJSONWritingPrettyPrinted error:&err];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
 - (NSData *)savedStaticPDFData {
     NSUInteger numberOfPages = [self numberOfPages];
     NSMutableData *pageData = [NSMutableData data];

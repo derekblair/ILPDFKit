@@ -142,6 +142,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)formXML;
 
+// @return A string containing an json representation of the forms of the document and their values. Used for submitting the form.
+- (NSString *)formJSON;
+
 @end
 
 NS_ASSUME_NONNULL_END
