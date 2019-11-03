@@ -28,6 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** The ILPDFFormSignatureField represents a view for a PDF signature field. Not currently implemented.
  */
 @interface ILPDFFormSignatureField : ILPDFWidgetAnnotationView
+
+@property (strong, nonatomic) UIButton* signatureButton;
+@property (strong, nonatomic) UIImageView* signatureImage;
+- (void) removeButtonTitle;
+- (void) informDelegateAboutNewImage;
++ (void)drawWithRect:(CGRect)frame context:(CGContextRef)ctx withImage:(UIImage*) image;
 @end
 
 NS_ASSUME_NONNULL_END

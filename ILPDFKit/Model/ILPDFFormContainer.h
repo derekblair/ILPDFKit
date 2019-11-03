@@ -94,6 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  ---------------------------------------------------------------------------------------
  */
 
+- (NSArray *)allForms;
+
 /** 
  Updates the widget views.
  */

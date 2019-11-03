@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ILPDFSignatureController">
+            <connections>
+                <outlet property="signatureView" destination="ifL-qI-elk" id="olh-tz-2y5"/>
+                <outlet property="view" destination="sMn-ih-wEb" id="Rxh-pY-VWW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController restorationIdentifier="ILPDFSignatureController" title="ILPDFSignatureController" nibName="ILPDFSignatureController" modalTransitionStyle="crossDissolve" id="5dG-ot-1aR">
+            <point key="canvasLocation" x="34" y="99"/>
+        </viewController>
+        <view contentMode="scaleToFill" id="sMn-ih-wEb">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0de-6u-pv3">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ifL-qI-elk" customClass="ILPDFSignatureEditingView">
+                    <rect key="frame" x="12" y="373" width="390" height="150"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ifL-qI-elk" secondAttribute="height" multiplier="231:89" id="b6x-Js-IHH"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kvi-0W-CM7">
+                    <rect key="frame" x="12" y="535" width="195" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="qyX-Ot-A9J"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                    <state key="normal" title="Clear"/>
+                    <connections>
+                        <action selector="clearAction:" destination="-1" eventType="touchUpInside" id="Jow-OS-0C7"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h03-4f-Yzb">
+                    <rect key="frame" x="207" y="535" width="195" height="30"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                    <state key="normal" title="Sign"/>
+                    <connections>
+                        <action selector="signatureAction:" destination="-1" eventType="touchUpInside" id="93m-HN-cy1"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="0de-6u-pv3" secondAttribute="trailing" id="25q-DG-kmJ"/>
+                <constraint firstItem="ifL-qI-elk" firstAttribute="centerY" secondItem="sMn-ih-wEb" secondAttribute="centerY" id="55W-Hd-zSL"/>
+                <constraint firstAttribute="bottom" secondItem="0de-6u-pv3" secondAttribute="bottom" id="Dqw-a3-e9b"/>
+                <constraint firstItem="ifL-qI-elk" firstAttribute="leading" secondItem="sMn-ih-wEb" secondAttribute="leading" constant="12" id="IhV-IQ-XGP"/>
+                <constraint firstItem="Kvi-0W-CM7" firstAttribute="leading" secondItem="ifL-qI-elk" secondAttribute="leading" id="NMJ-iq-TfC"/>
+                <constraint firstItem="h03-4f-Yzb" firstAttribute="width" secondItem="Kvi-0W-CM7" secondAttribute="width" id="Qx5-pg-lzc"/>
+                <constraint firstItem="h03-4f-Yzb" firstAttribute="leading" secondItem="Kvi-0W-CM7" secondAttribute="trailing" id="SOv-Gn-1qJ"/>
+                <constraint firstItem="0de-6u-pv3" firstAttribute="leading" secondItem="sMn-ih-wEb" secondAttribute="leading" id="Yi3-5c-DeP"/>
+                <constraint firstItem="h03-4f-Yzb" firstAttribute="trailing" secondItem="ifL-qI-elk" secondAttribute="trailing" id="Zjd-61-z0p"/>
+                <constraint firstItem="0de-6u-pv3" firstAttribute="top" secondItem="sMn-ih-wEb" secondAttribute="top" id="fOp-sc-LHd"/>
+                <constraint firstItem="h03-4f-Yzb" firstAttribute="centerY" secondItem="Kvi-0W-CM7" secondAttribute="centerY" id="gji-ZF-hyx"/>
+                <constraint firstItem="Kvi-0W-CM7" firstAttribute="top" secondItem="ifL-qI-elk" secondAttribute="bottom" constant="12" id="kWy-gM-9fz"/>
+                <constraint firstItem="ifL-qI-elk" firstAttribute="centerX" secondItem="sMn-ih-wEb" secondAttribute="centerX" id="pHf-FB-bua"/>
+            </constraints>
+            <point key="canvasLocation" x="-274" y="-546"/>
+        </view>
+    </objects>
+</document>

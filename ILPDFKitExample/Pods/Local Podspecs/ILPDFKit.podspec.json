@@ -22,4 +22,5 @@
     "UIKit"
   ],
   "public_header_files": "ILPDFKit/**/*.h"
+  s.swift_version = "5.0"
 }

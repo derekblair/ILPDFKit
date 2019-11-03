@@ -10,6 +10,7 @@ Pod::Spec.new do |spec|
   spec.source           =  { :git => "https://github.com/derekblair/ILPDFKit.git", :tag => "1.2.5" }
   spec.requires_arc = true
   spec.source_files = "ILPDFKit/**/*.{h,m,swift}"
+  spec.resources = "ILPDFKit/**/*.{xib}"
   spec.frameworks = "QuartzCore","UIKit"
   spec.public_header_files = "ILPDFKit/**/*.h"
 end

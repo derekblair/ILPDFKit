@@ -22,18 +22,49 @@
 
 
 #import "ILPDFFormContainer.h"
+#import "ILPDFSignatureController.h"
+#import "ILPDFFormSignatureField.h"
 #import "ILPDFViewController.h"
 #import "ILPDFDocument.h"
 #import "ILPDFView.h"
 
-@interface ILPDFViewController(Private)
+@interface ILPDFViewController(Private) <ILPDFSignatureControllerDelegate>
 - (void)loadPDFView;
 @property (nonatomic, strong) ILPDFView *pdfView;
 @end
 
 
-@implementation ILPDFViewController
+@implementation ILPDFViewController {
+    ILPDFView *_pdfView;
+    ILPDFSignatureController *signatureController;
+    ILPDFFormSignatureField *signatureField;
+}
+
 #pragma mark - UIViewController
+
+- (void) viewDidLoad {
+    
+    [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showSignatureViewController:)
+                                                 name:@"SignatureNotification"
+                                               object:nil];
+    
+    
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    // Alter or remove to define your own layout logic for the ILPDFView.
+    _pdfView.frame = CGRectMake(0,self.topLayoutGuide.length,self.view.bounds.size.width,self.view.bounds.size.height-self.topLayoutGuide.length - self.bottomLayoutGuide.length);
+}
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -42,10 +73,12 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.view.backgroundColor = [UIColor whiteColor];
+- (void) viewWillDisappear:(BOOL)animated
+{
+    
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 #pragma mark - ILPDFViewController
@@ -82,6 +115,35 @@
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
     [self applyConstraintsToPDFView];
+}
+
+#pragma mark - KVO
+
+- (void) showSignatureViewController:(NSNotification *) notification {
+    
+    if ([notification.object isKindOfClass:[ILPDFFormSignatureField class]]) {
+        signatureField = notification.object;
+    }
+    NSBundle *bundle = [NSBundle bundleForClass:ILPDFSignatureController.classForCoder];
+
+    signatureController = [[ILPDFSignatureController alloc] initWithNibName:@"ILPDFSignatureController" bundle:bundle];
+    signatureController.expectedSignSize = signatureField.frame.size;
+    signatureController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    signatureController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    signatureController.delegate = self;
+    [self presentViewController:signatureController animated:YES completion:nil];
+    
+}
+
+#pragma mark - Signature Controller Delegate
+
+- (void) signedWithImage:(UIImage*) signatureImage {
+    
+    [signatureField removeButtonTitle];
+    signatureField.signatureImage.image = signatureImage;
+    [signatureField informDelegateAboutNewImage];
+    signatureField = nil;
+    
 }
 
 
