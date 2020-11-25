@@ -1,5 +1,5 @@
 language: objective-c
 osx_image: xcode12.2
 script:
-- xcodebuild -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.2' test
+- xcodebuild -workspace ILPDFKitTests/ILPDFKitTests.xcworkspace -scheme ILPDFKitTests test
 
