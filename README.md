@@ -1,4 +1,4 @@
-![ILPDFKit Logo](https://s3-eu-west-1.amazonaws.com/derekblair/ilpdfkit.png)
+![ILPDFKit Logo](./ilpdfkit.png)
 
 [![CI Status](http://img.shields.io/travis/derekblair/ILPDFKit.svg?style=flat)](https://travis-ci.org/derekblair/ILPDFKit)
 [![Version](https://img.shields.io/cocoapods/v/ILPDFKit.svg?style=flat)](http://cocoapods.org/pods/ILPDFKit)
