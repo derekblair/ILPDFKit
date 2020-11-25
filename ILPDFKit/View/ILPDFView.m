@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 #import <QuartzCore/QuartzCore.h>
+#import <PDFKit/PDFKit.h>
+
 #import "ILPDFFormButtonField.h"
 #import "ILPDFFormContainer.h"
 #import "ILPDFView.h"
@@ -29,13 +31,12 @@
 #import "ILPDFArray.h"
 #import "ILPDFDocument.h"
 
-static NSString *const ILPDFPageViewWebKitIdentifier = @"UIPDFPageView";
-static NSString *const ILPDFContainerViewWebKitIdentifier = @"WKPDFView";
+
 static NSString *const ILPDFMIMEType = @"application/pdf";
 static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
 
 
-@interface ILPDFView(Delegates) <UIScrollViewDelegate,UIGestureRecognizerDelegate,WKNavigationDelegate>
+@interface ILPDFView(Delegates) <UIGestureRecognizerDelegate, UIScrollViewDelegate>
 @end
 
 @interface ILPDFView(Private)
@@ -45,35 +46,39 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
 @implementation ILPDFView {
     __weak ILPDFDocument *_pdfDocument;
     UITapGestureRecognizer *_tapGestureRecognizer;
-    UIView *_uiWebPDFView;
     NSMapTable *_pdfPages;
     NSMutableArray *_pageYValues;
-    WKWebView *_pdfView;
+    PDFView *_pdfView;
+    UIView *_pdfDocumentView;
+    UIScrollView *_scrollView;
 }
 
 #pragma mark - UIView
-
-- (void)didMoveToWindow {
-    [super didMoveToWindow];
-    if (self.window == nil) {
-        [_pdfView removeFromSuperview];
-        _pdfView = nil;
-        _uiWebPDFView = nil;
-        return;
-    }
-    if ([_pdfDocument.documentPath isKindOfClass:[NSString class]]) {
-        [self.pdfView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:_pdfDocument.documentPath]]];
-    } else if (_pdfDocument.documentData)  {
-        NSData *data = _pdfDocument.documentData;
-        [self.pdfView loadData:data MIMEType:ILPDFMIMEType characterEncodingName:ILPDFCharEncoding baseURL:[NSURL URLWithString:@""]];
-    }
-
-}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self updatePDFPageViews];
 }
+
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window != NULL) {
+        for (UIView *sv in _pdfView.subviews) {
+            if ([sv isKindOfClass: UIScrollView.class]) {
+                _scrollView = ((UIScrollView *)sv);
+                _scrollView.delegate = self;
+                for (UIView *s in sv.subviews) {
+                    if ([NSStringFromClass(s.class) isEqualToString:@"PDFDocumentView"]) {
+                        _pdfDocumentView = s;
+                    }
+                }
+                break;
+            }
+        }
+    }
+}
+
+
 
 #pragma mark - ILPDFView
 
@@ -91,16 +96,7 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
         [self addGestureRecognizer:_tapGestureRecognizer];
         _tapGestureRecognizer.delegate = self;
         [self addSubview:self.pdfView];
-
-        self.pdfView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[
-                [self.pdfView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
-                [self.pdfView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-                [self.pdfView.topAnchor constraintEqualToAnchor:self.topAnchor],
-                [self.pdfView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
-        ]];
-
+        [self.pdfView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     }
     return self;
 }
@@ -121,14 +117,16 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
 
 #pragma mark - PDF Page Views
 
+
 - (void)updatePDFPageViews {
-    if (_uiWebPDFView == nil) {
+    
+    if (_pdfDocumentView == nil) {
         return;
     }
     BOOL pagesHaveChanged = NO;
 
-    for (UIView *sv in _uiWebPDFView.subviews) {
-        if ([NSStringFromClass(sv.class) isEqualToString:ILPDFPageViewWebKitIdentifier]) {
+    for (UIView *sv in [_pdfDocumentView valueForKeyPath:@"pageViews"] ) {
+        if ([NSStringFromClass(sv.class) isEqualToString:@"PDFPageView"]) {
             if ([[[_pdfPages objectEnumerator] allObjects] containsObject:sv]) continue;
             pagesHaveChanged = YES;
             NSUInteger yVal = (NSUInteger)floor(sv.frame.origin.y);
@@ -146,36 +144,17 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
 }
 
 
-#pragma mark - Loading the WebView
+#pragma mark - Loading the PDFView
 
-- (WKWebView *)pdfView {
+- (PDFView *)pdfView {
     if (_pdfView == nil) {
-        _pdfView = [[WKWebView alloc] initWithFrame:self.bounds];
-        _pdfView.scrollView.delegate = self;
-        _pdfView.scrollView.bouncesZoom = NO;
-        _pdfView.navigationDelegate = self;
+        _pdfView = [[PDFView alloc] init];
+        _pdfView.document = [_pdfDocument nativeDocument];
     }
     return _pdfView;
 }
 
-#pragma mark - WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    for (UIView *sv in webView.scrollView.subviews) {
-        if ([NSStringFromClass(sv.class) isEqualToString:ILPDFContainerViewWebKitIdentifier]) {
-            _uiWebPDFView = sv;
-            break;
-        }
-    }
-
-    [self updatePDFPageViews];
-    for (ILPDFWidgetAnnotationView *element in _pdfWidgetAnnotationViews) {
-        element.alpha = 0;
-    }
-    if (_pdfWidgetAnnotationViews) {
-        [self fadeInWidgetAnnotations];
-    }
-}
 
 #pragma mark - UIScrollViewDelegate
 
@@ -199,7 +178,7 @@ static NSString *const ILPDFCharEncoding = @"NSASCIIStringEncoding";
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if (_activeWidgetAnnotationView == nil) return NO;
-    if (!CGRectContainsPoint(_activeWidgetAnnotationView.frame, [touch locationInView:_pdfView.scrollView])) {
+    if (!CGRectContainsPoint(_activeWidgetAnnotationView.frame, [touch locationInView: _scrollView])) {
         if ([_activeWidgetAnnotationView isKindOfClass:[UITextView class]]) {
             [_activeWidgetAnnotationView resignFirstResponder];
         } else {

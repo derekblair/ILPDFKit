@@ -21,8 +21,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import <WebKit/WebKit.h>
-
+@class PDFView;
 
 
 
@@ -44,9 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, weak, nullable) ILPDFWidgetAnnotationView *activeWidgetAnnotationView;
 
-/** The underlying webview used to render the PDF.
+/** The underlying pdfview used to render the PDF.
  */
-@property (nonatomic, readonly, strong) WKWebView *pdfView;
+@property (nonatomic, readonly, strong) PDFView *pdfView;
+
+
+/** The underlying scrollview  used to render the PDF.
+ */
+@property (nonatomic, readonly, strong) UIScrollView *scrollView;
 
 
 /**---------------------------------------------------------------------------------------

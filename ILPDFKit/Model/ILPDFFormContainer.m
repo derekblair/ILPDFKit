@@ -246,7 +246,7 @@
         }
 
         if (add.superview == nil && ![add isKindOfClass:[ILPDFFormChoiceField class]]) {
-            [pdfView.pdfView.scrollView addSubview:add];
+            [pdfView.scrollView addSubview:add];
             add.parentView = pdfView;
             if ([add isKindOfClass:[ILPDFFormButtonField class]]) {
                 [(ILPDFFormButtonField *)add setButtonSuperview];
@@ -262,7 +262,7 @@
 
         for (UIView *v in views) {
             if ([v isKindOfClass:[ILPDFFormChoiceField class]]) {
-                UIView *scrollV = pdfView.pdfView.scrollView;
+                UIView *scrollV = pdfView.scrollView;
                 [scrollV addSubview:v];
                 ((ILPDFFormChoiceField *)v).parentView = pdfView;
             }

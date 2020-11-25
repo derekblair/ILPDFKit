@@ -27,6 +27,7 @@
 #import "ILPDFUtility.h"
 #import "ILPDFDictionary.h"
 #import "ILPDFPage.h"
+#import <PDFKit/PDFKit.h>
 
 static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, ILPDFFormContainer *forms) {
     CGRect mediaRect = CGPDFPageGetBoxRect(CGPDFDocumentGetPage(doc,page), kCGPDFMediaBox);
@@ -56,6 +57,7 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
     ILPDFDictionary *_catalog;
     ILPDFDictionary *_info;
     ILPDFFormContainer *_forms;
+    PDFDocument *_nativeDocument;
     NSArray *_pages;
 }
 
@@ -81,6 +83,20 @@ static void renderPage(NSUInteger page, CGContextRef ctx, CGPDFDocumentRef doc, 
         _documentData = [[NSMutableData alloc] initWithData:data];
     }
     return self;
+}
+
+
+
+- (PDFDocument *)nativeDocument {
+    if (_nativeDocument == NULL) {
+        if (_documentData != NULL) {
+            _nativeDocument = [[PDFDocument alloc] initWithData: _documentData];
+        } else if (_documentPath != NULL) {
+            _nativeDocument = [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:_documentPath]];
+        }
+    }
+    
+    return _nativeDocument;
 }
 
 - (instancetype)initWithResource:(NSString *)name {

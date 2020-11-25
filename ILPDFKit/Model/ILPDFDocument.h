@@ -25,15 +25,23 @@
 #import <UIKit/UIKit.h>
 
 
+
 /** ILPDFDocument represents a PDF document either loaded from file or disk. The class provides tools to reveal the structure, content and metadata of a PDF. ILPDFDocument serves as the model for ILPDFViewController to render an interactive PDF on a ILPDFView.
  */
 
 @class ILPDFDictionary;
 @class ILPDFFormContainer;
+@class PDFDocument;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ILPDFDocument : NSObject
+
+
+/**
+    Native document, ie the document from Apple's PDFKit
+ */
+- (PDFDocument * _Nullable)nativeDocument;
 
 /** The PDF file data.
  */

@@ -82,6 +82,7 @@
     _pdfView = [[ILPDFView alloc] initWithDocument:_document];
     [self.view addSubview:_pdfView];
     [self applyConstraintsToPDFView];
+    
 }
 
 
