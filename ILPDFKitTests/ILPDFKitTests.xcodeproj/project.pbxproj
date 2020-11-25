@@ -88,7 +88,6 @@
 				062482201D458645009C4646 /* Frameworks */,
 				062482211D458645009C4646 /* Resources */,
 				829A6D58D92399246265FE65 /* [CP] Embed Pods Frameworks */,
-				B431F07418BAA19C1396CC6E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,7 +147,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ILPDFKitTests/Pods-ILPDFKitTests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ILPDFKitTests/Pods-ILPDFKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ILPDFKit/ILPDFKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
@@ -161,22 +160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ILPDFKitTests/Pods-ILPDFKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B431F07418BAA19C1396CC6E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ILPDFKitTests/Pods-ILPDFKitTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ILPDFKitTests/Pods-ILPDFKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF3640308B62DAC46525F8D3 /* [CP] Check Pods Manifest.lock */ = {

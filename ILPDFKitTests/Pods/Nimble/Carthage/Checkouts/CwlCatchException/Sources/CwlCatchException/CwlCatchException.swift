@@ -3,7 +3,7 @@
 //  CwlAssertionTesting
 //
 //  Created by Matt Gallagher on 2016/01/10.
-//  Copyright © 2016 Matt Gallagher ( http://cocoawithlove.com ). All rights reserved.
+//  Copyright © 2016 Matt Gallagher ( https://www.cocoawithlove.com ). All rights reserved.
 //
 //  Permission to use, copy, modify, and/or distribute this software for any
 //  purpose with or without fee is hereby granted, provided that the above
@@ -24,14 +24,12 @@ import Foundation
 import CwlCatchExceptionSupport
 #endif
 
-private func catchReturnTypeConverter<T: NSException>(_ type: T.Type, block: () -> Void) -> T? {
-	// Get the type from an *instance*, instead of a receiving the type directly
+private func catchReturnTypeConverter<T: NSException>(_ type: T.Type, block: @escaping () -> Void) -> T? {
 	return catchExceptionOfKind(type, block) as? T
 }
 
 extension NSException {
-	public static func catchException(in block: () -> Void) -> Self? {
-		// Use a dummy instance of Self to provide the type
+	public static func catchException(in block: @escaping () -> Void) -> Self? {
 		return catchReturnTypeConverter(self, block: block)
 	}
 }

@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var pdfVC : ILPDFViewController? = nil
 
 
-   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool { 
+   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { 
         // Override point for customization after application launch.
         pdfVC = (self.window?.rootViewController as? UINavigationController)?.viewControllers.first as? ILPDFViewController
         let document = ILPDFDocument(resource:"testA")
